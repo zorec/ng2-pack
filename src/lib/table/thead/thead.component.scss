@@ -1,0 +1,100 @@
+// TODO: this CSS does not beleng here
+
+.combobox {
+  position: relative;
+  z-index: 1; // keep it above the tbody
+  min-height: 1px;
+  min-width: 1px;
+  margin: -2px 0;
+  padding-right: 28px;
+  white-space: nowrap;
+
+  &.is-active {
+
+    .ui-select-match {
+      width: 214px;
+    }
+    .ui-select-container {
+      margin-right: 6px;
+    }
+  }
+
+  &.is-inactive category-combobox {
+    display: none;
+  }
+
+  .combo-toggle {
+    position: absolute;
+    top: 4px;
+    right: 2px;
+    width: 24px;
+    height: 24px;
+    line-height: 22px;
+    padding: 0;
+    border: 0;
+    font-family: Verdana;
+    font-size: 18px;
+    vertical-align: top;
+    border-radius: 50%;
+    transition: background-color 0.2s, transform 0.2s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: app-color(green, dark);
+    }
+  }
+
+  &.is-active .combo-toggle {
+    background-color: app-color(red, dark);
+    transform: rotate(135deg);
+
+    &:hover {
+      background-color: app-color(red, dark);
+    }
+  }
+
+  .ui-select-container {
+    margin-right: 0;
+    transition: margin-right 0.2s;
+  }
+
+  .ui-select-match {
+    width: 0;
+    overflow: hidden;
+    transition: width 0.2s;
+  }
+
+  .ui-select-search {
+    width: 214px;
+  }
+
+  .ui-select-toggle {
+    width: 100%;
+    display: inline-block;
+  }
+
+  .combo-input-wrap {
+    display: inline-block;
+    margin-top: 2px;
+    margin-right: 4px;
+    vertical-align: top;
+  }
+
+  // double class to override ng2-select styles
+  .dropdown-menu.dropdown-menu {
+    left: 0;
+    max-height: 20em;
+    overflow-y: scroll;
+  }
+
+  .dropdown-toggle {
+    display: none;
+  }
+
+  .ui-select-search,
+  .ui-select-toggle {
+    // @extend .form-control-sm;
+    // @extend .c-select;
+    line-height: 1.3;
+  }
+}

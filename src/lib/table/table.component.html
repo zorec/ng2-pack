@@ -1,0 +1,19 @@
+<div #customTemplate>
+  <ng-content></ng-content>
+</div>
+
+<table *ngIf="customTemplate?.children.length === 0" class="results-table table table-bordered table-striped">
+  <!-- TODO: allow also iw-table as a shorthand  -->
+  <thead
+    iwThead
+    [columnsConfig]="columnsConfig"
+    [columnsConfigLookup]="columnsConfigLookup"
+    [(visibleColumns)]="visibleColumns"
+  ></thead>
+  <tbody
+    iwBody
+    [rows]="rows"
+    [columnsConfig]="columnsConfig"
+    [visibleColumns]="visibleColumns"
+  ></tbody>
+</table>
