@@ -1,9 +1,10 @@
-  <tr>
+  <tr class="sortable-columns">
     <template  ngFor let-columnName [ngForOf]="visibleColumns" let-columnIndex="index">
       <th *ngIf="currentComboboxIndex == columnIndex" class="combo-th">
         <div class="add-column combobox is-active">
           <add-column-combobox
             [columnsConfig]="columnsConfig"
+            [visibleColumns]="visibleColumns"
             (selected)="selectNewColumn($event, columnIndex)"
             attr.id="combobox-{{columnIndex}}">
           </add-column-combobox>
@@ -81,7 +82,7 @@
 
             <li class="divider dropdown-divider"></li>
             <li>
-              <a class="dropdown-item" (click)="onRemoveColumn(columnsConfigLookup[columnName].column)">
+              <a class="dropdown-item" (click)="onRemoveColumn(columnsConfigLookup[columnName].column, columnIndex)">
                 Diese Spalte entfernen
               </a>
             </li>
@@ -95,6 +96,7 @@
         <add-column-combobox
           *ngIf="lastColumnComboboxActive"
           [columnsConfig]="columnsConfig"
+          [visibleColumns]="visibleColumns"
           (selected)="selectNewColumn($event)"
         ></add-column-combobox>
         <span

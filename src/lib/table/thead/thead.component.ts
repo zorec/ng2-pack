@@ -1,6 +1,6 @@
 import {IwColumnConfig, IwColumnConfigLookup} from './../table.component';
-import { ElementRef, Component, OnInit, Input, ViewChild } from '@angular/core';
-
+import { ElementRef, EventEmitter, Component, OnInit, Input, Output, ViewChild } from '@angular/core';
+const SORTABLE_COLUMNS = '.sortable-columns';
 declare var jQuery: any;
 
 @Component({
@@ -12,17 +12,26 @@ export class IwTheadComponent implements OnInit {
   @Input() columnsConfig: IwColumnConfig[];
   @Input() columnsConfigLookup: IwColumnConfigLookup;
   @Input() visibleColumns: string[];
+
+  @Output() visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
+  @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
   // FIXME: use iw-table
   // @ViewChild('tableWrap') tableWrap: ElementRef;
-  // DEBUG
-  public lastColumnComboboxActive: boolean = true;
+  public lastColumnComboboxActive: boolean = false;
+  public currentComboboxIndex: number;
 
   constructor() {}
 
   ngOnInit() {
   }
 
-  public toggleCombobox() {
+  // TODO: implement disabling
+  get hasAllColumnsVisble(): boolean {
+    return false; // this.tableColumnService.hasAllColumnsVisible();
+  }
+
+  toggleCombobox() {
     this.lastColumnComboboxActive = !this.lastColumnComboboxActive;
     if (!this.lastColumnComboboxActive) return;
     // setTimeout(() => {
@@ -30,7 +39,7 @@ export class IwTheadComponent implements OnInit {
     // }, 0);
   }
 
-  public showSortIcon (col: IwColumnConfig, columnEl: any, sortType: string, direction: string): boolean {
+  showSortIcon (col: IwColumnConfig, columnEl: any, sortType: string, direction: string): boolean {
     if (!col || col.sortingDisabled) { return false; }
 
     // if there's no current sort direction, then use the column's preferred/default sort direction
@@ -57,8 +66,26 @@ export class IwTheadComponent implements OnInit {
     // this.tableColumnService.sortedColumn = col;
   }
 
-  // TODO: implement disabling
-  public get hasAllColumnsVisble(): boolean {
-    return false; // this.tableColumnService.hasAllColumnsVisible();
+  selectNewColumn(item: {value: string}, atPosition: number) {
+    this.currentComboboxIndex = null;
+    this.lastColumnComboboxActive = false;
+
+    if (typeof atPosition !== 'undefined') {
+      // the order changed
+      this.visibleColumns.splice(atPosition, 0, item.value);
+    } else {
+      this.visibleColumns.push(item.value);
+    }
+    this.addColumn.emit(item.value);
+    this.visibleColumnsOutput.emit(this.visibleColumns);
+  }
+
+  onRemoveColumn(columnName: string, columnIndex: number) {
+    this.visibleColumns.splice(columnIndex, 1);
+    this.removeColumn.emit(columnName);
+  }
+
+  addCombobox(index: number) {
+    this.currentComboboxIndex = index;
   }
 }

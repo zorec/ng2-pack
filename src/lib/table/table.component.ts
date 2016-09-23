@@ -54,7 +54,6 @@ export class IwTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.rows, this.visibleColumns, this.columnsConfigLookup, this.columnsConfig);
     //  nothing can be done without actual data
     if (!this.rows && this.rows.length === 0) {
       return;
