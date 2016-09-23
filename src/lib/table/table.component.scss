@@ -1,0 +1,702 @@
+
+// see: http://erskinedesign.com/blog/friendlier-colour-names-sass-maps/
+@function app-color($color, $tone: 'base') {
+  @return map-get(map-get($app-colors, $color), $tone);
+}
+
+
+
+// _decimal.scss | MIT License | gist.github.com/terkel/4373420
+
+// Round a number to specified digits.
+//
+// @param  {Number} $number A number to round
+// @param  {Number} [$digits:0] Digits to output
+// @param  {String} [$mode:round] (round|ceil|floor) How to round a number
+// @return {Number} A rounded number
+// @example
+//     decimal-round(0.333)    => 0
+//     decimal-round(0.333, 1) => 0.3
+//     decimal-round(0.333, 2) => 0.33
+//     decimal-round(0.666)    => 1
+//     decimal-round(0.666, 1) => 0.7
+//     decimal-round(0.666, 2) => 0.67
+//
+@function decimal-round ($number, $digits: 0, $mode: round) {
+  $n: 1;
+  // $number must be a number
+  @if type-of($number) != number {
+    @warn '#{ $number } is not a number.';
+    @return $number;
+  }
+  // $digits must be a unitless number
+  @if type-of($digits) != number {
+    @warn '#{ $digits } is not a number.';
+    @return $number;
+  } @else if not unitless($digits) {
+    @warn '#{ $digits } has a unit.';
+    @return $number;
+  }
+  @for $i from 1 through $digits {
+    $n: $n * 10;
+  }
+  @if $mode == round {
+    @return round($number * $n) / $n;
+  } @else if $mode == ceil {
+    @return ceil($number * $n) / $n;
+  } @else if $mode == floor {
+    @return floor($number * $n) / $n;
+  } @else {
+    @warn '#{ $mode } is undefined keyword.';
+    @return $number;
+  }
+}
+
+// Ceil a number to specified digits.
+//
+// @param  {Number} $number A number to round
+// @param  {Number} [$digits:0] Digits to output
+// @return {Number} A ceiled number
+// @example
+//     decimal-ceil(0.333)    => 1
+//     decimal-ceil(0.333, 1) => 0.4
+//     decimal-ceil(0.333, 2) => 0.34
+//     decimal-ceil(0.666)    => 1
+//     decimal-ceil(0.666, 1) => 0.7
+//     decimal-ceil(0.666, 2) => 0.67
+//
+@function decimal-ceil ($number, $digits: 0) {
+  @return decimal-round($number, $digits, ceil);
+}
+
+// Floor a number to specified digits.
+//
+// @param  {Number} $number A number to round
+// @param  {Number} [$digits:0] Digits to output
+// @return {Number} A floored number
+// @example
+//     decimal-floor(0.333)    => 0
+//     decimal-floor(0.333, 1) => 0.3
+//     decimal-floor(0.333, 2) => 0.33
+//     decimal-floor(0.666)    => 0
+//     decimal-floor(0.666, 1) => 0.6
+//     decimal-floor(0.666, 2) => 0.66
+//
+@function decimal-floor ($number, $digits: 0) {
+    @return decimal-round($number, $digits, floor);
+}
+
+
+$_color-bluegray-base: #bec7cf;
+$_color-blue: rgba(darken(saturate($_color-bluegray-base, 15%), 22.5%), 1);
+$_color-blue: #1aa0d8;
+
+$_color-darkgreen-base: #107e64;
+// desaturate($_color-darkgreen-base, 50%);
+
+$_color-bluegray-base: lighten(desaturate($_color-darkgreen-base, 50%), 55%);
+
+
+// $_color-orange: #e37222;
+// $_color-orange: #d1a147;
+$_color-orange: #fc591f;
+
+// $_color-green: #a2ad00;
+$_color-green: #80ac6e;
+$_color-green: #00a751;
+
+// $_color-red: #E34A22;
+$_color-red: #c85166;
+
+$_color-pink: #FEF2F0;
+
+$_color-gray-x-light: #f1f1f1;
+$_color-gray-light: #e6e6e6;
+$_color-gray-base: #b3b3b3;
+$_color-gray-warm: #8f8f8f;
+$_color-gray-text: #8a8a8a;
+$_color-gray-dark: #737373;
+$_color-gray-x-dark: #4d4d4d;
+
+
+$app-colors: (
+  blue: (
+    light: lighten($_color-blue, 12.5%),
+    base: $_color-blue,
+    dark: darken($_color-blue, 10%)
+  ),
+  bluegray: (
+    light: lighten(desaturate($_color-bluegray-base, 20%), 7.5%),
+    base: lighten(desaturate($_color-bluegray-base, 15%), 2%),
+    medium: lighten(desaturate($_color-darkgreen-base, 60%), 30%),
+    dark: lighten(desaturate($_color-darkgreen-base, 60%), 20%) //#78848e
+  ),
+  bluegreen: (
+    light: lighten($_color-darkgreen-base, 12.5%),
+    base: $_color-darkgreen-base,
+    dark: darken($_color-darkgreen-base, 10%)
+  ),
+  orange: (
+    light: lighten($_color-orange, 12.5%),
+    base: $_color-orange,
+    dark: darken($_color-orange, 10%)
+  ),
+  green: (
+    light: lighten($_color-green, 7.5%),
+    base: $_color-green,
+    dark: darken($_color-green, 10%)
+  ),
+  red: (
+    light: lighten($_color-red, 12.5%),
+    base: $_color-red,
+    dark: darken($_color-red, 10%)
+  ),
+  pink: (
+    light: lighten($_color-pink, 12.5%),
+    base: $_color-pink,
+    dark: darken($_color-pink, 10%)
+  ),
+  gray: (
+    x-light: $_color-gray-x-light,
+    light: $_color-gray-light,
+    base: $_color-gray-base,
+    warm: $_color-gray-warm,
+    text: $_color-gray-text,
+    dark: $_color-gray-dark,
+    x-dark: $_color-gray-x-dark
+  ),
+  black: (
+    base: #333
+  )
+);
+
+
+$cell-padd-horz: 0.75rem;
+
+
+$font-serif: Georgia, serif;
+
+
+$panel-pad-horz: 1.25rem;
+
+
+$result-table-border-color-inner: #f0f0f0;
+$result-table-border-color-inner-dark: #d3d3d3;
+$result-table-border-color-outer: app-color(bluegray);
+
+%no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
+// TODO: remove functions, vars, mixins
+// -------
+
+.results {
+  color: app-color(gray, x-dark);
+
+  .panel-header {
+    border-bottom: 0;
+  }
+
+  .panel-body {
+    padding: 0;
+    margin: 0 -1px;
+  }
+
+  .panel-footer {
+    margin-top: -1px;
+  }
+}
+
+.results-table-wrap {
+  position: relative; // keeps draggable TH elems in the right place
+  overflow-x: auto;
+  min-height: 400px;
+}
+
+.results-table {
+  margin: 0;
+  border-collapse: separate;
+  border-width: 1px 0 0 1px;
+  background: #fff;
+  border-top-color: $result-table-border-color-inner-dark;
+  border-left-color: $result-table-border-color-outer;
+  box-shadow: none;
+
+  thead {
+    background: rgba(app-color(orange), 0.55);
+  }
+
+  thead th {
+    padding: 0.5rem 48px 0.5rem $cell-padd-horz; // right padding makes room for absolute positioned drodown menu
+    border-bottom-width: 1px;
+    border-color: $result-table-border-color-inner-dark;
+    vertical-align: top;
+    background: #f4f4f4;
+    box-shadow: inset 0 1px 0 rgba(#fff, 0.75), inset 1px 0 0 rgba(#fff, 0.5);
+
+    &:last-child {
+      border-right-color: $result-table-border-color-outer;
+    }
+
+    &:hover {
+
+      .col-menu {
+        opacity: 1;
+      }
+    }
+  }
+
+  .person-link-th {
+    width: 20px;
+  }
+
+  .combo-th {
+    width: 1%;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .drag-column {
+    .col-label {
+
+    }
+  }
+
+  .drag-column.ui-sortable-helper {
+    opacity: 0.9;
+    border-color: transparent;
+    transform: translateY(-15px) rotate(1deg);
+    box-shadow: inset 0 0 0 1px rgba(darken(app-color(bluegray), 20%), 1), 0 2px 3px rgba(black, 0.75);
+    background: app-color(bluegray, light);
+
+    .col-label {
+      color: rgba(black, 0.95);
+      text-shadow: none;
+    }
+
+    .btn-group {
+      display: none;
+    }
+  }
+
+  .ui-sortable-placeholder {
+    visibility: visible !important;
+    background: rgba(app-color(orange), 0.85) !important;
+    box-shadow: inset 0 3px 10px rgba(black, 0.5);
+  }
+
+  tfoot td {
+    border-color: $result-table-border-color-outer;
+    border-width: 0 1px 0 0;
+  }
+
+  td,
+  th {
+    position: relative;
+    padding-left: $cell-padd-horz;
+    padding-right: $cell-padd-horz;
+    border-color: $result-table-border-color-inner;
+    border-width: 0 1px 1px 0;
+    font-weight: normal;
+  }
+
+  tbody {
+    tr {
+      cursor: pointer;
+
+      &:hover {
+        background: #eee;
+      }
+    }
+
+    td {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-width: 0 0 1px 0;
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .combo-td  {
+      border-left-width: 1px;
+      background-color: rgba(app-color(green, dark), 0.05);
+    }
+
+    td:last-child  {
+      border-right: 1px solid $result-table-border-color-outer;
+    }
+
+    tr:last-child {
+
+      td {
+        border-bottom-color: $result-table-border-color-inner-dark;
+      }
+
+      td:last-child {
+        border-color-right: $result-table-border-color-outer;
+        border-color-bottom: $result-table-border-color-inner-dark;
+      }
+    }
+  }
+
+  .label {
+    position: relative;
+    top: -1px;
+    padding-bottom: 0.2em;
+    background: rgba(app-color(bluegreen), 0.75);
+  }
+
+  .label-tum {
+    background: app-color(blue, dark);
+  }
+
+  .btn-toggle {
+    margin-top: 0.25rem;
+  }
+
+  td.is-sorted {
+    background-color: rgba(app-color(bluegray), 0.2);
+  }
+
+  th.is-sorted {
+    position: relative;
+    border-color: rgba(darken(app-color(bluegray), 10%), 0.75);
+    background-color: lighten(app-color(bluegray, dark), 42%);
+    background-image: none;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      left: -1px;
+      height: 1px;
+      background: rgba(darken(app-color(bluegray), 10%), 0.4);
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: -1px;
+      bottom: -1px;
+      left: -1px;
+      width: 1px;
+      background: rgba(darken(app-color(bluegray), 10%), 0.75);
+    }
+  }
+}
+
+.col-label {
+  position: relative;
+  display: inline-block;
+  padding: 5px 20px 5px 0;
+  width: 100%;
+  font-size: 10px;
+  line-height: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(white, 0.66);
+  color: rgba(black, 0.5); // NOTE: might need to make this a solid color
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &:hover,
+  .is-sorted &:hover {
+    color: black;
+  }
+
+  .is-sorted & {
+    color: rgba(black, 0.66);
+  }
+}
+
+.col-menu {
+  position: absolute;
+  right: 0.5rem;
+  top: 7px;
+  opacity: 0;
+  transition: opacity 0.2s;
+
+  .btn.dropdown-toggle {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  &.open {
+    opacity: 1;
+  }
+}
+
+
+
+.results-pag {
+  display: block;
+
+  .pagination {
+    // @extend .clearfix;
+    display: block;
+    vertical-align: top;
+    margin: 0 auto;
+    border: 0;
+    text-align: center;
+  }
+
+  .page-item {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .page-link {
+    min-width: 3em;
+    margin-left: -1px;
+    border: 1px solid lighten(app-color(gray), 5%);
+    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+    cursor: pointer;
+  }
+
+  .page-link-icon {
+    font-family: Verdana, Imapact, sans-serif;
+    line-height: 1;
+    font-weight: bold;
+  }
+
+  .page-link,
+  .page-item.disabled .page-link,
+  .page-item.disabled .page-link:hover  {
+    text-decoration: none;
+    color: #666;
+    background: rgba(white, 0.66);
+  }
+
+  .page-item.active .page-link,
+  .page-item.active .page-link:hover {
+    font-weight: bold;
+    border-color: darken(app-color(gray), 15%);
+    color: #222;
+    background: rgba(white, 1);
+  }
+
+  .page-item:last-child .page-link {
+    box-shadow: none;
+  }
+
+  .page-link:hover,
+  .page-item:first-child .page-link:hover,
+  .page-item:last-child .page-link:hover {
+    z-index: 2;
+    border-color: app-color(orange, dark);
+    background-color: rgba(app-color(orange, dark), 0.85);
+    color: #fff;
+  }
+
+  .page-item.disabled .page-link {
+    color: app-color(gray);
+    opacity: 0.66;
+    pointer-events: none;
+  }
+
+
+  .page-item.disabled .page-link:hover,
+  .page-item.disabled:first-child .page-link:hover,
+  .page-item.disabled:last-child .page-link:hover  {
+    border-color: #ddd;
+    text-decoration: none;
+    color: app-color(gray);
+    background: rgba(white, 0.5);
+  }
+
+  .page-item--prev {
+    float: left;
+  }
+
+  .page-item--next {
+    float: right;
+  }
+
+  .page-item--prev .page-link,
+  .page-item--next .page-link{
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+}
+
+
+.multi-result {
+
+  & + .multi-result {
+    margin-top: 0.5rem;
+  }
+}
+
+
+.ico-col-sort {
+  position: relative;
+  display: inline-block;
+  opacity: 0.45;
+  color: #000;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.66);
+  transition: opacity 0.2s;
+
+  i {
+    display: inline-block;
+    font-family: Verdana, sans-serif;
+    font-size: 8px;
+    line-height: 9px;
+    font-weight: normal;
+    font-style: normal;
+    vertical-align: top;
+
+    &:nth-child(1) {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    &:nth-child(2) {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+    }
+
+    &:nth-child(3) {
+      display: block;
+      font-size: 12px;
+      line-height: 18px;
+      padding-left: 0.5em;
+    }
+  }
+}
+
+
+.tbl-msg {
+  padding: 24px;
+  font-size: 18px;
+  text-align: center;
+  color: #8a8a8a;
+
+  p {
+    margin: 0;
+  }
+}
+
+
+.cell-list {
+  margin-top: -0.35rem;
+  margin-bottom: -0.3rem;
+  font-size: 13px;
+
+  small {
+    font-size: 90%;
+  }
+}
+
+// use ems for padding so that this becomes '0' when the element is scaled
+.cell-list-item {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.cell-list-extended {
+  font-size: 0;
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: 0 0;
+  transition: font-size 0.4s, opacity 0.4s, transform 0.4s;
+
+  &.is-visible {
+    font-size: 13px;
+    opacity: 1;
+    transform: scaleY(1);
+  }
+
+  .cell-list-item {
+    border-top: 1px dotted rgba(black, 0.1);
+  }
+}
+
+.cell-list-item--extended {
+  border-top: 1px dotted rgba(black, 0.1);
+  font-size: 0;
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: 0 0;
+  transition: font-size 0.3s, opacity 0.3s, transform 0.3s;
+
+  .cell-list-items.show-all & {
+    font-size: 13px;
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.cell-list-expand-toggle {
+  cursor: pointer;
+
+  .icon {
+    transform-origin: 50% 45%;
+    transition: transform 0.4s;
+  }
+
+  &.is-open {
+
+    .icon {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+
+.space-right {
+  margin-right: 0.5em;
+}
+
+
+
+.ico-col-sort {
+  position: relative;
+  display: inline-block;
+  opacity: 0;
+  color: rgba(black, 0.5);
+  text-shadow: 0 1px 0 rgba(white, 0.66);
+  transition: opacity 0.2s, color 0.2s;
+
+  i {
+    font-style: normal;
+    font-size: 8px;
+    font-weight: normal;
+    font-family: Verdana, sans-serif;
+  }
+
+  i:nth-child(1) {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  i:nth-child(2) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  i:nth-child(3) {
+    font-size: 12px;
+    padding-left: 0.5em;
+  }
+}
+
+.is-sorted--asc .ico-col-sort--asc,
+.is-sorted--desc .ico-col-sort--desc,
+.col-label:hover .ico-col-sort {
+  opacity: 0.9;
+}
+
+.col-label:hover .ico-col-sort {
+  color: rgba(black, 1);
+}

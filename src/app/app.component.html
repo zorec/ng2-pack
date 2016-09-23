@@ -1,3 +1,16 @@
 <h1>
   {{title}}
 </h1>
+
+<p>
+  {{action}}
+</p>
+
+<iw-table
+ [rows]="[{name: 'John'}, {name: 'Hellen', surname: 'Hello'}]"
+ [(columnsConfig)]="columnsConfig"
+ (rowClick)="action = 'Row ' + $event.index  + ' was clicked!'"
+ [visibleColumns]="visibleColumns"
+ #tableComponent
+ >
+</iw-table>

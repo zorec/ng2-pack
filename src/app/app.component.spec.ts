@@ -1,4 +1,10 @@
+import {IwSelect2Component} from './../lib/select2/select2.component';
+import {AddColumnCombobox} from './../lib/table/add-column-combobox/add-column-combobox.component';
+import {IwTableComponent} from './../lib/table/table.component';
+import {IwTbodyComponent} from './../lib/table/tbody/tbody.component';
+import {IwTheadComponent} from './../lib/table/thead/thead.component';
 /* tslint:disable:no-unused-variable */
+import { FormsModule } from '@angular/forms';
 
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
@@ -7,8 +13,16 @@ describe('App: Ng2Pack', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        IwTableComponent,
+        IwTheadComponent,
+        IwTbodyComponent,
+        AddColumnCombobox,
+        IwSelect2Component,
       ],
+      imports: [
+        FormsModule
+      ]
     });
   });
 
