@@ -1,6 +1,4 @@
-import {IwColumnConfigLookup} from './../table.component';
-import {IwColumnConfig} from './../table.component';
-import {RowClickEvent} from './../table.component';
+import {IwColumnLookup, IwColumnConfig, IwColumn, RowClickEvent} from './../table.component';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -11,13 +9,17 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class IwTbodyComponent implements OnInit {
   @Input() rows: any[];
   @Input() columnsConfig: IwColumnConfig[] = [];
-  @Input() columnsConfigLookup: IwColumnConfigLookup;
+  @Input() columnsLookup: IwColumnLookup;
   @Input() visibleColumns: string[] = [];
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  column(columnName: string): IwColumn {
+    return this.columnsLookup[columnName];
   }
 
   onRowClicked(row: any, index: number) {

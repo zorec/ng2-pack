@@ -1,4 +1,4 @@
-import {IwColumnConfigLookup} from './../table.component';
+import {IwColumnLookup} from './../table.component';
 import {IwColumnConfig} from './../table.component';
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 // import {Subscription} from 'rxjs/Subscription';

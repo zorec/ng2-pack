@@ -16,11 +16,18 @@ export interface IwColumnConfig {
   sortingDisabled?: boolean;
   sortType?: string; // either 'alpha' or 'num'
   defaultSortDirection?: string;  // either 'asc' or 'desc'
-  // isSorted?: boolean; // TODO:
 }
 
-export interface IwColumnConfigLookup {
-  [columnName: string]: IwColumnConfig;
+// contains all information about a column
+export interface IwColumn {
+  // config is read-only, state is stored in other properties
+  config: IwColumnConfig;
+  isSorted?: boolean;
+  currentSortDirection?: string;
+}
+
+export interface IwColumnLookup {
+  [columnName: string]: IwColumn;
 }
 
 export interface RowClickEvent {
@@ -46,7 +53,7 @@ export class IwTableComponent implements OnInit, OnChanges {
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
 
   // TODO: is this useful
-  public columnsConfigLookup: IwColumnConfigLookup;
+  public columnsLookup: IwColumnLookup;
 
   constructor() { }
 
@@ -80,28 +87,30 @@ export class IwTableComponent implements OnInit, OnChanges {
   }
 
   private initializeVisibleColumns() {
-    this.visibleColumns = Object.keys(this.columnsConfigLookup);
+    this.visibleColumns = Object.keys(this.columnsLookup);
     // FIXME: emit event
   }
 
   private initializeColumnConfig() {
     this.columnsConfig = [];
-    for (let columnName in this.columnsConfigLookup) {
-      this.columnsConfig.push(this.columnsConfigLookup[columnName]);
+    for (let columnName in this.columnsLookup) {
+      this.columnsConfig.push(this.columnsLookup[columnName].config);
     }
     this.columnsConfigOutput.emit(this.columnsConfig);
   }
 
   private initializeColumnConfigLookup() {
     // TODO: check columnConfig first -> it's more efficient
-    this.columnsConfigLookup = {};
+    this.columnsLookup = {};
     this.rows.forEach(row => {
       for (let key in row) {
-        if (typeof this.columnsConfigLookup[key] === 'undefined') {
+        if (typeof this.columnsLookup[key] === 'undefined') {
           let columnConfig = {
             id: key
           };
-          this.columnsConfigLookup[key] = columnConfig;
+          this.columnsLookup[key] = {
+            config: columnConfig,
+          }
         }
       }
     });

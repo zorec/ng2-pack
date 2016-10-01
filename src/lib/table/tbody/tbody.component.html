@@ -2,32 +2,32 @@
   <template ngFor let-columnName [ngForOf]="visibleColumns" let-index="index">
     <!-- TODO: this should not be a part of template  -->
     <td *ngIf="currentComboboxIndex == index" class="combo-td"></td>
-    <td [class.is-sorted]="columnsConfigLookup[columnName].isSorted" attr.headers="col-id-{{ columnsConfigLookup[columnName].id }}">
+    <td [class.is-sorted]="column(columnName).config.isSorted" attr.headers="col-id-{{ column(columnName).config.id }}">
 
-      <template [ngIf]="!columnsConfigLookup[columnName].subFields">
-        <span [ngSwitch]="(columnsConfigLookup[columnName].type)">
+      <template [ngIf]="!column(columnName).config.subFields">
+        <span [ngSwitch]="(column(columnName).config.type)">
           <!--
           create types
           <template [ngSwitchCase]="FieldTypes.Date">
-            {{ row[columnsConfigLookup[columnName].id] | nilDate | date: 'dd.MM.y' }}
+            {{ row[column(columnName).config.id] | nilDate | date: 'dd.MM.y' }}
           </template>
           <template [ngSwitchCase]="FieldTypes.Datetime">
-            {{ row[columnsConfigLookup[columnName].id] | nilDate | date: 'dd.MM.y HH:mm' }}
+            {{ row[column(columnName).config.id] | nilDate | date: 'dd.MM.y HH:mm' }}
           </template>
           <template [ngSwitchCase]="FieldTypes.Time">
-            {{ row[columnsConfigLookup[columnName].id] | nilDate | date: 'HH:mm' }}
+            {{ row[column(columnName).config.id] | nilDate | date: 'HH:mm' }}
           </template>
         -->
           <template ngSwitchDefault>
             <!-- TODO: configure an empty value default -->
-            {{ row[columnsConfigLookup[columnName].id] || '&mdash;' }}
+            {{ row[column(columnName).config.id] || '&mdash;' }}
           </template>
         </span>
       </template>
 
-      <div *ngIf="columnsConfigLookup[columnName].subFields && columnsConfigLookup[columnName].subFields.length > 0 && row[columnsConfigLookup[columnName].id] && row[columnsConfigLookup[columnName].id].length > 0">
+      <div *ngIf="column(columnName).config.subFields && column(columnName).config.subFields.length > 0 && row[column(columnName).config.id] && row[column(columnName).config.id].length > 0">
 
-        <div class="cell-list" [ngSwitch]="(columnsConfigLookup[columnName].id)">
+        <div class="cell-list" [ngSwitch]="(column(columnName).config.id)">
 
           <!--
           TODO: templates for custom cells
