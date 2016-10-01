@@ -1,4 +1,4 @@
-import {IwColumnConfig, IwColumnConfigLookup} from './../table.component';
+import {IwColumnConfig, IwColumnLookup, IwColumn} from './../table.component';
 import { ElementRef, EventEmitter, Component, OnInit, Input, Output, ViewChild } from '@angular/core';
 const SORTABLE_COLUMNS = '.sortable-columns';
 declare var jQuery: any;
@@ -10,7 +10,7 @@ declare var jQuery: any;
 })
 export class IwTheadComponent implements OnInit {
   @Input() columnsConfig: IwColumnConfig[];
-  @Input() columnsConfigLookup: IwColumnConfigLookup;
+  @Input() columnsLookup: IwColumnLookup;
   @Input() visibleColumns: string[];
 
   @Output() visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
@@ -19,11 +19,15 @@ export class IwTheadComponent implements OnInit {
   // FIXME: use iw-table
   // @ViewChild('tableWrap') tableWrap: ElementRef;
   public lastColumnComboboxActive: boolean = false;
-  public currentComboboxIndex: number;
+  public currentComboboxIndex: number|null;
 
   constructor() {}
 
   ngOnInit() {
+  }
+
+  column(columnName: string): IwColumn {
+    return this.columnsLookup[columnName];
   }
 
   // TODO: implement disabling
@@ -39,27 +43,27 @@ export class IwTheadComponent implements OnInit {
     // }, 0);
   }
 
-  showSortIcon (col: IwColumnConfig, columnEl: any, sortType: string, direction: string): boolean {
-    if (!col || col.sortingDisabled) { return false; }
+  showSortIcon (column: IwColumn, sortType: string, direction: string): boolean {
+    if (column.config.sortingDisabled) { return false; }
 
     // if there's no current sort direction, then use the column's preferred/default sort direction
-    if (typeof columnEl.currentSortDirection === 'undefined') {
-      columnEl.currentSortDirection = columnEl.defaultSortDirection;
+    if (typeof column.currentSortDirection === 'undefined') {
+      column.currentSortDirection = column.config.defaultSortDirection;
     }
 
-    return (col.sortType === sortType && columnEl.currentSortDirection === direction);
+    return (column.config.sortType === sortType && column.currentSortDirection === direction);
   }
 
-  sortColumn (col: IwColumnConfig, columnEl: any, direction: string) {
+  sortColumn (column: IwColumn, direction: string) {
     // if we have an explicit direction, use it
     // else if it's already sorted, then reverse the current direction
     // otherwise, use the column's preferred/default sort direction
     if (direction) {
-      columnEl.currentSortDirection = direction;
-    } else if (columnEl.isSorted) {
-      columnEl.currentSortDirection = columnEl.currentSortDirection === 'asc' ? 'desc' : 'asc';
+      column.currentSortDirection = direction;
+    } else if (column.isSorted) {
+      column.currentSortDirection = column.currentSortDirection === 'asc' ? 'desc' : 'asc';
     } else {
-      columnEl.currentSortDirection = col.defaultSortDirection;
+      column.currentSortDirection = column.config.defaultSortDirection;
     }
 
     // TODO: manage columns and rows in one service. peopleService could use tableColumns internally or vice versa

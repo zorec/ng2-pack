@@ -3,17 +3,18 @@
 </div>
 
 <table *ngIf="customTemplate?.children.length === 0" class="results-table table table-bordered table-striped">
-  <!-- TODO: allow also iw-table as a shorthand  -->
+  <!-- TODO: require iw-table to reduce attributes -->
+  <!-- TODO: argument lookup should not be necessary (when used without iw-table) -->
   <thead
     iwThead
     [columnsConfig]="columnsConfig"
-    [columnsConfigLookup]="columnsConfigLookup"
+    [columnsLookup]="columnsLookup"
     [(visibleColumns)]="visibleColumns"
   ></thead>
   <tbody
     iwBody
     [rows]="rows"
-    [columnsConfigLookup]="columnsConfigLookup"
+    [columnsLookup]="columnsLookup"
     [columnsConfig]="columnsConfig"
     [visibleColumns]="visibleColumns"
   ></tbody>
