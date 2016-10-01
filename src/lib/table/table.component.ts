@@ -22,7 +22,6 @@ export interface IwColumnConfig {
 export interface IwColumn {
   // config is read-only, state is stored in other properties
   config: IwColumnConfig;
-  isSorted?: boolean;
   currentSortDirection?: string;
 }
 
@@ -74,6 +73,24 @@ export class IwTableComponent implements OnInit, OnChanges {
       row,
       index
     });
+  }
+
+  onSortColumn(sortEvent: string[]) {
+    let columnName: string;
+    let direction: string;
+    [columnName, direction] = sortEvent;
+    let stringCmp = (a: string, b: string) => {
+      if (typeof a === 'undefined') { return -1; }
+      return a.localeCompare(b);
+    }
+    let cmp = stringCmp;
+    if (this.columnsLookup[columnName].config.sortType === 'num') {
+      let numberCmp = (a: number, b: number) => b - a;
+    }
+    this.rows.sort((a: any, b: any) => cmp(a[columnName], b[columnName]));
+    if (direction === 'asc') {
+      this.rows.reverse();
+    }
   }
 
   private initializeDefaults() {
