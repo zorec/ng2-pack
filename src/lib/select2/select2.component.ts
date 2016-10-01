@@ -39,7 +39,7 @@ export class IwSelect2Component implements OnInit, OnChanges, ControlValueAccess
   @Output() blur = new EventEmitter();
   currentValue: string;
   private element: any;
-  
+
 
   constructor(private elementRef: ElementRef) {
   }
@@ -84,7 +84,7 @@ export class IwSelect2Component implements OnInit, OnChanges, ControlValueAccess
   updateData() {
     this.removeSelect2();
     // replace a select as a work-around for data not replacing correctly, it was always appending more data
-    this.element = jQuery('<select></select>').attr('syle', '200px');
+    this.element = jQuery('<select></select>').attr('style', 'width:200px');
     this.element.on('select2:select', (e: Event) => {
       this.currentValue = this.element.val();
       this.onChange(this.currentValue);

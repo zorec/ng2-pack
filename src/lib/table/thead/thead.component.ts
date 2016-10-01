@@ -16,10 +16,12 @@ export class IwTheadComponent implements OnInit {
   @Output() visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
+  @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
   // FIXME: use iw-table
   // @ViewChild('tableWrap') tableWrap: ElementRef;
   public lastColumnComboboxActive: boolean = false;
-  public currentComboboxIndex: number|null;
+  public currentComboboxIndex: number | null;
+  public sortedColumnName: string | null;
 
   constructor() {}
 
@@ -54,20 +56,19 @@ export class IwTheadComponent implements OnInit {
     return (column.config.sortType === sortType && column.currentSortDirection === direction);
   }
 
-  sortColumn (column: IwColumn, direction: string) {
+  onSortColumn (column: IwColumn, direction: string) {
     // if we have an explicit direction, use it
     // else if it's already sorted, then reverse the current direction
     // otherwise, use the column's preferred/default sort direction
     if (direction) {
       column.currentSortDirection = direction;
-    } else if (column.isSorted) {
+    } else if (this.sortedColumnName === column.config.id) {
       column.currentSortDirection = column.currentSortDirection === 'asc' ? 'desc' : 'asc';
     } else {
-      column.currentSortDirection = column.config.defaultSortDirection;
+      column.currentSortDirection = column.config.defaultSortDirection || 'asc';
     }
-
-    // TODO: manage columns and rows in one service. peopleService could use tableColumns internally or vice versa
-    // this.tableColumnService.sortedColumn = col;
+    this.sortedColumnName = column.config.id;
+    this.sortColumn.emit([this.sortedColumnName, column.currentSortDirection]);
   }
 
   selectNewColumn(item: {value: string}, atPosition: number) {

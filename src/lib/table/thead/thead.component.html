@@ -16,11 +16,11 @@
       <th class="drag-column"
         attr.data-col-ref="{{ column(columnName).config.column }}"
         attr.id="col-id-{{ column(columnName).config.column }}"
-        [class.is-sorted]="column(columnName).isSorted"
-        [class.is-sorted--asc]="column(columnName).isSorted && column(columnName).currentSortDirection === 'asc'"
-        [class.is-sorted--desc]="column(columnName).isSorted && column(columnName).currentSortDirection === 'desc'">
+        [class.is-sorted]="column(columnName).config.id === sortedColumnName"
+        [class.is-sorted--asc]="column(columnName).config.id === sortedColumnName && column(columnName).currentSortDirection === 'asc'"
+        [class.is-sorted--desc]="column(columnName).config.id === sortedColumnName && column(columnName).currentSortDirection === 'desc'">
 
-        <span class="col-label" (click)="!column(columnName).config.sortingDisabled && sortColumn(column(columnName))" >
+        <span class="col-label" (click)="!column(columnName).config.sortingDisabled && onSortColumn(column(columnName))" >
           {{ column(columnName).config.text || column(columnName).config.id  }}
           <i *ngIf="showSortIcon(column(columnName), 'alpha', 'asc')" class="ico-col-sort ico-col-sort--asc"><i>A</i><i>Z</i><i>↓</i></i>
           <i *ngIf="showSortIcon(column(columnName), 'alpha', 'desc')" class="ico-col-sort ico-col-sort--desc"><i>Z</i><i>A</i><i>↓</i></i>
@@ -34,7 +34,7 @@
           <ul class="dropdown-menu dropdown-menu-right" dropdownMenu attr.aria-labelledby="{{column(columnName).config.column}}-dropdown">
 
             <li *ngIf="!column(columnName).config.sortingDisabled">
-              <a class="dropdown-item" (click)="sortColumn(column(columnName), 'asc')">
+              <a class="dropdown-item" (click)="onSortColumn(column(columnName), 'asc')">
                 Sortieren
                 <span *ngIf="column(columnName).config.sortType === 'num'">0&rarr;9</span>
                 <span *ngIf="column(columnName).config.sortType !== 'num'">A&rarr;Z</span>
@@ -42,7 +42,7 @@
             </li>
 
             <li *ngIf="!column(columnName).config.sortingDisabled">
-              <a class="dropdown-item" (click)="sortColumn(column(columnName), 'desc')">
+              <a class="dropdown-item" (click)="onSortColumn(column(columnName), 'desc')">
                 Sortieren
                 <span *ngIf="column(columnName).config.sortType === 'num'">9&rarr;0</span>
                 <span *ngIf="column(columnName).config.sortType !== 'numm'">Z&rarr;A</span>
