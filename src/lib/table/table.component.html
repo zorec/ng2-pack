@@ -4,14 +4,16 @@
 
 <table *ngIf="customTemplate?.children.length === 0" class="results-table table table-bordered table-striped">
   <!-- TODO: require iw-table to reduce attributes -->
-  <!-- TODO: argument lookup should not be necessary (when used without iw-table) -->
   <thead
     iwThead
     [columnsConfig]="columnsConfig"
     [columnsLookup]="columnsLookup"
-    [(visibleColumns)]="visibleColumns"
+    [visibleColumns]="visibleColumns"
+    (addColumn)="addColumn.emit($event)"
+    (removeColumn)="removeColumn.emit($event)"
     (sortColumn)="onSortColumn($event)"
-    (addingColumn)="addingColumnIndex = $event"
+    (addingColumn)="onAddingColumn($event)"
+    (reorderColumns)="reorderColumns.emit($event)"
   ></thead>
   <tbody
     iwBody
@@ -20,5 +22,6 @@
     [columnsConfig]="columnsConfig"
     [visibleColumns]="visibleColumns"
     [addingColumnIndex]="addingColumnIndex"
+    (rowClick)="onRowClicked($event)"
   ></tbody>
 </table>

@@ -22,7 +22,8 @@ export class IwTheadComponent implements OnInit {
   @Input() columnsLookup: IwColumnLookup;
   @Input() visibleColumns: string[];
 
-  @Output() visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
+  // NOTE: use immutable arrays
+  @Output('visibleColumns') visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
