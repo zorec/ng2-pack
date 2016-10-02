@@ -21,9 +21,10 @@ export class IwTheadComponent implements OnInit {
   @Input() columnsConfig: IwColumnConfig[];
   @Input() columnsLookup: IwColumnLookup;
   @Input() visibleColumns: string[];
+  @Input() reorderingEnabled: boolean;
 
   // NOTE: use immutable arrays
-  @Output('visibleColumns') visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
+  // @Output('visibleColumns') visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
@@ -43,7 +44,9 @@ export class IwTheadComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.initializeSortable();
+    if (this.reorderingEnabled) {
+      this.initializeSortable();
+    }
   }
 
   column(columnName: string): IwColumn {
@@ -104,7 +107,7 @@ export class IwTheadComponent implements OnInit {
       this.visibleColumns.push(item.value);
     }
     this.addColumn.emit(item.value);
-    this.visibleColumnsOutput.emit(this.visibleColumns);
+    // this.visibleColumnsOutput.emit(this.visibleColumns);
   }
 
   onRemoveColumn(columnName: string, columnIndex: number) {

@@ -45,9 +45,12 @@ export class IwTableComponent implements OnInit, OnChanges {
   @Input() rows: any[];
   @Input() columnsConfig: IwColumnConfig[];
   @Input() visibleColumns: string[];
+  // NOTE: this default value should be specified in a configuration
+  @Input() reorderingEnabled: boolean = true;
   // TODO: is this useful?
   // @Output('columnsConfig') columnsConfigOutput: EventEmitter<IwColumnConfig[]> = new EventEmitter<IwColumnConfig[]>();
   // @Output('visibleColumns') visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
+
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
