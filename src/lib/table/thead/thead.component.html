@@ -1,4 +1,4 @@
-  <tr class="sortable-columns">
+  <tr>
     <template  ngFor let-columnName [ngForOf]="visibleColumns" let-columnIndex="index">
       <th *ngIf="addingColumnIndex == columnIndex" class="combo-th">
         <div class="add-column combobox is-active">
@@ -14,8 +14,8 @@
         </div>
       </th>
       <th class="drag-column"
-        attr.data-col-ref="{{ column(columnName).config.column }}"
-        attr.id="col-id-{{ column(columnName).config.column }}"
+        attr.data-col-ref="{{ column(columnName).config.id }}"
+        attr.id="col-id-{{ column(columnName).config.id }}"
         [class.is-sorted]="column(columnName).config.id === sortedColumnName"
         [class.is-sorted--asc]="column(columnName).config.id === sortedColumnName && column(columnName).currentSortDirection === 'asc'"
         [class.is-sorted--desc]="column(columnName).config.id === sortedColumnName && column(columnName).currentSortDirection === 'desc'">
@@ -29,9 +29,9 @@
         </span>
 
         <div class="btn-group col-menu" dropdown>
-          <a class="btn btn-sm btn-secondary dropdown-toggle" href [id]="column(columnName).config.column + '-dropdown'" dropdownToggle></a>
+          <a class="btn btn-sm btn-secondary dropdown-toggle" href [id]="column(columnName).config.id + '-dropdown'" dropdownToggle></a>
 
-          <ul class="dropdown-menu dropdown-menu-right" dropdownMenu attr.aria-labelledby="{{column(columnName).config.column}}-dropdown">
+          <ul class="dropdown-menu dropdown-menu-right" dropdownMenu attr.aria-labelledby="{{column(columnName).config.id}}-dropdown">
 
             <li *ngIf="!column(columnName).config.sortingDisabled">
               <a class="dropdown-item" (click)="onSortColumn(column(columnName), 'asc')">
@@ -50,7 +50,7 @@
             </li>
 
             <li *ngIf="!column(columnName).config.sortingDisabled" class="divider dropdown-divider"></li>
-
+            <!-- NOTE: should it be disabled when there are no columns to add  -->
             <li>
               <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox(columnIndex)">
                 Spalte links hinzufügen
@@ -70,7 +70,7 @@
               <div *ngFor="let subcolumn of column(columnName).config.subFields">
                 <label class="dropdown-item c-input c-checkbox">
                   <input type="checkbox"
-                      (change)="onRemoveSubcolumn(column(columnName).config.column, subcolumn.column)"
+                      (change)="onRemoveSubcolumn(column(columnName).config.id, subcolumn.column)"
                       [checked]="subcolumn.isVisible"
                   >
                   <span class="c-indicator"></span>
@@ -81,8 +81,12 @@
 
             <li class="divider dropdown-divider"></li>
             <li>
-              <!-- NOTE: is there a better solution?  -->
-              <a [class.disabled]="visibleColumns.length === 1" class="dropdown-item" (click)="visibleColumns.length !== 1 && onRemoveColumn(column(columnName).config.column, columnIndex)">
+              <!-- disable removing column if it's the last one  -->
+              <!-- NOTE: is there a better way how to  -->
+              <a
+              [class.disabled]="visibleColumns.length === 1"
+              class="dropdown-item"
+              (click)="visibleColumns.length !== 1 && onRemoveColumn(column(columnName).config.id, columnIndex)">
                 Diese Spalte entfernen
               </a>
             </li>
