@@ -10,6 +10,7 @@ import { IwTheadComponent } from '../lib/table/thead/thead.component';
 import { IwTbodyComponent } from '../lib/table/tbody/tbody.component';
 import { AddColumnCombobox } from '../lib/table/add-column-combobox/add-column-combobox.component';
 
+import { DropdownModule} from 'ng2-bootstrap/ng2-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +23,8 @@ import { AddColumnCombobox } from '../lib/table/add-column-combobox/add-column-c
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    DropdownModule
   ],
   providers: [],
   bootstrap: [AppComponent]

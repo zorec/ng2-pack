@@ -17,10 +17,12 @@ export class IwTheadComponent implements OnInit {
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
+
   // FIXME: use iw-table
   // @ViewChild('tableWrap') tableWrap: ElementRef;
   public lastColumnComboboxActive: boolean = false;
-  public currentComboboxIndex: number | null;
+  public addingColumnIndex: number | null;
   public sortedColumnName: string | null;
 
   constructor() {}
@@ -35,6 +37,10 @@ export class IwTheadComponent implements OnInit {
   // TODO: implement disabling
   get hasAllColumnsVisble(): boolean {
     return false; // this.tableColumnService.hasAllColumnsVisible();
+  }
+
+  get isLastAddingColumnVisible() {
+    return this.lastColumnComboboxActive || this.addingColumnIndex === this.visibleColumns.length;
   }
 
   toggleCombobox() {
@@ -72,7 +78,7 @@ export class IwTheadComponent implements OnInit {
   }
 
   selectNewColumn(item: {value: string}, atPosition: number) {
-    this.currentComboboxIndex = null;
+    this.addingColumnIndex = null;
     this.lastColumnComboboxActive = false;
 
     if (typeof atPosition !== 'undefined') {
@@ -91,6 +97,8 @@ export class IwTheadComponent implements OnInit {
   }
 
   addCombobox(index: number) {
-    this.currentComboboxIndex = index;
+    this.lastColumnComboboxActive = false;
+    this.addingColumnIndex = index;
+    this.addingColumn.emit(index);
   }
 }

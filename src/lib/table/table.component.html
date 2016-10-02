@@ -11,6 +11,7 @@
     [columnsLookup]="columnsLookup"
     [(visibleColumns)]="visibleColumns"
     (sortColumn)="onSortColumn($event)"
+    (addingColumn)="addingColumnIndex = $event"
   ></thead>
   <tbody
     iwBody
@@ -18,5 +19,6 @@
     [columnsLookup]="columnsLookup"
     [columnsConfig]="columnsConfig"
     [visibleColumns]="visibleColumns"
+    [addingColumnIndex]="addingColumnIndex"
   ></tbody>
 </table>
