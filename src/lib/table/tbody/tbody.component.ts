@@ -11,6 +11,7 @@ export class IwTbodyComponent implements OnInit {
   @Input() columnsConfig: IwColumnConfig[] = [];
   @Input() columnsLookup: IwColumnLookup;
   @Input() visibleColumns: string[] = [];
+  @Input() addingColumnIndex: number;
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
 
   constructor() { }

@@ -53,6 +53,7 @@ export class IwTableComponent implements OnInit, OnChanges {
 
   // TODO: is this useful
   public columnsLookup: IwColumnLookup;
+  public addingColumnIndex: number;
 
   constructor() { }
 
@@ -91,6 +92,10 @@ export class IwTableComponent implements OnInit, OnChanges {
     if (direction === 'asc') {
       this.rows.reverse();
     }
+  }
+
+  onAddingColumn(index: number) {
+    this.addingColumnIndex = index;
   }
 
   private initializeDefaults() {

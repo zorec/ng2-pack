@@ -1,7 +1,7 @@
 <tr *ngFor="let row of rows; let rowIndex = index" (click)="onRowClicked(row, rowIndex)">
   <template ngFor let-columnName [ngForOf]="visibleColumns" let-index="index">
     <!-- TODO: this should not be a part of template  -->
-    <td *ngIf="currentComboboxIndex == index" class="combo-td"></td>
+    <td *ngIf="addingColumnIndex == index" class="combo-td"></td>
     <td [class.is-sorted]="column(columnName).config.isSorted" attr.headers="col-id-{{ column(columnName).config.id }}">
 
       <template [ngIf]="!column(columnName).config.subFields">
