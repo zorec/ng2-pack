@@ -7,7 +7,7 @@
 </p>
 
 <iw-table
- [rows]="[{name: 'John'}, {name: 'Hellen', surname: 'Hello'}]"
+ [rows]="rows"
  [(columnsConfig)]="columnsConfig"
  (rowClick)="action = 'Row ' + $event.index  + ' was clicked!'"
  [visibleColumns]="visibleColumns"

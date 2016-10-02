@@ -12,7 +12,7 @@ export class IwTbodyComponent implements OnInit {
   @Input() columnsLookup: IwColumnLookup;
   @Input() visibleColumns: string[] = [];
   @Input() addingColumnIndex: number;
-  
+
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
 
   constructor() { }
@@ -29,6 +29,13 @@ export class IwTbodyComponent implements OnInit {
       row,
       index
     });
+  }
+
+  isUndefined(value: any): boolean {
+    if (typeof value === 'undefined') {
+      return true;
+    }
+    return false;
   }
 
 }
