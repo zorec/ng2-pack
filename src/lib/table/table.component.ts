@@ -14,6 +14,7 @@ export interface IwColumnConfig {
   id: string;
   text?: string;
   sortingDisabled?: boolean;
+  // NOTE: allow an optional compare function
   sortType?: string; // either 'alpha' or 'num'
   defaultSortDirection?: string;  // either 'asc' or 'desc'
 }
@@ -32,6 +33,24 @@ export interface IwColumnLookup {
 export interface RowClickEvent {
   row: any;
   index: number;
+}
+
+type cmpFun = (a: any, b: any) => number;
+
+export interface CompareFunctions {
+  [sortType: string]: cmpFun;
+}
+export const sortingCompare: CompareFunctions = {
+  num: (a: number, b: number): number => b - a,
+  alpha: (a: string, b: string): number => {
+    if (typeof a === 'undefined') { return -1; }
+    return a.localeCompare(b);
+  },
+  other: (a: any, b: any): number => {
+    if (a > b) { return 1; }
+    if (b > a) { return -1; }
+    return 0;
+  }
 }
 
 @Component({
@@ -83,19 +102,14 @@ export class IwTableComponent implements OnInit, OnChanges {
   }
 
   onSortColumn(sortEvent: string[]) {
-    let columnName: string;
-    let direction: string;
-    [columnName, direction] = sortEvent;
-    let stringCmp = (a: string, b: string) => {
-      if (typeof a === 'undefined') { return -1; }
-      return a.localeCompare(b);
-    }
-    let cmp = stringCmp;
-    if (this.columnsLookup[columnName].config.sortType === 'num') {
-      let numberCmp = (a: number, b: number) => b - a;
+    let [columnName, direction] = sortEvent;
+    let cmp = sortingCompare[this.columnsLookup[columnName].config.sortType || 'other'];
+    if (!cmp) {
+      console.warn(`Unsupported sortType '${this.columnsLookup[columnName].config.sortType}'. Using comparison operators: greater, less and equal (>, <, ===)`);
+      cmp = sortingCompare['other'];
     }
     this.rows.sort((a: any, b: any) => cmp(a[columnName], b[columnName]));
-    if (direction === 'asc') {
+    if (direction === 'desc') {
       this.rows.reverse();
     }
     this.sortColumn.emit(sortEvent);

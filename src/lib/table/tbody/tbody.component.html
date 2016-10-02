@@ -19,8 +19,13 @@
           </template>
         -->
           <template ngSwitchDefault>
-            <!-- TODO: configure an empty value default -->
-            {{ row[column(columnName).config.id] || '&mdash;' }}
+            <span *ngIf="!isUndefined(row[column(columnName).config.id])">
+              {{ row[column(columnName).config.id] }}
+            </span>
+            <span *ngIf="isUndefined(row[column(columnName).config.id])">
+              <!-- TODO: configure an empty value default -->
+              &mdash;
+            </span>
           </template>
         </span>
       </template>
