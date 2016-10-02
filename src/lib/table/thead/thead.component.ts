@@ -1,6 +1,15 @@
 import {IwColumnConfig, IwColumnLookup, IwColumn} from './../table.component';
-import { ElementRef, EventEmitter, Component, OnInit, Input, Output, ViewChild } from '@angular/core';
-const SORTABLE_COLUMNS = '.sortable-columns';
+import {
+  ElementRef,
+  EventEmitter,
+  Component,
+  OnInit,
+  Input,
+  Output,
+  ViewChild,
+  ChangeDetectorRef
+} from '@angular/core';
+
 declare var jQuery: any;
 
 @Component({
@@ -18,16 +27,22 @@ export class IwTheadComponent implements OnInit {
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
+  @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
 
   // FIXME: use iw-table
   // @ViewChild('tableWrap') tableWrap: ElementRef;
   public lastColumnComboboxActive: boolean = false;
   public addingColumnIndex: number | null;
   public sortedColumnName: string | null;
+  public draggedColumnId: string | null;
 
-  constructor() {}
+  constructor(
+    private elementRef: ElementRef,
+    private changeDetectorRef: ChangeDetectorRef // needed to trigger change detection on jquery ui's callbacks
+  ) {}
 
   ngOnInit() {
+    this.initializeSortable();
   }
 
   column(columnName: string): IwColumn {
@@ -100,5 +115,36 @@ export class IwTheadComponent implements OnInit {
     this.lastColumnComboboxActive = false;
     this.addingColumnIndex = index;
     this.addingColumn.emit(index);
+  }
+
+  private initializeSortable() {
+    jQuery(this.elementRef.nativeElement).sortable({
+      cursor: 'move',
+      axis: 'x',
+      tolerance: 'pointer',
+      items: '.drag-column',
+      handle: '.col-label',
+      update: () => {
+        this.draggedColumnId = '';
+        let sortedIDs = jQuery( this.elementRef.nativeElement )
+          .sortable( 'toArray', {
+            attribute: 'data-col-ref'
+          });
+        console.log(sortedIDs)
+        this.visibleColumns = sortedIDs;
+        this.reorderColumns.emit(sortedIDs);
+        this.changeDetectorRef.detectChanges();
+      },
+      // NOTE: provided additional information about dragging
+      // when dragging is started
+      // activate: (event: any, ui: any) => {
+      //   this.draggedColumnId = ui.item.attr('data-col-ref');
+      // },
+      // stop: () => {
+      //   this.draggedColumnId = '';
+      //   this.changeDetectorRef.detectChanges();
+      // }
+    });
+    jQuery(this.elementRef.nativeElement).disableSelection();
   }
 }
