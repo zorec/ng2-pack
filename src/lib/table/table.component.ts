@@ -46,12 +46,15 @@ export class IwTableComponent implements OnInit, OnChanges {
   @Input() columnsConfig: IwColumnConfig[];
   @Input() visibleColumns: string[];
   // TODO: is this useful?
-  @Output('columnsConfig')
-  columnsConfigOutput: EventEmitter<IwColumnConfig[]> = new EventEmitter<IwColumnConfig[]>();
-
+  // @Output('columnsConfig') columnsConfigOutput: EventEmitter<IwColumnConfig[]> = new EventEmitter<IwColumnConfig[]>();
+  // @Output('visibleColumns') visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
+  @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
+  @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
+  @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
 
-  // TODO: is this useful
   public columnsLookup: IwColumnLookup;
   public addingColumnIndex: number;
 
@@ -92,6 +95,7 @@ export class IwTableComponent implements OnInit, OnChanges {
     if (direction === 'asc') {
       this.rows.reverse();
     }
+    this.sortColumn.emit(sortEvent);
   }
 
   onAddingColumn(index: number) {
@@ -118,7 +122,7 @@ export class IwTableComponent implements OnInit, OnChanges {
     for (let columnName in this.columnsLookup) {
       this.columnsConfig.push(this.columnsLookup[columnName].config);
     }
-    this.columnsConfigOutput.emit(this.columnsConfig);
+    // this.columnsConfigOutput.emit(this.columnsConfig);
   }
 
   private initializeColumnConfigLookup() {
