@@ -13,6 +13,7 @@ import { IwAddColumnComponent } from '../lib/table/add-column/add-column.compone
 import { DropdownModule} from 'ng2-bootstrap/ng2-bootstrap';
 import { IwTdComponent } from '../lib/table/td/td.component';
 import { IwThComponent } from '../lib/table/th/th.component';
+import { DefaultValuePipe } from '../lib/pipes/default-value/default-value.pipe';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { IwThComponent } from '../lib/table/th/th.component';
     IwAddColumnComponent,
     IwSelect2Component,
     IwTdComponent,
-    IwThComponent
+    IwThComponent,
+    DefaultValuePipe
   ],
   imports: [
     BrowserModule,

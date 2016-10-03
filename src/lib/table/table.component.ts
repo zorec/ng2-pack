@@ -5,6 +5,7 @@ import {
   OnInit,
   OnChanges,
   Output,
+  PipeTransform,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -15,10 +16,15 @@ export interface IwSubFieldConfig {
   isVisible: boolean;
 }
 
+export interface DisplayFormatter extends PipeTransform {
+  arguments?: Array<any>
+}
+
 export interface IwColumnConfig {
   id: string;
   text?: string;
   sortingDisabled?: boolean;
+  formatters?: DisplayFormatter[];
   subFields?: IwSubFieldConfig[];
   // NOTE: allow an optional compare function
   sortType?: string; // either 'alpha' or 'num'

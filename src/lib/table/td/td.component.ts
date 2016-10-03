@@ -1,21 +1,28 @@
 import {IwColumnConfig} from './../table.component';
+import {DefaultValuePipe} from './../../pipes/default-value/default-value.pipe';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: '[iw-td]',
   templateUrl: './td.component.html',
-  styleUrls: ['./td.component.css']
+  styleUrls: ['./td.component.css'],
+  providers: [DefaultValuePipe]
 })
 export class IwTdComponent implements OnInit {
   @Input() columnConfig: IwColumnConfig;
   @Input() row: any;
 
-  constructor() { }
+  constructor(private defaultValuePipe: DefaultValuePipe) { }
 
   ngOnInit() {
   }
 
-  isUndefined(value: any): boolean {
-    return (typeof value === 'undefined');
+  displayValue(config: IwColumnConfig, value: any) {
+    if (!config.formatters) {
+      return this.defaultValuePipe.transform(value);
+    }
+    return config.formatters.reduce((value, formatter) => {
+      return formatter.transform(value, ...(formatter.arguments || []));
+    }, value);
   }
 }

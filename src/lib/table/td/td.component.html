@@ -4,29 +4,7 @@
 
 <div *ngIf="customTemplate?.children.length === 0">
   <template [ngIf]="!columnConfig.subFields">
-    <span [ngSwitch]="(columnConfig.type)">
-      <!--
-      FIXME: create types
-      <template [ngSwitchCase]="FieldTypes.Date">
-        {{ row[columnConfig.id] | nilDate | date: 'dd.MM.y' }}
-      </template>
-      <template [ngSwitchCase]="FieldTypes.Datetime">
-        {{ row[columnConfig.id] | nilDate | date: 'dd.MM.y HH:mm' }}
-      </template>
-      <template [ngSwitchCase]="FieldTypes.Time">
-        {{ row[columnConfig.id] | nilDate | date: 'HH:mm' }}
-      </template>
-    -->
-      <template ngSwitchDefault>
-        <span *ngIf="!isUndefined(row[columnConfig.id])">
-          {{ row[columnConfig.id] }}
-        </span>
-        <span *ngIf="isUndefined(row[columnConfig.id])">
-          <!-- TODO: configure an empty value default -->
-          &mdash;
-        </span>
-      </template>
-    </span>
+    {{ displayValue(columnConfig, row[columnConfig.id]) }}
   </template>
 
   <div *ngIf="columnConfig.subFields && columnConfig.subFields.length > 0 && row[columnConfig.id] && row[columnConfig.id].length > 0">

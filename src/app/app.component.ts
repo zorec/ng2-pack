@@ -1,21 +1,40 @@
 import {IwColumnConfig} from './../lib/table/table.component';
 import { Component } from '@angular/core';
+import { DatePipe } from '@angular/common';
+
 const today: Date = new Date();
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [DatePipe]
 })
 export class AppComponent {
+  constructor(private datePipe: DatePipe) {
+
+  }
+
   title = 'app works!';
   columnsConfig: IwColumnConfig[] = [
     {id: 'name', sortType: 'alpha'},
     {id: 'children', sortType: 'num'},
-    {id: 'birthday', sortType: 'num'},
-    {id: 'studies', sortingDisabled: true, subFields: [{id: 'university', isVisible: true}]}
+    {
+      id: 'birthday',
+      sortType: 'num',
+      formatters: [
+        {
+          transform: (value: any, format: string) => this.datePipe.transform(value, format),
+          arguments: ['dd.MM.y']
+        }
+      ],
+    },
+    {
+      id: 'studies',
+      sortingDisabled: true,
+      subFields: [{id: 'university', isVisible: true}]}
   ];
-  visibleColumns = ['name', 'children', 'studies'];
+  visibleColumns = ['name', 'children', 'birthday', 'studies'];
   rows = [
     {
       name: 'John',
