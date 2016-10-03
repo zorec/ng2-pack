@@ -6,14 +6,13 @@ import {
   OnInit,
   Input,
   Output,
-  ViewChild,
   ChangeDetectorRef
 } from '@angular/core';
 
 declare var jQuery: any;
 
 @Component({
-  selector: '[iw-thead], [iwThead]',
+  selector: '[iw-thead]',
   templateUrl: './thead.component.html',
   styleUrls: ['./thead.component.scss']
 })
@@ -64,7 +63,7 @@ export class IwTheadComponent implements OnInit {
 
   toggleCombobox() {
     this.lastColumnComboboxActive = !this.lastColumnComboboxActive;
-    if (!this.lastColumnComboboxActive) return;
+    if (!this.lastColumnComboboxActive) { return; }
     // setTimeout(() => {
     //   jQuery(this.tableWrap.nativeElement).scrollLeft(99999);
     // }, 0);
@@ -115,6 +114,19 @@ export class IwTheadComponent implements OnInit {
     this.removeColumn.emit(columnName);
   }
 
+  onToggleSubfield(columnName: string, subfieldName: string) {
+    let subfieldIndex = this.column(columnName).activeFields.indexOf(subfieldName);
+    if (subfieldIndex === -1) {
+      // it was not active, therefore it needs to be actived
+      this.column(columnName).activeFields.push(subfieldName);
+    } {
+      // it was active, therefore disable it
+      this.column(columnName).activeFields.splice(subfieldIndex, 1);
+    }
+    // TODO: emit an event
+    // this.toggleSubfield.emit(columnName);
+  }
+
   addCombobox(index: number) {
     this.lastColumnComboboxActive = false;
     this.addingColumnIndex = index;
@@ -134,7 +146,6 @@ export class IwTheadComponent implements OnInit {
           .sortable( 'toArray', {
             attribute: 'data-col-ref'
           });
-        console.log(sortedIDs)
         this.visibleColumns = sortedIDs;
         this.reorderColumns.emit(sortedIDs);
         this.changeDetectorRef.detectChanges();

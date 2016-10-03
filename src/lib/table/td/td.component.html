@@ -1,0 +1,54 @@
+<template [ngIf]="!columnConfig.subFields">
+  <span [ngSwitch]="(columnConfig.type)">
+    <!--
+    FIXME: create types
+    <template [ngSwitchCase]="FieldTypes.Date">
+      {{ row[columnConfig.id] | nilDate | date: 'dd.MM.y' }}
+    </template>
+    <template [ngSwitchCase]="FieldTypes.Datetime">
+      {{ row[columnConfig.id] | nilDate | date: 'dd.MM.y HH:mm' }}
+    </template>
+    <template [ngSwitchCase]="FieldTypes.Time">
+      {{ row[columnConfig.id] | nilDate | date: 'HH:mm' }}
+    </template>
+  -->
+    <template ngSwitchDefault>
+      <span *ngIf="!isUndefined(row[columnConfig.id])">
+        {{ row[columnConfig.id] }}
+      </span>
+      <span *ngIf="isUndefined(row[columnConfig.id])">
+        <!-- TODO: configure an empty value default -->
+        &mdash;
+      </span>
+    </template>
+  </span>
+</template>
+
+<div *ngIf="columnConfig.subFields && columnConfig.subFields.length > 0 && row[columnConfig.id] && row[columnConfig.id].length > 0">
+
+  <div class="cell-list" [ngSwitch]="(columnConfig.id)">
+
+    <!--
+    TODO: templates for custom cells
+    <template ngSwitchCase="addr">
+      <app-results-table-cell-address [row]="row" [col]="col"></app-results-table-cell-address>
+    </template>
+
+    <template ngSwitchCase="verei">
+      <app-results-table-cell-associations [row]="row" [col]="col"></app-results-table-cell-associations>
+    </template>
+
+    <template ngSwitchCase="ausz">
+      <app-results-table-cell-awards [row]="row" [col]="col"></app-results-table-cell-awards>
+    </template>
+
+    <template ngSwitchCase="caree">
+      <app-results-table-cell-workhistory [row]="row" [col]="col"></app-results-table-cell-workhistory>
+    </template>
+
+    <template ngSwitchCase="stud">
+      <app-results-table-cell-studies [row]="row" [col]="col"></app-results-table-cell-studies>
+    </template>
+  -->
+  </div>
+</div>

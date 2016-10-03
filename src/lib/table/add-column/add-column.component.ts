@@ -1,22 +1,20 @@
-import {IwColumnLookup} from './../table.component';
 import {IwColumnConfig} from './../table.component';
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 // import {Subscription} from 'rxjs/Subscription';
 
 @Component({
-  selector: 'add-column-combobox',
-  templateUrl: 'add-column-combobox.component.html',
-  styleUrls: ['add-column-combobox.component.css']
+  selector: 'iw-add-column',
+  templateUrl: 'add-column.component.html',
+  styleUrls: ['add-column.component.css']
 })
-export class AddColumnCombobox implements OnChanges {
-  public combobox:boolean = false;
-
+export class IwAddColumnComponent implements OnChanges {
   @Input() columnsConfig: IwColumnConfig[];
   @Input() visibleColumns: string[];
   // TODO: focus
   @Input() focus: boolean = false;
   @Output('selected') selectedOutput: EventEmitter<{value: string}> = new EventEmitter<{value: string}>();
 
+  public combobox:boolean = false;
   private value: string = null;
   private items: IwColumnConfig[];
   // private subscription: Subscription;

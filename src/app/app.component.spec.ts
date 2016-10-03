@@ -1,5 +1,5 @@
 import {IwSelect2Component} from './../lib/select2/select2.component';
-import {AddColumnCombobox} from './../lib/table/add-column-combobox/add-column-combobox.component';
+import {IwAddColumnComponent} from './../lib/table/add-column/add-column.component';
 import {IwTableComponent} from './../lib/table/table.component';
 import {IwTbodyComponent} from './../lib/table/tbody/tbody.component';
 import {IwTheadComponent} from './../lib/table/thead/thead.component';
@@ -17,7 +17,7 @@ describe('App: Ng2Pack', () => {
         IwTableComponent,
         IwTheadComponent,
         IwTbodyComponent,
-        AddColumnCombobox,
+        IwAddColumnComponent,
         IwSelect2Component,
       ],
       imports: [

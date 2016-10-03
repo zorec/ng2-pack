@@ -5,7 +5,7 @@
 <table *ngIf="customTemplate?.children.length === 0" class="results-table table table-bordered table-striped">
   <!-- TODO: require iw-table to reduce attributes -->
   <thead
-    iwThead
+    iw-thead
     [columnsConfig]="columnsConfig"
     [columnsLookup]="columnsLookup"
     [visibleColumns]="visibleColumns"
@@ -17,7 +17,7 @@
     (reorderColumns)="reorderColumns.emit($event)"
   ></thead>
   <tbody
-    iwBody
+    iw-body
     [rows]="rows"
     [columnsLookup]="columnsLookup"
     [columnsConfig]="columnsConfig"

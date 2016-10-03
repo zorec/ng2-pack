@@ -3,7 +3,7 @@
 import { By }           from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { AddColumnCombobox } from './add-column-combobox.component';
+import { IwAddColumnComponent } from './add-column.component';
 
 describe('Component: CategoryCombobox', () => {
 });

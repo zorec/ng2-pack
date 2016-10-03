@@ -2,12 +2,12 @@
     <template  ngFor let-columnName [ngForOf]="visibleColumns" let-columnIndex="index">
       <th *ngIf="addingColumnIndex == columnIndex" class="combo-th">
         <div class="add-column combobox is-active">
-          <add-column-combobox
+          <iw-add-column
             [columnsConfig]="columnsConfig"
             [visibleColumns]="visibleColumns"
             (selected)="selectNewColumn($event, columnIndex)"
             attr.id="combobox-{{columnIndex}}">
-          </add-column-combobox>
+          </iw-add-column>
           <span class="add-column-button">
             <span (click)="addingColumnIndex = null" class="add-column-button combo-toggle btn btn-sm btn-success is-active">+</span>
           </span>
@@ -67,14 +67,14 @@
             <li *ngIf="column(columnName).config.subFields" class="dropdown-item-group">
               <span class="dropdown-header">Felder in der Spalte</span>
 
-              <div *ngFor="let subcolumn of column(columnName).config.subFields">
+              <div *ngFor="let subfield of column(columnName).config.subFields">
                 <label class="dropdown-item c-input c-checkbox">
                   <input type="checkbox"
-                      (change)="onRemoveSubcolumn(column(columnName).config.id, subcolumn.column)"
-                      [checked]="subcolumn.isVisible"
+                      (change)="onToggleSubfield(column(columnName).config.id, subfield.id)"
+                      [checked]="subfield.isVisible"
                   >
                   <span class="c-indicator"></span>
-                  {{subcolumn.text || subcolumn.id }}
+                  {{subfield.text || subfield.id }}
                 </label>
               </div>
             </li>
@@ -97,12 +97,12 @@
     </template>
     <th class="combo-th">
       <div class="add-column combobox" [ngClass]="lastColumnComboboxActive ? 'is-active' : 'is-inactive'">
-        <add-column-combobox
+        <iw-add-column
           *ngIf="lastColumnComboboxActive"
           [columnsConfig]="columnsConfig"
           [visibleColumns]="visibleColumns"
           (selected)="selectNewColumn($event)"
-        ></add-column-combobox>
+        ></iw-add-column>
         <span
             (click)="toggleCombobox()"
             class="add-column-button combo-toggle btn btn-sm btn-success"
