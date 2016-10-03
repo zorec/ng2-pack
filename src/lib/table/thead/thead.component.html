@@ -1,45 +1,49 @@
-  <tr>
-    <template  ngFor let-columnName [ngForOf]="visibleColumns" let-columnIndex="index">
-      <th *ngIf="addingColumnIndex == columnIndex" class="combo-th">
-        <div class="add-column combobox is-active">
-          <iw-add-column
-            [columnsConfig]="columnsConfig"
-            [visibleColumns]="visibleColumns"
-            (selected)="selectNewColumn($event, columnIndex)"
-            attr.id="combobox-{{columnIndex}}">
-          </iw-add-column>
-          <span class="add-column-button">
-            <span (click)="addingColumnIndex = null" class="add-column-button combo-toggle btn btn-sm btn-success is-active">+</span>
-          </span>
-        </div>
-      </th>
-      <th
-        iw-th
-        [column]="column(columnName)"
-        [visibleColumns]="visibleColumns"
-        (removeColumn)="removeColumn.emit($event)"
-        (sortColumn)="onSortColumn($event)" 
-        class="drag-column"
-        attr.data-col-ref="{{ column(columnName).config.id }}"
-        attr.id="col-id-{{ column(columnName).config.id }}"
-        [class.is-sorted]="column(columnName).config.id === sortedColumnName"
-        [class.is-sorted--asc]="column(columnName).config.id === sortedColumnName && column(columnName).currentSortDirection === 'asc'"
-        [class.is-sorted--desc]="column(columnName).config.id === sortedColumnName && column(columnName).currentSortDirection === 'desc'">
-      </th>
-    </template>
-    <th class="combo-th">
-      <div class="add-column combobox" [ngClass]="lastColumnComboboxActive ? 'is-active' : 'is-inactive'">
+<div #customTemplate>
+  <ng-content></ng-content>
+</div>
+
+<tr *ngIf="customTemplate?.children.length === 0">
+  <template  ngFor let-columnName [ngForOf]="visibleColumns" let-columnIndex="index">
+    <th *ngIf="addingColumnIndex == columnIndex" class="combo-th">
+      <div class="add-column combobox is-active">
         <iw-add-column
-          *ngIf="lastColumnComboboxActive"
           [columnsConfig]="columnsConfig"
           [visibleColumns]="visibleColumns"
-          (selected)="selectNewColumn($event)"
-        ></iw-add-column>
-        <span
-            (click)="toggleCombobox()"
-            class="add-column-button combo-toggle btn btn-sm btn-success"
-            [ngClass]="{'is-active': combobox }"
-        >+</span>
+          (selected)="selectNewColumn($event, columnIndex)"
+          attr.id="combobox-{{columnIndex}}">
+        </iw-add-column>
+        <span class="add-column-button">
+          <span (click)="addingColumnIndex = null" class="add-column-button combo-toggle btn btn-sm btn-success is-active">+</span>
+        </span>
       </div>
     </th>
-  </tr>
+    <th
+      iw-th
+      [column]="column(columnName)"
+      [visibleColumns]="visibleColumns"
+      (removeColumn)="removeColumn.emit($event)"
+      (sortColumn)="onSortColumn($event)"
+      class="drag-column"
+      attr.data-col-ref="{{ column(columnName).config.id }}"
+      attr.id="col-id-{{ column(columnName).config.id }}"
+      [class.is-sorted]="column(columnName).config.id === sortedColumnName"
+      [class.is-sorted--asc]="column(columnName).config.id === sortedColumnName && column(columnName).currentSortDirection === 'asc'"
+      [class.is-sorted--desc]="column(columnName).config.id === sortedColumnName && column(columnName).currentSortDirection === 'desc'">
+    </th>
+  </template>
+  <th class="combo-th">
+    <div class="add-column combobox" [ngClass]="lastColumnComboboxActive ? 'is-active' : 'is-inactive'">
+      <iw-add-column
+        *ngIf="lastColumnComboboxActive"
+        [columnsConfig]="columnsConfig"
+        [visibleColumns]="visibleColumns"
+        (selected)="selectNewColumn($event)"
+      ></iw-add-column>
+      <span
+          (click)="toggleCombobox()"
+          class="add-column-button combo-toggle btn btn-sm btn-success"
+          [ngClass]="{'is-active': combobox }"
+      >+</span>
+    </div>
+  </th>
+</tr>
