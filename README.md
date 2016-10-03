@@ -1,31 +1,23 @@
 # Ng2Pack
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.15.
+a collection of **flexible UI components** and **low-level utilities** (e.g. pipes, services, and directives).
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Ng2Pack provides you with features for many common tasks during the development in Angular 2. Basically, it could be considered a starter-kit or a base package.
 
-## Code scaffolding
+### Main characteristics
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class`.
+We value flexibility above all to ensure re-usability in various use cases:
+  - Components accept a **wide range of inputs** and/or configuration.
+  - High-level components are usually composed of **smaller components** that can be used separately.
+  - **Low-level utilities** make building and composing components faster and easier
+  - Last but not least, you can use **custom templates** while taking advantage of component public API, smaller components or low-level utilities.
+  Then you should be able to easily customize components to your desire and use them regardless of your CSS framework.   
 
-## Build
+Additionally, we follow good practices and style guides.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+- **Well-tested**: Both comprehensive test suite and usability testing are necessary to verify that the components work as expected.
+- **Testable** Your application should be tested as well and this library will not stand in your way, just the opposite.
+- **Convention over configuration**: You should have an easy start despite many inputs and configuration. Intelligent defaults are provided.
+<!-- TODO: specific style guideline, e.g. do not modify input data -->
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/). 
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Deploying to Github Pages
-
-Run `ng github-pages:deploy` to deploy to Github Pages.
-
-## Further help
-
-To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+<!-- There are many other important characteristics (e.g. performance) that are not mentioned here as a main characteristic, but not neglected. -->
