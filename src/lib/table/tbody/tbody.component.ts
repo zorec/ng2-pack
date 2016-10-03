@@ -2,7 +2,7 @@ import {IwColumnLookup, IwColumnConfig, IwColumn, RowClickEvent} from './../tabl
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: '[iw-body], [iwBody]',
+  selector: '[iw-body]',
   templateUrl: './tbody.component.html',
   styleUrls: ['./tbody.component.css']
 })
@@ -30,12 +30,4 @@ export class IwTbodyComponent implements OnInit {
       index
     });
   }
-
-  isUndefined(value: any): boolean {
-    if (typeof value === 'undefined') {
-      return true;
-    }
-    return false;
-  }
-
 }

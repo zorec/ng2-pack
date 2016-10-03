@@ -10,10 +10,16 @@ import {
 
 declare var jQuery: any;
 
+export interface IwSubFieldConfig {
+  id: string;
+  isVisible: boolean;
+}
+
 export interface IwColumnConfig {
   id: string;
   text?: string;
   sortingDisabled?: boolean;
+  subFields?: IwSubFieldConfig[];
   // NOTE: allow an optional compare function
   sortType?: string; // either 'alpha' or 'num'
   defaultSortDirection?: string;  // either 'asc' or 'desc'
@@ -24,6 +30,7 @@ export interface IwColumn {
   // config is read-only, state is stored in other properties
   config: IwColumnConfig;
   currentSortDirection?: string;
+  activeFields?: string[];
 }
 
 export interface IwColumnLookup {
@@ -51,7 +58,7 @@ export const sortingCompare: CompareFunctions = {
     if (b > a) { return -1; }
     return 0;
   }
-}
+};
 
 @Component({
   selector: 'iw-table',
@@ -86,11 +93,6 @@ export class IwTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    //  nothing can be done without actual data
-    if (!this.rows && this.rows.length === 0) {
-      return;
-    }
-
     this.initializeDefaults();
   }
 
@@ -105,7 +107,9 @@ export class IwTableComponent implements OnInit, OnChanges {
     let [columnName, direction] = sortEvent;
     let cmp = sortingCompare[this.columnsLookup[columnName].config.sortType || 'other'];
     if (!cmp) {
-      console.warn(`Unsupported sortType '${this.columnsLookup[columnName].config.sortType}'. Using comparison operators: greater, less and equal (>, <, ===)`);
+      console.warn(`Unsupported sortType '${this.columnsLookup[columnName].config.sortType}' was used.` +
+        'Using comparison operators: greater, less and equal (>, <, ===)'
+      );
       cmp = sortingCompare['other'];
     }
     this.rows.sort((a: any, b: any) => cmp(a[columnName], b[columnName]));
@@ -120,7 +124,9 @@ export class IwTableComponent implements OnInit, OnChanges {
   }
 
   private initializeDefaults() {
-    this.initializeColumnConfigLookup();
+    if (typeof this.columnsLookup === 'undefined') {
+      this.initializeColumnConfigLookup();
+    }
     if (typeof this.visibleColumns === 'undefined') {
       this.initializeVisibleColumns();
     }
@@ -143,8 +149,31 @@ export class IwTableComponent implements OnInit, OnChanges {
   }
 
   private initializeColumnConfigLookup() {
-    // TODO: check columnConfig first -> it's more efficient
     this.columnsLookup = {};
+    if (typeof this.columnsConfig === 'undefined') {
+      this.detectColumnConfiguration();
+      return;
+    }
+    this.columnsConfig.forEach((columnConfig) => {
+      let activeFields: string[] = [];
+      if (typeof columnConfig.subFields !== 'undefined') {
+        activeFields = columnConfig.subFields
+          .filter((subfield) => subfield.isVisible)
+          .map((subfield) => subfield.id);
+      }
+      this.columnsLookup[columnConfig.id] = {
+        config: columnConfig,
+        activeFields
+      };
+    });
+  }
+
+  private detectColumnConfiguration() {
+    this.columnsLookup = {};
+    //  nothing can be done without actual data
+    if (!this.rows && this.rows.length === 0) {
+      return;
+    }
     this.rows.forEach(row => {
       for (let key in row) {
         if (typeof this.columnsLookup[key] === 'undefined') {
@@ -153,7 +182,7 @@ export class IwTableComponent implements OnInit, OnChanges {
           };
           this.columnsLookup[key] = {
             config: columnConfig,
-          }
+          };
         }
       }
     });

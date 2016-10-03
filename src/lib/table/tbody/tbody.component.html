@@ -1,64 +1,12 @@
 <tr *ngFor="let row of rows; let rowIndex = index" (click)="onRowClicked(row, rowIndex)">
   <template ngFor let-columnName [ngForOf]="visibleColumns" let-index="index">
-    <!-- TODO: this should not be a part of template  -->
     <td *ngIf="addingColumnIndex == index" class="combo-td"></td>
-    <td [class.is-sorted]="column(columnName).config.isSorted" attr.headers="col-id-{{ column(columnName).config.id }}">
-
-      <template [ngIf]="!column(columnName).config.subFields">
-        <span [ngSwitch]="(column(columnName).config.type)">
-          <!--
-          create types
-          <template [ngSwitchCase]="FieldTypes.Date">
-            {{ row[column(columnName).config.id] | nilDate | date: 'dd.MM.y' }}
-          </template>
-          <template [ngSwitchCase]="FieldTypes.Datetime">
-            {{ row[column(columnName).config.id] | nilDate | date: 'dd.MM.y HH:mm' }}
-          </template>
-          <template [ngSwitchCase]="FieldTypes.Time">
-            {{ row[column(columnName).config.id] | nilDate | date: 'HH:mm' }}
-          </template>
-        -->
-          <template ngSwitchDefault>
-            <span *ngIf="!isUndefined(row[column(columnName).config.id])">
-              {{ row[column(columnName).config.id] }}
-            </span>
-            <span *ngIf="isUndefined(row[column(columnName).config.id])">
-              <!-- TODO: configure an empty value default -->
-              &mdash;
-            </span>
-          </template>
-        </span>
-      </template>
-
-      <div *ngIf="column(columnName).config.subFields && column(columnName).config.subFields.length > 0 && row[column(columnName).config.id] && row[column(columnName).config.id].length > 0">
-
-        <div class="cell-list" [ngSwitch]="(column(columnName).config.id)">
-
-          <!--
-          TODO: templates for custom cells
-          <template ngSwitchCase="addr">
-            <app-results-table-cell-address [row]="row" [col]="col"></app-results-table-cell-address>
-          </template>
-
-          <template ngSwitchCase="verei">
-            <app-results-table-cell-associations [row]="row" [col]="col"></app-results-table-cell-associations>
-          </template>
-
-          <template ngSwitchCase="ausz">
-            <app-results-table-cell-awards [row]="row" [col]="col"></app-results-table-cell-awards>
-          </template>
-
-          <template ngSwitchCase="caree">
-            <app-results-table-cell-workhistory [row]="row" [col]="col"></app-results-table-cell-workhistory>
-          </template>
-
-          <template ngSwitchCase="stud">
-            <app-results-table-cell-studies [row]="row" [col]="col"></app-results-table-cell-studies>
-          </template>
-        -->
-        </div>
-
-      </div>
+    <td
+      iw-td
+      [columnConfig]="column(columnName).config"
+      [row]="row"
+      [class.is-sorted]="column(columnName).config.isSorted"
+      attr.headers="col-id-{{ column(columnName).config.id }}">
     </td>
   </template>
   <td class="combo-td"> <!-- empty for combobox --> </td>

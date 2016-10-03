@@ -6,7 +6,8 @@ import {
   ElementRef,
   OnChanges,
   forwardRef,
-  OnInit
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 declare var jQuery: any;
@@ -29,7 +30,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   styleUrls: ['select2.component.css'],
   providers: [ CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR ]
 })
-export class IwSelect2Component implements OnInit, OnChanges, ControlValueAccessor {
+export class IwSelect2Component implements OnInit, OnChanges, ControlValueAccessor, OnDestroy {
   // data for select2 dropdown
   @Input() items: Array<Select2Options>;
   @Input() tags: boolean;

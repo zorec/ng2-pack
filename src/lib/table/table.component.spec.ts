@@ -25,7 +25,7 @@ describe('Component: Table', () => {
 
   it('visibleColumns are not overriden', () => {
     component.rows = [{name: 'foo', description: 'bar'}];
-    component.visibleColumns = ['name']
+    component.visibleColumns = ['name'];
     // trigger manually since we are running 'isolated tests'
     component.ngOnChanges();
     expect(component.visibleColumns.length).toEqual(1);
@@ -41,16 +41,15 @@ describe('Component: Table', () => {
     expect(component.columnsConfig[1].id).toEqual('description');
   });
 
-  /*
-  it('initializes column configuration according to visible columns', () => {
+  it('does not override provided columns configuration', () => {
+    component.columnsConfig = [{id: 'foo', text: 'Foo'}];
     component.rows = [{name: 'foo', description: 'bar'}];
-    component.visibleColumns = ['foo']
     // trigger manually since we are running 'isolated tests'
     component.ngOnChanges();
     expect(component.columnsConfig.length).toEqual(1);
-    expect(component.columnsConfig[0].id).toEqual('name');
+    expect(component.columnsConfig[0].text).toEqual('Foo');
+    expect(component.columnsLookup['foo'].config.text).toEqual('Foo');
   });
-  */
 
   it('uses columns configuration if provided', () => {
     component.rows = [{name: 'foo', description: 'bar'}];

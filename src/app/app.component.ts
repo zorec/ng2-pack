@@ -1,3 +1,4 @@
+import {IwColumnConfig} from './../lib/table/table.component';
 import { Component } from '@angular/core';
 const today: Date = new Date();
 
@@ -8,15 +9,29 @@ const today: Date = new Date();
 })
 export class AppComponent {
   title = 'app works!';
-  columnsConfig: [
+  columnsConfig: IwColumnConfig[] = [
     {id: 'name', sortType: 'alpha'},
     {id: 'children', sortType: 'num'},
-    {id: 'birthday', sortType: 'num'}
+    {id: 'birthday', sortType: 'num'},
+    {id: 'studies', subFields: [{id: 'university', isVisible: true}]}
   ];
-  visibleColumns = ['name', 'children', 'birthday'];
+  visibleColumns = ['name', 'children', 'studies'];
   rows = [
-    {name: 'John', children: 0, birthday: today.setDate(today.getDate() - 23)},
-    {name: 'Hellen', children: 2, birthday: (today.getDate() - 1)},
+    {
+      name: 'John',
+      children: 0,
+      birthday: today.setDate(today.getDate() - 23),
+      studies: [
+        {university: 'FIT VUT'},
+        {university: 'FI TUM'}
+      ]
+    },
+    {
+      name: 'Hellen',
+      children: 2,
+      birthday: (today.getDate() - 1),
+      studies: []
+    },
     {} // testing of defaults
-  ]
+  ];
 }
