@@ -13,11 +13,23 @@ We value flexibility above all to ensure re-usability in various use cases:
   - Last but not least, you can use **custom templates** while taking advantage of component public API, smaller components or low-level utilities.
   Then you should be able to easily customize components to your desire and use them regardless of your CSS framework.   
 
-Additionally, we follow good practices and style guides.
+Additionally, we follow good practices and style guides:
 
 - **Well-tested**: Both comprehensive test suite and usability testing are necessary to verify that the components work as expected.
 - **Testable** Your application should be tested as well and this library will not stand in your way, just the opposite.
 - **Convention over configuration**: You should have an easy start despite many inputs and configuration. Intelligent defaults are provided.
+
 <!-- TODO: specific style guideline, e.g. do not modify input data -->
 
 <!-- There are many other important characteristics (e.g. performance) that are not mentioned here as a main characteristic, but not neglected. -->
+
+<!-- #### Feature status:
+
+| Feature          | Status              | Docs         |
+|------------------|---------------------|--------------|
+| Select2          |           Available | [README][1]  |
+| Table            |    Work in progress | [README][2]  |
+| Sortable items   |         Not Started |             -|
+
+[1]: https://github.com/select2/select2
+[2]: https://github.com/zorec/ng2-pack/tree/master/src/lib/table/README.md -->
