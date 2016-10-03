@@ -13,86 +13,18 @@
           </span>
         </div>
       </th>
-      <th class="drag-column"
+      <th
+        iw-th
+        [column]="column(columnName)"
+        [visibleColumns]="visibleColumns"
+        (removeColumn)="removeColumn.emit($event)"
+        (sortColumn)="onSortColumn($event)" 
+        class="drag-column"
         attr.data-col-ref="{{ column(columnName).config.id }}"
         attr.id="col-id-{{ column(columnName).config.id }}"
         [class.is-sorted]="column(columnName).config.id === sortedColumnName"
         [class.is-sorted--asc]="column(columnName).config.id === sortedColumnName && column(columnName).currentSortDirection === 'asc'"
         [class.is-sorted--desc]="column(columnName).config.id === sortedColumnName && column(columnName).currentSortDirection === 'desc'">
-
-        <span class="col-label" (click)="!column(columnName).config.sortingDisabled && onSortColumn(column(columnName))" >
-          {{ column(columnName).config.text || column(columnName).config.id  }}
-          <i *ngIf="showSortIcon(column(columnName), 'alpha', 'asc')" class="ico-col-sort ico-col-sort--asc"><i>A</i><i>Z</i><i>↓</i></i>
-          <i *ngIf="showSortIcon(column(columnName), 'alpha', 'desc')" class="ico-col-sort ico-col-sort--desc"><i>Z</i><i>A</i><i>↓</i></i>
-          <i *ngIf="showSortIcon(column(columnName), 'num', 'asc')" class="ico-col-sort ico-col-sort--asc"><i>0</i><i>9</i><i>↓</i></i>
-          <i *ngIf="showSortIcon(column(columnName), 'num', 'desc')" class="ico-col-sort ico-col-sort--desc"><i>9</i><i>0</i><i>↓</i></i>
-        </span>
-
-        <div class="btn-group col-menu" dropdown>
-          <a class="btn btn-sm btn-secondary dropdown-toggle" href [id]="column(columnName).config.id + '-dropdown'" dropdownToggle></a>
-
-          <ul class="dropdown-menu dropdown-menu-right" dropdownMenu attr.aria-labelledby="{{column(columnName).config.id}}-dropdown">
-
-            <li *ngIf="!column(columnName).config.sortingDisabled">
-              <a class="dropdown-item" (click)="onSortColumn(column(columnName), 'asc')">
-                Sortieren
-                <span *ngIf="column(columnName).config.sortType === 'num'">0&rarr;9</span>
-                <span *ngIf="column(columnName).config.sortType !== 'num'">A&rarr;Z</span>
-              </a>
-            </li>
-
-            <li *ngIf="!column(columnName).config.sortingDisabled">
-              <a class="dropdown-item" (click)="onSortColumn(column(columnName), 'desc')">
-                Sortieren
-                <span *ngIf="column(columnName).config.sortType === 'num'">9&rarr;0</span>
-                <span *ngIf="column(columnName).config.sortType !== 'numm'">Z&rarr;A</span>
-              </a>
-            </li>
-
-            <li *ngIf="!column(columnName).config.sortingDisabled" class="divider dropdown-divider"></li>
-            <!-- NOTE: should it be disabled when there are no columns to add  -->
-            <li>
-              <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox(columnIndex)">
-                Spalte links hinzufügen
-              </a>
-            </li>
-
-            <li>
-              <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox(columnIndex + 1)">
-                Spalte rechts hinzufügen
-              </a>
-            </li>
-
-            <li *ngIf="column(columnName).config.subFields" class="divider dropdown-divider"></li>
-            <li *ngIf="column(columnName).config.subFields" class="dropdown-item-group">
-              <span class="dropdown-header">Felder in der Spalte</span>
-
-              <div *ngFor="let subfield of column(columnName).config.subFields">
-                <label class="dropdown-item c-input c-checkbox">
-                  <input type="checkbox"
-                      (change)="onToggleSubfield(column(columnName).config.id, subfield.id)"
-                      [checked]="subfield.isVisible"
-                  >
-                  <span class="c-indicator"></span>
-                  {{subfield.text || subfield.id }}
-                </label>
-              </div>
-            </li>
-
-            <li class="divider dropdown-divider"></li>
-            <li>
-              <!-- disable removing column if it's the last one  -->
-              <!-- NOTE: is there a better way how to  -->
-              <a
-              [class.disabled]="visibleColumns.length === 1"
-              class="dropdown-item"
-              (click)="visibleColumns.length !== 1 && onRemoveColumn(column(columnName).config.id, columnIndex)">
-                Diese Spalte entfernen
-              </a>
-            </li>
-
-          </ul>
-        </div>
       </th>
     </template>
     <th class="combo-th">

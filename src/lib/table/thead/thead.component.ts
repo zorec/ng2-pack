@@ -61,38 +61,17 @@ export class IwTheadComponent implements OnInit {
     return this.lastColumnComboboxActive || this.addingColumnIndex === this.visibleColumns.length;
   }
 
+  onSortColumn(sortEvent: string[]) {
+    [this.sortedColumnName] = sortEvent;
+    this.sortColumn.emit(sortEvent);
+  }
+
   toggleCombobox() {
     this.lastColumnComboboxActive = !this.lastColumnComboboxActive;
     if (!this.lastColumnComboboxActive) { return; }
     // setTimeout(() => {
     //   jQuery(this.tableWrap.nativeElement).scrollLeft(99999);
     // }, 0);
-  }
-
-  showSortIcon (column: IwColumn, sortType: string, direction: string): boolean {
-    if (column.config.sortingDisabled) { return false; }
-
-    // if there's no current sort direction, then use the column's preferred/default sort direction
-    if (typeof column.currentSortDirection === 'undefined') {
-      column.currentSortDirection = column.config.defaultSortDirection;
-    }
-
-    return (column.config.sortType === sortType && column.currentSortDirection === direction);
-  }
-
-  onSortColumn (column: IwColumn, direction: string) {
-    // if we have an explicit direction, use it
-    // else if it's already sorted, then reverse the current direction
-    // otherwise, use the column's preferred/default sort direction
-    if (direction) {
-      column.currentSortDirection = direction;
-    } else if (this.sortedColumnName === column.config.id) {
-      column.currentSortDirection = column.currentSortDirection === 'asc' ? 'desc' : 'asc';
-    } else {
-      column.currentSortDirection = column.config.defaultSortDirection || 'asc';
-    }
-    this.sortedColumnName = column.config.id;
-    this.sortColumn.emit([this.sortedColumnName, column.currentSortDirection]);
   }
 
   selectNewColumn(item: {value: string}, atPosition: number) {
@@ -107,24 +86,6 @@ export class IwTheadComponent implements OnInit {
     }
     this.addColumn.emit(item.value);
     // this.visibleColumnsOutput.emit(this.visibleColumns);
-  }
-
-  onRemoveColumn(columnName: string, columnIndex: number) {
-    this.visibleColumns.splice(columnIndex, 1);
-    this.removeColumn.emit(columnName);
-  }
-
-  onToggleSubfield(columnName: string, subfieldName: string) {
-    let subfieldIndex = this.column(columnName).activeFields.indexOf(subfieldName);
-    if (subfieldIndex === -1) {
-      // it was not active, therefore it needs to be actived
-      this.column(columnName).activeFields.push(subfieldName);
-    } {
-      // it was active, therefore disable it
-      this.column(columnName).activeFields.splice(subfieldIndex, 1);
-    }
-    // TODO: emit an event
-    // this.toggleSubfield.emit(columnName);
   }
 
   addCombobox(index: number) {

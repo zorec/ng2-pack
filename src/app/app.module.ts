@@ -12,6 +12,7 @@ import { IwAddColumnComponent } from '../lib/table/add-column/add-column.compone
 
 import { DropdownModule} from 'ng2-bootstrap/ng2-bootstrap';
 import { IwTdComponent } from '../lib/table/td/td.component';
+import { IwThComponent } from '../lib/table/th/th.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { IwTdComponent } from '../lib/table/td/td.component';
     IwTbodyComponent,
     IwAddColumnComponent,
     IwSelect2Component,
-    IwTdComponent
+    IwTdComponent,
+    IwThComponent
   ],
   imports: [
     BrowserModule,

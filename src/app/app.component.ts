@@ -13,7 +13,7 @@ export class AppComponent {
     {id: 'name', sortType: 'alpha'},
     {id: 'children', sortType: 'num'},
     {id: 'birthday', sortType: 'num'},
-    {id: 'studies', subFields: [{id: 'university', isVisible: true}]}
+    {id: 'studies', sortingDisabled: true, subFields: [{id: 'university', isVisible: true}]}
   ];
   visibleColumns = ['name', 'children', 'studies'];
   rows = [
