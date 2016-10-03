@@ -48,7 +48,7 @@ export interface CompareFunctions {
   [sortType: string]: cmpFun;
 }
 export const sortingCompare: CompareFunctions = {
-  num: (a: number, b: number): number => b - a,
+  num: (a: number, b: number): number => a - b,
   alpha: (a: string, b: string): number => {
     if (typeof a === 'undefined') { return -1; }
     return a.localeCompare(b);

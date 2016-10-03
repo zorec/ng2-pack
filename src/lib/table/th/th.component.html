@@ -1,0 +1,74 @@
+<!-- NOTE: do not use pointer cursor when sorting is disabled -->
+<span class="col-label" (click)="!column.config.sortingDisabled && onSortColumn(column)" >
+  {{ column.config.text || column.config.id  }}
+  <i *ngIf="showSortIcon(column, 'alpha', 'asc')" class="ico-col-sort ico-col-sort--asc"><i>A</i><i>Z</i><i>↓</i></i>
+  <i *ngIf="showSortIcon(column, 'alpha', 'desc')" class="ico-col-sort ico-col-sort--desc"><i>Z</i><i>A</i><i>↓</i></i>
+  <i *ngIf="showSortIcon(column, 'num', 'asc')" class="ico-col-sort ico-col-sort--asc"><i>0</i><i>9</i><i>↓</i></i>
+  <i *ngIf="showSortIcon(column, 'num', 'desc')" class="ico-col-sort ico-col-sort--desc"><i>9</i><i>0</i><i>↓</i></i>
+</span>
+
+<div class="btn-group col-menu" dropdown>
+  <a class="btn btn-sm btn-secondary dropdown-toggle" href [id]="column.config.id + '-dropdown'" dropdownToggle></a>
+
+  <ul class="dropdown-menu dropdown-menu-right" dropdownMenu attr.aria-labelledby="{{column.config.id}}-dropdown">
+
+    <li *ngIf="!column.config.sortingDisabled">
+      <a class="dropdown-item" (click)="onSortColumn(column, 'asc')">
+        Sortieren
+        <span *ngIf="column.config.sortType === 'num'">0&rarr;9</span>
+        <span *ngIf="column.config.sortType !== 'num'">A&rarr;Z</span>
+      </a>
+    </li>
+
+    <li *ngIf="!column.config.sortingDisabled">
+      <a class="dropdown-item" (click)="onSortColumn(column, 'desc')">
+        Sortieren
+        <span *ngIf="column.config.sortType === 'num'">9&rarr;0</span>
+        <span *ngIf="column.config.sortType !== 'numm'">Z&rarr;A</span>
+      </a>
+    </li>
+
+    <li *ngIf="!column.config.sortingDisabled" class="divider dropdown-divider"></li>
+    <!-- NOTE: should it be disabled when there are no columns to add  -->
+    <li>
+      <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox(columnIndex)">
+        Spalte links hinzufügen
+      </a>
+    </li>
+
+    <li>
+      <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox(columnIndex + 1)">
+        Spalte rechts hinzufügen
+      </a>
+    </li>
+
+    <li *ngIf="column.config.subFields" class="divider dropdown-divider"></li>
+    <li *ngIf="column.config.subFields" class="dropdown-item-group">
+      <span class="dropdown-header">Felder in der Spalte</span>
+
+      <div *ngFor="let subfield of column.config.subFields">
+        <label class="dropdown-item c-input c-checkbox">
+          <input type="checkbox"
+              (change)="onToggleSubfield(column, subfield.id)"
+              [checked]="subfield.isVisible"
+          >
+          <span class="c-indicator"></span>
+          {{subfield.text || subfield.id }}
+        </label>
+      </div>
+    </li>
+
+    <li class="divider dropdown-divider"></li>
+    <li>
+      <!-- disable removing column if it's the last one  -->
+      <!-- NOTE: is there a better way how to  -->
+      <a
+      [class.disabled]="visibleColumns.length === 1"
+      class="dropdown-item"
+      (click)="visibleColumns.length !== 1 && onRemoveColumn(column.config.id, columnIndex)">
+        Diese Spalte entfernen
+      </a>
+    </li>
+
+  </ul>
+</div>
