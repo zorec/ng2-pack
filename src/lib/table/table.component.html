@@ -3,13 +3,8 @@
 </div>
 
 <table *ngIf="customTemplate?.children.length === 0" class="results-table table table-bordered table-striped">
-  <!-- TODO: require iw-table to reduce attributes -->
   <thead
     iw-thead
-    [columnsConfig]="columnsConfig"
-    [columnsLookup]="columnsLookup"
-    [visibleColumns]="visibleColumns"
-    [reorderingEnabled]="reorderingEnabled"
     (addColumn)="addColumn.emit($event)"
     (removeColumn)="removeColumn.emit($event)"
     (sortColumn)="onSortColumn($event)"
@@ -19,9 +14,6 @@
   <tbody
     iw-body
     [rows]="rows"
-    [columnsLookup]="columnsLookup"
-    [columnsConfig]="columnsConfig"
-    [visibleColumns]="visibleColumns"
     [addingColumnIndex]="addingColumnIndex"
     (rowClick)="onRowClicked($event)"
   ></tbody>
