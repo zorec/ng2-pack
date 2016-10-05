@@ -8,7 +8,7 @@
       <td *ngIf="addingColumnIndex == index" class="combo-td"></td>
       <td
         iw-td
-        [columnConfig]="column(columnName).config"
+        [column]="column(columnName)"
         [row]="row"
         [class.is-sorted]="column(columnName).config.isSorted"
         attr.headers="col-id-{{ column(columnName).config.id }}">

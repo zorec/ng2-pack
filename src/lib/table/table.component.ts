@@ -181,8 +181,9 @@ export class IwTableComponent implements OnInit, OnChanges {
       return;
     }
     this.rows.forEach(row => {
-      for (let key in row) {
+      Object.keys(row).forEach(key => {
         if (typeof this.columnsLookup[key] === 'undefined') {
+          // TODO: add more defaults
           let columnConfig = {
             id: key
           };
@@ -190,7 +191,7 @@ export class IwTableComponent implements OnInit, OnChanges {
             config: columnConfig,
           };
         }
-      }
+      });
     });
   }
 }

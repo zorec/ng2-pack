@@ -3,13 +3,13 @@
 </div>
 
 <div *ngIf="customTemplate?.children.length === 0">
-  <template [ngIf]="!columnConfig.subFields">
-    {{ displayValue(columnConfig, row[columnConfig.id]) }}
+  <template [ngIf]="!column.config.subFields">
+    {{ displayValue(column.config, row[column.config.id]) }}
   </template>
 
-  <div *ngIf="columnConfig.subFields && columnConfig.subFields.length > 0 && row[columnConfig.id] && row[columnConfig.id].length > 0">
+  <div *ngIf="column.config.subFields && column.config.subFields.length > 0 && row[column.config.id] && row[column.config.id].length > 0">
 
-    <div class="cell-list" [ngSwitch]="(columnConfig.id)">
+    <div class="cell-list" [ngSwitch]="(column.config.id)">
 
       <!--
       TODO: templates for custom cells

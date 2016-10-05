@@ -1,4 +1,4 @@
-import {IwColumnConfig} from './../table.component';
+import {IwColumn, IwColumnConfig} from './../table.component';
 import {DefaultValuePipe} from './../../pipes/default-value/default-value.pipe';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -9,7 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
   providers: [DefaultValuePipe]
 })
 export class IwTdComponent implements OnInit {
-  @Input() columnConfig: IwColumnConfig;
+  @Input() column: IwColumn;
   @Input() row: any;
 
   constructor(private defaultValuePipe: DefaultValuePipe) { }

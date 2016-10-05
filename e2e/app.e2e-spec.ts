@@ -7,8 +7,8 @@ describe('ng2-pack App', function() {
     page = new Ng2PackPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display message saying Data Table ', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(page.getParagraphText()).toEqual('Data Table');
   });
 });
