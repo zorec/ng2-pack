@@ -13,7 +13,7 @@
           attr.id="combobox-{{columnIndex}}">
         </iw-add-column>
         <span class="add-column-button">
-          <span (click)="addingColumnIndex = null" class="add-column-button combo-toggle btn btn-sm btn-success is-active">+</span>
+          <span (click)="onAddCombobox(undefined)" class="add-column-button combo-toggle btn btn-sm btn-success is-active">+</span>
         </span>
       </div>
     </th>
@@ -22,6 +22,7 @@
       [column]="column(columnName)"
       (removeColumn)="removeColumn.emit($event)"
       (sortColumn)="onSortColumn($event)"
+      (addCombobox)="onAddCombobox($event + columnIndex)"
       class="drag-column"
       attr.data-col-ref="{{ column(columnName).config.id }}"
       attr.id="col-id-{{ column(columnName).config.id }}"

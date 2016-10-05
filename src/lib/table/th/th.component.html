@@ -37,13 +37,13 @@
       <li *ngIf="!column.config.sortingDisabled" class="divider dropdown-divider"></li>
       <!-- NOTE: should it be disabled when there are no columns to add  -->
       <li>
-        <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox(columnIndex)">
+        <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox.emit(0)">
           Spalte links hinzufügen
         </a>
       </li>
 
       <li>
-        <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox(columnIndex + 1)">
+        <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox.emit(1)">
           Spalte rechts hinzufügen
         </a>
       </li>
