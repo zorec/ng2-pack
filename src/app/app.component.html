@@ -2,15 +2,44 @@
   {{title}}
 </h1>
 
+<h3>1. Convention over configuration</h3>
+<iw-table [rows]="rows"></iw-table>
+
+<h3>2. Customization with inputs (including input configuration) and outputs</h3>
 <p>
   {{action}}
 </p>
-
 <iw-table
  [rows]="rows"
  [(columnsConfig)]="columnsConfig"
  (rowClick)="action = 'Row ' + $event.index  + ' was clicked!'"
+ [reorderingEnabled]="false"
  [visibleColumns]="visibleColumns"
- #tableComponent
  >
+</iw-table>
+
+
+<h3>3.a Custom template (without table header)</h3>
+<iw-table [rows]="rows">
+   <tbody
+     iw-tbody
+    (rowClick)="action = 'Row ' + $event.index  + ' was clicked!'"
+   ></tbody>
+</iw-table>
+
+
+<h3>3.b Custom template (customized table header and body)</h3>
+<iw-table [rows]="rows" #tableComponent>
+  <tr>
+    <template ngFor let-columnName [ngForOf]="visibleColumns">
+      <th iw-th class="drag-column" [column]="tableComponent.columnsLookup[columnName]"></th>
+    </template>
+  </tr>
+  <tbody>
+    <tr *ngFor="let row of rows; let rowIndex = index" (click)="onRowClicked(row, rowIndex)">
+      <template ngFor let-columnName [ngForOf]="visibleColumns">
+        <td iw-td [column]="tableComponent.columnsLookup[columnName]" [row]="rows[rowIndex]"></td>
+      </template>
+    </tr>
+  </tbody>
 </iw-table>

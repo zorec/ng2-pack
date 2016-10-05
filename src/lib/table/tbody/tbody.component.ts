@@ -2,12 +2,12 @@ import {IwTableComponent, IwColumnLookup, IwColumnConfig, IwColumn, RowClickEven
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: '[iw-body]',
+  selector: '[iw-tbody]',
   templateUrl: './tbody.component.html',
   styleUrls: ['./tbody.component.css']
 })
 export class IwTbodyComponent implements OnInit {
-  @Input() rows: any[];
+  // NOTE: not sure whather this should be a public API
   @Input() addingColumnIndex: number;
 
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
@@ -15,6 +15,10 @@ export class IwTbodyComponent implements OnInit {
   constructor(private tableComponent: IwTableComponent) { }
 
   ngOnInit() {
+  }
+
+  get rows(): any[] {
+    return this.tableComponent.rows;
   }
 
   get columnsConfig(): IwColumnConfig[] {

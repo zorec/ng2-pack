@@ -15,7 +15,7 @@ export class AppComponent {
 
   }
 
-  title = 'app works!';
+  title = 'Data Table';
   columnsConfig: IwColumnConfig[] = [
     {id: 'name', sortType: 'alpha'},
     {id: 'children', sortType: 'num'},
@@ -34,22 +34,22 @@ export class AppComponent {
       sortingDisabled: true,
       subFields: [{id: 'university', isVisible: true}]}
   ];
-  visibleColumns = ['name', 'children', 'birthday', 'studies'];
+  visibleColumns = ['name', 'birthday'];
   rows = [
     {
       name: 'John',
       children: 0,
-      birthday: today.setDate(today.getDate() - 23),
-      studies: [
-        {university: 'FIT VUT'},
-        {university: 'FI TUM'}
-      ]
+      birthday: this.datePipe.transform(today.setDate(today.getDate() - 23)),
+      // studies: [
+      //   {university: 'FIT VUT'},
+      //   {university: 'FI TUM'}
+      // ]
     },
     {
       name: 'Hellen',
       children: 2,
-      birthday: (today.getDate() - 1),
-      studies: []
+      birthday: this.datePipe.transform(today.getDate() - 1),
+      // studies: []
     },
     {} // testing of defaults
   ];
