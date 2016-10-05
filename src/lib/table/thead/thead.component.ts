@@ -96,7 +96,7 @@ export class IwTheadComponent implements OnInit {
     // this.visibleColumnsOutput.emit(this.visibleColumns);
   }
 
-  addCombobox(index: number) {
+  onAddCombobox(index: number) {
     this.lastColumnComboboxActive = false;
     this.addingColumnIndex = index;
     this.addingColumn.emit(index);

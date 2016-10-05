@@ -10,6 +10,7 @@ export class IwThComponent implements OnInit {
   @Input() column: IwColumn;
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() addCombobox: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(private tableComponent: IwTableComponent) { }
 

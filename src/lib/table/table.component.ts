@@ -102,11 +102,8 @@ export class IwTableComponent implements OnInit, OnChanges {
     this.initializeDefaults();
   }
 
-  onRowClicked(row: any, index: number) {
-    this.rowClick.emit({
-      row,
-      index
-    });
+  onRowClicked(rowClickEvent: RowClickEvent) {
+    this.rowClick.emit(rowClickEvent);
   }
 
   onSortColumn(sortEvent: string[]) {
