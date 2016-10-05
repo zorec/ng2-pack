@@ -1,4 +1,4 @@
-import {IwColumn} from './../table.component';
+import {IwTableComponent, IwColumn} from './../table.component';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
@@ -8,13 +8,16 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class IwThComponent implements OnInit {
   @Input() column: IwColumn;
-  @Input() visibleColumns: string[];
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
 
-  constructor() { }
+  constructor(private tableComponent: IwTableComponent) { }
 
   ngOnInit() {
+  }
+
+  get visibleColumns(): string[] {
+    return this.tableComponent.visibleColumns;
   }
 
   onSortColumn (column: IwColumn, direction: string) {

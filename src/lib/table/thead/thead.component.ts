@@ -1,4 +1,4 @@
-import {IwColumnConfig, IwColumnLookup, IwColumn} from './../table.component';
+import {IwTableComponent, IwColumnConfig, IwColumnLookup, IwColumn} from './../table.component';
 import {
   ElementRef,
   EventEmitter,
@@ -17,11 +17,6 @@ declare var jQuery: any;
   styleUrls: ['./thead.component.scss']
 })
 export class IwTheadComponent implements OnInit {
-  @Input() columnsConfig: IwColumnConfig[];
-  @Input() columnsLookup: IwColumnLookup;
-  @Input() visibleColumns: string[];
-  @Input() reorderingEnabled: boolean;
-
   // NOTE: use immutable arrays
   // @Output('visibleColumns') visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
@@ -38,6 +33,7 @@ export class IwTheadComponent implements OnInit {
   public draggedColumnId: string | null;
 
   constructor(
+    private tableComponent: IwTableComponent,
     private elementRef: ElementRef,
     private changeDetectorRef: ChangeDetectorRef // needed to trigger change detection on jquery ui's callbacks
   ) {}
@@ -48,8 +44,16 @@ export class IwTheadComponent implements OnInit {
     }
   }
 
-  column(columnName: string): IwColumn {
-    return this.columnsLookup[columnName];
+  get columnsConfig(): IwColumnConfig[] {
+    return this.tableComponent.columnsConfig;
+  }
+
+  get visibleColumns(): string[] {
+    return this.tableComponent.visibleColumns;
+  }
+
+  get reorderingEnabled(): boolean {
+    return this.tableComponent.reorderingEnabled;
   }
 
   // TODO: implement disabling
@@ -59,6 +63,10 @@ export class IwTheadComponent implements OnInit {
 
   get isLastAddingColumnVisible() {
     return this.lastColumnComboboxActive || this.addingColumnIndex === this.visibleColumns.length;
+  }
+
+  column(columnName: string): IwColumn {
+    return this.tableComponent.columnsLookup[columnName];
   }
 
   onSortColumn(sortEvent: string[]) {
@@ -107,7 +115,7 @@ export class IwTheadComponent implements OnInit {
           .sortable( 'toArray', {
             attribute: 'data-col-ref'
           });
-        this.visibleColumns = sortedIDs;
+        this.tableComponent.visibleColumns = sortedIDs;
         this.reorderColumns.emit(sortedIDs);
         this.changeDetectorRef.detectChanges();
       },
