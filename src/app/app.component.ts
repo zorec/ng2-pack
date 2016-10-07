@@ -1,4 +1,4 @@
-import {IwColumnConfig} from './../lib/table/table.component';
+import {ColumnConfig} from './../lib/table/table.component';
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
@@ -16,7 +16,7 @@ export class AppComponent {
   }
 
   title = 'Data Table';
-  columnsConfig: IwColumnConfig[] = [
+  columnsConfig: ColumnConfig[] = [
     {id: 'name', sortType: 'alpha'},
     {id: 'children', sortType: 'num'},
     {

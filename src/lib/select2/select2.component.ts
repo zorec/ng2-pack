@@ -20,7 +20,7 @@ export type Select2Options = {
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => IwSelect2Component),
+    useExisting: forwardRef(() => Select2Component),
     multi: true
 };
 
@@ -30,7 +30,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   styleUrls: ['select2.component.css'],
   providers: [ CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR ]
 })
-export class IwSelect2Component implements OnInit, OnChanges, ControlValueAccessor, OnDestroy {
+export class Select2Component implements OnInit, OnChanges, ControlValueAccessor, OnDestroy {
   // data for select2 dropdown
   @Input() items: Array<Select2Options>;
   @Input() tags: boolean;

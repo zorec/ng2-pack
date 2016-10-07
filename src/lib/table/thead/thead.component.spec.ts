@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { IwTheadComponent } from './thead.component';
+import { TheadComponent } from './thead.component';
 
 describe('Component: Thead', () => {
   it('should create an instance', () => {
-    let component = new IwTheadComponent({}, {});
+    let component = new TheadComponent({}, {});
     expect(component).toBeTruthy();
   });
 });

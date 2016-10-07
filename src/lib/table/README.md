@@ -14,7 +14,7 @@ Features:
 ### API
 Inputs:
 - **rows**: data to be displayed in the table rows. Type: any[]
-- **columnsConfig**: Configuration of a table. Type: IwColumnConfig[]
+- **columnsConfig**: Configuration of a table. Type: ColumnConfig[]
 - **visibleColumns** Ids of initially visible columns in a table. Type: string[]
 - **reorderingEnabled** Enable/Disable drag and drop reordering of columns. Type: boolean;
 

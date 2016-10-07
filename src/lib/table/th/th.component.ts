@@ -1,4 +1,6 @@
-import {IwTableComponent, IwColumn} from './../table.component';
+import {TableComponent} from './../table.component';
+import {ColumnState} from './../column-state.class';
+
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
@@ -6,13 +8,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './th.component.html',
   styleUrls: ['./th.component.css']
 })
-export class IwThComponent implements OnInit {
-  @Input() column: IwColumn;
+export class ThComponent implements OnInit {
+  @Input() column: ColumnState;
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() addCombobox: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(private tableComponent: IwTableComponent) { }
+  constructor(private tableComponent: TableComponent) { }
 
   ngOnInit() {
   }
@@ -21,7 +23,7 @@ export class IwThComponent implements OnInit {
     return this.tableComponent.visibleColumns;
   }
 
-  onSortColumn (column: IwColumn, direction: string) {
+  onSortColumn (column: ColumnState, direction: string) {
     // if we have an explicit direction, use it
     // else if it's already sorted, then reverse the current direction
     // otherwise, use the column's preferred/default sort direction
@@ -35,7 +37,7 @@ export class IwThComponent implements OnInit {
     this.sortColumn.emit([column.config.id, column.currentSortDirection]);
   }
 
-  showSortIcon (column: IwColumn, sortType: string, direction: string): boolean {
+  showSortIcon (column: ColumnState, sortType: string, direction: string): boolean {
     if (column.config.sortingDisabled) { return false; }
 
     // if there's no current sort direction, then use the column's preferred/default sort direction
@@ -51,7 +53,7 @@ export class IwThComponent implements OnInit {
     this.removeColumn.emit(columnName);
   }
 
-  onToggleSubfield(column: IwColumn, subfieldName: string) {
+  onToggleSubfield(column: ColumnState, subfieldName: string) {
     let subfieldIndex = column.activeFields.indexOf(subfieldName);
     if (subfieldIndex === -1) {
       // it was not active, therefore it needs to be actived
