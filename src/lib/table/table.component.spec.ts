@@ -1,13 +1,13 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { IwTableComponent, RowClickEvent } from './table.component';
+import { TableComponent, RowClickEvent } from './table.component';
 
 describe('Component: Table', () => {
-  let component: IwTableComponent;
+  let component: TableComponent;
 
   beforeEach(() => {
-    component = new IwTableComponent();
+    component = new TableComponent();
   });
 
   it('should create an instance', () => {

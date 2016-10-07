@@ -1,5 +1,7 @@
-import {IwColumn, IwColumnConfig} from './../table.component';
+import {ColumnConfig} from './../table.component';
+import {ColumnState} from './../column-state.class';
 import {DefaultValuePipe} from './../../pipes/default-value/default-value.pipe';
+
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -8,8 +10,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./td.component.css'],
   providers: [DefaultValuePipe]
 })
-export class IwTdComponent implements OnInit {
-  @Input() column: IwColumn;
+export class TdComponent implements OnInit {
+  @Input() column: ColumnState;
   @Input() row: any;
 
   constructor(private defaultValuePipe: DefaultValuePipe) { }
@@ -17,7 +19,7 @@ export class IwTdComponent implements OnInit {
   ngOnInit() {
   }
 
-  displayValue(config: IwColumnConfig, value: any) {
+  displayValue(config: ColumnConfig, value: any) {
     if (!config.formatters) {
       return this.defaultValuePipe.transform(value);
     }

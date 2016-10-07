@@ -1,4 +1,4 @@
-import {IwColumnConfig} from './../table.component';
+import {ColumnConfig} from './../table.component';
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 // import {Subscription} from 'rxjs/Subscription';
 
@@ -7,8 +7,8 @@ import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core
   templateUrl: 'add-column.component.html',
   styleUrls: ['add-column.component.css']
 })
-export class IwAddColumnComponent implements OnChanges {
-  @Input() columnsConfig: IwColumnConfig[];
+export class AddColumnComponent implements OnChanges {
+  @Input() columnsConfig: ColumnConfig[];
   @Input() visibleColumns: string[];
   // TODO: focus
   @Input() focus: boolean = false;
@@ -16,7 +16,7 @@ export class IwAddColumnComponent implements OnChanges {
 
   public combobox:boolean = false;
   private value: string = null;
-  private items: IwColumnConfig[];
+  private items: ColumnConfig[];
   // private subscription: Subscription;
 
   constructor () {
@@ -24,7 +24,7 @@ export class IwAddColumnComponent implements OnChanges {
 
   ngOnChanges() {
     // TODO: categorize
-    this.items = this.columnsConfig.reduce((items: IwColumnConfig[], columnConfig: IwColumnConfig) => {
+    this.items = this.columnsConfig.reduce((items: ColumnConfig[], columnConfig: ColumnConfig) => {
       if (this.visibleColumns.indexOf(columnConfig.id) !== -1) {
         return items;
       }

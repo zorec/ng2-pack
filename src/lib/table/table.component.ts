@@ -1,3 +1,5 @@
+import {ColumnState} from './column-state.class';
+
 import {
   Component,
   EventEmitter,
@@ -11,7 +13,7 @@ import {
 
 declare var jQuery: any;
 
-export interface IwSubFieldConfig {
+export interface SubFieldConfig {
   id: string;
   isVisible: boolean;
 }
@@ -20,27 +22,19 @@ export interface DisplayFormatter extends PipeTransform {
   arguments?: Array<any>
 }
 
-export interface IwColumnConfig {
+export interface ColumnConfig {
   id: string;
   text?: string;
   sortingDisabled?: boolean;
   formatters?: DisplayFormatter[];
-  subFields?: IwSubFieldConfig[];
+  subFields?: SubFieldConfig[];
   // NOTE: allow an optional compare function
   sortType?: string; // either 'alpha' or 'num'
   defaultSortDirection?: string;  // either 'asc' or 'desc'
 }
 
-// contains all information about a column
-export interface IwColumn {
-  // config is read-only, state is stored in other properties
-  config: IwColumnConfig;
-  currentSortDirection?: string;
-  activeFields?: string[];
-}
-
-export interface IwColumnLookup {
-  [columnName: string]: IwColumn;
+export interface ColumnLookup {
+  [columnName: string]: ColumnState;
 }
 
 export interface RowClickEvent {
@@ -73,14 +67,14 @@ export const sortingCompare: CompareFunctions = {
   // TODO: enable encapsulation again
   encapsulation: ViewEncapsulation.None
 })
-export class IwTableComponent implements OnInit, OnChanges {
+export class TableComponent implements OnInit, OnChanges {
   @Input() rows: any[];
-  @Input() columnsConfig: IwColumnConfig[];
+  @Input() columnsConfig: ColumnConfig[];
   @Input() visibleColumns: string[];
   // NOTE: this default value should be specified in a configuration
   @Input() reorderingEnabled: boolean = true;
   // TODO: is this useful?
-  // @Output('columnsConfig') columnsConfigOutput: EventEmitter<IwColumnConfig[]> = new EventEmitter<IwColumnConfig[]>();
+  // @Output('columnsConfig') columnsConfigOutput: EventEmitter<ColumnConfig[]> = new EventEmitter<ColumnConfig[]>();
   // @Output('visibleColumns') visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
 
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
@@ -90,7 +84,7 @@ export class IwTableComponent implements OnInit, OnChanges {
   @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
 
-  public columnsLookup: IwColumnLookup;
+  public columnsLookup: ColumnLookup;
   public addingColumnIndex: number;
 
   constructor() { }
@@ -184,9 +178,7 @@ export class IwTableComponent implements OnInit, OnChanges {
           let columnConfig = {
             id: key
           };
-          this.columnsLookup[key] = {
-            config: columnConfig,
-          };
+          this.columnsLookup[key] = new ColumnState(columnConfig);
         }
       });
     });

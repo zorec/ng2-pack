@@ -1,4 +1,6 @@
-import {IwTableComponent, IwColumnLookup, IwColumnConfig, IwColumn, RowClickEvent} from './../table.component';
+import {TableComponent, ColumnLookup, ColumnConfig, RowClickEvent} from './../table.component';
+import {ColumnState} from './../column-state.class';
+
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -6,13 +8,13 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   templateUrl: './tbody.component.html',
   styleUrls: ['./tbody.component.css']
 })
-export class IwTbodyComponent implements OnInit {
+export class TbodyComponent implements OnInit {
   // NOTE: not sure whather this should be a public API
   @Input() addingColumnIndex: number;
 
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
 
-  constructor(private tableComponent: IwTableComponent) { }
+  constructor(private tableComponent: TableComponent) { }
 
   ngOnInit() {
   }
@@ -21,7 +23,7 @@ export class IwTbodyComponent implements OnInit {
     return this.tableComponent.rows;
   }
 
-  get columnsConfig(): IwColumnConfig[] {
+  get columnsConfig(): ColumnConfig[] {
     return this.tableComponent.columnsConfig;
   };
 
@@ -29,7 +31,7 @@ export class IwTbodyComponent implements OnInit {
     return this.tableComponent.visibleColumns;
   };
 
-  column(columnName: string): IwColumn {
+  column(columnName: string): ColumnState {
     return this.tableComponent.columnsLookup[columnName];
   }
 

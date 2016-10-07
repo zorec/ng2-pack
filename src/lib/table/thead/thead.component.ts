@@ -1,4 +1,6 @@
-import {IwTableComponent, IwColumnConfig, IwColumnLookup, IwColumn} from './../table.component';
+import {TableComponent, ColumnConfig, ColumnLookup} from './../table.component';
+import {ColumnState} from './../column-state.class';
+
 import {
   ElementRef,
   EventEmitter,
@@ -16,7 +18,7 @@ declare var jQuery: any;
   templateUrl: './thead.component.html',
   styleUrls: ['./thead.component.scss']
 })
-export class IwTheadComponent implements OnInit {
+export class TheadComponent implements OnInit {
   // NOTE: use immutable arrays
   // @Output('visibleColumns') visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
@@ -33,7 +35,7 @@ export class IwTheadComponent implements OnInit {
   public draggedColumnId: string | null;
 
   constructor(
-    private tableComponent: IwTableComponent,
+    private tableComponent: TableComponent,
     private elementRef: ElementRef,
     private changeDetectorRef: ChangeDetectorRef // needed to trigger change detection on jquery ui's callbacks
   ) {}
@@ -44,7 +46,7 @@ export class IwTheadComponent implements OnInit {
     }
   }
 
-  get columnsConfig(): IwColumnConfig[] {
+  get columnsConfig(): ColumnConfig[] {
     return this.tableComponent.columnsConfig;
   }
 
@@ -65,7 +67,7 @@ export class IwTheadComponent implements OnInit {
     return this.lastColumnComboboxActive || this.addingColumnIndex === this.visibleColumns.length;
   }
 
-  column(columnName: string): IwColumn {
+  column(columnName: string): ColumnState {
     return this.tableComponent.columnsLookup[columnName];
   }
 
