@@ -70,12 +70,14 @@ export const sortingCompare: CompareFunctions = {
 export class TableComponent implements OnInit, OnChanges {
   @Input() rows: any[];
   @Input() columnsConfig: ColumnConfig[];
-  @Input() visibleColumns: string[];
+  @Input() set visibleColumns(visibleColumns: string[]) {
+    this._visibleColumns = [...visibleColumns];
+    this.visibleColumnsOutput.emit(this._visibleColumns);
+  }
   // NOTE: this default value should be specified in a configuration
   @Input() reorderingEnabled: boolean = true;
   // TODO: is this useful?
   // @Output('columnsConfig') columnsConfigOutput: EventEmitter<ColumnConfig[]> = new EventEmitter<ColumnConfig[]>();
-  // @Output('visibleColumns') visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
 
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
@@ -83,9 +85,16 @@ export class TableComponent implements OnInit, OnChanges {
   @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
   @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
+  @Output('visibleColumns') visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
 
-  public columnsLookup: ColumnLookup;
-  public addingColumnIndex: number;
+  columnsLookup: ColumnLookup;
+  addingColumnIndex: number;
+
+  private _visibleColumns: string[];
+
+  get visibleColumns() {
+    return this._visibleColumns;
+  }
 
   constructor() { }
 

@@ -71,7 +71,7 @@
         <a
         [class.disabled]="visibleColumns.length === 1"
         class="dropdown-item"
-        (click)="visibleColumns.length !== 1 && onRemoveColumn(column.config.id, columnIndex)">
+        (click)="visibleColumns.length !== 1 && onRemoveColumn(column.config.id)">
           Diese Spalte entfernen
         </a>
       </li>

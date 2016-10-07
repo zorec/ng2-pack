@@ -48,7 +48,8 @@ export class ThComponent implements OnInit {
     return (column.config.sortType === sortType && column.currentSortDirection === direction);
   }
 
-  onRemoveColumn(columnName: string, columnIndex: number) {
+  onRemoveColumn(columnName: string) {
+    let columnIndex = this.visibleColumns.indexOf(columnName);
     this.visibleColumns.splice(columnIndex, 1);
     this.removeColumn.emit(columnName);
   }
