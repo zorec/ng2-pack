@@ -1,6 +1,6 @@
-<table #customTemplate class="results-table table table-bordered table-striped">
+<div #customTemplate>
   <ng-content></ng-content>
-</table>
+</div>
 
 <table *ngIf="customTemplate?.children.length === 0" class="results-table table table-bordered table-striped">
   <thead

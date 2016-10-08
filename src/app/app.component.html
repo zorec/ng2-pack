@@ -21,25 +21,31 @@
 
 <h3>3.a Custom template (without table header)</h3>
 <iw-table [rows]="rows">
+  <table class="results-table table table-bordered table-striped">
    <tbody
      iw-tbody
     (rowClick)="action = 'Row ' + $event.index  + ' was clicked!'"
    ></tbody>
+ </table>
 </iw-table>
 
 
 <h3>3.b Custom template (customized table header and body)</h3>
 <iw-table [rows]="rows" #tableComponent>
-  <tr>
-    <template ngFor let-columnName [ngForOf]="visibleColumns">
-      <th iw-th class="drag-column" [column]="tableComponent.columnsLookup[columnName]"></th>
-    </template>
-  </tr>
-  <tbody>
-    <tr *ngFor="let row of rows; let rowIndex = index" (click)="onRowClicked(row, rowIndex)">
-      <template ngFor let-columnName [ngForOf]="visibleColumns">
-        <td iw-td [column]="tableComponent.columnsLookup[columnName]" [row]="rows[rowIndex]"></td>
-      </template>
-    </tr>
-  </tbody>
+  <table class="results-table table table-bordered table-striped">
+    <thead>
+      <tr>
+        <template ngFor let-columnName [ngForOf]="tableComponent.visibleColumns">
+          <th iw-th class="drag-column" [column]="tableComponent.columnsLookup[columnName]"></th>
+        </template>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of rows; let rowIndex = index" (click)="onRowClicked(row, rowIndex)">
+        <template ngFor let-columnName [ngForOf]="tableComponent.visibleColumns">
+          <td iw-td [column]="tableComponent.columnsLookup[columnName]" [row]="rows[rowIndex]"></td>
+        </template>
+      </tr>
+    </tbody>
+  </table>
 </iw-table>
