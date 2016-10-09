@@ -2,13 +2,14 @@ import {TableComponent, ColumnConfig, ColumnLookup} from './../table.component';
 import {ColumnState} from './../column-state.class';
 
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
   ElementRef,
   EventEmitter,
-  Component,
-  OnInit,
   Input,
+  OnInit,
   Output,
-  ChangeDetectorRef
 } from '@angular/core';
 
 declare var jQuery: any;
@@ -18,7 +19,7 @@ declare var jQuery: any;
   templateUrl: './thead.component.html',
   styleUrls: ['./thead.component.scss']
 })
-export class TheadComponent implements OnInit {
+export class TheadComponent implements OnInit, AfterViewInit {
   // NOTE: use immutable arrays
   // @Output('visibleColumns') visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
@@ -29,10 +30,11 @@ export class TheadComponent implements OnInit {
 
   // FIXME: use iw-table
   // @ViewChild('tableWrap') tableWrap: ElementRef;
-  public lastColumnComboboxActive: boolean = false;
-  public addingColumnIndex: number | null;
-  public sortedColumnName: string | null;
-  public draggedColumnId: string | null;
+  lastColumnComboboxActive: boolean = false;
+  addingColumnIndex: number | null;
+  sortedColumnName: string | null;
+  draggedColumnId: string | null;
+  customTemplate: boolean = false;
 
   constructor(
     private tableComponent: TableComponent,
@@ -44,6 +46,12 @@ export class TheadComponent implements OnInit {
     if (this.reorderingEnabled) {
       this.initializeSortable();
     }
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.customTemplate = this.elementRef.nativeElement.children.length !== 1;
+    });
   }
 
   get columnsConfig(): ColumnConfig[] {

@@ -1,8 +1,6 @@
-<div #customTemplate>
-  <ng-content></ng-content>
-</div>
+<ng-content></ng-content>
 
-<tr *ngIf="customTemplate?.children.length === 0">
+<tr *ngIf="!customTemplate">
   <template  ngFor let-columnName [ngForOf]="visibleColumns" let-columnIndex="index">
     <th *ngIf="addingColumnIndex == columnIndex" class="combo-th">
       <div class="add-column combobox is-active">

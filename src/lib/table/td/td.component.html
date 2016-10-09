@@ -1,8 +1,4 @@
-<div #customTemplate>
-  <ng-content></ng-content>
-</div>
-
-<div *ngIf="customTemplate?.children.length === 0">
+<div>
   <template [ngIf]="!column.config.subFields">
     {{ displayValue(column.config, row[column.config.id]) }}
   </template>

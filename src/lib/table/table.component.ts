@@ -1,10 +1,11 @@
 import {ColumnState} from './column-state.class';
 
 import {
+  AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
-  OnInit,
   OnChanges,
   Output,
   PipeTransform,
@@ -67,7 +68,7 @@ export const sortingCompare: CompareFunctions = {
   // TODO: enable encapsulation again
   encapsulation: ViewEncapsulation.None
 })
-export class TableComponent implements OnInit, OnChanges {
+export class TableComponent implements OnChanges, AfterViewInit {
   @Input() rows: any[];
   @Input() columnsConfig: ColumnConfig[];
   @Input() set visibleColumns(visibleColumns: string[]) {
@@ -89,20 +90,24 @@ export class TableComponent implements OnInit, OnChanges {
 
   columnsLookup: ColumnLookup;
   addingColumnIndex: number;
+  customTemplate: boolean = false;
 
   private _visibleColumns: string[];
 
-  get visibleColumns() {
-    return this._visibleColumns;
-  }
-
-  constructor() { }
-
-  ngOnInit() {
-  }
+  constructor(private elementRef: ElementRef) {}
 
   ngOnChanges() {
     this.initializeDefaults();
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.customTemplate = this.elementRef.nativeElement.children.length !== 1;
+    });
+  }
+
+  get visibleColumns() {
+    return this._visibleColumns;
   }
 
   onRowClicked(rowClickEvent: RowClickEvent) {
