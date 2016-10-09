@@ -72,7 +72,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @Input() rows: any[];
   @Input() columnsConfig: ColumnConfig[];
   @Input() set visibleColumns(visibleColumns: string[]) {
-    this._visibleColumns = [...visibleColumns];
+    this._visibleColumns = visibleColumns;
     this.visibleColumnsOutput.emit(this._visibleColumns);
   }
   // NOTE: this default value should be specified in a configuration

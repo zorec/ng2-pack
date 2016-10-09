@@ -5,7 +5,6 @@
     <th *ngIf="addingColumnIndex == columnIndex" class="combo-th">
       <div class="add-column combobox is-active">
         <iw-add-column
-          [columnsConfig]="columnsConfig"
           [visibleColumns]="visibleColumns"
           (selected)="selectNewColumn($event, columnIndex)"
           attr.id="combobox-{{columnIndex}}">
@@ -33,7 +32,6 @@
     <div class="add-column combobox" [ngClass]="lastColumnComboboxActive ? 'is-active' : 'is-inactive'">
       <iw-add-column
         *ngIf="lastColumnComboboxActive"
-        [columnsConfig]="columnsConfig"
         [visibleColumns]="visibleColumns"
         (selected)="selectNewColumn($event)"
       ></iw-add-column>

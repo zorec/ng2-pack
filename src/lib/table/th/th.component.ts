@@ -50,7 +50,10 @@ export class ThComponent implements OnInit {
 
   onRemoveColumn(columnName: string) {
     let columnIndex = this.visibleColumns.indexOf(columnName);
-    this.visibleColumns.splice(columnIndex, 1);
+    this.tableComponent.visibleColumns = [
+      ...this.visibleColumns.slice(0, columnIndex),
+      ...this.visibleColumns.slice(columnIndex + 1),
+    ];
     this.removeColumn.emit(columnName);
   }
 
