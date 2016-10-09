@@ -17,8 +17,8 @@ export class AppComponent {
 
   title = 'Data Table';
   columnsConfig: ColumnConfig[] = [
-    {id: 'name', sortType: 'alpha'},
-    {id: 'children', sortType: 'num'},
+    {id: 'name', sortType: 'alpha', category: {id: 'person', text: 'Person'}},
+    {id: 'children', sortType: 'num', category: {id: 'person', text: 'Person'}},
     {
       id: 'birthday',
       sortType: 'num',
