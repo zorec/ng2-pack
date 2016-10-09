@@ -20,16 +20,12 @@ declare var jQuery: any;
   styleUrls: ['./thead.component.scss']
 })
 export class TheadComponent implements OnInit, AfterViewInit {
-  // NOTE: use immutable arrays
-  // @Output('visibleColumns') visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
   @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
 
-  // FIXME: use iw-table
-  // @ViewChild('tableWrap') tableWrap: ElementRef;
   lastColumnComboboxActive: boolean = false;
   addingColumnIndex: number | null;
   sortedColumnName: string | null;
@@ -66,11 +62,6 @@ export class TheadComponent implements OnInit, AfterViewInit {
     return this.tableComponent.reorderingEnabled;
   }
 
-  // TODO: implement disabling
-  get hasAllColumnsVisble(): boolean {
-    return false; // this.tableColumnService.hasAllColumnsVisible();
-  }
-
   get isLastAddingColumnVisible() {
     return this.lastColumnComboboxActive || this.addingColumnIndex === this.visibleColumns.length;
   }
@@ -87,9 +78,9 @@ export class TheadComponent implements OnInit, AfterViewInit {
   toggleCombobox() {
     this.lastColumnComboboxActive = !this.lastColumnComboboxActive;
     if (!this.lastColumnComboboxActive) { return; }
-    // setTimeout(() => {
-    //   jQuery(this.tableWrap.nativeElement).scrollLeft(99999);
-    // }, 0);
+    setTimeout(() => {
+      jQuery(this.elementRef.nativeElement).scrollLeft(99999);
+    }, 0);
   }
 
   selectNewColumn(item: {value: string}, atPosition: number) {

@@ -11,6 +11,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class ThComponent implements OnInit {
   @Input() column: ColumnState;
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
+  @Output() toggleSubfield: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() addCombobox: EventEmitter<number> = new EventEmitter<number>();
 
@@ -21,6 +22,10 @@ export class ThComponent implements OnInit {
 
   get visibleColumns(): string[] {
     return this.tableComponent.visibleColumns;
+  }
+
+  get hasAllColumnsVisble(): boolean {
+    return this.visibleColumns.length === this.tableComponent.columnsConfig.length;
   }
 
   onSortColumn (column: ColumnState, direction: string) {
@@ -66,8 +71,7 @@ export class ThComponent implements OnInit {
       // it was active, therefore disable it
       column.activeFields.splice(subfieldIndex, 1);
     }
-    // TODO: emit an event
-    // this.toggleSubfield.emit(columnName);
+    this.toggleSubfield.emit(column.config.id);
   }
 
 }

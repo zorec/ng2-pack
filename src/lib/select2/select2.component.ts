@@ -36,7 +36,7 @@ export class Select2Component implements OnInit, OnChanges, ControlValueAccessor
   @Input() tags: boolean;
   @Input() multiple: boolean;
   @Input() placeholder: string = '';
-  // TODO:
+  // TODO: blur callback
   @Output() blur = new EventEmitter();
   currentValue: string;
   private element: any;

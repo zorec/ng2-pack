@@ -17,11 +17,11 @@ export class AppComponent {
 
   title = 'Data Table';
   columnsConfig: ColumnConfig[] = [
-    {id: 'name', sortType: 'alpha', category: {id: 'person', text: 'Person'}},
-    {id: 'children', sortType: 'num', category: {id: 'person', text: 'Person'}},
+    {id: 'name', sortType: 'string', category: {id: 'person', text: 'Person'}},
+    {id: 'children', sortType: 'number', category: {id: 'person', text: 'Person'}},
     {
       id: 'birthday',
-      sortType: 'num',
+      sortType: 'number',
       formatters: [
         {
           transform: (value: any, format: string) => this.datePipe.transform(value, format),
