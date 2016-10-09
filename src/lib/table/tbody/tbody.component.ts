@@ -1,4 +1,4 @@
-import {TableComponent, ColumnLookup, ColumnConfig, RowClickEvent} from './../table.component';
+import {TableComponent, ColumnLookup, ColumnConfig} from './../table.component';
 import {ColumnState} from './../column-state.class';
 
 import {
@@ -19,7 +19,7 @@ export class TbodyComponent implements AfterViewInit {
   // NOTE: not sure whather this should be a public API
   @Input() addingColumnIndex: number;
 
-  @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
+  @Output() rowClick: EventEmitter<number> = new EventEmitter<number>();
 
   customTemplate: boolean = false;
 
@@ -52,10 +52,7 @@ export class TbodyComponent implements AfterViewInit {
     return this.tableComponent.columnsLookup[columnName];
   }
 
-  onRowClicked(row: any, index: number) {
-    this.rowClick.emit({
-      row,
-      index
-    });
+  onRowClicked(index: number) {
+    this.rowClick.emit(index);
   }
 }

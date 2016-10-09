@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-import { TableComponent, RowClickEvent } from './table.component';
+import { TableComponent } from './table.component';
 
 import {ElementRef} from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
@@ -63,11 +63,10 @@ describe('Component: Table', () => {
 
   describe('events', () => {
     it('rowClick', () => {
-      component.rowClick.subscribe((event: RowClickEvent) => {
-        expect(event.row.name).toEqual('bar');
-        expect(event.index).toEqual(1);
+      component.rowClick.subscribe((event: number) => {
+        expect(event).toEqual(1);
       });
-      component.onRowClicked({row: {name: 'bar'}, index: 1});
+      component.onRowClicked(1);
     });
   });
 });
