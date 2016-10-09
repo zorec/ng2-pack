@@ -1,13 +1,14 @@
 /* tslint:disable:no-unused-variable */
-
-import { TestBed, async } from '@angular/core/testing';
 import { TableComponent, RowClickEvent } from './table.component';
+
+import {ElementRef} from '@angular/core';
+import { TestBed, async } from '@angular/core/testing';
 
 describe('Component: Table', () => {
   let component: TableComponent;
 
   beforeEach(() => {
-    component = new TableComponent();
+    component = new TableComponent(<ElementRef>{});
   });
 
   it('should create an instance', () => {
@@ -66,7 +67,7 @@ describe('Component: Table', () => {
         expect(event.row.name).toEqual('bar');
         expect(event.index).toEqual(1);
       });
-      component.onRowClicked({name: 'bar'}, 1);
+      component.onRowClicked({row: {name: 'bar'}, index: 1});
     });
   });
 });

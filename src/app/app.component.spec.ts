@@ -1,3 +1,5 @@
+import {TdComponent} from './../lib/table/td/td.component';
+import {ThComponent} from './../lib/table/th/th.component';
 import {Select2Component} from './../lib/select2/select2.component';
 import {AddColumnComponent} from './../lib/table/add-column/add-column.component';
 import {TableComponent} from './../lib/table/table.component';
@@ -17,6 +19,8 @@ describe('App: Ng2Pack', () => {
         TableComponent,
         TheadComponent,
         TbodyComponent,
+        ThComponent,
+        TdComponent,
         AddColumnComponent,
         Select2Component,
       ],
