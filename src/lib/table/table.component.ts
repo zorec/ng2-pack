@@ -77,6 +77,8 @@ export class TableComponent implements OnChanges, AfterViewInit {
   }
   // NOTE: this default value should be specified in a configuration
   @Input() reorderingEnabled: boolean = true;
+  @Input() columnsForAddingFn: (availableColumns: ColumnConfig[]) => any[] = (id) => id
+
   // TODO: is this useful?
   // @Output('columnsConfig') columnsConfigOutput: EventEmitter<ColumnConfig[]> = new EventEmitter<ColumnConfig[]>();
 

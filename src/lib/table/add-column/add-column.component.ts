@@ -28,7 +28,7 @@ export class AddColumnComponent implements OnChanges {
         items.push(columnConfig);
       }
     });
-    this.items = items;
+    this.items = this.tableComponent.columnsForAddingFn(items);
   }
 
   public selected(value: string): void {
