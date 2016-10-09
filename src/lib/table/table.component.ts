@@ -29,6 +29,10 @@ export interface ColumnConfig {
   sortingDisabled?: boolean;
   formatters?: DisplayFormatter[];
   subFields?: SubFieldConfig[];
+  category?: {
+    id: string;
+    text: string;
+  }
   // NOTE: allow an optional compare function
   sortType?: string; // either 'alpha' or 'num'
   defaultSortDirection?: string;  // either 'asc' or 'desc'
