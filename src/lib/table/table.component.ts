@@ -42,11 +42,6 @@ export interface ColumnLookup {
   [columnName: string]: ColumnState;
 }
 
-export interface RowClickEvent {
-  row: any;
-  index: number;
-}
-
 type cmpFun = (a: any, b: any) => number;
 
 export interface CompareFunctions {
@@ -81,6 +76,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   }
   // NOTE: this default value should be specified in a configuration
   @Input() reorderingEnabled: boolean = true;
+  @Input() sortingEnabled: boolean = true;
   @Input() columnsForAddingFn: (availableColumns: ColumnConfig[]) => any[] = (id) => id
 
   // TODO: is this useful? provided by service!?
@@ -91,7 +87,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
   @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
-  @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
+  @Output() rowClick: EventEmitter<number> = new EventEmitter<number>();
   @Output('visibleColumns') visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
 
   columnsLookup: ColumnLookup;
@@ -116,11 +112,12 @@ export class TableComponent implements OnChanges, AfterViewInit {
     return this._visibleColumns;
   }
 
-  onRowClicked(rowClickEvent: RowClickEvent) {
+  onRowClicked(rowClickEvent: number) {
     this.rowClick.emit(rowClickEvent);
   }
 
   onSortColumn(sortEvent: string[]) {
+    if (!this.sortingEnabled) { return; }
     let [columnName, direction] = sortEvent;
     let cmp = sortingCompare[this.columnsLookup[columnName].config.sortType || 'other'];
     if (!cmp) {
