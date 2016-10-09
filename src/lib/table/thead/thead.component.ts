@@ -98,9 +98,13 @@ export class TheadComponent implements OnInit, AfterViewInit {
 
     if (typeof atPosition !== 'undefined') {
       // the order changed
-      this.visibleColumns.splice(atPosition, 0, item.value);
+      this.tableComponent.visibleColumns = [
+        ...this.visibleColumns.slice(0, atPosition),
+        item.value,
+        ...this.visibleColumns.slice(atPosition),
+      ]
     } else {
-      this.visibleColumns.push(item.value);
+      this.tableComponent.visibleColumns = [...this.visibleColumns, item.value];
     }
     this.addColumn.emit(item.value);
     // this.visibleColumnsOutput.emit(this.visibleColumns);
