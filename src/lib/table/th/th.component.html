@@ -3,10 +3,10 @@
   <!-- NOTE: do not use pointer cursor when sorting is disabled -->
   <span class="col-label" (click)="!column.config.sortingDisabled && onSortColumn(column)" >
     {{ column.config.text || column.config.id  }}
-    <i *ngIf="showSortIcon(column, 'alpha', 'asc')" class="ico-col-sort ico-col-sort--asc"><i>A</i><i>Z</i><i>↓</i></i>
-    <i *ngIf="showSortIcon(column, 'alpha', 'desc')" class="ico-col-sort ico-col-sort--desc"><i>Z</i><i>A</i><i>↓</i></i>
-    <i *ngIf="showSortIcon(column, 'num', 'asc')" class="ico-col-sort ico-col-sort--asc"><i>0</i><i>9</i><i>↓</i></i>
-    <i *ngIf="showSortIcon(column, 'num', 'desc')" class="ico-col-sort ico-col-sort--desc"><i>9</i><i>0</i><i>↓</i></i>
+    <i *ngIf="showSortIcon(column, 'string', 'asc')" class="ico-col-sort ico-col-sort--asc"><i>A</i><i>Z</i><i>↓</i></i>
+    <i *ngIf="showSortIcon(column, 'string', 'desc')" class="ico-col-sort ico-col-sort--desc"><i>Z</i><i>A</i><i>↓</i></i>
+    <i *ngIf="showSortIcon(column, 'number', 'asc')" class="ico-col-sort ico-col-sort--asc"><i>0</i><i>9</i><i>↓</i></i>
+    <i *ngIf="showSortIcon(column, 'number', 'desc')" class="ico-col-sort ico-col-sort--desc"><i>9</i><i>0</i><i>↓</i></i>
   </span>
 
   <div class="btn-group col-menu" dropdown>
@@ -17,15 +17,15 @@
       <li *ngIf="!column.config.sortingDisabled">
         <a class="dropdown-item" (click)="onSortColumn(column, 'asc')">
           Sortieren
-          <span *ngIf="column.config.sortType === 'num'">0&rarr;9</span>
-          <span *ngIf="column.config.sortType !== 'num'">A&rarr;Z</span>
+          <span *ngIf="column.config.sortType === 'number'">0&rarr;9</span>
+          <span *ngIf="column.config.sortType !== 'number'">A&rarr;Z</span>
         </a>
       </li>
 
       <li *ngIf="!column.config.sortingDisabled">
         <a class="dropdown-item" (click)="onSortColumn(column, 'desc')">
           Sortieren
-          <span *ngIf="column.config.sortType === 'num'">9&rarr;0</span>
+          <span *ngIf="column.config.sortType === 'number'">9&rarr;0</span>
           <span *ngIf="column.config.sortType !== 'numm'">Z&rarr;A</span>
         </a>
       </li>

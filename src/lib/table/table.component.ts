@@ -34,7 +34,7 @@ export interface ColumnConfig {
     text: string;
   }
   // NOTE: allow an optional compare function
-  sortType?: string; // either 'alpha' or 'num'
+  sortType?: string; // either 'string' or 'number'
   defaultSortDirection?: string;  // either 'asc' or 'desc'
 }
 
@@ -53,8 +53,8 @@ export interface CompareFunctions {
   [sortType: string]: cmpFun;
 }
 export const sortingCompare: CompareFunctions = {
-  num: (a: number, b: number): number => a - b,
-  alpha: (a: string, b: string): number => {
+  number: (a: number, b: number): number => a - b,
+  string: (a: string, b: string): number => {
     if (typeof a === 'undefined') { return -1; }
     return a.localeCompare(b);
   },
@@ -83,7 +83,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @Input() reorderingEnabled: boolean = true;
   @Input() columnsForAddingFn: (availableColumns: ColumnConfig[]) => any[] = (id) => id
 
-  // TODO: is this useful?
+  // TODO: is this useful? provided by service!?
   // @Output('columnsConfig') columnsConfigOutput: EventEmitter<ColumnConfig[]> = new EventEmitter<ColumnConfig[]>();
 
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
@@ -154,7 +154,6 @@ export class TableComponent implements OnChanges, AfterViewInit {
 
   private initializeVisibleColumns() {
     this.visibleColumns = Object.keys(this.columnsLookup);
-    // FIXME: emit event
   }
 
   private initializeColumnConfig() {
@@ -194,9 +193,11 @@ export class TableComponent implements OnChanges, AfterViewInit {
     this.rows.forEach(row => {
       Object.keys(row).forEach(key => {
         if (typeof this.columnsLookup[key] === 'undefined') {
-          // TODO: add more defaults
-          let columnConfig = {
-            id: key
+          let columnConfig: ColumnConfig = {
+            id: key,
+            sortType: typeof row[key],
+            sortingDisabled: false,
+            defaultSortDirection: 'asc'
           };
           this.columnsLookup[key] = new ColumnState(columnConfig);
         }
