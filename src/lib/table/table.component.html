@@ -1,8 +1,5 @@
-<div #customTemplate>
-  <ng-content></ng-content>
-</div>
-
-<table *ngIf="customTemplate?.children.length === 0" class="results-table table table-bordered table-striped">
+<ng-content></ng-content>
+<table *ngIf="!customTemplate" class="results-table table table-bordered table-striped">
   <thead
     iw-thead
     (addColumn)="addColumn.emit($event)"

@@ -1,8 +1,6 @@
-<div #customTemplate>
-  <ng-content></ng-content>
-</div>
+<ng-content></ng-content>
 
-<template [ngIf]="customTemplate?.children.length === 0">
+<template [ngIf]="!customTemplate">
   <tr *ngFor="let row of rows; let rowIndex = index" (click)="onRowClicked(row, rowIndex)">
     <template ngFor let-columnName [ngForOf]="visibleColumns" let-index="index">
       <td *ngIf="addingColumnIndex == index" class="combo-td"></td>

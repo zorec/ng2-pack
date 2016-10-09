@@ -1,22 +1,39 @@
 import {TableComponent, ColumnLookup, ColumnConfig, RowClickEvent} from './../table.component';
 import {ColumnState} from './../column-state.class';
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
 @Component({
   selector: '[iw-tbody]',
   templateUrl: './tbody.component.html',
   styleUrls: ['./tbody.component.css']
 })
-export class TbodyComponent implements OnInit {
+export class TbodyComponent implements AfterViewInit {
   // NOTE: not sure whather this should be a public API
   @Input() addingColumnIndex: number;
 
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
 
-  constructor(private tableComponent: TableComponent) { }
+  customTemplate: boolean = false;
 
-  ngOnInit() {
+  constructor(
+    private elementRef: ElementRef,
+    private tableComponent: TableComponent
+  ) { }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      // In our template we have N elements, where N is number of rows.
+      // If there is more elements, they must be projected => custom template is used
+      this.customTemplate = this.elementRef.nativeElement.children.length > this.rows.length;
+    });
   }
 
   get rows(): any[] {

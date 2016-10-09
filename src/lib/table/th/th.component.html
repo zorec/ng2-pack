@@ -1,8 +1,4 @@
-<div #customTemplate>
-  <ng-content></ng-content>
-</div>
-
-<div *ngIf="customTemplate?.children.length === 0">
+<div>
 
   <!-- NOTE: do not use pointer cursor when sorting is disabled -->
   <span class="col-label" (click)="!column.config.sortingDisabled && onSortColumn(column)" >
