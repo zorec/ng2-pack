@@ -174,10 +174,9 @@ export class TableComponent implements OnChanges, AfterViewInit {
           .filter((subfield) => subfield.isVisible)
           .map((subfield) => subfield.id);
       }
-      this.columnsLookup[columnConfig.id] = {
-        config: columnConfig,
-        activeFields
-      };
+      let columnState = new ColumnState(columnConfig);
+      columnState.activeFields = activeFields;
+      this.columnsLookup[columnConfig.id] = columnState;
     });
   }
 

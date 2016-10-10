@@ -10,6 +10,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ThComponent implements OnInit {
   @Input() column: ColumnState;
+  @Input() changeVisibility: boolean = true;
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() toggleSubfield: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
@@ -28,6 +29,21 @@ export class ThComponent implements OnInit {
     return this.visibleColumns.length === this.tableComponent.columnsConfig.length;
   }
 
+  get isLastColumn(): boolean {
+    return this.visibleColumns.length !== 1;
+  }
+
+  showSortIcon (column: ColumnState, sortType: string, direction: string): boolean {
+    if (column.config.sortingDisabled) { return false; }
+
+    // if there's no current sort direction, then use the column's preferred/default sort direction
+    if (typeof column.currentSortDirection === 'undefined') {
+      column.currentSortDirection = column.config.defaultSortDirection;
+    }
+
+    return (column.config.sortType === sortType && column.currentSortDirection === direction);
+  }
+
   onSortColumn (column: ColumnState, direction: string) {
     // if we have an explicit direction, use it
     // else if it's already sorted, then reverse the current direction
@@ -40,17 +56,6 @@ export class ThComponent implements OnInit {
       column.currentSortDirection = column.currentSortDirection === 'asc' ? 'desc' : 'asc';
     }
     this.sortColumn.emit([column.config.id, column.currentSortDirection]);
-  }
-
-  showSortIcon (column: ColumnState, sortType: string, direction: string): boolean {
-    if (column.config.sortingDisabled) { return false; }
-
-    // if there's no current sort direction, then use the column's preferred/default sort direction
-    if (typeof column.currentSortDirection === 'undefined') {
-      column.currentSortDirection = column.config.defaultSortDirection;
-    }
-
-    return (column.config.sortType === sortType && column.currentSortDirection === direction);
   }
 
   onRemoveColumn(columnName: string) {

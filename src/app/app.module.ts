@@ -1,3 +1,4 @@
+import {StudiesCellComponent} from './table-example/studies-cell.component';
 import {AppComponent} from './app.component';
 import {TableModule} from '../lib/table/table.module';
 
@@ -10,7 +11,8 @@ import { NgModule } from '@angular/core';
     TableModule,
   ],
   declarations: [
-    AppComponent
+    AppComponent,
+    StudiesCellComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

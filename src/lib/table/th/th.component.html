@@ -30,15 +30,15 @@
         </a>
       </li>
 
-      <li *ngIf="!column.config.sortingDisabled" class="divider dropdown-divider"></li>
+      <li *ngIf="!column.config.sortingDisabled && changeVisibility" class="divider dropdown-divider"></li>
       <!-- NOTE: should it be disabled when there are no columns to add  -->
-      <li>
+      <li *ngIf="changeVisibility">
         <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox.emit(0)">
           Spalte links hinzufügen
         </a>
       </li>
 
-      <li>
+      <li *ngIf="changeVisibility">
         <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox.emit(1)">
           Spalte rechts hinzufügen
         </a>
@@ -60,14 +60,14 @@
         </div>
       </li>
 
-      <li class="divider dropdown-divider"></li>
-      <li>
+      <li *ngIf="changeVisibility" class="divider dropdown-divider"></li>
+      <li *ngIf="changeVisibility">
         <!-- disable removing column if it's the last one  -->
         <!-- NOTE: is there a better way how to  -->
         <a
         [class.disabled]="visibleColumns.length === 1"
         class="dropdown-item"
-        (click)="visibleColumns.length !== 1 && onRemoveColumn(column.config.id)">
+        (click)="isLastColumn && onRemoveColumn(column.config.id)">
           Diese Spalte entfernen
         </a>
       </li>
