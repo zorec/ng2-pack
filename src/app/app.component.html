@@ -3,48 +3,71 @@
 </h1>
 
 <h3>1. Convention over configuration</h3>
+<p>Only rows attribute is a required input. Columns configuration will be initialized according row keys and values. All keys are visible by default. </p>
 <iw-table [rows]="rows"></iw-table>
 
-<h3>2. Customization with inputs (including input configuration) and outputs</h3>
+<h3>2. Customization with all available inputs and outputs</h3>
+<p>
+  You can always override defaults. Here we change by default visible columns and customize displaying of birthday column with a date pipe. We disable reordering of columns and client-side sorting. Lastly we listen to click event on rows.
+</p>
 <p>
   {{action}}
 </p>
 <iw-table
  [rows]="rows"
  [(columnsConfig)]="columnsConfig"
- (rowClick)="action = 'Row ' + $event.index  + ' was clicked!'"
+ [visibleColumns]="visibleColumns"
  [reorderingEnabled]="false"
  [sortingEnabled]="false"
- [visibleColumns]="visibleColumns"
+ (rowClick)="action = 'Row ' + $event  + ' was clicked!'"
  >
 </iw-table>
 
 
-<h3>3.a Custom template (without table header)</h3>
+<h3>3.A Custom template (without table header)</h3>
+You can provide a component template inside a iw-table element, where smaller composite directives can be used for not customized parts of template. In this case, we use 'iw-tbody' attribute to render table body.
 <iw-table [rows]="rows">
   <table class="results-table table table-bordered table-striped">
-   <tbody
-     iw-tbody
-    (rowClick)="action = 'Row ' + $event.index  + ' was clicked!'"
-   ></tbody>
+   <!-- customized table header  -->
+   <tbody iw-tbody></tbody>
  </table>
 </iw-table>
 
-
-<h3>3.b Custom template (customized table header and body)</h3>
-<iw-table [rows]="rows" #tableComponent>
+<h3>3.B Custom template (customized table header and body cells)</h3>
+<p>
+  In this example, we are rendering table header without a possibility to add/remove. We are using a public API of table component to get visibleColumns and get column state for specific field.
+</p>
+<iw-table
+  [columnsConfig]="columnsConfig"
+  [rows]="rowsWithStudies"
+  #tableComponent>
   <table class="results-table table table-bordered table-striped">
     <thead>
       <tr>
         <template ngFor let-columnName [ngForOf]="tableComponent.visibleColumns">
-          <th iw-th class="drag-column" [column]="tableComponent.columnsLookup[columnName]"></th>
+          <th
+            iw-th
+            [changeVisibility]="false"
+            [column]="tableComponent.columnsLookup[columnName]"></th>
         </template>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of rows; let rowIndex = index" (click)="onRowClicked(row, rowIndex)">
+      <tr *ngFor="let row of rowsWithStudies; let rowIndex = index">
         <template ngFor let-columnName [ngForOf]="tableComponent.visibleColumns">
-          <td iw-td [column]="tableComponent.columnsLookup[columnName]" [row]="rows[rowIndex]"></td>
+          <td
+            [class]="isCustomField(columnName)"
+            *ngIf="!isCustomField(columnName)"
+            iw-td
+            [column]="tableComponent.columnsLookup[columnName]"
+            [row]="rowsWithStudies[rowIndex]">
+          </td>
+          <td *ngIf="isCustomField(columnName)">
+            <app-studies-cell
+             [row]="row"
+             [col]="tableComponent.columnsLookup.studies">
+           </app-studies-cell>
+          </td>
         </template>
       </tr>
     </tbody>
