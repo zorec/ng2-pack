@@ -36,11 +36,12 @@ export class Select2Component implements OnInit, OnChanges, ControlValueAccessor
   @Input() tags: boolean;
   @Input() multiple: boolean;
   @Input() placeholder: string = '';
-  // TODO: blur callback
-  @Output() blur = new EventEmitter();
+  @Input() open: boolean = false;
+
+  @Output() close = new EventEmitter();
+
   currentValue: string;
   private element: any;
-
 
   constructor(private elementRef: ElementRef) {
   }
@@ -72,6 +73,9 @@ export class Select2Component implements OnInit, OnChanges, ControlValueAccessor
   onTouched = () => {}
   registerOnTouched(fn: () => {}): void { this.onTouched = fn; }
 
+  onClose(e: Event) {
+    this.close.emit(e);
+  }
 
   removeSelect2() {
     if (this.element) {
@@ -90,6 +94,9 @@ export class Select2Component implements OnInit, OnChanges, ControlValueAccessor
       this.currentValue = this.element.val();
       this.onChange(this.currentValue);
     });
+    this.element.on('select2:close', (e: Event) => {
+      this.onClose(e);
+    })
     this.elementRef.nativeElement.appendChild(this.element.get(0));
 
     this.element.select2({
@@ -100,5 +107,8 @@ export class Select2Component implements OnInit, OnChanges, ControlValueAccessor
       tags: this.tags
     });
     this.element.val(this.currentValue).trigger('change');
+    if (this.open) {
+      this.element.select2('open');
+    }
   }
 }

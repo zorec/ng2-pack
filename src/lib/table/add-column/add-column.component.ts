@@ -11,9 +11,10 @@ import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core
 })
 export class AddColumnComponent implements OnChanges {
   @Input() visibleColumns: string[];
-  // TODO: focus
-  @Input() focus: boolean = false;
+  @Input() open: boolean = true;
+
   @Output('selected') selectedOutput: EventEmitter<{value: string}> = new EventEmitter<{value: string}>();
+  @Output() close = new EventEmitter();
 
   items: Select2Options[];
   value: string = null;
