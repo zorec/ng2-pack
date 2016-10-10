@@ -6,12 +6,10 @@
       <div class="add-column combobox is-active">
         <iw-add-column
           [visibleColumns]="visibleColumns"
+          (close)="onAddCombobox(undefined)"
           (selected)="selectNewColumn($event, columnIndex)"
           attr.id="combobox-{{columnIndex}}">
         </iw-add-column>
-        <span class="add-column-button">
-          <span (click)="onAddCombobox(undefined)" class="add-column-button combo-toggle btn btn-sm btn-success is-active">+</span>
-        </span>
       </div>
     </th>
     <th
@@ -33,12 +31,14 @@
       <iw-add-column
         *ngIf="lastColumnComboboxActive"
         [visibleColumns]="visibleColumns"
+        (close)="toggleCombobox()"
         (selected)="selectNewColumn($event)"
       ></iw-add-column>
       <span
-          (click)="toggleCombobox()"
-          class="add-column-button combo-toggle btn btn-sm btn-success"
-          [ngClass]="{'is-active': combobox }"
+        *ngIf="!lastColumnComboboxActive"
+        (click)="toggleCombobox()"
+        class="add-column-button combo-toggle btn btn-sm btn-success"
+        [ngClass]="{'is-active': combobox }"
       >+</span>
     </div>
   </th>
