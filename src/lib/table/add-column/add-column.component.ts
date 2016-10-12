@@ -59,7 +59,7 @@ export class AddColumnComponent implements OnChanges {
     columns.forEach((column: ColumnConfig) => {
       let categoryId = (column.category && column.category.id) || 'Other';
       let categoryIndex = category2Index[categoryId];
-      if (!categoryIndex) {
+      if (typeof categoryIndex === 'undefined') {
         category2Index[categoryId] = index++;
         let option: Select2Options = {
           id: categoryId,
