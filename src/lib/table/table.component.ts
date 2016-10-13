@@ -84,7 +84,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
 
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
-  @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() sortColumn: EventEmitter<[string, string]> = new EventEmitter<[string, string]>();
   @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
   @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() rowClick: EventEmitter<number> = new EventEmitter<number>();
@@ -116,7 +116,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
     this.rowClick.emit(rowClickEvent);
   }
 
-  onSortColumn(sortEvent: string[]) {
+  onSortColumn(sortEvent: [string, string]) {
     if (!this.sortingEnabled) { return; }
     let [columnName, direction] = sortEvent;
     let cmp = sortingCompare[this.columnsLookup[columnName].config.sortType || 'other'];

@@ -18,9 +18,9 @@ Inputs:
 
 Output events:
 
-- **addColumn** A column was added by a user. Event data contain column id (type: string)
-- **removeColumn** A column was removed by a user. Event data contain column id (type: string)
-- **sortColumn** A column was sorted by a user. Event data contain an array of two elements(type: string[]): column id and direction either 'asc' or 'desc'.
-- **addingColumn** A column is being added at a specific position. Event data (type: number | undefined)
-- **reorderColumns** Columns were reordered. Event data contain new order of column ids (type: string[])
-- **rowClick** Row was clicked. Event data is row index.
+- **addColumn** A column was added by a user. Event data contain column id. Type: string
+- **removeColumn** A column was removed by a user. Event data contain column id. Type: string
+- **sortColumn** A column was sorted by a user. Event data contain a tuple with column id and direction, either 'asc' or 'desc'. Type: [string, string]
+- **addingColumn** A column is being added at a specific position. Event data Type. number | undefined
+- **reorderColumns** Columns were reordered. Event data contain new order of column. ids Type: string[])
+- **rowClick** Row was clicked. Event data is row index. Type: number
