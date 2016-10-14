@@ -1,0 +1,36 @@
+import {ColumnState} from './column-state.class';
+import {PipeTransform} from '@angular/core';
+
+export interface ColumnConfig {
+  id: string;
+  text?: string;
+  sortingDisabled?: boolean;
+  formatters?: DisplayFormatter[];
+  subFields?: SubFieldConfig[];
+  category?: {
+    id: string;
+    text: string;
+  }
+  // NOTE: allow an optional compare function
+  sortType?: string; // either 'string' or 'number'
+  defaultSortDirection?: string;  // either 'asc' or 'desc'
+}
+
+export interface SubFieldConfig {
+  id: string;
+  isVisible: boolean;
+}
+
+export interface ColumnLookup {
+  [columnName: string]: ColumnState;
+}
+
+type cmpFun = (a: any, b: any) => number;
+
+export interface CompareFunctions {
+  [sortType: string]: cmpFun;
+}
+
+export interface DisplayFormatter extends PipeTransform {
+  arguments?: Array<any>
+}

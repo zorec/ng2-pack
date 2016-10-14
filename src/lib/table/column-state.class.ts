@@ -1,4 +1,4 @@
-import {ColumnConfig} from './table.component';
+import {ColumnConfig} from './types';
 
 export class ColumnState {
   // config is read-only, state is stored in other properties

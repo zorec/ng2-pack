@@ -1,8 +1,8 @@
-import {ColumnConfig, TableComponent} from './../table.component';
+import {ColumnConfig} from '../types';
 import {Select2Options} from '../../select2/select2.component';
+import {TableComponent} from './../table.component';
 
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-// import {Subscription} from 'rxjs/Subscription';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
 @Component({
   selector: 'iw-add-column',

@@ -1,4 +1,4 @@
-import {ColumnConfig} from './../lib/table/table.component';
+import {ColumnConfig} from './../lib/table';
 import {TableExampleService} from './table-example/table-example.service';
 
 import { Component } from '@angular/core';

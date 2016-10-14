@@ -1,4 +1,4 @@
-import {ColumnState} from './../../lib/table/column-state.class';
+import {ColumnState} from './../../lib/table';
 
 import {Component, ElementRef, Input} from '@angular/core';
 

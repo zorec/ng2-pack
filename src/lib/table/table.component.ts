@@ -1,4 +1,5 @@
 import {ColumnState} from './column-state.class';
+import {ColumnConfig, ColumnLookup, CompareFunctions} from './types';
 
 import {
   AfterViewInit,
@@ -8,45 +9,11 @@ import {
   Input,
   OnChanges,
   Output,
-  PipeTransform,
   ViewEncapsulation,
 } from '@angular/core';
 
 declare var jQuery: any;
 
-export interface SubFieldConfig {
-  id: string;
-  isVisible: boolean;
-}
-
-export interface DisplayFormatter extends PipeTransform {
-  arguments?: Array<any>
-}
-
-export interface ColumnConfig {
-  id: string;
-  text?: string;
-  sortingDisabled?: boolean;
-  formatters?: DisplayFormatter[];
-  subFields?: SubFieldConfig[];
-  category?: {
-    id: string;
-    text: string;
-  }
-  // NOTE: allow an optional compare function
-  sortType?: string; // either 'string' or 'number'
-  defaultSortDirection?: string;  // either 'asc' or 'desc'
-}
-
-export interface ColumnLookup {
-  [columnName: string]: ColumnState;
-}
-
-type cmpFun = (a: any, b: any) => number;
-
-export interface CompareFunctions {
-  [sortType: string]: cmpFun;
-}
 export const sortingCompare: CompareFunctions = {
   number: (a: number, b: number): number => a - b,
   string: (a: string, b: string): number => {

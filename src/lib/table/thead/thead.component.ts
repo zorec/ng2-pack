@@ -1,5 +1,6 @@
-import {TableComponent, ColumnConfig, ColumnLookup} from './../table.component';
+import {ColumnConfig, ColumnLookup} from './../types';
 import {ColumnState} from './../column-state.class';
+import {TableComponent} from './../table.component';
 
 import {
   AfterViewInit,
