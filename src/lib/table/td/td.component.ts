@@ -1,4 +1,4 @@
-import {ColumnConfig} from './../table.component';
+import {ColumnConfig} from '../types';
 import {ColumnState} from './../column-state.class';
 import {DefaultValuePipe} from './../../pipes/default-value/default-value.pipe';
 
