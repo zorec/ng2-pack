@@ -1,5 +1,6 @@
 import {TableComponent, ColumnLookup, ColumnConfig} from './../table.component';
 import {ColumnState} from './../column-state.class';
+import {EditCellEvent} from '../events';
 
 import {
   AfterViewInit,
@@ -18,10 +19,16 @@ import {
 export class TbodyComponent implements AfterViewInit {
   // NOTE: not sure whather this should be a public API
   @Input() addingColumnIndex: number;
+  @Input() set inlineEditingEnabled(isEditable: boolean) {
+    this.isEditable = isEditable;
+  };
 
   @Output() rowClick: EventEmitter<number> = new EventEmitter<number>();
+  @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
 
   customTemplate: boolean = false;
+
+  private isEditable: boolean;
 
   constructor(
     private elementRef: ElementRef,
@@ -48,11 +55,19 @@ export class TbodyComponent implements AfterViewInit {
     return this.tableComponent.visibleColumns;
   };
 
+  get inlineEditingEnabled() {
+    return this.isEditable || this.tableComponent.inlineEditingEnabled;
+  }
+
   column(columnName: string): ColumnState {
     return this.tableComponent.columnsLookup[columnName];
   }
 
   onRowClicked(index: number) {
     this.rowClick.emit(index);
+  }
+
+  onEditCell(editCellEvent: EditCellEvent) {
+    this.editCell.emit(editCellEvent);
   }
 }

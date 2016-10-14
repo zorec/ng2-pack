@@ -1,11 +1,20 @@
 <ng-content></ng-content>
 
 <template [ngIf]="!customTemplate">
-  <tr *ngFor="let row of rows; let rowIndex = index" (click)="onRowClicked(rowIndex)">
+  <!-- (click)="onRowClicked(rowIndex)" FIXME: allow/disable click event if not content editing -->
+  <tr *ngFor="let row of rows; let rowIndex = index" >
     <template ngFor let-columnName [ngForOf]="visibleColumns" let-index="index">
       <td *ngIf="addingColumnIndex == index" class="combo-td"></td>
       <td
+        #tdComponent
         iw-td
+        [attr.contenteditable]="inlineEditingEnabled"
+        (blur)="tdComponent.isChanged && onEditCell([
+            tdComponent.content,
+            tdComponent.row,
+            tdComponent.column.config.id,
+            rowIndex
+          ])"
         [column]="column(columnName)"
         [row]="row"
         [class.is-sorted]="column(columnName).config.isSorted"

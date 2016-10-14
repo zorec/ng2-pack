@@ -1,9 +1,9 @@
 <div>
-  <template [ngIf]="!column.config.subFields">
-    {{ displayValue(column.config, row[column.config.id]) }}
-  </template>
+  <div *ngIf="!column.config.subFields" #contentDiv>
+    {{ formattedValue }}
+  </div>
 
-  <div *ngIf="column.config.subFields && column.config.subFields.length > 0 && row[column.config.id] && row[column.config.id].length > 0">
+  <div *ngIf="hasSubfields && cellValue && cellValue.length > 0">
 
     <div class="cell-list" [ngSwitch]="(column.config.id)">
 

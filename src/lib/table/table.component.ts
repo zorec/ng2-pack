@@ -77,6 +77,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   // NOTE: this default value should be specified in a configuration
   @Input() reorderingEnabled: boolean = true;
   @Input() sortingEnabled: boolean = true;
+  @Input() inlineEditingEnabled: boolean = false;
   @Input() columnsForAddingFn: (availableColumns: ColumnConfig[]) => any[] = (id) => id
 
   // TODO: is this useful? provided by service!?
