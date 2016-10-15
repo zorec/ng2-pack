@@ -1,10 +1,5 @@
-import {TdComponent} from './../lib/table/td/td.component';
-import {ThComponent} from './../lib/table/th/th.component';
-import {Select2Component} from './../lib/select2/select2.component';
-import {AddColumnComponent} from './../lib/table/add-column/add-column.component';
-import {TableComponent} from './../lib/table/table.component';
-import {TbodyComponent} from './../lib/table/tbody/tbody.component';
-import {TheadComponent} from './../lib/table/thead/thead.component';
+import {StudiesCellComponent} from './table-example/studies-cell.component';
+import {TableModule} from './../lib/table/table.module';
 /* tslint:disable:no-unused-variable */
 import { FormsModule } from '@angular/forms';
 
@@ -16,16 +11,11 @@ describe('App: Ng2Pack', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        TableComponent,
-        TheadComponent,
-        TbodyComponent,
-        ThComponent,
-        TdComponent,
-        AddColumnComponent,
-        Select2Component,
+        StudiesCellComponent
       ],
       imports: [
-        FormsModule
+        FormsModule,
+        TableModule
       ]
     });
   });

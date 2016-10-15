@@ -10,8 +10,8 @@ export interface ColumnConfig {
   category?: {
     id: string;
     text: string;
-  }
-  // NOTE: allow an optional compare function
+  };
+  sortCompare?: (a: any, b: any) => number
   sortType?: string; // either 'string' or 'number'
   defaultSortDirection?: string;  // either 'asc' or 'desc'
 }
@@ -32,5 +32,5 @@ export interface CompareFunctions {
 }
 
 export interface DisplayFormatter extends PipeTransform {
-  arguments?: Array<any>
+  arguments?: Array<any>;
 }

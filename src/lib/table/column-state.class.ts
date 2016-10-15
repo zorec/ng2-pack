@@ -5,7 +5,7 @@ export class ColumnState {
 
   constructor (
     public readonly config: ColumnConfig,
-    public currentSortDirection: string = 'asc',
+    public currentSortDirection = 'asc',
     public activeFields: string[] = []
   ) {}
 }

@@ -1,5 +1,6 @@
 import {ColumnState} from './column-state.class';
 import {ColumnConfig, ColumnLookup, CompareFunctions} from './types';
+import {TableSortingService} from './table-sorting.service';
 
 import {
   AfterViewInit,
@@ -13,19 +14,6 @@ import {
 } from '@angular/core';
 
 declare var jQuery: any;
-
-export const sortingCompare: CompareFunctions = {
-  number: (a: number, b: number): number => a - b,
-  string: (a: string, b: string): number => {
-    if (typeof a === 'undefined') { return -1; }
-    return a.localeCompare(b);
-  },
-  other: (a: any, b: any): number => {
-    if (a > b) { return 1; }
-    if (b > a) { return -1; }
-    return 0;
-  }
-};
 
 @Component({
   selector: 'iw-table',
@@ -64,7 +52,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
 
   private _visibleColumns: string[];
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(public elementRef: ElementRef, public tableSortingService: TableSortingService) {}
 
   ngOnChanges() {
     this.initializeDefaults();
@@ -85,24 +73,20 @@ export class TableComponent implements OnChanges, AfterViewInit {
   }
 
   onSortColumn(sortEvent: [string, string]) {
-    if (!this.sortingEnabled) { return; }
-    let [columnName, direction] = sortEvent;
-    let cmp = sortingCompare[this.columnsLookup[columnName].config.sortType || 'other'];
-    if (!cmp) {
-      console.warn(`Unsupported sortType '${this.columnsLookup[columnName].config.sortType}' was used.` +
-        'Using comparison operators: greater, less and equal (>, <, ===)'
-      );
-      cmp = sortingCompare['other'];
-    }
-    this.rows.sort((a: any, b: any) => cmp(a[columnName], b[columnName]));
-    if (direction === 'desc') {
-      this.rows.reverse();
-    }
     this.sortColumn.emit(sortEvent);
+    this.sortRows(sortEvent);
   }
 
   onAddingColumn(index: number) {
     this.addingColumnIndex = index;
+  }
+
+  sortRows(sortEvent: [string, string]) {
+    if (!this.sortingEnabled) { return; }
+    let [property, direction] = sortEvent;
+    this.rows = this.tableSortingService.sort(
+      this.rows, this.columnsLookup[property], direction
+    );
   }
 
   private initializeDefaults() {

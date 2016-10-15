@@ -7,3 +7,4 @@ export * from './th/th.component';
 export * from './td/td.component';
 export * from './add-column/add-column.component';
 export * from './column-state.class.ts';
+export * from './table-sorting.service.ts';
