@@ -1,4 +1,3 @@
-import {ColumnConfig} from '../types';
 import {ColumnState} from './../column-state.class';
 import {DefaultValuePipe} from './../../pipes/default-value/default-value.pipe';
 
@@ -22,7 +21,7 @@ export class TdComponent implements OnInit {
   }
 
   get cellValue(): any {
-    return this.row[this.column.config.id]
+    return this.row[this.column.config.id];
   }
 
   get formattedValue() {
@@ -43,6 +42,6 @@ export class TdComponent implements OnInit {
   }
 
   get hasSubfields() {
-    return this.column.config.subFields && this.column.config.subFields.length > 0
+    return this.column.config.subFields && this.column.config.subFields.length > 0;
   }
 }

@@ -96,7 +96,7 @@ export class Select2Component implements OnInit, OnChanges, ControlValueAccessor
     });
     this.element.on('select2:close', (e: Event) => {
       this.onClose(e);
-    })
+    });
     this.elementRef.nativeElement.appendChild(this.element.get(0));
 
     this.element.select2({

@@ -22,8 +22,13 @@ export const sortingCompare: CompareFunctions = {
 
 @Injectable()
 export class TableSortingService {
-  sort(rows: any[], columnState: ColumnState, direction: string = 'asc') {
-    // TODO: should I use reverse of currentSortDirection as default
+  sort(rows: any[], columnState: ColumnState, direction?: string) {
+    // if we have an explicit direction, it has the highest priority
+    // otherwise, we use the reverse the current direction
+    if (!direction) {
+      direction = columnState.currentSortDirection.toLowerCase() === 'desc' ? 'asc' : 'desc';
+    }
+    columnState.currentSortDirection = direction.toLowerCase();
 
     let sortType = columnState.config.sortType || 'other';
     let cmpFn = columnState.config.sortCompare || sortingCompare[sortType];
@@ -34,9 +39,10 @@ export class TableSortingService {
       cmpFn = sortingCompare['other'];
     }
     rows.sort((a: any, b: any) => cmpFn(a[columnState.config.id], b[columnState.config.id]));
-    if (direction.toLowerCase() === 'desc') {
+    if (columnState.currentSortDirection === 'desc') {
       rows.reverse();
     }
+
     return rows;
   }
 }

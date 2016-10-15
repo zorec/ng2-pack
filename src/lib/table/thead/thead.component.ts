@@ -1,4 +1,4 @@
-import {ColumnConfig, ColumnLookup} from './../types';
+import {ColumnConfig} from './../types';
 import {ColumnState} from './../column-state.class';
 import {TableComponent} from './../table.component';
 
@@ -8,7 +8,6 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
   OnInit,
   Output,
 } from '@angular/core';
@@ -71,7 +70,8 @@ export class TheadComponent implements OnInit, AfterViewInit {
     return this.tableComponent.columnsLookup[columnName];
   }
 
-  onSortColumn(sortEvent: string[]) {
+  onSortColumn(sortEvent: [string, string]) {
+    console.log('thead: sorted!')
     [this.sortedColumnName] = sortEvent;
     this.sortColumn.emit(sortEvent);
   }
@@ -94,7 +94,7 @@ export class TheadComponent implements OnInit, AfterViewInit {
         ...this.visibleColumns.slice(0, atPosition),
         item.value,
         ...this.visibleColumns.slice(atPosition),
-      ]
+      ];
     } else {
       this.tableComponent.visibleColumns = [...this.visibleColumns, item.value];
     }

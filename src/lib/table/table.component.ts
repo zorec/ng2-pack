@@ -1,5 +1,5 @@
 import {ColumnState} from './column-state.class';
-import {ColumnConfig, ColumnLookup, CompareFunctions} from './types';
+import {ColumnConfig, ColumnLookup} from './types';
 import {TableSortingService} from './table-sorting.service';
 
 import {
@@ -145,7 +145,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
             id: key,
             sortType: typeof row[key],
             sortingDisabled: false,
-            defaultSortDirection: 'asc'
+            initialSortDirection: 'asc'
           };
           this.columnsLookup[key] = new ColumnState(columnConfig);
         }
