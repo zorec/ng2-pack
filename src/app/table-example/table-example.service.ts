@@ -5,13 +5,12 @@ const today: Date = new Date();
 interface RowData {
   name?: string;
   children?: number;
-  birthday?: any,
-  studies?: any[]
+  birthday?: any;
+  studies?: any[];
 }
 
 @Injectable()
 export class TableExampleService {
-  constructor(private datePipe: DatePipe) {}
 
   rows: RowData[] = [
     {
@@ -50,4 +49,5 @@ export class TableExampleService {
       sortingDisabled: true,
       subFields: [{id: 'university', isVisible: true}]}
   ];
+  constructor(private datePipe: DatePipe) {}
 }

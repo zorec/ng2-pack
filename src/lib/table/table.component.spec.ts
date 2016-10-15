@@ -1,3 +1,4 @@
+import {TableSortingService} from './table-sorting.service';
 /* tslint:disable:no-unused-variable */
 import { TableComponent } from './table.component';
 
@@ -8,7 +9,7 @@ describe('Component: Table', () => {
   let component: TableComponent;
 
   beforeEach(() => {
-    component = new TableComponent(<ElementRef>{});
+    component = new TableComponent(<ElementRef>{}, new TableSortingService());
   });
 
   it('should create an instance', () => {
