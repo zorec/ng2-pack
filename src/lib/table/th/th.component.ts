@@ -1,6 +1,7 @@
 import {ColumnConfig} from './../types';
-import {TableComponent} from './../table.component';
 import {ColumnState} from './../column-state.class';
+import {SortColumnEvent} from '../events';
+import {TableComponent} from './../table.component';
 
 import {
   Component,
@@ -23,7 +24,11 @@ export class ThComponent implements OnInit {
     this._sortingEnabled = sortingEnabled;
   };
   @Input() set visibleColumns(visibleColumns: string[]) {
-    this._visibleColumns = visibleColumns;
+    if (this.tableComponent) {
+      this.tableComponent.visibleColumns = visibleColumns;
+    } else {
+      this._visibleColumns = visibleColumns;
+    }
   };
 
   @Input() set columnsConfig(columnsConfig: ColumnConfig[]) {
@@ -32,29 +37,30 @@ export class ThComponent implements OnInit {
 
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() toggleSubfield: EventEmitter<string> = new EventEmitter<string>();
-  @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() sortColumn: EventEmitter<SortColumnEvent> = new EventEmitter<SortColumnEvent>();
   @Output() addCombobox: EventEmitter<number> = new EventEmitter<number>();
 
   private _sortingEnabled: boolean;
   private _visibleColumns: string[];
   private _columnsConfig: ColumnConfig[];
+  private tableComponent: TableComponent | undefined;
 
-  // TODO: some properties could be taken from thead component
-  constructor(@Optional() private tableComponent: TableComponent) { }
+  // TODO: some properties could be taken from thead component, same for add-column.component
+  constructor(@Optional() tableComponent: TableComponent) { }
 
   ngOnInit() {
   }
 
-  get sortingEnabled() {
-    return this._sortingEnabled || (this.tableComponent && this.tableComponent.sortingEnabled);
+  get sortingEnabled(): boolean {
+    return this._sortingEnabled || this.delegateInput('sortingEnabled', false);
   }
 
   get visibleColumns(): string[] {
-    return this._visibleColumns || (this.tableComponent && this.tableComponent.visibleColumns);
+    return this._visibleColumns || this.delegateInput('visibleColumns', []);
   }
 
   get columnsConfig(): ColumnConfig[] {
-    return this._columnsConfig || (this.tableComponent && this.tableComponent.columnsConfig);
+    return this._columnsConfig || this.delegateInput('columnsConfig', []);
   }
 
   get hasAllColumnsVisble(): boolean {
@@ -81,7 +87,7 @@ export class ThComponent implements OnInit {
 
   onRemoveColumn(columnName: string) {
     let columnIndex = this.visibleColumns.indexOf(columnName);
-    this.tableComponent.visibleColumns = [
+    this.visibleColumns = [
       ...this.visibleColumns.slice(0, columnIndex),
       ...this.visibleColumns.slice(columnIndex + 1),
     ];
@@ -100,4 +106,13 @@ export class ThComponent implements OnInit {
     this.toggleSubfield.emit(column.config.id);
   }
 
+  private delegateInput<T>(propertyName: string, defaultValue: T): T {
+    if (typeof this.tableComponent === 'undefined') {
+      console.warn('TheadComponent: No parent "tableComponent" was found.' +
+        'Input "' + propertyName + '" was also not provided.');
+      return defaultValue;
+    }
+
+    return this.tableComponent[propertyName] as T;
+  }
 }

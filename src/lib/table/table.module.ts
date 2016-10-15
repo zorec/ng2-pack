@@ -8,6 +8,7 @@ import {ThComponent} from './th/th.component';
 import {DefaultValuePipe} from './../pipes/default-value/default-value.pipe';
 
 import {TableSortingService} from './table-sorting.service';
+import {TableInitService} from './table-init.service';
 
 import { DropdownModule} from 'ng2-bootstrap/ng2-bootstrap';
 
@@ -42,7 +43,8 @@ import { FormsModule } from '@angular/forms';
     DropdownModule
   ],
   providers: [
-    TableSortingService
+    TableSortingService,
+    TableInitService,
   ]
 })
 export class TableModule { }

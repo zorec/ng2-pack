@@ -1,5 +1,6 @@
+import {TableInitService} from './table-init.service';
 import {ColumnState} from './column-state.class';
-import {ColumnConfig, ColumnLookup} from './types';
+import {ColumnConfig, ColumnLookup, Row} from './types';
 import {TableSortingService} from './table-sorting.service';
 
 import {
@@ -23,7 +24,7 @@ declare var jQuery: any;
   encapsulation: ViewEncapsulation.None
 })
 export class TableComponent implements OnChanges, AfterViewInit {
-  @Input() rows: any[];
+  @Input() rows: Row[];
   @Input() columnsConfig: ColumnConfig[];
   @Input() set visibleColumns(visibleColumns: string[]) {
     this._visibleColumns = visibleColumns;
@@ -33,7 +34,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @Input() reorderingEnabled: boolean = true;
   @Input() sortingEnabled: boolean = true;
   @Input() inlineEditingEnabled: boolean = false;
-  @Input() columnsForAddingFn: (availableColumns: ColumnConfig[]) => any[] = (id) => id
+  // @Input() columnsForAddingFn: (availableColumns: ColumnConfig[]) => any[] = (id) => id
 
   // TODO: is this useful? provided by service!?
   // @Output('columnsConfig') columnsConfigOutput: EventEmitter<ColumnConfig[]> = new EventEmitter<ColumnConfig[]>();
@@ -52,7 +53,11 @@ export class TableComponent implements OnChanges, AfterViewInit {
 
   private _visibleColumns: string[];
 
-  constructor(public elementRef: ElementRef, public tableSortingService: TableSortingService) {}
+  constructor(
+    public elementRef: ElementRef,
+    public tableSortingService: TableSortingService,
+    public tableInitService: TableInitService
+  ) {}
 
   ngOnChanges() {
     this.initializeDefaults();
@@ -114,28 +119,17 @@ export class TableComponent implements OnChanges, AfterViewInit {
   }
 
   private initializeColumnConfigLookup() {
-    this.columnsLookup = {};
     if (typeof this.columnsConfig === 'undefined') {
       this.detectColumnConfiguration();
       return;
     }
-    this.columnsConfig.forEach((columnConfig) => {
-      let activeFields: string[] = [];
-      if (typeof columnConfig.subFields !== 'undefined') {
-        activeFields = columnConfig.subFields
-          .filter((subfield) => subfield.isVisible)
-          .map((subfield) => subfield.id);
-      }
-      let columnState = new ColumnState(columnConfig);
-      columnState.activeFields = activeFields;
-      this.columnsLookup[columnConfig.id] = columnState;
-    });
+    this.columnsLookup = this.tableInitService.columnsConfig2Lookup(this.columnsConfig);
   }
 
   private detectColumnConfiguration() {
     this.columnsLookup = {};
     //  nothing can be done without actual data
-    if (!this.rows && this.rows.length === 0) {
+    if (typeof this.rows === 'undefined' || this.rows.length === 0) {
       return;
     }
     this.rows.forEach(row => {

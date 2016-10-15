@@ -12,10 +12,16 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 declare var jQuery: any;
 
-export type Select2Options = {
+export type Select2Option = Select2ItemOption | Select2CategorizedOption;
+
+export type Select2ItemOption = {
   text: string;
   id: string;
-  children?: Select2Options[]
+}
+
+export type Select2CategorizedOption = {
+  text: string;
+  children: Select2ItemOption[]
 }
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
@@ -32,7 +38,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class Select2Component implements OnInit, OnChanges, ControlValueAccessor, OnDestroy {
   // data for select2 dropdown
-  @Input() items: Array<Select2Options>;
+  @Input() items: Array<Select2Option>;
   @Input() tags: boolean;
   @Input() multiple: boolean;
   @Input() placeholder: string = '';

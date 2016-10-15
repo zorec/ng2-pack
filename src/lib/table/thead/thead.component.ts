@@ -1,6 +1,7 @@
-import {ColumnConfig} from './../types';
+import {ColumnConfig, ColumnLookup} from './../types';
 import {ColumnState} from './../column-state.class';
 import {TableComponent} from './../table.component';
+import {TableInitService} from '../table-init.service';
 
 import {
   AfterViewInit,
@@ -10,6 +11,7 @@ import {
   EventEmitter,
   OnInit,
   Output,
+  Optional,
 } from '@angular/core';
 
 declare var jQuery: any;
@@ -32,11 +34,20 @@ export class TheadComponent implements OnInit, AfterViewInit {
   draggedColumnId: string | null;
   customTemplate: boolean = false;
 
+  private _columnsConfig: ColumnConfig[];
+  private _visibleColumns: string[];
+  private _reorderingEnabled: boolean;
+  private _columnsLookup: ColumnLookup;
+  private tableComponent: TableComponent | undefined;
+
   constructor(
-    private tableComponent: TableComponent,
+    @Optional() tableComponent: TableComponent,
     private elementRef: ElementRef,
-    private changeDetectorRef: ChangeDetectorRef // needed to trigger change detection on jquery ui's callbacks
-  ) {}
+    private changeDetectorRef: ChangeDetectorRef, // needed to trigger change detection on jquery ui's callbacks
+    private tableInitService: TableInitService
+  ) {
+    this.tableComponent = tableComponent;
+  }
 
   ngOnInit() {
     if (this.reorderingEnabled) {
@@ -51,15 +62,34 @@ export class TheadComponent implements OnInit, AfterViewInit {
   }
 
   get columnsConfig(): ColumnConfig[] {
-    return this.tableComponent.columnsConfig;
+    return this._columnsConfig || this.delegateInput('columnsConfig', []);
+  }
+
+  get columnsLookup(): ColumnLookup {
+    let columnsLookup = this._columnsLookup ||
+      (this.tableComponent && this.tableComponent.columnsLookup);
+    if (typeof columnsLookup === 'undefined') {
+      columnsLookup = this.tableInitService.columnsConfig2Lookup(this.columnsConfig);
+      this._columnsLookup = columnsLookup;
+    }
+    return columnsLookup;
   }
 
   get visibleColumns(): string[] {
-    return this.tableComponent.visibleColumns;
+    return this._visibleColumns || this.delegateInput('visibleColumns', []);
+  }
+
+  set visibleColumns(visibleColumns: string[]) {
+    if (this.tableComponent) {
+      this.tableComponent.visibleColumns = visibleColumns;
+    } else {
+      this._visibleColumns = visibleColumns;
+      // NOTE: what about output event
+    }
   }
 
   get reorderingEnabled(): boolean {
-    return this.tableComponent.reorderingEnabled;
+    return this._reorderingEnabled || this.delegateInput('reorderingEnabled', false);
   }
 
   get isLastAddingColumnVisible() {
@@ -67,11 +97,10 @@ export class TheadComponent implements OnInit, AfterViewInit {
   }
 
   column(columnName: string): ColumnState {
-    return this.tableComponent.columnsLookup[columnName];
+    return this.columnsLookup[columnName];
   }
 
   onSortColumn(sortEvent: [string, string]) {
-    console.log('thead: sorted!')
     [this.sortedColumnName] = sortEvent;
     this.sortColumn.emit(sortEvent);
   }
@@ -90,13 +119,13 @@ export class TheadComponent implements OnInit, AfterViewInit {
 
     if (typeof atPosition !== 'undefined') {
       // the order changed
-      this.tableComponent.visibleColumns = [
+      this.visibleColumns = [
         ...this.visibleColumns.slice(0, atPosition),
         item.value,
         ...this.visibleColumns.slice(atPosition),
       ];
     } else {
-      this.tableComponent.visibleColumns = [...this.visibleColumns, item.value];
+      this.visibleColumns = [...this.visibleColumns, item.value];
     }
     this.addColumn.emit(item.value);
     // this.visibleColumnsOutput.emit(this.visibleColumns);
@@ -121,7 +150,7 @@ export class TheadComponent implements OnInit, AfterViewInit {
           .sortable( 'toArray', {
             attribute: 'data-col-ref'
           });
-        this.tableComponent.visibleColumns = sortedIDs;
+        this.visibleColumns = sortedIDs;
         this.reorderColumns.emit(sortedIDs);
         this.changeDetectorRef.detectChanges();
       },
@@ -136,5 +165,15 @@ export class TheadComponent implements OnInit, AfterViewInit {
       // }
     });
     jQuery(this.elementRef.nativeElement).disableSelection();
+  }
+
+  private delegateInput<T>(propertyName: string, defaultValue: T): T {
+    if (typeof this.tableComponent === 'undefined') {
+      console.warn('TheadComponent: No parent "tableComponent" was found.' +
+        'Input "' + propertyName + '" was also not provided.');
+      return defaultValue;
+    }
+
+    return this.tableComponent[propertyName] as T;
   }
 }

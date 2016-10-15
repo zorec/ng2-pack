@@ -34,3 +34,7 @@ export interface CompareFunctions {
 export interface DisplayFormatter extends PipeTransform {
   arguments?: Array<any>;
 }
+
+export type Row = {
+  [property: string]: any
+}
