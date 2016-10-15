@@ -12,5 +12,6 @@
     iw-tbody
     [addingColumnIndex]="addingColumnIndex"
     (rowClick)="onRowClicked($event)"
+    (editCell)="editCell.emit($event)"
   ></tbody>
 </table>

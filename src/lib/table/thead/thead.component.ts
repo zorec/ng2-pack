@@ -41,10 +41,10 @@ export class TheadComponent implements OnInit, AfterViewInit {
   private tableComponent: TableComponent | undefined;
 
   constructor(
-    @Optional() tableComponent: TableComponent,
     private elementRef: ElementRef,
     private changeDetectorRef: ChangeDetectorRef, // needed to trigger change detection on jquery ui's callbacks
-    private tableInitService: TableInitService
+    private tableInitService: TableInitService,
+    @Optional() tableComponent: TableComponent
   ) {
     this.tableComponent = tableComponent;
   }
@@ -84,7 +84,7 @@ export class TheadComponent implements OnInit, AfterViewInit {
       this.tableComponent.visibleColumns = visibleColumns;
     } else {
       this._visibleColumns = visibleColumns;
-      // NOTE: what about output event
+      // NOTE: what about output events?
     }
   }
 
@@ -94,23 +94,6 @@ export class TheadComponent implements OnInit, AfterViewInit {
 
   get isLastAddingColumnVisible() {
     return this.lastColumnComboboxActive || this.addingColumnIndex === this.visibleColumns.length;
-  }
-
-  column(columnName: string): ColumnState {
-    return this.columnsLookup[columnName];
-  }
-
-  onSortColumn(sortEvent: [string, string]) {
-    [this.sortedColumnName] = sortEvent;
-    this.sortColumn.emit(sortEvent);
-  }
-
-  toggleCombobox() {
-    this.lastColumnComboboxActive = !this.lastColumnComboboxActive;
-    if (!this.lastColumnComboboxActive) { return; }
-    setTimeout(() => {
-      jQuery(this.elementRef.nativeElement).scrollLeft(99999);
-    }, 0);
   }
 
   selectNewColumn(item: {value: string}, atPosition: number) {
@@ -131,10 +114,23 @@ export class TheadComponent implements OnInit, AfterViewInit {
     // this.visibleColumnsOutput.emit(this.visibleColumns);
   }
 
+  toggleCombobox() {
+    this.lastColumnComboboxActive = !this.lastColumnComboboxActive;
+    if (!this.lastColumnComboboxActive) { return; }
+    setTimeout(() => {
+      jQuery(this.elementRef.nativeElement).scrollLeft(99999);
+    }, 0);
+  }
+
   onAddCombobox(index: number) {
     this.lastColumnComboboxActive = false;
     this.addingColumnIndex = index;
     this.addingColumn.emit(index);
+  }
+
+  onSortColumn(sortEvent: [string, string]) {
+    [this.sortedColumnName] = sortEvent;
+    this.sortColumn.emit(sortEvent);
   }
 
   private initializeSortable() {
@@ -154,7 +150,7 @@ export class TheadComponent implements OnInit, AfterViewInit {
         this.reorderColumns.emit(sortedIDs);
         this.changeDetectorRef.detectChanges();
       },
-      // NOTE: provided additional information about dragging
+      // NOTE: provide additional information about dragging
       // when dragging is started
       // activate: (event: any, ui: any) => {
       //   this.draggedColumnId = ui.item.attr('data-col-ref');

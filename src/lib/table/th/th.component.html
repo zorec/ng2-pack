@@ -63,7 +63,7 @@
       <li *ngIf="changeVisibility" class="divider dropdown-divider"></li>
       <li *ngIf="changeVisibility">
         <!-- disable removing column if it's the last one  -->
-        <!-- NOTE: is there a better way how to  -->
+        <!-- NOTE: is there a better way how to indicate that -->
         <a
         [class.disabled]="visibleColumns.length === 1"
         class="dropdown-item"

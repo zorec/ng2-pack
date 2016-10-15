@@ -36,6 +36,7 @@ export class ThComponent implements OnInit {
   };
 
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
+  // TODO: this needs to be propagated upwards
   @Output() toggleSubfield: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<SortColumnEvent> = new EventEmitter<SortColumnEvent>();
   @Output() addCombobox: EventEmitter<number> = new EventEmitter<number>();
