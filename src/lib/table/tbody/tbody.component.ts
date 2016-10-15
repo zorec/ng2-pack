@@ -20,7 +20,7 @@ import {
   styleUrls: ['./tbody.component.css']
 })
 export class TbodyComponent implements AfterViewInit {
-  // NOTE: not sure whather this should be a public API
+  // NOTE: not sure weather this should be a public API
   @Input() addingColumnIndex: number;
   @Input() set inlineEditingEnabled(isEditable: boolean) {
     this.isEditable = isEditable;
@@ -44,7 +44,7 @@ export class TbodyComponent implements AfterViewInit {
   constructor(
     private elementRef: ElementRef,
     private tableInitService: TableInitService,
-    @Optional() tableComponent: TableComponent
+    @Optional() tableComponent: TableComponent,
   ) { }
 
   ngAfterViewInit() {
