@@ -37,6 +37,7 @@ export class TableExampleService {
     {
       id: 'birthday',
       sortType: 'number',
+      initialSortDirection: 'desc',
       formatters: [
         {
           transform: (value: any, format: string) => this.datePipe.transform(value, format),

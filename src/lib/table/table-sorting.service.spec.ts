@@ -41,7 +41,7 @@ describe('Service: TableSortingService', () => {
     expect(result[2].bar).toEqual(undefined);
   });
 
-  fit('uses default sorting for unknown sortType', () => {
+  it('uses default sorting for unknown sortType', () => {
     let columnState = new ColumnState({id: 'bar', sortType: 'unknow'});
     let result = service.sort(rows, columnState, 'DESC');
     expect(result[0].bar).toEqual(undefined);
@@ -59,12 +59,33 @@ describe('Service: TableSortingService', () => {
     let numbers = [{bar: 16}, {bar: 42}, {bar: 0}, {bar: -42}, {bar: 100}, {bar: undefined}];
     let columnState = new ColumnState({id: 'bar', sortCompare});
     let result = service.sort(numbers, columnState, 'desc');
-    expect(result[0].bar).toEqual(undefined);
-    expect(result[1].bar).toEqual(42);
+    console.log(result.map(a => a.bar).join());
+    expect(result[0].bar).toEqual(42);
+    expect(result[1].bar).toEqual(undefined);
     expect(result[2].bar).toEqual(100);
     expect(result[3].bar).toEqual(16);
     expect(result[4].bar).toEqual(0);
     expect(result[5].bar).toEqual(-42);
+  });
+
+  describe('sets correct currentSortDirection', () => {
+    it('provided direction has the highest priority', () => {
+      let columnState = new ColumnState({id: 'foo'}, 'asc');
+      service.sort([], columnState, 'asc');
+      expect(columnState.currentSortDirection).toEqual('asc');
+    });
+
+    it('reverses current sort', () => {
+      let columnState = new ColumnState({id: 'foo'}, 'desc');
+      service.sort([], columnState);
+      expect(columnState.currentSortDirection).toEqual('asc');
+    });
+
+    it('uses default sort direction', () => {
+      let columnState = new ColumnState({id: 'foo'});
+      service.sort([], columnState);
+      expect(columnState.currentSortDirection).toEqual('asc');
+    });
   });
 
   // NOTE: test sorting stability

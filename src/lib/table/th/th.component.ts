@@ -1,7 +1,15 @@
+import {ColumnConfig} from './../types';
 import {TableComponent} from './../table.component';
 import {ColumnState} from './../column-state.class';
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  Optional,
+} from '@angular/core';
 
 @Component({
   selector: '[iw-th]',
@@ -11,51 +19,64 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class ThComponent implements OnInit {
   @Input() column: ColumnState;
   @Input() changeVisibility: boolean = true;
+  @Input() set sortingEnabled(sortingEnabled: boolean) {
+    this._sortingEnabled = sortingEnabled;
+  };
+  @Input() set visibleColumns(visibleColumns: string[]) {
+    this._visibleColumns = visibleColumns;
+  };
+
+  @Input() set columnsConfig(columnsConfig: ColumnConfig[]) {
+    this._columnsConfig = columnsConfig;
+  };
+
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() toggleSubfield: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() addCombobox: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(private tableComponent: TableComponent) { }
+  private _sortingEnabled: boolean;
+  private _visibleColumns: string[];
+  private _columnsConfig: ColumnConfig[];
+
+  // TODO: some properties could be taken from thead component
+  constructor(@Optional() private tableComponent: TableComponent) { }
 
   ngOnInit() {
   }
 
+  get sortingEnabled() {
+    return this._sortingEnabled || (this.tableComponent && this.tableComponent.sortingEnabled);
+  }
+
   get visibleColumns(): string[] {
-    return this.tableComponent.visibleColumns;
+    return this._visibleColumns || (this.tableComponent && this.tableComponent.visibleColumns);
+  }
+
+  get columnsConfig(): ColumnConfig[] {
+    return this._columnsConfig || (this.tableComponent && this.tableComponent.columnsConfig);
   }
 
   get hasAllColumnsVisble(): boolean {
-    return this.visibleColumns.length === this.tableComponent.columnsConfig.length;
+    return this.visibleColumns.length === this.columnsConfig.length;
   }
 
   get isLastColumn(): boolean {
     return this.visibleColumns.length !== 1;
   }
 
+  isSortingDisabled(column: ColumnState) {
+    return !this.sortingEnabled || column.config.sortingDisabled;
+  }
+
   showSortIcon (column: ColumnState, sortType: string, direction: string): boolean {
-    if (column.config.sortingDisabled) { return false; }
-
-    // if there's no current sort direction, then use the column's preferred/default sort direction
-    if (typeof column.currentSortDirection === 'undefined') {
-      column.currentSortDirection = column.config.defaultSortDirection;
-    }
-
+    if (this.isSortingDisabled(column)) { return false; }
     return (column.config.sortType === sortType && column.currentSortDirection === direction);
   }
 
-  onSortColumn (column: ColumnState, direction: string) {
-    // if we have an explicit direction, use it
-    // else if it's already sorted, then reverse the current direction
-    // otherwise, use the column's preferred/default sort direction
-    if (direction) {
-      column.currentSortDirection = direction;
-    } else if (typeof column.currentSortDirection === 'undefined') {
-      column.currentSortDirection = column.config.defaultSortDirection || 'asc';
-    } else {
-      column.currentSortDirection = column.currentSortDirection === 'asc' ? 'desc' : 'asc';
-    }
-    this.sortColumn.emit([column.config.id, column.currentSortDirection]);
+  onSortColumn (column: ColumnState, direction?: string) {
+    if (this.isSortingDisabled(column)) { return; }
+    this.sortColumn.emit([column.config.id, direction]);
   }
 
   onRemoveColumn(columnName: string) {

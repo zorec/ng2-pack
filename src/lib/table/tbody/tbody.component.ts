@@ -1,4 +1,4 @@
-import {ColumnConfig, ColumnLookup} from '../types';
+import {ColumnConfig} from '../types';
 import {ColumnState} from './../column-state.class';
 import {EditCellEvent} from '../events';
 import {TableComponent} from './../table.component';

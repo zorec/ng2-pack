@@ -1,7 +1,7 @@
 <div>
 
   <!-- NOTE: do not use pointer cursor when sorting is disabled -->
-  <span class="col-label" (click)="!column.config.sortingDisabled && onSortColumn(column)" >
+  <span class="col-label" (click)="onSortColumn(column)" >
     {{ column.config.text || column.config.id  }}
     <i *ngIf="showSortIcon(column, 'string', 'asc')" class="ico-col-sort ico-col-sort--asc"><i>A</i><i>Z</i><i>↓</i></i>
     <i *ngIf="showSortIcon(column, 'string', 'desc')" class="ico-col-sort ico-col-sort--desc"><i>Z</i><i>A</i><i>↓</i></i>
@@ -14,7 +14,7 @@
 
     <ul class="dropdown-menu dropdown-menu-right" dropdownMenu attr.aria-labelledby="{{column.config.id}}-dropdown">
 
-      <li *ngIf="!column.config.sortingDisabled">
+      <li *ngIf="!isSortingDisabled(column)">
         <a class="dropdown-item" (click)="onSortColumn(column, 'asc')">
           Sortieren
           <span *ngIf="column.config.sortType === 'number'">0&rarr;9</span>
@@ -22,7 +22,7 @@
         </a>
       </li>
 
-      <li *ngIf="!column.config.sortingDisabled">
+      <li *ngIf="!isSortingDisabled(column)">
         <a class="dropdown-item" (click)="onSortColumn(column, 'desc')">
           Sortieren
           <span *ngIf="column.config.sortType === 'number'">9&rarr;0</span>
@@ -30,7 +30,7 @@
         </a>
       </li>
 
-      <li *ngIf="!column.config.sortingDisabled && changeVisibility" class="divider dropdown-divider"></li>
+      <li *ngIf="!isSortingDisabled(column) && changeVisibility" class="divider dropdown-divider"></li>
       <!-- NOTE: should it be disabled when there are no columns to add  -->
       <li *ngIf="changeVisibility">
         <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox.emit(0)">
