@@ -59,7 +59,6 @@ describe('Service: TableSortingService', () => {
     let numbers = [{bar: 16}, {bar: 42}, {bar: 0}, {bar: -42}, {bar: 100}, {bar: undefined}];
     let columnState = new ColumnState({id: 'bar', sortCompare});
     let result = service.sort(numbers, columnState, 'desc');
-    console.log(result.map(a => a.bar).join());
     expect(result[0].bar).toEqual(42);
     expect(result[1].bar).toEqual(undefined);
     expect(result[2].bar).toEqual(100);

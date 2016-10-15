@@ -1,10 +1,10 @@
 import {ColumnState} from './column-state.class';
-import {CompareFunctions} from './types';
+import {CompareFunctions, Row} from './types';
 
 import {Injectable} from '@angular/core';
 
 export interface Sorting {
-  sort(rows: any[], columnState: ColumnState, direction?: string): any[];
+  sort(rows: Row[], columnState: ColumnState, direction?: string): any[];
 }
 
 export const sortingCompare: CompareFunctions = {
@@ -22,7 +22,7 @@ export const sortingCompare: CompareFunctions = {
 
 @Injectable()
 export class TableSortingService {
-  sort(rows: any[], columnState: ColumnState, direction?: string) {
+  sort(rows: Row[], columnState: ColumnState, direction?: string) {
     // if we have an explicit direction, it has the highest priority
     // otherwise, we use the reverse the current direction
     if (!direction) {

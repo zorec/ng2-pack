@@ -1,4 +1,5 @@
-import {ColumnConfig} from '../types';
+import {TableInitService} from './../table-init.service';
+import {ColumnConfig, ColumnLookup} from '../types';
 import {ColumnState} from './../column-state.class';
 import {EditCellEvent} from '../events';
 import {TableComponent} from './../table.component';
@@ -9,6 +10,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  Optional,
   Output,
 } from '@angular/core';
 
@@ -23,17 +25,26 @@ export class TbodyComponent implements AfterViewInit {
   @Input() set inlineEditingEnabled(isEditable: boolean) {
     this.isEditable = isEditable;
   };
+  @Input() set rows(rows: any[]) {
+    this._rows = rows;
+  }
 
   @Output() rowClick: EventEmitter<number> = new EventEmitter<number>();
   @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
 
   customTemplate: boolean = false;
 
+  private _columnsConfig: ColumnConfig[];
+  private _columnsLookup: ColumnLookup;
+  private _rows: any[];
+  private _visibleColumns: string[];
   private isEditable: boolean;
+  private tableComponent: TableComponent | undefined;
 
   constructor(
     private elementRef: ElementRef,
-    private tableComponent: TableComponent
+    private tableInitService: TableInitService,
+    @Optional() tableComponent: TableComponent
   ) { }
 
   ngAfterViewInit() {
@@ -45,23 +56,33 @@ export class TbodyComponent implements AfterViewInit {
   }
 
   get rows(): any[] {
-    return this.tableComponent.rows;
+    return this._rows || this.delegateInput('rows', []);
   }
 
   get columnsConfig(): ColumnConfig[] {
-    return this.tableComponent.columnsConfig;
+    return this._columnsConfig || this.delegateInput('columnsConfig', []);
   };
 
   get visibleColumns(): string[] {
-    return this.tableComponent.visibleColumns;
+    return this._visibleColumns || this.delegateInput('visibleColumns', []);
   };
 
   get inlineEditingEnabled() {
-    return this.isEditable || this.tableComponent.inlineEditingEnabled;
+    return this.isEditable || this.delegateInput('inlineEditingEnabled', false);
+  }
+
+  get columnsLookup(): ColumnLookup {
+    let columnsLookup = this._columnsLookup ||
+      (this.tableComponent && this.tableComponent.columnsLookup);
+    if (typeof columnsLookup === 'undefined') {
+      columnsLookup = this.tableInitService.columnsConfig2Lookup(this.columnsConfig);
+      this._columnsLookup = columnsLookup;
+    }
+    return columnsLookup;
   }
 
   column(columnName: string): ColumnState {
-    return this.tableComponent.columnsLookup[columnName];
+    return this.columnsLookup[columnName];
   }
 
   onRowClicked(index: number) {
@@ -70,5 +91,15 @@ export class TbodyComponent implements AfterViewInit {
 
   onEditCell(editCellEvent: EditCellEvent) {
     this.editCell.emit(editCellEvent);
+  }
+
+  private delegateInput<T>(propertyName: string, defaultValue: T): T {
+    if (typeof this.tableComponent === 'undefined') {
+      console.warn('TbodyComponent: No parent "tableComponent" was found.' +
+        'Input "' + propertyName + '" was also not provided.');
+      return defaultValue;
+    }
+
+    return this.tableComponent[propertyName] as T;
   }
 }
