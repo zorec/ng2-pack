@@ -2,8 +2,8 @@ import {TbodyComponent} from './../tbody/tbody.component';
 
 import {
   Directive,
-  ElementRef,
   Input,
+  OnInit,
   TemplateRef,
   ViewContainerRef
 } from '@angular/core';
@@ -12,13 +12,15 @@ import {
   selector: '[iwCustomCell]'
 })
 export class CustomCellDirective {
-  @Input() iwCustomCell: string;
+  @Input() set iwCustomCell(columnId: string) {
+    this.tbodyComponent.registerCustomCell(columnId, this.template);
+  }
 
   constructor(
     private viewContainer: ViewContainerRef,
-    private template: TemplateRef<ElementRef>,
-    private tbodyComponent: TbodyComponent) {
-      // this.tbodyComponent.registerCustomCell(this.iwCustomCell, template);
-      this.viewContainer.clear();
+    private template: TemplateRef<any>,
+    private tbodyComponent: TbodyComponent
+  ) {
+      // this.viewContainer.clear();
     }
 }

@@ -8,10 +8,15 @@ export class TableInitService {
   constructor() { }
 
   detectColumnConfiguration(rows: Row[]): [ColumnLookup, ColumnConfig[]] {
+    let columnsLookup = this.detectColumnLookup(rows);
+    return [columnsLookup, this.columnsLookup2Config(columnsLookup)];
+  }
+
+  detectColumnLookup(rows: Row[]): ColumnLookup {
     let columnsLookup: ColumnLookup = {};
     //  nothing can be done without actual data
     if (typeof rows === 'undefined' || rows.length === 0) {
-      return [{}, []];
+      return columnsLookup;
     }
     rows.forEach(row => {
       Object.keys(row).forEach(key => {
@@ -26,7 +31,7 @@ export class TableInitService {
         }
       });
     });
-    return [columnsLookup, this.initializeColumnConfig(columnsLookup)];
+    return columnsLookup;
   }
 
   columnsConfig2Lookup(columnsConfig: ColumnConfig[]): ColumnLookup {
@@ -46,7 +51,7 @@ export class TableInitService {
     return columnsLookup;
   }
 
-  initializeColumnConfig(columnsLookup: ColumnLookup): ColumnConfig[] {
+  columnsLookup2Config(columnsLookup: ColumnLookup): ColumnConfig[] {
     let columnsConfig: ColumnConfig[] = [];
     for (let columnName in columnsLookup) {
       columnsConfig.push(columnsLookup[columnName].config);
