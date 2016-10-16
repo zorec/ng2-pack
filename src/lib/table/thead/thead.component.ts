@@ -96,6 +96,10 @@ export class TheadComponent implements OnInit, AfterViewInit {
     return this.lastColumnComboboxActive || this.addingColumnIndex === this.visibleColumns.length;
   }
 
+  column(columnName: string): ColumnState {
+    return this.columnsLookup[columnName];
+  }
+
   selectNewColumn(item: {value: string}, atPosition: number) {
     this.addingColumnIndex = null;
     this.lastColumnComboboxActive = false;
