@@ -13,6 +13,8 @@ import {
   Input,
   Optional,
   Output,
+  TemplateRef,
+  ViewContainerRef,
 } from '@angular/core';
 
 @Component({
@@ -29,6 +31,12 @@ export class TbodyComponent implements AfterViewInit {
   @Input() set rows(rows: any[]) {
     this._rows = rows;
   }
+  @Input() set columnsConfig(columnsConfig: ColumnConfig[]) {
+    this._columnsConfig = columnsConfig;
+  }
+  @Input() set visibleColumns(visibleColumns: string[]) {
+    this._visibleColumns = visibleColumns;
+  }
 
   @Output() rowClick: EventEmitter<number> = new EventEmitter<number>();
   @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
@@ -41,13 +49,16 @@ export class TbodyComponent implements AfterViewInit {
   private _visibleColumns: string[];
   private isEditable: boolean;
   private tableComponent: TableComponent | undefined;
-  private customCells: string[] = []
+  private customCells: string[] = [];
+  private cellTemplates: {[columnId: string]: TemplateRef<any>} = {};
 
   constructor(
     private elementRef: ElementRef,
     private tableInitService: TableInitService,
     @Optional() tableComponent: TableComponent
-  ) { }
+  ) {
+    this.tableComponent = tableComponent;
+  }
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -76,7 +87,7 @@ export class TbodyComponent implements AfterViewInit {
   get columnsLookup(): ColumnLookup {
     let columnsLookup = this._columnsLookup ||
       (this.tableComponent && this.tableComponent.columnsLookup);
-    if (typeof columnsLookup === 'undefined') {
+    if (!columnsLookup) {
       columnsLookup = this.tableInitService.columnsConfig2Lookup(this.columnsConfig);
       this._columnsLookup = columnsLookup;
     }
@@ -85,6 +96,15 @@ export class TbodyComponent implements AfterViewInit {
 
   column(columnName: string): ColumnState {
     return this.columnsLookup[columnName];
+  }
+
+  registerCustomCell(columnId: string, template: TemplateRef<any>) {
+    this.cellTemplates[columnId] = template;
+    this.customCells.push(columnId);
+  }
+
+  isCustomCell(columnId: string) {
+    return this.customCells.indexOf(columnId) !== -1;
   }
 
   onRowClicked(index: number) {
@@ -103,7 +123,7 @@ export class TbodyComponent implements AfterViewInit {
   }
 
   private delegateInput<T>(propertyName: string, defaultValue: T): T {
-    if (typeof this.tableComponent === 'undefined') {
+    if (!this.tableComponent) {
       // console.warn('TbodyComponent: No parent "tableComponent" was found.' +
       //   'Input "' + propertyName + '" was also not provided.');
       return defaultValue;

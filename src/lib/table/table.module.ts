@@ -1,3 +1,4 @@
+import {InsertTemplateDirective} from './custom-cell/insert-template.directive';
 import {CustomCellDirective} from './custom-cell/custom-cell.directive';
 import {TableComponent} from './table.component';
 import {TheadComponent} from './thead/thead.component';
@@ -27,6 +28,7 @@ import { FormsModule } from '@angular/forms';
     TdComponent,
     ThComponent,
     CustomCellDirective,
+    InsertTemplateDirective,
     DefaultValuePipe
   ],
   exports: [

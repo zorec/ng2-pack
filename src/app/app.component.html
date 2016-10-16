@@ -2,6 +2,23 @@
   {{title}}
 </h1>
 
+<table class="results-table table table-bordered table-striped">
+  <tbody
+   iw-tbody
+   [rows]="rows"
+   [columnsConfig]="columnsConfig"
+   [visibleColumns]="visibleColumns"
+   >
+    <div *iwCustomCell="'name'" #elementRef>
+      Row:
+        {{row | json}}
+
+      Column:
+        {{row | json}}
+    </div>
+  </tbody>
+</table>
+
 <h3>1. Convention over configuration</h3>
 <p>Only rows attribute is a required input. Columns configuration will be initialized according row keys and values. All keys are visible by default. </p>
 <iw-table [rows]="rows"></iw-table>
@@ -15,7 +32,7 @@
 </p>
 <iw-table
  [rows]="rows"
- [(columnsConfig)]="columnsConfig"
+ [columnsConfig]="columnsConfig"
  [visibleColumns]="visibleColumns"
  [reorderingEnabled]="false"
  [sortingEnabled]="false"
