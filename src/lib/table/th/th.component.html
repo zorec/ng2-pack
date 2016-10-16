@@ -10,7 +10,11 @@
   </span>
 
   <div class="btn-group col-menu" dropdown>
-    <a class="btn btn-sm btn-secondary dropdown-toggle" href [id]="column.config.id + '-dropdown'" dropdownToggle></a>
+    <a
+      dropdown-open
+      class="btn btn-sm btn-secondary dropdown-toggle"
+      [id]="column.config.id + '-dropdown'">
+    </a>
 
     <ul class="dropdown-menu dropdown-menu-right" dropdownMenu attr.aria-labelledby="{{column.config.id}}-dropdown">
 
@@ -45,7 +49,7 @@
       </li>
 
       <li *ngIf="column.config.subFields" class="divider dropdown-divider"></li>
-      <li *ngIf="column.config.subFields" class="dropdown-item-group">
+      <li *ngIf="column.config.subFields" class="dropdown-item-group" dropdown-not-closable-zone>
         <span class="dropdown-header">Felder in der Spalte</span>
 
         <div *ngFor="let subfield of column.config.subFields">
