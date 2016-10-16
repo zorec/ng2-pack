@@ -109,8 +109,8 @@ export class ThComponent implements OnInit {
 
   private delegateInput<T>(propertyName: string, defaultValue: T): T {
     if (typeof this.tableComponent === 'undefined') {
-      console.warn('TheadComponent: No parent "tableComponent" was found.' +
-        'Input "' + propertyName + '" was also not provided.');
+      // console.warn('TheadComponent: No parent "tableComponent" was found.' +
+      //   'Input "' + propertyName + '" was also not provided.');
       return defaultValue;
     }
 
