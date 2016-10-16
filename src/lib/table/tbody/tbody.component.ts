@@ -1,3 +1,4 @@
+import {TdComponent} from './../td/td.component';
 import {TableInitService} from './../table-init.service';
 import {ColumnConfig, ColumnLookup} from '../types';
 import {ColumnState} from './../column-state.class';
@@ -40,11 +41,12 @@ export class TbodyComponent implements AfterViewInit {
   private _visibleColumns: string[];
   private isEditable: boolean;
   private tableComponent: TableComponent | undefined;
+  private customCells: string[] = []
 
   constructor(
     private elementRef: ElementRef,
     private tableInitService: TableInitService,
-    @Optional() tableComponent: TableComponent,
+    @Optional() tableComponent: TableComponent
   ) { }
 
   ngAfterViewInit() {
@@ -89,14 +91,21 @@ export class TbodyComponent implements AfterViewInit {
     this.rowClick.emit(index);
   }
 
-  onEditCell(editCellEvent: EditCellEvent) {
+  onEditCell(tdComponent: TdComponent, rowIndex: number) {
+    if (!tdComponent.isChanged) { return; }
+    let editCellEvent: EditCellEvent = [
+      tdComponent.content,
+      tdComponent.row,
+      tdComponent.column.config.id,
+      rowIndex
+    ]
     this.editCell.emit(editCellEvent);
   }
 
   private delegateInput<T>(propertyName: string, defaultValue: T): T {
     if (typeof this.tableComponent === 'undefined') {
-      console.warn('TbodyComponent: No parent "tableComponent" was found.' +
-        'Input "' + propertyName + '" was also not provided.');
+      // console.warn('TbodyComponent: No parent "tableComponent" was found.' +
+      //   'Input "' + propertyName + '" was also not provided.');
       return defaultValue;
     }
 
