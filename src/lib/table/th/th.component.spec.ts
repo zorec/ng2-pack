@@ -1,4 +1,3 @@
-import {ColumnState} from './../column-state.class';
 import {TableComponent} from './../table.component';
 import { ThComponent } from './th.component';
 /* tslint:disable:no-unused-variable */

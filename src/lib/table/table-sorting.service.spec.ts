@@ -1,9 +1,15 @@
 import {ColumnState} from './column-state.class';
-import { TestBed } from '@angular/core/testing';
 import { TableSortingService } from './table-sorting.service';
 
+import { TestBed } from '@angular/core/testing';
+
+interface TestRow {
+  foo: string;
+  bar?: number;
+}
+
 describe('Service: TableSortingService', () => {
-  let service: TableSortingService, rows: {foo: string, bar?: number}[];
+  let service: TableSortingService, rows: TestRow[];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -19,7 +25,7 @@ describe('Service: TableSortingService', () => {
 
   it('sorts according to STRING property', () => {
     let columnState = new ColumnState({id: 'foo', sortType: 'string'});
-    let result = service.sort(rows, columnState);
+    let result = <TestRow[]>service.sort(rows, columnState);
     expect(result[0].foo).toEqual('abc');
     expect(result[1].foo).toEqual('center');
     expect(result[2].foo).toEqual('zzz');
@@ -27,7 +33,7 @@ describe('Service: TableSortingService', () => {
 
   it('sorts DESCENDINGLY according to string property', () => {
     let columnState = new ColumnState({id: 'foo', sortType: 'string'});
-    let result = service.sort(rows, columnState, 'desc');
+    let result = <TestRow[]>service.sort(rows, columnState, 'desc');
     expect(result[0].foo).toEqual('zzz');
     expect(result[1].foo).toEqual('center');
     expect(result[2].foo).toEqual('abc');
@@ -35,7 +41,7 @@ describe('Service: TableSortingService', () => {
 
   it('sorts according to NUMBER property', () => {
     let columnState = new ColumnState({id: 'bar', sortType: 'number'});
-    let result = service.sort(rows, columnState);
+    let result = <TestRow[]>service.sort(rows, columnState);
     expect(result[0].bar).toEqual(0);
     expect(result[1].bar).toEqual(42);
     expect(result[2].bar).toEqual(undefined);
@@ -43,7 +49,7 @@ describe('Service: TableSortingService', () => {
 
   it('uses default sorting for unknown sortType', () => {
     let columnState = new ColumnState({id: 'bar', sortType: 'unknow'});
-    let result = service.sort(rows, columnState, 'DESC');
+    let result = <TestRow[]>service.sort(rows, columnState, 'DESC');
     expect(result[0].bar).toEqual(undefined);
     expect(result[1].bar).toEqual(42);
     expect(result[2].bar).toEqual(0);
@@ -58,7 +64,7 @@ describe('Service: TableSortingService', () => {
     };
     let numbers = [{bar: 16}, {bar: 42}, {bar: 0}, {bar: -42}, {bar: 100}, {bar: undefined}];
     let columnState = new ColumnState({id: 'bar', sortCompare});
-    let result = service.sort(numbers, columnState, 'desc');
+    let result = <TestRow[]>service.sort(numbers, columnState, 'desc');
     expect(result[0].bar).toEqual(42);
     expect(result[1].bar).toEqual(undefined);
     expect(result[2].bar).toEqual(100);

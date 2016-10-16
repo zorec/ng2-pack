@@ -1,5 +1,4 @@
 import {TableInitService} from './table-init.service';
-import {ColumnState} from './column-state.class';
 import {ColumnConfig, ColumnLookup, Row} from './types';
 import {EditCellEvent} from './events';
 import {TableSortingService} from './table-sorting.service';
