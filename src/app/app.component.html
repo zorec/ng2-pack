@@ -63,10 +63,10 @@ You can provide a component template inside a iw-table element, where smaller co
             [row]="rowsWithStudies[rowIndex]">
           </td>
           <td *ngIf="isCustomField(columnName)">
-            <app-studies-cell
+            <iw-studies-cell
              [row]="row"
              [col]="tableComponent.columnsLookup.studies">
-           </app-studies-cell>
+           </iw-studies-cell>
           </td>
         </template>
       </tr>

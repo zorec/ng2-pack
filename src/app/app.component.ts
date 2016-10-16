@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
 import {DatePipe} from '@angular/common';
 
 @Component({
-  selector: 'app-root',
+  selector: 'iw-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   providers: [DatePipe, TableExampleService]
@@ -24,7 +24,7 @@ export class AppComponent {
         name: row.name,
         children: row.children,
         birthday: row.birthday
-      }
+      };
     });
   }
 
