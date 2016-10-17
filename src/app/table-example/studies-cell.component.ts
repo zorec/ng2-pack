@@ -15,4 +15,8 @@ export class StudiesCellComponent {
   isSubColumnVisible(subcolumn: string): boolean {
     return (this.col.activeFields.indexOf(subcolumn) !== -1);
   }
+
+  get allSubfieldsHidden(): boolean {
+    return this.col.activeFields.length === 0;
+  }
 }

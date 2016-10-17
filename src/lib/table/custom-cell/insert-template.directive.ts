@@ -30,6 +30,6 @@ export class InsertTemplateDirective implements OnInit {
       column: this.column
     };
     let embeddedViewRef: EmbeddedViewRef<any> = this.viewContainer.createEmbeddedView(this.iwInsertTemplate, context);
-    console.log(embeddedViewRef.context);
+    // console.log(embeddedViewRef.context);
   }
 }
