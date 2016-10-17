@@ -3,9 +3,21 @@
   <template ngFor let-subrow [ngForOf]="row[col.config.id]" let-itemIndex="index">
     <div class="cell-list-item" [class.cell-list-item--extended]="itemIndex > 0">
 
+      <strong *ngIf="isSubColumnVisible('faculty')">
+        {{ subrow.faculty | defaultValue }}
+      </strong>
+
       <strong *ngIf="isSubColumnVisible('university')">
         {{ subrow.university | defaultValue }}
       </strong>
+
+      <div *ngIf="isSubColumnVisible('country')">
+        {{ subrow.country | defaultValue }}
+      </div>
+
+      <span *ngIf="allSubfieldsHidden">
+        No subfields enabled.
+      </span>
     </div>
   </template>
   <span *ngIf="!row[col.config.id] || row[col.config.id].length === 0">No Studies</span>

@@ -18,8 +18,8 @@ export class TableExampleService {
       children: 0,
       birthday: this.datePipe.transform(today.setDate(today.getDate() - 23)),
       studies: [
-        {university: 'FIT VUT'},
-        {university: 'FI TUM'}
+        {university: 'VUT', faculty: 'FIT', country: 'Czech Republic'},
+        {university: 'FI', faculty: 'TUM', country: 'Germany'}
       ]
     },
     {
@@ -48,7 +48,11 @@ export class TableExampleService {
     {
       id: 'studies',
       sortingDisabled: true,
-      subFields: [{id: 'university', isVisible: true}]}
+      subFields: [
+        {id: 'university', isVisible: true},
+        {id: 'faculty', isVisible: true},
+        {id: 'country', isVisible: false}
+      ]}
   ];
   constructor(private datePipe: DatePipe) {}
 }

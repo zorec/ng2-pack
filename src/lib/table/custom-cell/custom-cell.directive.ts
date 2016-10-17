@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   TemplateRef,
+  ViewRef,
   ViewContainerRef
 } from '@angular/core';
 

@@ -1,7 +1,7 @@
 <h1>
   {{title}}
 </h1>
-
+<!--
 <table class="results-table table table-bordered table-striped">
   <tbody
    iw-tbody
@@ -11,13 +11,15 @@
    >
     <div *iwCustomCell="'name'" #elementRef>
       Row:
-        {{row | json}}
+      <pre>
+        {{this | json}}
+      </pre>
 
       Column:
-        {{row | json}}
+        {{column | json}}
     </div>
   </tbody>
-</table>
+</table> -->
 
 <h3>1. Convention over configuration</h3>
 <p>Only rows attribute is a required input. Columns configuration will be initialized according row keys and values. All keys are visible by default. </p>
@@ -35,6 +37,7 @@
  [columnsConfig]="columnsConfig"
  [visibleColumns]="visibleColumns"
  [reorderingEnabled]="false"
+ [inlineEditingEnabled]="true"
  [sortingEnabled]="false"
  (rowClick)="action = 'Row ' + $event  + ' was clicked!'"
  >

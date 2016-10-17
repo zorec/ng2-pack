@@ -100,7 +100,7 @@ export class ThComponent implements OnInit {
     if (subfieldIndex === -1) {
       // it was not active, therefore it needs to be actived
       column.activeFields.push(subfieldName);
-    } {
+    } else {
       // it was active, therefore disable it
       column.activeFields.splice(subfieldIndex, 1);
     }
