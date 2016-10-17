@@ -3,9 +3,7 @@ import {TbodyComponent} from './../tbody/tbody.component';
 import {
   Directive,
   Input,
-  OnInit,
   TemplateRef,
-  ViewRef,
   ViewContainerRef
 } from '@angular/core';
 

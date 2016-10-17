@@ -14,7 +14,6 @@ import {
   Optional,
   Output,
   TemplateRef,
-  ViewContainerRef,
 } from '@angular/core';
 
 @Component({
@@ -118,7 +117,7 @@ export class TbodyComponent implements AfterViewInit {
       tdComponent.row,
       tdComponent.column.config.id,
       rowIndex
-    ]
+    ];
     this.editCell.emit(editCellEvent);
   }
 
