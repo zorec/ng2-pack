@@ -174,6 +174,6 @@ export class TheadComponent implements OnInit, AfterViewInit {
       return defaultValue;
     }
 
-    return this.tableComponent[propertyName] as T;
+    return (<any>this.tableComponent)[propertyName] as T;
   }
 }
