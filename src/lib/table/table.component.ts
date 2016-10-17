@@ -91,7 +91,6 @@ export class TableComponent implements OnChanges, AfterViewInit {
   }
 
   sortRows(sortEvent: [string, string]) {
-    if (!this.sortingEnabled) { return; }
     let [property, direction] = sortEvent;
     this.rows = this.tableSortingService.sort(
       this.rows, this.columnsLookup[property], direction

@@ -47,7 +47,9 @@ export class ThComponent implements OnInit {
   private tableComponent: TableComponent | undefined;
 
   // TODO: some properties could be taken from thead component, same for add-column.component
-  constructor(@Optional() tableComponent: TableComponent) { }
+  constructor(@Optional() tableComponent: TableComponent) {
+    this.tableComponent = tableComponent;
+  }
 
   ngOnInit() {
   }
@@ -108,7 +110,7 @@ export class ThComponent implements OnInit {
   }
 
   private delegateInput<T>(propertyName: string, defaultValue: T): T {
-    if (typeof this.tableComponent === 'undefined') {
+    if (!this.tableComponent) {
       // console.warn('TheadComponent: No parent "tableComponent" was found.' +
       //   'Input "' + propertyName + '" was also not provided.');
       return defaultValue;
