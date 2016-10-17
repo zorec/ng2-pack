@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { en, de } from '../locales';
 
 export interface I18nLocales {
   [language: string]: I18nLocale;
@@ -11,7 +12,10 @@ export interface I18nLocale {
 @Injectable()
 export class I18nService {
   language: string = 'en';
-  translations: I18nLocales;
+  translations: I18nLocales = {
+    en,
+    de
+  };
 
   constructor() { }
 

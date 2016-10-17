@@ -1,3 +1,4 @@
+import {I18nService} from './../services/i18n.service';
 import {TableInitService} from './table-init.service';
 import {ColumnConfig, ColumnLookup, Row} from './types';
 import {EditCellEvent} from './events';
@@ -21,7 +22,8 @@ declare var jQuery: any;
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
   // TODO: enable encapsulation again
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [I18nService]
 })
 export class TableComponent implements OnChanges, AfterViewInit {
   @Input() rows: Row[];
@@ -35,6 +37,9 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @Input() sortingEnabled: boolean = true;
   @Input() inlineEditingEnabled: boolean = false;
   // @Input() columnsForAddingFn: (availableColumns: ColumnConfig[]) => any[] = (id) => id
+  @Input() set language(language: string) {
+    this.i18nService.language = language;
+  }
 
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
@@ -54,7 +59,8 @@ export class TableComponent implements OnChanges, AfterViewInit {
   constructor(
     public elementRef: ElementRef,
     public tableSortingService: TableSortingService,
-    public tableInitService: TableInitService
+    public tableInitService: TableInitService,
+    public i18nService: I18nService
   ) {}
 
   ngOnChanges() {
