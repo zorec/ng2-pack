@@ -20,7 +20,7 @@
 
       <li *ngIf="!isSortingDisabled(column)">
         <a class="dropdown-item" (click)="onSortColumn(column, 'asc')">
-          Sortieren
+          {{ 'table.sort' | t}}
           <span *ngIf="column.config.sortType === 'number'">0&rarr;9</span>
           <span *ngIf="column.config.sortType !== 'number'">A&rarr;Z</span>
         </a>
@@ -28,7 +28,7 @@
 
       <li *ngIf="!isSortingDisabled(column)">
         <a class="dropdown-item" (click)="onSortColumn(column, 'desc')">
-          Sortieren
+          {{ 'table.sort' | t}}
           <span *ngIf="column.config.sortType === 'number'">9&rarr;0</span>
           <span *ngIf="column.config.sortType !== 'numm'">Z&rarr;A</span>
         </a>
@@ -38,19 +38,19 @@
       <!-- NOTE: should it be disabled when there are no columns to add  -->
       <li *ngIf="changeVisibility">
         <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox.emit(0)">
-          Spalte links hinzufügen
+          {{ 'table.addLeft' | t}}
         </a>
       </li>
 
       <li *ngIf="changeVisibility">
         <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox.emit(1)">
-          Spalte rechts hinzufügen
+          {{ 'table.addRight' | t}}
         </a>
       </li>
 
       <li *ngIf="column.config.subFields" class="divider dropdown-divider"></li>
       <li *ngIf="column.config.subFields" class="dropdown-item-group" dropdown-not-closable-zone>
-        <span class="dropdown-header">Felder in der Spalte</span>
+        <span class="dropdown-header">{{ 'table.subFields' | t}}</span>
 
         <div *ngFor="let subfield of column.config.subFields">
           <label class="dropdown-item c-input c-checkbox">
@@ -72,7 +72,7 @@
         [class.disabled]="visibleColumns.length === 1"
         class="dropdown-item"
         (click)="isLastColumn && onRemoveColumn(column.config.id)">
-          Diese Spalte entfernen
+          {{ 'table.removeColumn' | t}}
         </a>
       </li>
 
