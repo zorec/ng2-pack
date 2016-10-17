@@ -30,7 +30,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @Input() columnsConfig: ColumnConfig[];
   @Input() set visibleColumns(visibleColumns: string[]) {
     this._visibleColumns = visibleColumns;
-    this.visibleColumnsOutput.emit(this._visibleColumns);
+    this.visibleColumnsChange.emit(this._visibleColumns);
   }
   // NOTE: these default value could be specified in a configuration
   @Input() reorderingEnabled: boolean = true;
@@ -47,7 +47,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
   @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() rowClick: EventEmitter<number> = new EventEmitter<number>();
-  @Output('visibleColumns') visibleColumnsOutput: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() visibleColumnsChange: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
 
   columnsLookup: ColumnLookup;

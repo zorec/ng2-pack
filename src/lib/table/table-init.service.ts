@@ -54,7 +54,9 @@ export class TableInitService {
   columnsLookup2Config(columnsLookup: ColumnLookup): ColumnConfig[] {
     let columnsConfig: ColumnConfig[] = [];
     for (let columnName in columnsLookup) {
-      columnsConfig.push(columnsLookup[columnName].config);
+      if (columnsLookup.hasOwnProperty(columnName)) {
+        columnsConfig.push(columnsLookup[columnName].config);
+      }
     }
     return columnsConfig;
   }

@@ -106,7 +106,7 @@ export class Select2Component implements OnInit, OnChanges, ControlValueAccessor
     this.elementRef.nativeElement.appendChild(this.element.get(0));
 
     this.element.select2({
-      data: this.items || [],
+      data: this.items ||  [],
       // allowClear: true,
       placeholder: this.placeholder,
       multiple: this.multiple,

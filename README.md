@@ -7,7 +7,7 @@ Ng2Pack provides you with features for many common tasks during the development 
 ### Main characteristics
 
 We value flexibility above all to ensure re-usability in various use cases:
-  - Components accept a **wide range of inputs** and/or configuration.
+  - Components accept a **wide range of inputs** and/or configuration, including internationalization.
   - High-level components are usually composed of **smaller components** that can be used separately.
   - **Low-level utilities** make building and composing components faster and easier
   - Last but not least, you can use **custom templates** while taking advantage of component public API, smaller components or low-level utilities.

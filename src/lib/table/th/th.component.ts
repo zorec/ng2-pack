@@ -116,6 +116,6 @@ export class ThComponent implements OnInit {
       return defaultValue;
     }
 
-    return this.tableComponent[propertyName] as T;
+    return (<any>this.tableComponent)[propertyName] as T;
   }
 }

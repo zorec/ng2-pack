@@ -13,7 +13,7 @@ export class AddColumnComponent implements OnChanges {
   @Input() visibleColumns: string[];
   @Input() open: boolean = true;
 
-  @Output('selected') selectedOutput: EventEmitter<{value: string}> = new EventEmitter<{value: string}>();
+  @Output() selected: EventEmitter<{value: string}> = new EventEmitter<{value: string}>();
   @Output() close = new EventEmitter();
 
   items: Select2Option[];
@@ -28,9 +28,9 @@ export class AddColumnComponent implements OnChanges {
     this.items = this.categorizeColumns(columns);
   }
 
-  selected(value: string): void {
+  onSelected(value: string): void {
     if (!value) { return; }
-    this.selectedOutput.emit({value});
+    this.selected.emit({value});
     setTimeout(() => {
       this.value = null;
     }, 0);
