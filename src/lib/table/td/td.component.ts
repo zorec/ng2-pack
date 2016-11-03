@@ -25,6 +25,7 @@ export class TdComponent implements OnInit {
   }
 
   get formattedValue() {
+    if (!this.column) { return; }
     if (!this.column.config.formatters) {
       return this.defaultValuePipe.transform(this.cellValue);
     }
@@ -42,6 +43,7 @@ export class TdComponent implements OnInit {
   }
 
   get hasSubfields() {
+    if (!this.column) { return; }
     return this.column.config.subFields && this.column.config.subFields.length > 0;
   }
 }

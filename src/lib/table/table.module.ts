@@ -15,7 +15,7 @@ import {TableInitService} from './table-init.service';
 
 import { DropdownModule} from 'ng2-dropdown';
 
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -45,7 +45,7 @@ import { FormsModule } from '@angular/forms';
     DefaultValuePipe
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     FormsModule,
     DropdownModule
   ],
