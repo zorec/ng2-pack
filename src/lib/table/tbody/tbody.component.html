@@ -1,8 +1,7 @@
 <ng-content></ng-content>
 
 <template [ngIf]="!customTemplate">
-  <!-- (click)="onRowClicked(rowIndex)" FIXME: allow/disable click event if not content editing -->
-  <tr *ngFor="let row of rows; let rowIndex = index" >
+  <tr *ngFor="let row of rows; let rowIndex = index" (click)="onRowClicked(rowIndex)" >
     <template ngFor let-columnName [ngForOf]="visibleColumns" let-index="index">
       <td *ngIf="addingColumnIndex == index" class="combo-td"></td>
       <td *ngIf="isCustomCell(columnName)">
@@ -20,8 +19,8 @@
         (blur)="onEditCell(tdComponent, rowIndex)"
         [column]="column(columnName)"
         [row]="row"
-        [class.is-sorted]="column(columnName).config.isSorted"
-        attr.headers="col-id-{{ column(columnName).config.id }}">
+        [class.is-sorted]="column(columnName)?.config.isSorted"
+        attr.headers="col-id-{{ column(columnName)?.config.id }}">
       </td>
     </template>
     <td class="combo-td"> <!-- empty for combobox --> </td>

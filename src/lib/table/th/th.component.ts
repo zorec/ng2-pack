@@ -75,16 +75,19 @@ export class ThComponent implements OnInit {
   }
 
   isSortingDisabled(column: ColumnState) {
+    if (!column) { return; }
     return !this.sortingEnabled || column.config.sortingDisabled;
   }
 
   showSortIcon (column: ColumnState, sortType: string, direction: string): boolean {
+    if (!column) { return false; }
     if (this.isSortingDisabled(column)) { return false; }
     return (column.config.sortType === sortType && column.currentSortDirection === direction);
   }
 
   onSortColumn (column: ColumnState, direction?: string) {
     if (this.isSortingDisabled(column)) { return; }
+    column.currentSortDirection = direction || column.currentSortDirection === 'asc' ? 'desc' : 'asc';
     this.sortColumn.emit([column.config.id, direction]);
   }
 

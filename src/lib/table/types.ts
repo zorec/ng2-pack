@@ -14,6 +14,7 @@ export interface ColumnConfig {
   sortCompare?: (a: any, b: any) => number;
   sortType?: string; // either 'string' or 'number'
   initialSortDirection?: string;  // either 'asc' or 'desc'
+  data?: any; // for user-specific data
 }
 
 export interface SubFieldConfig {

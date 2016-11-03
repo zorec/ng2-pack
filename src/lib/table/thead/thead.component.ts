@@ -9,6 +9,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
   OnInit,
   Output,
   Optional,
@@ -22,9 +23,25 @@ declare var jQuery: any;
   styleUrls: ['./thead.component.css']
 })
 export class TheadComponent implements OnInit, AfterViewInit {
+  @Input() set columnsConfig(columnsConfig) {
+    if (this.tableComponent) {
+      this.tableComponent.columnsConfig = columnsConfig;
+    } else {
+      this._columnsConfig = columnsConfig;
+    }
+  }
+  @Input() set visibleColumns(visibleColumns: string[]) {
+    if (this.tableComponent) {
+      this.tableComponent.visibleColumns = visibleColumns;
+    } else {
+      this._visibleColumns = visibleColumns;
+      // NOTE: what about output events?
+    }
+  }
+
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
-  @Output() sortColumn: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() sortColumn: EventEmitter<[string, string]> = new EventEmitter<[string, string]>();
   @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
   @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
 
@@ -79,21 +96,23 @@ export class TheadComponent implements OnInit, AfterViewInit {
     return this._visibleColumns || this.delegateInput('visibleColumns', []);
   }
 
-  set visibleColumns(visibleColumns: string[]) {
-    if (this.tableComponent) {
-      this.tableComponent.visibleColumns = visibleColumns;
-    } else {
-      this._visibleColumns = visibleColumns;
-      // NOTE: what about output events?
-    }
-  }
-
   get reorderingEnabled(): boolean {
     return this._reorderingEnabled || this.delegateInput('reorderingEnabled', false);
   }
 
   get isLastAddingColumnVisible() {
     return this.lastColumnComboboxActive || this.addingColumnIndex === this.visibleColumns.length;
+  }
+
+  isSorted(column: ColumnState, direction: string) {
+    if (!column) { return; }
+    let isSorted: boolean = column.config.id === this.sortedColumnName;
+    if (!direction) {
+      return isSorted;
+    } else {
+      let directionMatch: boolean = column.currentSortDirection === direction;
+      return isSorted && directionMatch;
+    }
   }
 
   column(columnName: string): ColumnState {
