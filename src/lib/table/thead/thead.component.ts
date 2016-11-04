@@ -66,6 +66,10 @@ export class TheadComponent implements OnInit, AfterViewInit {
     this.tableComponent = tableComponent;
   }
 
+  get changeColumnVisibility(): boolean {
+    return this.tableComponent.changeColumnVisibility;
+  }
+
   ngOnInit() {
     if (this.reorderingEnabled) {
       this.initializeSortable();

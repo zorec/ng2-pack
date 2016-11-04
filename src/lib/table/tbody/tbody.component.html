@@ -23,6 +23,6 @@
         attr.headers="col-id-{{ column(columnName)?.config.id }}">
       </td>
     </template>
-    <td class="combo-td"> <!-- empty for combobox --> </td>
+    <td *ngIf="changeColumnVisibility" class="combo-td"> <!-- empty for combobox --> </td>
   </tr>
 </template>

@@ -87,7 +87,6 @@ export class ThComponent implements OnInit {
 
   onSortColumn (column: ColumnState, direction?: string) {
     if (this.isSortingDisabled(column)) { return; }
-    column.currentSortDirection = direction || column.currentSortDirection === 'asc' ? 'desc' : 'asc';
     this.sortColumn.emit([column.config.id, direction]);
   }
 
