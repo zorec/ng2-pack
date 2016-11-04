@@ -36,6 +36,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @Input() reorderingEnabled: boolean = true;
   @Input() sortingEnabled: boolean = true;
   @Input() inlineEditingEnabled: boolean = false;
+  @Input() changeColumnVisibility: boolean = true;
   // @Input() columnsForAddingFn: (availableColumns: ColumnConfig[]) => any[] = (id) => id
   @Input() set language(language: string) {
     this.i18nService.language = language;

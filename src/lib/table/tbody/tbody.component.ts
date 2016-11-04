@@ -93,6 +93,10 @@ export class TbodyComponent implements AfterViewInit {
     return columnsLookup;
   }
 
+  get changeColumnVisibility(): boolean {
+    return this.tableComponent.changeColumnVisibility;
+  }
+
   column(columnName: string): ColumnState {
     return this.columnsLookup[columnName];
   }

@@ -15,6 +15,7 @@
     <th
       iw-th
       [column]="column(columnName)"
+      [changeVisibility]="changeColumnVisibility"
       (removeColumn)="removeColumn.emit($event)"
       (sortColumn)="onSortColumn($event)"
       (addCombobox)="onAddCombobox($event + columnIndex)"
@@ -26,7 +27,7 @@
       [class.is-sorted--desc]="isSorted(column(columnName), 'desc')">
     </th>
   </template>
-  <th class="combo-th">
+  <th *ngIf="changeColumnVisibility" class="combo-th">
     <div class="add-column combobox" [ngClass]="lastColumnComboboxActive ? 'is-active' : 'is-inactive'">
       <iw-add-column
         *ngIf="lastColumnComboboxActive"
