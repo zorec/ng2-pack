@@ -1,3 +1,4 @@
+import {ColumnState} from './column-state.class';
 import {I18nService} from './../services/i18n.service';
 import {TableInitService} from './table-init.service';
 import {ColumnConfig, ColumnLookup, Row} from './types';
@@ -25,13 +26,16 @@ declare var jQuery: any;
   encapsulation: ViewEncapsulation.None,
   providers: [I18nService]
 })
-export class TableComponent implements OnChanges, AfterViewInit {
-  @Input() rows: Row[];
-  @Input() columnsConfig: ColumnConfig[];
+export class TableComponent implements AfterViewInit, OnChanges {
   @Input() set visibleColumns(visibleColumns: string[]) {
     this._visibleColumns = visibleColumns;
     this.visibleColumnsChange.emit(this._visibleColumns);
   }
+  @Input() set columnsConfig(columnsConfig: ColumnConfig[]) {
+    this._columnsConfig = columnsConfig;
+    this.columnsLookup = this.tableInitService.columnsConfig2Lookup(this.columnsConfig);
+  }
+  @Input() rows: Row[];
   // NOTE: these default value could be specified in a configuration
   @Input() reorderingEnabled: boolean = true;
   @Input() sortingEnabled: boolean = true;
@@ -41,6 +45,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
   @Input() set language(language: string) {
     this.i18nService.language = language;
   }
+  @Input() initialSortColumn: string;
 
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
@@ -54,8 +59,10 @@ export class TableComponent implements OnChanges, AfterViewInit {
   columnsLookup: ColumnLookup;
   addingColumnIndex: number;
   customTemplate: boolean = false;
+  sortedColumnName: string | null;
 
   private _visibleColumns: string[];
+  private _columnsConfig: ColumnConfig[];
 
   constructor(
     public elementRef: ElementRef,
@@ -66,6 +73,7 @@ export class TableComponent implements OnChanges, AfterViewInit {
 
   ngOnChanges() {
     this.initializeDefaults();
+    this.initialSort();
   }
 
   ngAfterViewInit() {
@@ -76,6 +84,21 @@ export class TableComponent implements OnChanges, AfterViewInit {
 
   get visibleColumns() {
     return this._visibleColumns;
+  }
+
+  get columnsConfig(): ColumnConfig[] {
+    return this._columnsConfig;
+  }
+
+  isSorted(column: ColumnState, direction: string) {
+    if (!column) { return; }
+    let isSorted: boolean = column.config.id === this.sortedColumnName;
+    if (!direction) {
+      return isSorted;
+    } else {
+      let directionMatch: boolean = column.currentSortDirection === direction;
+      return isSorted && directionMatch;
+    }
   }
 
   onRowClicked(rowClickEvent: number) {
@@ -96,15 +119,23 @@ export class TableComponent implements OnChanges, AfterViewInit {
     this.rows = this.tableSortingService.sort(
       this.rows, this.columnsLookup[property], direction
     );
+    this.sortedColumnName = property;
+  }
+
+  initialSort() {
+    if (!this.initialSortColumn) {
+      return;
+    }
+    // initial sort
+    this.sortRows([this.initialSortColumn, undefined]);
+    this.initialSortColumn = undefined;
   }
 
   private initializeDefaults() {
-    if (typeof this.columnsConfig !== 'undefined') {
-      this.columnsLookup = this.tableInitService.columnsConfig2Lookup(this.columnsConfig);
-    } else {
-      [this.columnsLookup, this.columnsConfig] = this.tableInitService.detectColumnConfiguration(this.rows);
+    if (typeof this.columnsConfig === 'undefined') {
+      [this.columnsLookup, this._columnsConfig] = this.tableInitService.detectColumnConfiguration(this.rows);
     }
-    if (typeof this.visibleColumns === 'undefined') {
+    if (typeof this.visibleColumns === 'undefined' && typeof this.columnsLookup !== 'undefined') {
       this.visibleColumns = Object.keys(this.columnsLookup);
     }
   }

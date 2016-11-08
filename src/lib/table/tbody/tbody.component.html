@@ -19,7 +19,7 @@
         (blur)="onEditCell(tdComponent, rowIndex)"
         [column]="column(columnName)"
         [row]="row"
-        [class.is-sorted]="column(columnName)?.config.isSorted"
+        [class.is-sorted]="isSorted(column(columnName))"
         attr.headers="col-id-{{ column(columnName)?.config.id }}">
       </td>
     </template>
