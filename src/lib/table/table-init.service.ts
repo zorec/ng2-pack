@@ -16,7 +16,7 @@ export class TableInitService {
     let columnsLookup: ColumnLookup = {};
     //  nothing can be done without actual data
     if (typeof rows === 'undefined' || rows.length === 0) {
-      return columnsLookup;
+      return undefined;
     }
     rows.forEach(row => {
       Object.keys(row).forEach(key => {
@@ -58,6 +58,11 @@ export class TableInitService {
         columnsConfig.push(columnsLookup[columnName].config);
       }
     }
+
+    if (columnsConfig.length === 0) {
+      return undefined;
+    }
+
     return columnsConfig;
   }
 }

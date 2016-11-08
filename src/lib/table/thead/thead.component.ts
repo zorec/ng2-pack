@@ -47,7 +47,6 @@ export class TheadComponent implements OnInit, AfterViewInit {
 
   lastColumnComboboxActive: boolean = false;
   addingColumnIndex: number | null;
-  sortedColumnName: string | null;
   draggedColumnId: string | null;
   customTemplate: boolean = false;
 
@@ -109,14 +108,7 @@ export class TheadComponent implements OnInit, AfterViewInit {
   }
 
   isSorted(column: ColumnState, direction: string) {
-    if (!column) { return; }
-    let isSorted: boolean = column.config.id === this.sortedColumnName;
-    if (!direction) {
-      return isSorted;
-    } else {
-      let directionMatch: boolean = column.currentSortDirection === direction;
-      return isSorted && directionMatch;
-    }
+    return this.tableComponent.isSorted(column, direction);
   }
 
   column(columnName: string): ColumnState {
@@ -156,7 +148,7 @@ export class TheadComponent implements OnInit, AfterViewInit {
   }
 
   onSortColumn(sortEvent: [string, string]) {
-    [this.sortedColumnName] = sortEvent;
+    [this.tableComponent.sortedColumnName] = sortEvent;
     this.sortColumn.emit(sortEvent);
   }
 

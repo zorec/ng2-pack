@@ -97,6 +97,10 @@ export class TbodyComponent implements AfterViewInit {
     return this.tableComponent.changeColumnVisibility;
   }
 
+  isSorted(column: ColumnState, direction: string) {
+    return this.tableComponent.isSorted(column, direction);
+  }
+
   column(columnName: string): ColumnState {
     return this.columnsLookup[columnName];
   }
