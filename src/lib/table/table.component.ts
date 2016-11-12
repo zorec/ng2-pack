@@ -11,6 +11,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  Inject,
   OnChanges,
   Output,
   ViewEncapsulation,
@@ -18,13 +19,30 @@ import {
 
 declare var jQuery: any;
 
+export interface TableDefaultValues {
+  reorderingEnabled: boolean;
+  sortingEnabled: boolean;
+  inlineEditingEnabled: boolean;
+  changeColumnVisibility: boolean;
+  language: string;
+}
+export let tabledefaultValues: TableDefaultValues = {
+  reorderingEnabled: true,
+  sortingEnabled: true,
+  inlineEditingEnabled: false,
+  changeColumnVisibility: true,
+  language: 'en',
+};
+
 @Component({
   selector: 'iw-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
   // TODO: enable encapsulation again
   encapsulation: ViewEncapsulation.None,
-  providers: [I18nService]
+  providers: [
+    {provide: 'tabledefaultValues', useValue: tabledefaultValues}
+  ]
 })
 export class TableComponent implements AfterViewInit, OnChanges {
   @Input() set visibleColumns(visibleColumns: string[]) {
@@ -35,12 +53,12 @@ export class TableComponent implements AfterViewInit, OnChanges {
     this._columnsConfig = columnsConfig;
     this.columnsLookup = this.tableInitService.columnsConfig2Lookup(this.columnsConfig);
   }
+
   @Input() rows: Row[];
-  // NOTE: these default value could be specified in a configuration
-  @Input() reorderingEnabled: boolean = true;
-  @Input() sortingEnabled: boolean = true;
-  @Input() inlineEditingEnabled: boolean = false;
-  @Input() changeColumnVisibility: boolean = true;
+  @Input() reorderingEnabled: boolean;
+  @Input() sortingEnabled: boolean;
+  @Input() inlineEditingEnabled: boolean;
+  @Input() changeColumnVisibility: boolean;
   // @Input() columnsForAddingFn: (availableColumns: ColumnConfig[]) => any[] = (id) => id
   @Input() set language(language: string) {
     this.i18nService.language = language;
@@ -68,8 +86,15 @@ export class TableComponent implements AfterViewInit, OnChanges {
     public elementRef: ElementRef,
     public tableSortingService: TableSortingService,
     public tableInitService: TableInitService,
-    public i18nService: I18nService
-  ) {}
+    public i18nService: I18nService,
+    @Inject('tabledefaultValues') defaults: TableDefaultValues,
+  ) {
+    this.reorderingEnabled =  defaults.reorderingEnabled;
+    this.sortingEnabled =  defaults.sortingEnabled;
+    this.inlineEditingEnabled =  defaults.inlineEditingEnabled;
+    this.changeColumnVisibility =  defaults.changeColumnVisibility;
+    this.language = defaults.language;
+  }
 
   ngOnChanges() {
     this.initializeDefaults();

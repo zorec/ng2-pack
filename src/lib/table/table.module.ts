@@ -9,6 +9,7 @@ import {TdComponent} from './td/td.component';
 import {ThComponent} from './th/th.component';
 import {DefaultValuePipe} from './../pipes/default-value/default-value.pipe';
 import {TPipe} from './../pipes/t/t.pipe';
+import {I18nService} from './../services/i18n.service';
 
 import {TableSortingService} from './table-sorting.service';
 import {TableInitService} from './table-init.service';
@@ -52,6 +53,7 @@ import { FormsModule } from '@angular/forms';
   providers: [
     TableSortingService,
     TableInitService,
+    I18nService,
   ]
 })
 export class TableModule { }
