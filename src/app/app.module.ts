@@ -1,6 +1,7 @@
 import {StudiesCellComponent} from './table-example/studies-cell.component';
 import {AppComponent} from './app.component';
-import {TableModule} from '../lib/table/table.module';
+import {TableModule} from '../lib/table/';
+import {InlineEditableModule} from '../lib/inline-editable/';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -9,6 +10,7 @@ import { NgModule } from '@angular/core';
   imports: [
     BrowserModule,
     TableModule,
+    InlineEditableModule
   ],
   declarations: [
     AppComponent,
