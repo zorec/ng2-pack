@@ -65,7 +65,7 @@ export class InlineEditableDirective {
   }
 
   get content(): string {
-    return this.element.nativeElement.textContent;
+    return this.element.nativeElement.textContent.trim();
   }
 
   set content(content: string) {
