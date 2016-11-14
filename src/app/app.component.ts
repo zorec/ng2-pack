@@ -11,6 +11,7 @@ import {DatePipe} from '@angular/common';
   providers: [DatePipe, TableExampleService]
 })
 export class AppComponent {
+  activate: boolean = false;
   title = 'Data Table';
   columnsConfig: ColumnConfig[];
   rows: any[];

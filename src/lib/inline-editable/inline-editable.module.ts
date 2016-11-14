@@ -1,5 +1,6 @@
-import {NgModule} from '@angular/core';
 import {InlineEditableDirective} from './inline-editable.directive';
+
+import {NgModule} from '@angular/core';
 
 @NgModule({
   declarations: [
