@@ -19,6 +19,7 @@ export interface ColumnConfig {
 
 export interface SubFieldConfig {
   id: string;
+  text: string;
   isVisible: boolean;
 }
 

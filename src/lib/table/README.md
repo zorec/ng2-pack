@@ -1,5 +1,5 @@
 ### Data table
-An enhanced table element.
+An enhanced table element. See DEMO here: https://zorec.github.io/ng2-pack/ 
 
 Features:
 - visible columns specified by user (UI for adding/removing a column)
