@@ -25,14 +25,12 @@ Additionally, we follow good practices and style guides:
 
 | Feature          | Status              | Docs         |
 |------------------|---------------------|--------------|
-| Data Table       |               Alpha | [README](1)  |
+| Data Table       |               Alpha | [README][1]  |
 | Select2          |                 WIP |             -|
 | Inline editing   |                 WIP |             -|
 | Sortable items   |         Not started |             -|
 
-
-[1]: https://github.com/zorec/ng2-pack/tree/master/src/lib/table/README.md
-
+[1]: https://github.com/zorec/ng2-pack/blob/master/src/lib/table/README.md
 
 ### Licence
 MIT
