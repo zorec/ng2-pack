@@ -129,7 +129,7 @@ $result-table-border-color-outer: app-color(bluegray);
 
 .results-table-wrap {
   position: relative; // keeps draggable TH elems in the right place
-  overflow-x: auto;
+  overflow-x: visible;
   min-height: 400px;
 }
 
