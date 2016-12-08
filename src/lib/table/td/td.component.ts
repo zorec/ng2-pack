@@ -13,7 +13,11 @@ export class TdComponent implements OnInit {
   @Input() column: ColumnState;
   @Input() row: any;
 
+
   @ViewChild('contentDiv') contentDiv: ElementRef;
+
+  private _currentCellValue: any;
+  private _currentFormattedValue: any;
 
   constructor(private defaultValuePipe: DefaultValuePipe) { }
 
@@ -26,12 +30,20 @@ export class TdComponent implements OnInit {
 
   get formattedValue() {
     if (!this.column) { return; }
-    if (!this.column.config.formatters) {
-      return this.defaultValuePipe.transform(this.cellValue);
+    if (this.cellValue === this._currentCellValue) {
+      // TODO: use default value if both cellValue and currentCellValue are undefined
+      return this._currentFormattedValue;
     }
-    return this.column.config.formatters.reduce((value, formatter) => {
-      return formatter.transform(value, ...(formatter.arguments || []));
-    }, this.cellValue);
+    this._currentCellValue = this.cellValue;
+
+    if (!this.column.config.formatters) {
+      this._currentFormattedValue = this.defaultValuePipe.transform(this.cellValue);
+    } else {
+      this._currentFormattedValue = this.column.config.formatters.reduce((value, formatter) => {
+        return formatter.transform(value, ...(formatter.arguments || []));
+      }, this.cellValue);
+    }
+    return this._currentFormattedValue;
   }
 
   get content(): string {
