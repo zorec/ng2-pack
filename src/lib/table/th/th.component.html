@@ -30,7 +30,7 @@
         <a class="dropdown-item" (click)="onSortColumn(column, 'desc')">
           {{ 'table.sort' | t}}
           <span *ngIf="column?.config.sortType === 'number'">9&rarr;0</span>
-          <span *ngIf="column?.config.sortType !== 'numm'">Z&rarr;A</span>
+          <span *ngIf="column?.config.sortType !== 'number'">Z&rarr;A</span>
         </a>
       </li>
 

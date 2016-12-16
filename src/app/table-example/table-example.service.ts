@@ -49,9 +49,9 @@ export class TableExampleService {
       id: 'studies',
       sortingDisabled: true,
       subFields: [
-        {id: 'university', isVisible: true},
-        {id: 'faculty', isVisible: true},
-        {id: 'country', isVisible: false}
+        {id: 'university', text: 'University', isVisible: true},
+        {id: 'faculty', text: 'Faculty', isVisible: true},
+        {id: 'country', text: 'Country', isVisible: false}
       ]}
   ];
   constructor(private datePipe: DatePipe) {}
