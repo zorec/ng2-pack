@@ -8,17 +8,25 @@ export class ColumnState {
     public activeFields: string[] = []
   ) {}
 
+  get initialSortDirection() {
+    return this.config.initialSortDirection || 'asc';
+  }
+
   get currentSortDirection(): string {
-    return this._currentSortDirection || this.initialDirection;
+    return this._currentSortDirection;
   }
 
   set currentSortDirection(direction: string) {
-    this._currentSortDirection = direction;
+    this._currentSortDirection = direction.toLowerCase();
   }
 
-  private get initialDirection() {
-    let direction = this.config.initialSortDirection || 'asc';
-    direction = direction.toLowerCase() === 'asc' ? 'desc' : 'asc';
-    return direction;
+  toggleDirection() {
+    if (!this._currentSortDirection) {
+      this.currentSortDirection = this.initialSortDirection;
+    } else {
+      this.currentSortDirection = this.currentSortDirection === 'desc' ? 'asc' : 'desc';
+    }
+    return this.currentSortDirection;
   }
+
 }

@@ -1,3 +1,4 @@
+import {PipesModule} from './../lib/pipes/pipes.module';
 import {StudiesCellComponent} from './table-example/studies-cell.component';
 import {AppComponent} from './app.component';
 import {TableModule} from '../lib/table/';
@@ -10,7 +11,8 @@ import { NgModule } from '@angular/core';
   imports: [
     BrowserModule,
     TableModule,
-    InlineEditableModule
+    InlineEditableModule,
+    PipesModule
   ],
   declarations: [
     AppComponent,
