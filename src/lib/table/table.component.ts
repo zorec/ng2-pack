@@ -148,11 +148,28 @@ export class TableComponent implements AfterViewInit, OnChanges {
   }
 
   initialSort() {
-    if (!this.initialSortColumn) {
+    if (!this.initialSortColumn && !this.rows) {
       return;
     }
+    let columnName = this.initialSortColumn.slice(1);
+    let sortDirection: string;
+    if (this.initialSortColumn[0] === '+') {
+      // pluas at the beginning means 'asc'
+      sortDirection = 'asc';
+
+    } else if (this.initialSortColumn[0] === '-') {
+      // minus at the beginning means 'desc'
+      sortDirection = 'desc';
+    } else {
+      // direction sign is optional
+      columnName = this.initialSortColumn;
+    }
+    let columnState = this.columnsLookup[columnName];
+    sortDirection = sortDirection || columnState.initialSortDirection;
+    columnState.currentSortDirection = sortDirection;
     // initial sort
-    this.sortRows([this.initialSortColumn, undefined]);
+    this.sortRows([columnName, sortDirection]);
+    this.columnsLookup
     this.initialSortColumn = undefined;
   }
 
