@@ -1,3 +1,4 @@
+import {ColumnState} from './../column-state.class';
 import {TableComponent} from './../table.component';
 import { ThComponent } from './th.component';
 /* tslint:disable:no-unused-variable */
@@ -15,4 +16,29 @@ describe('Component: Th', () => {
   it('should create an instance', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('sortColumn', () => {
+    fit('uses initial sorting direction', () => {
+      let name, direction;
+      component.sortColumn.subscribe((event: [string, string]) => {
+        [name, direction] = event;
+      });
+      let columnState = new ColumnState({id: 'foo', initialSortDirection: 'desc'});
+      component.onSortColumn(columnState);
+      expect(name).toEqual('foo');
+      expect(direction).toEqual('desc');
+    });
+
+    fit('changes sort direction', () => {
+      let name, direction;
+      component.sortColumn.subscribe((event: [string, string]) => {
+        console.log('HERE2  ');
+        [name, direction] = event;
+        let columnState = new ColumnState({id: 'foo', initialSortDirection: 'desc'}, 'asc');
+        component.onSortColumn(columnState);
+      });
+      expect(name).toEqual('foo');
+      expect(direction).toEqual('desc');
+    })
+  })
 });

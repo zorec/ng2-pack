@@ -1,3 +1,4 @@
+import {I18nService} from './../services/i18n.service';
 import {TableInitService} from './table-init.service';
 import {TableSortingService} from './table-sorting.service';
 /* tslint:disable:no-unused-variable */
@@ -10,7 +11,7 @@ describe('Component: Table', () => {
   let component: TableComponent;
 
   beforeEach(() => {
-    component = new TableComponent(<ElementRef>{}, new TableSortingService(), new TableInitService());
+    component = new TableComponent(<ElementRef>{}, new TableSortingService(), new TableInitService(), new I18nService(), {});
   });
 
   it('should create an instance', () => {

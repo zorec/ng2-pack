@@ -1,18 +1,16 @@
 import {ColumnState} from './column-state.class';
 
 describe('ColumnState', () => {
-  it('provided direction is used as first', () => {
-    let columnState = new ColumnState({id: 'foo', initialSortDirection: 'desc'}, 'asc');
-    expect(columnState.currentSortDirection).toEqual('asc');
-  });
+  describe('toggle', () => {
+    it('uses initial sort direction if it does not have current state', () => {
+      let columnState = new ColumnState({id: 'foo', initialSortDirection: 'desc'});
+      expect(columnState.toggleDirection()).toEqual('desc');
+    });
 
-  it('reversed config direction is used as second', () => {
-    let columnState = new ColumnState({id: 'foo', initialSortDirection: 'desc'});
-    expect(columnState.currentSortDirection).toEqual('asc');
-  });
+    it('toggles current state', () => {
+      let columnState = new ColumnState({id: 'foo', initialSortDirection: 'desc'}, 'asc');
+      expect(columnState.toggleDirection()).toEqual('desc');
+    })
+  })
 
-  it('has default currentSortDirection', () => {
-    let columnState = new ColumnState({id: 'foo'});
-    expect(columnState.currentSortDirection).toEqual('desc');
-  });
 });
