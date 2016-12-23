@@ -148,7 +148,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
   }
 
   initialSort() {
-    if (!this.initialSortColumn && !this.rows) {
+    if (!this.initialSortColumn || !this.rows) {
       return;
     }
     let columnName = this.initialSortColumn.slice(1);
@@ -165,11 +165,14 @@ export class TableComponent implements AfterViewInit, OnChanges {
       columnName = this.initialSortColumn;
     }
     let columnState = this.columnsLookup[columnName];
-    sortDirection = sortDirection || columnState.initialSortDirection;
-    columnState.currentSortDirection = sortDirection;
-    // initial sort
-    this.sortRows([columnName, sortDirection]);
-    this.columnsLookup
+    if (columnState) {
+      sortDirection = sortDirection || columnState.initialSortDirection;
+      columnState.currentSortDirection = sortDirection;
+      // initial sort
+      this.sortRows([columnName, sortDirection]);
+    } else {
+      console.warn('Missing configuration for column: ' + columnName);
+    }
     this.initialSortColumn = undefined;
   }
 
