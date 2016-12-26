@@ -2,7 +2,7 @@ import {ColumnState} from './column-state.class';
 import {I18nService} from './../services/i18n.service';
 import {TableInitService} from './table-init.service';
 import {ColumnConfig, ColumnLookup, Row} from './types';
-import {EditCellEvent} from './events';
+import {EditCellEvent, ToggleSubfieldEvent} from './events';
 import {TableSortingService} from './table-sorting.service';
 
 import {
@@ -73,6 +73,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
   @Output() rowClick: EventEmitter<number> = new EventEmitter<number>();
   @Output() visibleColumnsChange: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
+  @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent> = new EventEmitter<ToggleSubfieldEvent>();
 
   columnsLookup: ColumnLookup;
   addingColumnIndex: number;
@@ -137,6 +138,14 @@ export class TableComponent implements AfterViewInit, OnChanges {
 
   onAddingColumn(index: number) {
     this.addingColumnIndex = index;
+  }
+
+  onReorderColumns(reorderColumnsEvent: string[]) {
+    this.reorderColumns.emit(reorderColumnsEvent);
+  }
+
+  onToggleSubfield(toggleSubfieldEvent: ToggleSubfieldEvent) {
+    this.toggleSubfield.emit(toggleSubfieldEvent);
   }
 
   sortRows(sortEvent: [string, string]) {
