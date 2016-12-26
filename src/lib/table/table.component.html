@@ -6,7 +6,8 @@
     (removeColumn)="removeColumn.emit($event)"
     (sortColumn)="onSortColumn($event)"
     (addingColumn)="onAddingColumn($event)"
-    (reorderColumns)="reorderColumns.emit($event)"
+    (reorderColumns)="onReorderColumns($event)"
+    (toggleSubfield)="onToggleSubfield($event)"
   ></thead>
   <tbody
     iw-tbody

@@ -1,4 +1,5 @@
 import {ColumnConfig, ColumnLookup} from './../types';
+import {ToggleSubfieldEvent} from '../events';
 import {ColumnState} from './../column-state.class';
 import {TableComponent} from './../table.component';
 import {TableInitService} from '../table-init.service';
@@ -44,6 +45,7 @@ export class TheadComponent implements OnInit, AfterViewInit {
   @Output() sortColumn: EventEmitter<[string, string]> = new EventEmitter<[string, string]>();
   @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
   @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent> = new EventEmitter<ToggleSubfieldEvent>();
 
   lastColumnComboboxActive: boolean = false;
   addingColumnIndex: number | null;
@@ -150,6 +152,10 @@ export class TheadComponent implements OnInit, AfterViewInit {
   onSortColumn(sortEvent: [string, string]) {
     [this.tableComponent.sortedColumnName] = sortEvent;
     this.sortColumn.emit(sortEvent);
+  }
+
+  onToggleSubfield(toggleSubfieldEvent: ToggleSubfieldEvent) {
+    this.toggleSubfield.emit(toggleSubfieldEvent);
   }
 
   private initializeSortable() {

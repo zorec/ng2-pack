@@ -1,4 +1,5 @@
 import {ColumnConfig} from './../types';
+import {ToggleSubfieldEvent} from '../events';
 import {ColumnState} from './../column-state.class';
 import {SortColumnEvent} from '../events';
 import {TableComponent} from './../table.component';
@@ -36,10 +37,9 @@ export class ThComponent implements OnInit {
   };
 
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
-  // TODO: this needs to be propagated upwards
-  @Output() toggleSubfield: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<SortColumnEvent> = new EventEmitter<SortColumnEvent>();
   @Output() addCombobox: EventEmitter<number> = new EventEmitter<number>();
+  @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent> = new EventEmitter<ToggleSubfieldEvent>();
 
   private _sortingEnabled: boolean;
   private _visibleColumns: string[];
@@ -114,7 +114,11 @@ export class ThComponent implements OnInit {
       // it was active, therefore disable it
       column.activeFields.splice(subfieldIndex, 1);
     }
-    this.toggleSubfield.emit(column.config.id);
+    this.toggleSubfield.emit({
+      column: column.config.id,
+      activeSubfields: column.activeFields,
+      toggleSubfield: subfieldName
+    });
   }
 
   private delegateInput<T>(propertyName: string, defaultValue: T): T {
