@@ -9,4 +9,5 @@ export * from './add-column/add-column.component';
 export * from './column-state.class';
 export * from './table-sorting.service';
 export * from './table-init.service';
+export * from './pipes/format-column.pipe';
 export * from './table.module';

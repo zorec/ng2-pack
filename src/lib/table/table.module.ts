@@ -8,6 +8,8 @@ import {Select2Component} from './../select2/select2.component';
 import {TdComponent} from './td/td.component';
 import {ThComponent} from './th/th.component';
 import {PipesModule} from './../pipes/';
+import {DefaultValuePipe} from './../pipes/default-value/default-value.pipe';
+import {FormatColumnPipe} from './pipes/format-column.pipe';
 import {I18nService} from './../services/i18n.service';
 
 import {TableSortingService} from './table-sorting.service';
@@ -20,6 +22,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
+  imports: [
+    PipesModule,
+    CommonModule,
+    FormsModule,
+    DropdownModule
+  ],
   declarations: [
     TableComponent,
     TheadComponent,
@@ -30,6 +38,7 @@ import { FormsModule } from '@angular/forms';
     ThComponent,
     CustomCellDirective,
     InsertTemplateDirective,
+    FormatColumnPipe,
   ],
   exports: [
     TableComponent,
@@ -40,17 +49,13 @@ import { FormsModule } from '@angular/forms';
     TdComponent,
     ThComponent,
     CustomCellDirective,
-  ],
-  imports: [
-    PipesModule,
-    CommonModule,
-    FormsModule,
-    DropdownModule
+    FormatColumnPipe,
   ],
   providers: [
     TableSortingService,
     TableInitService,
     I18nService,
+    DefaultValuePipe
   ]
 })
 export class TableModule { }

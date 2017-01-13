@@ -1,6 +1,6 @@
 <div>
   <div *ngIf="!column?.config.subFields" #contentDiv>
-    {{ formattedValue }}
+    {{ cellValue | formatColumn: column }}
   </div>
 
   <div *ngIf="hasSubfields && cellValue && cellValue.length > 0">
