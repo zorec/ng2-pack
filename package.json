@@ -1,6 +1,6 @@
 {
   "name": "ng2-pack",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "2.0.0",
     "@angular/router": "3.0.0",
     "core-js": "^2.4.1",
+    "faker": "^3.1.0",
     "jquery": "^3.1.0",
     "jquery-ui-dist": "^1.12.0",
     "ng2-dropdown": "0.0.15",

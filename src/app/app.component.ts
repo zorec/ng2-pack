@@ -14,22 +14,37 @@ export class AppComponent {
   title = 'Data Table';
   columnsConfig: ColumnConfig[];
   rows: any[];
-  visibleColumns = ['name', 'birthday'];
+  visibleColumns = ['firstName', 'lastName'];
   customizedFields = ['studies'];
+  actionList: string[] = []
 
   constructor(private tableExampleService: TableExampleService) {
     this.columnsConfig = tableExampleService.columnsConfig;
-    this.rows = tableExampleService.rows.map((row) => {
-      return {
-        name: row.name,
-        children: row.children,
-        birthday: row.birthday
-      };
-    });
+    this.rows = tableExampleService.rows
+      .map((row) => {
+        let copy = {
+          id: row.id,
+          salutation: row.salutation,
+          firstName: row.firstName,
+          lastName: row.lastName,
+          birthday: row.birthday,
+          email: row.email,
+          phone: row.phone,
+          country: row.country,
+        };
+        return copy;
+      });
   }
 
   get rowsWithStudies(): any[] {
     return this.tableExampleService.rows;
+  }
+
+  onAction(action: string) {
+    if (this.actionList.length > 3) {
+      this.actionList.shift();
+    }
+    this.actionList.push(action);
   }
 
   isCustomField(columnId: string): boolean {

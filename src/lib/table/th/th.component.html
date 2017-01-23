@@ -34,6 +34,7 @@
         </a>
       </li>
 
+      <!-- NOTE: do not display divider when adding columns is disabled -->
       <li *ngIf="!isSortingDisabled(column) && changeVisibility" class="divider dropdown-divider"></li>
       <!-- NOTE: should it be disabled when there are no columns to add  -->
       <li *ngIf="changeVisibility">

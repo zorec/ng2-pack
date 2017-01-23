@@ -119,7 +119,7 @@ export class TbodyComponent implements AfterViewInit {
   }
 
   onEditCell(tdComponent: TdComponent, rowIndex: number) {
-    if (!tdComponent.isChanged) { return; }
+    if (!tdComponent.isChanged || !tdComponent.column) { return; }
     let editCellEvent: EditCellEvent = [
       tdComponent.content,
       tdComponent.row,
