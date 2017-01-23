@@ -45,20 +45,20 @@ export let tabledefaultValues: TableDefaultValues = {
   ]
 })
 export class TableComponent implements AfterViewInit, OnChanges {
-  @Input() set visibleColumns(visibleColumns: string[]) {
-    this._visibleColumns = visibleColumns;
-    this.visibleColumnsChange.emit(this._visibleColumns);
-  }
   @Input() set columnsConfig(columnsConfig: ColumnConfig[]) {
     this._columnsConfig = columnsConfig;
     this.columnsLookup = this.tableInitService.columnsConfig2Lookup(this.columnsConfig);
   }
+  @Input() set visibleColumns(visibleColumns: string[]) {
+    this._visibleColumns = visibleColumns;
+    this.visibleColumnsChange.emit(this._visibleColumns);
+  }
 
   @Input() rows: Row[];
   @Input() reorderingEnabled: boolean;
+  @Input() changeColumnVisibility: boolean;
   @Input() sortingEnabled: boolean;
   @Input() inlineEditingEnabled: boolean;
-  @Input() changeColumnVisibility: boolean;
   // @Input() columnsForAddingFn: (availableColumns: ColumnConfig[]) => any[] = (id) => id
   @Input() set language(language: string) {
     this.i18nService.language = language;
@@ -68,7 +68,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<[string, string]> = new EventEmitter<[string, string]>();
-  @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
+  // @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
   @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() rowClick: EventEmitter<number> = new EventEmitter<number>();
   @Output() visibleColumnsChange: EventEmitter<string[]> = new EventEmitter<string[]>();
@@ -138,6 +138,8 @@ export class TableComponent implements AfterViewInit, OnChanges {
 
   onAddingColumn(index: number) {
     this.addingColumnIndex = index;
+    // TODO: this should emit also when adding to the last column!
+    // this.addingColumn.emit(index);
   }
 
   onReorderColumns(reorderColumnsEvent: string[]) {

@@ -1,78 +1,62 @@
+<!-- TODO: show code snippets with the description-->
 <h1>
-  {{title}}
+  Data table component
 </h1>
-<!--
-<table class="results-table table table-bordered table-striped">
-  <tbody
-   iw-tbody
-   [rows]="rows"
-   [columnsConfig]="columnsConfig"
-   [visibleColumns]="visibleColumns"
-   >
-    <div *iwCustomCell="'name'" #elementRef>
-      Row:
-      <pre>
-        {{this | json}}
-      </pre>
-
-      Column:
-        {{column | json}}
-    </div>
-  </tbody>
-</table> -->
 
 <h3>1. Convention over configuration</h3>
-<p>Only rows attribute is a required input. Columns configuration will be initialized according row keys and values. All keys are visible by default. </p>
+<p>There is only one required input &mdash; rows data attribute. All other attributes have default values. For example, columns configuration is initialized according to row keys and values. All keys are visible by default.</p>
 <iw-table [rows]="rows"></iw-table>
 
+<!-- NOTE: language should be set with token -->
 <h3>2. Customization with all available inputs and outputs</h3>
 <p>
-  You can always override defaults. Here we change by default visible columns and customize displaying of birthday column with a date pipe. We disable reordering of columns and client-side sorting. Lastly, we enable inline editing and change language to German.
+  Default values can be overwritten. Here is a list of all inputs and outputs. In this case, the inline editing is enabled, and language is changed to German.
 </p>
-<p>
-  {{action}}
-</p>
+<div>
+  <p *ngFor="let action of actionList">{{action}}</p>
+</div>
 <iw-table
- [rows]="rows"
- [columnsConfig]="columnsConfig"
- [visibleColumns]="visibleColumns"
- [reorderingEnabled]="false"
- [inlineEditingEnabled]="true"
- [sortingEnabled]="true"
- language="de"
- (rowClick)="action = 'Row ' + $event  + ' was clicked!'"
- >
+  [rows]="rows"
+  [columnsConfig]="columnsConfig"
+  [visibleColumns]="visibleColumns"
+  [reorderingEnabled]="true"
+  [inlineEditingEnabled]="true"
+  [sortingEnabled]="true"
+  [changeColumnVisibility]="true"
+  language="de"
+  initialSortColumn="firstName"
+  (rowClick)="onAction('Row ' + $event  + ' was clicked!')"
+  (sortColumn)="onAction('Column ' + $event[0] + ' was sorted in the direction `' + $event[1] + '`!')"
+  (addColumn)="onAction('Column ' + $event + ' was added!')"
+  (removeColumn)="onAction('Column ' + $event + ' was removed!')"
+  (visibleColumnsChange)="onAction('Visible columns changed to: ' + $event)"
+  (reorderColumns)="onAction('The order of columns changed to: ' + $event)"
+  (editCell)="onAction('The cell in row ' + $event[3] + ' and column ' + $event[2] + ' was edited to value ' + $event[0])"
+  >
 </iw-table>
 
 
-<h3>3.A Custom template (without table header)</h3>
-You can provide a component template inside a iw-table element, where smaller composite directives can be used for not customized parts of template. In this case, we use 'iw-tbody' attribute to render table body.
-<iw-table [rows]="rows">
+<h3>3.A Custom template (customized table footer)</h3>
+You can provide a component template inside a iw-table element, where smaller composite directives can be used for not customized parts of the template. We use subcomponents 'iw-theader' and 'iw-tbody' to render table header and body.
+<iw-table [rows]="rows" [columnsConfig]="columnsConfig">
   <table class="results-table table table-bordered table-striped">
-   <!-- customized table header  -->
-   <tbody iw-tbody></tbody>
- </table>
+    <thead iw-thead></thead>
+    <tbody iw-tbody></tbody>
+    <!-- customized table footer  -->
+  </table>
 </iw-table>
 
-<h3>3.B Custom template (customized table header and body cells)</h3>
+<h3>3.B Custom template (Customized body cells)</h3>
 <p>
-  In this example, we are rendering table header without a possibility to add/remove. We are using a public API of table component to get visibleColumns and get column state for specific field.
+  In this example, display of some cells is customized. We are using a public API of table component to get visibleColumns and get column state for specific a field.
 </p>
 <iw-table
   [columnsConfig]="columnsConfig"
   [rows]="rowsWithStudies"
+  [visibleColumns]="['firstName', 'email', 'studies']"
   #tableComponent>
   <table class="results-table table table-bordered table-striped">
-    <thead>
-      <tr>
-        <template ngFor let-columnName [ngForOf]="tableComponent.visibleColumns">
-          <th
-            iw-th
-            [changeVisibility]="false"
-            [column]="tableComponent.columnsLookup[columnName]"></th>
-        </template>
-      </tr>
-    </thead>
+    <thead iw-thead></thead>
     <tbody>
       <tr *ngFor="let row of rowsWithStudies; let rowIndex = index">
         <template ngFor let-columnName [ngForOf]="tableComponent.visibleColumns">
@@ -90,6 +74,7 @@ You can provide a component template inside a iw-table element, where smaller co
            </iw-studies-cell>
           </td>
         </template>
+        <td></td>
       </tr>
     </tbody>
   </table>

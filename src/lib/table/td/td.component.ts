@@ -24,6 +24,7 @@ export class TdComponent implements OnInit {
   }
 
   get cellValue(): any {
+    if (!this.column) { return; }
     return this.row[this.column.config.id];
   }
 
