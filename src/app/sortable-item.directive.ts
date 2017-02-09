@@ -25,14 +25,6 @@ export class SortableItemDirective {
   @Input() itemId: number;
   @Input() dropArea: string = 'defaultDropArea';
 
-  @Input() updateElements = (dragged: SortableItemDirective, droppedOn: SortableItemDirective) => {
-    let pom = droppedOn.elementRef.nativeElement.innerHTML;
-    droppedOn.elementRef.nativeElement.innerHTML = dragged.elementRef.nativeElement.innerHTML;
-    dragged.elementRef.nativeElement.innerHTML = pom;
-  }
-
-
-
   constructor(public elementRef: ElementRef) {
     // this.itemId = elementRef.nativeElement.parentNode.children.indexOf(elementRef.nativeElement);
 
@@ -56,6 +48,7 @@ export class SortableItemDirective {
   onDragEnter(dragEvent: DragEvent) {
     dragEvent.preventDefault();
     if (dragSource.itemId !== this.itemId && dragSource.dropArea === this.dropArea && temporaryDropSource !== this) {
+      this.dragOver = true;
       console.log(dragSource, this);
       // temporaryDropSource = this;
       // this.updateElements(dragSource, temporaryDropSource);
@@ -66,7 +59,7 @@ export class SortableItemDirective {
   @HostListener('dragleave', ['$event'])
   onDragLeave(dragEvent: DragEvent) {
     console.log('onDragLeave', dragEvent);
-    if (dragSource.dropArea === this.dropArea && temporaryDropSource) {
+    if (dragSource.dropArea === this.dropArea) {
       // this.updateElements(temporaryDropSource, dragSource);
       // temporaryDropSource = null;
       this.dragOver = false;
@@ -87,11 +80,26 @@ export class SortableItemDirective {
   @HostListener('drop', ['$event'])
   onDrop(dragEvent: DragEvent) {
     dragEvent.stopPropagation();
-
+    if (this === dragSource) {
+      return;
+    }
     console.log('onDrop', dragEvent);
-    // do not allow drop on itself
     this.updateElements(dragSource, this);
-    // let data: string = JSON.parse(dragEvent.dataTransfer.getData('text/plain'));
-    // console.log(data);
+    this.dragOver = false;
+  }
+
+  private updateElements = (dragged: SortableItemDirective, droppedOn: SortableItemDirective) => {
+    let parent: Element = droppedOn.elementRef.nativeElement.parentNode;
+    let draggedEl: Element = dragged.elementRef.nativeElement;
+    let dropEl: Element = droppedOn.elementRef.nativeElement;
+    let draggedIndex = dragged.itemId;
+    let dropIndex = droppedOn.itemId;
+    if (draggedIndex === dropIndex) {
+      // do nothing
+    } else if (draggedIndex < dropIndex) {
+      parent.insertBefore(draggedEl, dropEl.nextSibling || dropEl);
+    } else {
+      parent.insertBefore(draggedEl, dropEl.previousSibling || dropEl);
+    }
   }
 }
