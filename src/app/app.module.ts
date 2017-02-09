@@ -6,6 +6,7 @@ import {InlineEditableModule} from '../lib/inline-editable/';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { SortableItemDirective } from './sortable-item.directive';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { NgModule } from '@angular/core';
   declarations: [
     AppComponent,
     StudiesCellComponent,
+    SortableItemDirective,
   ],
   providers: [],
   bootstrap: [AppComponent]
