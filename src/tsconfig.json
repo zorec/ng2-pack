@@ -1,19 +1,32 @@
 {
   "compilerOptions": {
-    "declaration": false,
+    "baseUrl": ".",
+    "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noImplicitAny": true,
-    "strictNullChecks": false,
+    "inlineSources": true,
     "lib": ["es6", "dom"],
     "mapRoot": "./",
     "module": "es6",
     "moduleResolution": "node",
+    "noImplicitAny": true,
     "outDir": "../dist/out-tsc",
+    "skipLibCheck": true,
     "sourceMap": true,
+    "strictNullChecks": false,
+    "stripInternal": true,
     "target": "es5",
     "typeRoots": [
       "../node_modules/@types"
     ]
+  },
+  "files": [
+    "../index.ts",
+  ],
+  "angularCompilerOptions": {
+    "debug": true,
+    "genDir": "aot",
+    "skipMetadataEmit": false,
+    "skipTemplateCodegen": true
   }
 }

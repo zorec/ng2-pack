@@ -105,15 +105,6 @@ export class TbodyComponent implements AfterViewInit {
     return this.columnsLookup[columnName];
   }
 
-  registerCustomCell(columnId: string, template: TemplateRef<any>) {
-    this.cellTemplates[columnId] = template;
-    this.customCells.push(columnId);
-  }
-
-  isCustomCell(columnId: string) {
-    return this.customCells.indexOf(columnId) !== -1;
-  }
-
   onRowClicked(index: number) {
     this.rowClick.emit(index);
   }

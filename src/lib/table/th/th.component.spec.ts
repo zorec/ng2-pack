@@ -19,7 +19,7 @@ describe('Component: Th', () => {
 
   describe('sortColumn', () => {
     fit('uses initial sorting direction', () => {
-      let name, direction;
+      let name: string, direction: string;
       component.sortColumn.subscribe((event: [string, string]) => {
         [name, direction] = event;
       });
@@ -30,7 +30,7 @@ describe('Component: Th', () => {
     });
 
     fit('changes sort direction', () => {
-      let name, direction;
+      let name: string, direction: string;
       component.sortColumn.subscribe((event: [string, string]) => {
         console.log('HERE2  ');
         [name, direction] = event;
