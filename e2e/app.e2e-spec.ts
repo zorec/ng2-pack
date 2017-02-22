@@ -6,9 +6,4 @@ describe('ng2-pack App', function() {
   beforeEach(() => {
     page = new Ng2PackPage();
   });
-
-  it('should display message saying Data Table ', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Data Table');
-  });
 });

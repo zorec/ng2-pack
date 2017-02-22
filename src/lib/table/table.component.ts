@@ -13,6 +13,7 @@ import {
   Input,
   Inject,
   OnChanges,
+  OpaqueToken,
   Output,
   ViewEncapsulation,
 } from '@angular/core';
@@ -26,7 +27,9 @@ export interface TableDefaultValues {
   changeColumnVisibility: boolean;
   language: string;
 }
-export let tabledefaultValues: TableDefaultValues = {
+
+export const TableDefaults = new OpaqueToken('TableDefaults');
+export const tableDefaultValues: TableDefaultValues = {
   reorderingEnabled: true,
   sortingEnabled: true,
   inlineEditingEnabled: false,
@@ -41,7 +44,7 @@ export let tabledefaultValues: TableDefaultValues = {
   // TODO: enable encapsulation again
   encapsulation: ViewEncapsulation.None,
   providers: [
-    {provide: 'tabledefaultValues', useValue: tabledefaultValues}
+    {provide: TableDefaults, useValue: tableDefaultValues}
   ]
 })
 export class TableComponent implements AfterViewInit, OnChanges {
@@ -88,7 +91,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
     public tableSortingService: TableSortingService,
     public tableInitService: TableInitService,
     public i18nService: I18nService,
-    @Inject('tabledefaultValues') defaults: TableDefaultValues,
+    @Inject(TableDefaults) defaults: any,
   ) {
     this.reorderingEnabled =  defaults.reorderingEnabled;
     this.sortingEnabled =  defaults.sortingEnabled;

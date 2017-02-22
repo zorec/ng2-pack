@@ -21,7 +21,7 @@
     ]
   },
   "files": [
-    "../index.ts",
+    "../index.ts"
   ],
   "angularCompilerOptions": {
     "debug": true,
