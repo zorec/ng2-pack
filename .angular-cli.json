@@ -1,5 +1,4 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
     "version": "1.0.0-beta.32.3",
     "name": "ng2-pack"
@@ -8,14 +7,15 @@
     {
       "root": "src",
       "outDir": "dist",
-      "assets": "assets",
+      "assets": [
+        "assets"
+      ],
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
       "test": "test.ts",
       "tsconfig": "tsconfig.json",
       "prefix": "iw",
-      "mobile": false,
       "styles": [
         "styles.css"
       ],
@@ -29,20 +29,27 @@
       }
     }
   ],
-  "addons": [],
-  "packages": [],
   "e2e": {
     "protractor": {
       "config": "./protractor.conf.js"
     }
   },
+  "lint": [
+    {
+      "files": "src/**/*.ts",
+      "project": "src/tsconfig.json"
+    },
+    {
+      "files": "e2e/**/*.ts",
+      "project": "e2e/tsconfig.json"
+    }
+  ],
   "test": {
     "karma": {
       "config": "./karma.conf.js"
     }
   },
   "defaults": {
-    "styleExt": "css",
-    "prefixInterfaces": false
+    "styleExt": "css"
   }
 }
