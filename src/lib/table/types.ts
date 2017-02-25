@@ -27,7 +27,7 @@ export interface ColumnLookup {
   [columnName: string]: ColumnState;
 }
 
-type cmpFun = (a: any, b: any) => number;
+export type cmpFun = (a: any, b: any) => number;
 
 export interface CompareFunctions {
   [sortType: string]: cmpFun;

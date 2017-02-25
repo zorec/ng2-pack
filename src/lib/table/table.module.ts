@@ -1,5 +1,3 @@
-import {InsertTemplateDirective} from './custom-cell/insert-template.directive';
-import {CustomCellDirective} from './custom-cell/custom-cell.directive';
 import {TableComponent} from './table.component';
 import {TheadComponent} from './thead/thead.component';
 import {TbodyComponent} from './tbody/tbody.component';
@@ -36,8 +34,6 @@ import { FormsModule } from '@angular/forms';
     Select2Component,
     TdComponent,
     ThComponent,
-    CustomCellDirective,
-    InsertTemplateDirective,
     FormatColumnPipe,
   ],
   exports: [
@@ -48,7 +44,6 @@ import { FormsModule } from '@angular/forms';
     Select2Component,
     TdComponent,
     ThComponent,
-    CustomCellDirective,
     FormatColumnPipe,
   ],
   providers: [

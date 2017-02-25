@@ -14,14 +14,14 @@ declare var jQuery: any;
 
 export type Select2Option = Select2ItemOption | Select2CategorizedOption;
 
-export type Select2ItemOption = {
+export interface Select2ItemOption {
   text: string;
   id: string;
 }
 
-export type Select2CategorizedOption = {
+export interface Select2CategorizedOption {
   text: string;
-  children: Select2ItemOption[]
+  children: Select2ItemOption[];
 }
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
@@ -72,11 +72,11 @@ export class Select2Component implements OnInit, OnChanges, ControlValueAccessor
     this.element.val(v).trigger('change');
   }
 
-  onChange = (v: string) => {}
+  onChange = (v: string) => {};
   registerOnChange(fn: (v: string) => {}): void {
     this.onChange = fn;
   }
-  onTouched = () => {}
+  onTouched = () => {};
   registerOnTouched(fn: () => {}): void { this.onTouched = fn; }
 
   onClose(e: Event) {
