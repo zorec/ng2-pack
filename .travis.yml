@@ -22,4 +22,4 @@ before_script:
 - yarn
 - ng build
 
-script: ng test
+script: ng test --watch false
