@@ -13,7 +13,7 @@ An enhanced table element. See DEMO here: https://zorec.github.io/ng2-pack/
 - **columnsConfig**: Configuration of a table. Type?: ColumnConfig[]. Optional.
 - **visibleColumns** Ids of initially visible columns in a table. Type?: string[]. Optional
 - **reorderingEnabled** Enable/Disable drag and drop reordering of columns. Type: boolean;
-- **sortingEnabled** Enable/Disable client-side sorting of columns. Type: boolean;
+- **rowsSortingMode** By default, table rows are sorted client-side. If there are not all records (because of pagination), then the external mode should be used. Lastly, the sorting of rows can be disabled completely.  Type: 'default' | 'external' | 'disabled';
 
 #### Table API: Output events:
 

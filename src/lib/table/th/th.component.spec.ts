@@ -19,7 +19,7 @@ describe('Component: Th', () => {
 
   describe('onSortColumn', () => {
     beforeEach(() => {
-     component.sortingEnabled = true;
+     component.rowsSortingMode = 'default';
     });
 
     it('uses a toggled sorting direction if none provided', () => {

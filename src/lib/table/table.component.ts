@@ -1,7 +1,7 @@
 import {ColumnState} from './column-state.class';
 import {I18nService} from './../services/i18n.service';
 import {TableInitService} from './table-init.service';
-import {ColumnConfig, ColumnLookup, SortDirection, Row} from './types';
+import {ColumnConfig, ColumnLookup, SortDirection, Row, SortingMode} from './types';
 import {EditCellEvent, RowClickEvent, ToggleSubfieldEvent} from './events';
 import {TableSortingService} from './table-sorting.service';
 
@@ -22,7 +22,7 @@ declare var jQuery: any;
 
 export interface TableDefaultValues {
   reorderingEnabled: boolean;
-  sortingEnabled: boolean;
+  rowsSortingMode: SortingMode;
   inlineEditingEnabled: boolean;
   changeColumnVisibility: boolean;
   language: string;
@@ -31,7 +31,7 @@ export interface TableDefaultValues {
 export const TableDefaults = new OpaqueToken('TableDefaults');
 export const tableDefaultValues: TableDefaultValues = {
   reorderingEnabled: true,
-  sortingEnabled: true,
+  rowsSortingMode: 'default',
   inlineEditingEnabled: false,
   changeColumnVisibility: true,
   language: 'en',
@@ -60,7 +60,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
   @Input() rows: Row[];
   @Input() reorderingEnabled: boolean;
   @Input() changeColumnVisibility: boolean;
-  @Input() sortingEnabled: boolean;
+  @Input() rowsSortingMode: SortingMode;
   @Input() inlineEditingEnabled: boolean;
   // @Input() columnsForAddingFn: (availableColumns: ColumnConfig[]) => any[] = (id) => id
   @Input() set language(language: string) {
@@ -94,7 +94,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
     @Inject(TableDefaults) defaults: any,
   ) {
     this.reorderingEnabled =  defaults.reorderingEnabled;
-    this.sortingEnabled =  defaults.sortingEnabled;
+    this.rowsSortingMode =  defaults.rowsSortingMode;
     this.inlineEditingEnabled =  defaults.inlineEditingEnabled;
     this.changeColumnVisibility =  defaults.changeColumnVisibility;
     this.language = defaults.language;
@@ -136,7 +136,10 @@ export class TableComponent implements AfterViewInit, OnChanges {
 
   onSortColumn(sortEvent: [string, string]) {
     this.sortColumn.emit(sortEvent);
-    this.sortRows(sortEvent);
+    // Only 'default' mode sorts the records
+    if (this.rowsSortingMode === 'default') {
+      this.sortRows(sortEvent);
+    }
   }
 
   onAddingColumn(index: number) {

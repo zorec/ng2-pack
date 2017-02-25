@@ -1,4 +1,4 @@
-import {ColumnConfig, SortDirection} from './../types';
+import {ColumnConfig, SortDirection, SortingMode} from './../types';
 import {ToggleSubfieldEvent} from '../events';
 import {ColumnState} from './../column-state.class';
 import {SortColumnEvent} from '../events';
@@ -21,8 +21,8 @@ import {
 export class ThComponent implements OnInit {
   @Input() column: ColumnState;
   @Input() changeVisibility: boolean = true;
-  @Input() set sortingEnabled(sortingEnabled: boolean) {
-    this._sortingEnabled = sortingEnabled;
+  @Input() set rowsSortingMode(rowsSortingMode: SortingMode) {
+    this._rowsSortingMode = rowsSortingMode;
   };
   @Input() set visibleColumns(visibleColumns: string[]) {
     if (this.tableComponent) {
@@ -41,7 +41,7 @@ export class ThComponent implements OnInit {
   @Output() addCombobox: EventEmitter<number> = new EventEmitter<number>();
   @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent> = new EventEmitter<ToggleSubfieldEvent>();
 
-  private _sortingEnabled: boolean;
+  private _rowsSortingMode: SortingMode;
   private _visibleColumns: string[];
   private _columnsConfig: ColumnConfig[];
   private tableComponent: TableComponent | undefined;
@@ -54,8 +54,8 @@ export class ThComponent implements OnInit {
   ngOnInit() {
   }
 
-  get sortingEnabled(): boolean {
-    return this._sortingEnabled || this.delegateInput('sortingEnabled', false);
+  get rowsSortingMode(): SortingMode {
+    return this._rowsSortingMode || this.delegateInput('rowsSortingMode', <SortingMode>'default');
   }
 
   get visibleColumns(): string[] {
@@ -76,7 +76,7 @@ export class ThComponent implements OnInit {
 
   isSortingDisabled(column: ColumnState) {
     if (!column) { return; }
-    return !this.sortingEnabled || column.config.sortingDisabled;
+    return this.rowsSortingMode === 'disabled' || column.config.sortingDisabled;
   }
 
   showSortIcon (column: ColumnState, sortType: string, direction: string): boolean {
