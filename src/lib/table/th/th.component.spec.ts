@@ -18,7 +18,7 @@ describe('Component: Th', () => {
   });
 
   describe('sortColumn', () => {
-    fit('uses initial sorting direction', () => {
+    it('uses initial sorting direction', () => {
       let name: string, direction: string;
       component.sortColumn.subscribe((event: [string, string]) => {
         [name, direction] = event;
@@ -29,14 +29,14 @@ describe('Component: Th', () => {
       expect(direction).toEqual('desc');
     });
 
-    fit('changes sort direction', () => {
+    it('changes sort direction', () => {
       let name: string, direction: string;
       component.sortColumn.subscribe((event: [string, string]) => {
         console.log('HERE2  ');
         [name, direction] = event;
-        let columnState = new ColumnState({id: 'foo', initialSortDirection: 'desc'}, 'asc');
-        component.onSortColumn(columnState);
       });
+      let columnState = new ColumnState({id: 'foo', initialSortDirection: 'desc'}, 'asc');
+      component.onSortColumn(columnState);
       expect(name).toEqual('foo');
       expect(direction).toEqual('desc');
     })

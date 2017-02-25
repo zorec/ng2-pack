@@ -66,7 +66,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
   @Input() set language(language: string) {
     this.i18nService.language = language;
   }
-  @Input() initialSortColumn: string;
+  @Input() initialSortColumn: string | undefined;
 
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
@@ -166,7 +166,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
       return;
     }
     let columnName = this.initialSortColumn.slice(1);
-    let sortDirection: string;
+    let sortDirection: string = 'asc';
     if (this.initialSortColumn[0] === '+') {
       // pluas at the beginning means 'asc'
       sortDirection = 'asc';

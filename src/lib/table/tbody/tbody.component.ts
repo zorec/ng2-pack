@@ -47,7 +47,7 @@ export class TbodyComponent implements AfterViewInit {
   private _rows: any[];
   private _visibleColumns: string[];
   private isEditable: boolean;
-  private tableComponent: TableComponent | undefined;
+  private tableComponent: TableComponent;
   private customCells: string[] = [];
   private cellTemplates: {[columnId: string]: TemplateRef<any>} = {};
 

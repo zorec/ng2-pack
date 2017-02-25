@@ -13,7 +13,7 @@ export class ColumnState {
   }
 
   get currentSortDirection(): string {
-    return this._currentSortDirection;
+    return this._currentSortDirection || 'asc';
   }
 
   set currentSortDirection(direction: string) {
