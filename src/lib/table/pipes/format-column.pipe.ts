@@ -21,9 +21,9 @@ export class FormatColumnPipe implements PipeTransform {
     if (!formatters) {
       return value;
     }
-    return formatters.reduce((value, formatter) => {
+    return formatters.reduce((currentValue, formatter) => {
       let args = formatter.arguments || [];
-      return formatter.transform(value, ...args);
+      return formatter.transform(currentValue, ...args);
     }, value);
   }
 }
