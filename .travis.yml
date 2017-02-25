@@ -19,7 +19,7 @@ before_install:
 
 before_script:
 - npm install -g angular-cli
-- yarn
+- npm install
 - ng build
 
 script: ng test --watch false
