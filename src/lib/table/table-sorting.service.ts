@@ -4,7 +4,7 @@ import {CompareFunctions, Row} from './types';
 import {Injectable} from '@angular/core';
 
 export interface Sorting {
-  sort(rows: Row[], columnState: ColumnState, direction?: string): any[];
+  sort(rows: Row[], columnState: ColumnState): any[];
 }
 
 export const sortingCompare: CompareFunctions = {
@@ -22,11 +22,11 @@ export const sortingCompare: CompareFunctions = {
 
 @Injectable()
 export class TableSortingService {
-  sort(rows: Row[], columnState: ColumnState, direction?: string) {
+  sort(rows: Row[], columnState: ColumnState) {
     let sortType = columnState.config.sortType || 'other';
     let cmpFn = columnState.config.sortCompare || sortingCompare[sortType];
     if (!cmpFn) {
-      console.warn(`Unsupported sorting type '${sortType}' was used.` +
+      console.warn(`Unsupported sorting type '${sortType}' was used. ` +
         'Using comparison operators: greater, less and equal (>, <, ===)'
       );
       cmpFn = sortingCompare['other'];

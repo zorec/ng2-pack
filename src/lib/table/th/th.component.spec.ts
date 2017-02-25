@@ -17,13 +17,20 @@ describe('Component: Th', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('sortColumn', () => {
-    it('uses initial sorting direction', () => {
+  describe('onSortColumn', () => {
+    beforeEach(() => {
+     component.sortingEnabled = true;
+    });
+
+    it('uses a toggled sorting direction if none provided', () => {
       let name: string, direction: string;
       component.sortColumn.subscribe((event: [string, string]) => {
         [name, direction] = event;
       });
-      let columnState = new ColumnState({id: 'foo', initialSortDirection: 'desc'});
+      let columnState = new ColumnState({
+        id: 'foo',
+        initialSortDirection: 'desc'
+      });
       component.onSortColumn(columnState);
       expect(name).toEqual('foo');
       expect(direction).toEqual('desc');
@@ -32,7 +39,6 @@ describe('Component: Th', () => {
     it('changes sort direction', () => {
       let name: string, direction: string;
       component.sortColumn.subscribe((event: [string, string]) => {
-        console.log('HERE2  ');
         [name, direction] = event;
       });
       let columnState = new ColumnState({id: 'foo', initialSortDirection: 'desc'}, 'asc');
