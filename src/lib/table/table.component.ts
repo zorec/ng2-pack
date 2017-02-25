@@ -58,6 +58,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
   }
 
   @Input() rows: Row[];
+  @Input() visibleRowsLimit: number | undefined;
   @Input() reorderingEnabled: boolean;
   @Input() changeColumnVisibility: boolean;
   @Input() rowsSortingMode: SortingMode;

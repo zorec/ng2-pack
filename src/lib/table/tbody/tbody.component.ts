@@ -71,6 +71,14 @@ export class TbodyComponent implements AfterViewInit {
     return this._rows || this.delegateInput('rows', []);
   }
 
+  get visibleRows(): any[] {
+    const limit = this.delegateInput('visibleRowsLimit', undefined);
+    if (limit) {
+      return this.rows.slice(0, limit);
+    }
+    return this.rows;
+  }
+
   get columnsConfig(): ColumnConfig[] {
     return this._columnsConfig || this.delegateInput('columnsConfig', []);
   };
