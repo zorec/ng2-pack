@@ -1,6 +1,8 @@
 import {ColumnState} from './column-state.class';
 import {PipeTransform} from '@angular/core';
 
+export type SortDirection = 'asc' | 'desc';
+
 export interface ColumnConfig {
   id: string;
   text?: string;
@@ -13,7 +15,7 @@ export interface ColumnConfig {
   };
   sortCompare?: (a: any, b: any) => number;
   sortType?: string; // either 'string' or 'number'
-  initialSortDirection?: string;  // either 'asc' or 'desc'
+  initialSortDirection?: SortDirection;  // either 'asc' or 'desc'
   data?: any; // for user-specific data
 }
 

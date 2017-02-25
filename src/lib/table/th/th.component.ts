@@ -1,4 +1,4 @@
-import {ColumnConfig} from './../types';
+import {ColumnConfig, SortDirection} from './../types';
 import {ToggleSubfieldEvent} from '../events';
 import {ColumnState} from './../column-state.class';
 import {SortColumnEvent} from '../events';
@@ -90,7 +90,7 @@ export class ThComponent implements OnInit {
     if (!direction) {
       direction = column.toggleDirection();
     } else {
-      column.currentSortDirection = direction;
+      column.currentSortDirection = <SortDirection>direction;
     }
 
     this.sortColumn.emit([column.config.id, direction]);

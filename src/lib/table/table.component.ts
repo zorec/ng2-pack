@@ -1,7 +1,7 @@
 import {ColumnState} from './column-state.class';
 import {I18nService} from './../services/i18n.service';
 import {TableInitService} from './table-init.service';
-import {ColumnConfig, ColumnLookup, Row} from './types';
+import {ColumnConfig, ColumnLookup, SortDirection, Row} from './types';
 import {EditCellEvent, ToggleSubfieldEvent} from './events';
 import {TableSortingService} from './table-sorting.service';
 
@@ -156,7 +156,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
   sortRows(sortEvent: [string, string]) {
     let [property, direction] = sortEvent;
     this.rows = this.tableSortingService.sort(
-      this.rows, this.columnsLookup[property], direction
+      this.rows, this.columnsLookup[property]
     );
     this.sortedColumnName = property;
   }
@@ -181,7 +181,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
     let columnState = this.columnsLookup[columnName];
     if (columnState) {
       sortDirection = sortDirection || columnState.initialSortDirection;
-      columnState.currentSortDirection = sortDirection;
+      columnState.currentSortDirection = <SortDirection>sortDirection;
       // initial sort
       this.sortRows([columnName, sortDirection]);
     } else {
