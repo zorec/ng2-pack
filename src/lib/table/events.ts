@@ -6,3 +6,8 @@ export interface ToggleSubfieldEvent {
   toggleSubfield: string;
   activeSubfields: string[];
 };
+
+export interface RowClickEvent {
+  rowIndex: number;
+  rowObject: any;
+}

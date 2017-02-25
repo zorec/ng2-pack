@@ -2,7 +2,7 @@ import {ColumnState} from './column-state.class';
 import {I18nService} from './../services/i18n.service';
 import {TableInitService} from './table-init.service';
 import {ColumnConfig, ColumnLookup, SortDirection, Row} from './types';
-import {EditCellEvent, ToggleSubfieldEvent} from './events';
+import {EditCellEvent, RowClickEvent, ToggleSubfieldEvent} from './events';
 import {TableSortingService} from './table-sorting.service';
 
 import {
@@ -73,7 +73,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
   @Output() sortColumn: EventEmitter<[string, string]> = new EventEmitter<[string, string]>();
   // @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
   @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
-  @Output() rowClick: EventEmitter<number> = new EventEmitter<number>();
+  @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
   @Output() visibleColumnsChange: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
   @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent> = new EventEmitter<ToggleSubfieldEvent>();
@@ -130,7 +130,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  onRowClicked(rowClickEvent: number) {
+  onRowClicked(rowClickEvent: RowClickEvent) {
     this.rowClick.emit(rowClickEvent);
   }
 

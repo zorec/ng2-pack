@@ -2,7 +2,7 @@ import {TdComponent} from './../td/td.component';
 import {TableInitService} from './../table-init.service';
 import {ColumnConfig, ColumnLookup} from '../types';
 import {ColumnState} from './../column-state.class';
-import {EditCellEvent} from '../events';
+import {EditCellEvent, RowClickEvent} from '../events';
 import {TableComponent} from './../table.component';
 
 import {
@@ -37,7 +37,7 @@ export class TbodyComponent implements AfterViewInit {
     this._visibleColumns = visibleColumns;
   }
 
-  @Output() rowClick: EventEmitter<number> = new EventEmitter<number>();
+  @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
   @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
 
   customTemplate: boolean = false;
@@ -105,8 +105,11 @@ export class TbodyComponent implements AfterViewInit {
     return this.columnsLookup[columnName];
   }
 
-  onRowClicked(index: number) {
-    this.rowClick.emit(index);
+  onRowClicked(rowIndex: number, rowObject: any) {
+    this.rowClick.emit({
+      rowIndex,
+      rowObject
+    });
   }
 
   onEditCell(tdComponent: TdComponent, rowIndex: number) {
