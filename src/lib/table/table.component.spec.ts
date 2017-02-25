@@ -2,7 +2,7 @@ import {I18nService} from './../services/i18n.service';
 import {TableInitService} from './table-init.service';
 import {TableSortingService} from './table-sorting.service';
 /* tslint:disable:no-unused-variable */
-import { TableComponent } from './table.component';
+import { TableComponent, tableDefaultValues } from './table.component';
 
 import {ElementRef} from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
@@ -11,7 +11,7 @@ describe('Component: Table', () => {
   let component: TableComponent;
 
   beforeEach(() => {
-    component = new TableComponent(<ElementRef>{}, new TableSortingService(), new TableInitService(), new I18nService(), {});
+    component = new TableComponent(<ElementRef>{}, new TableSortingService(), new TableInitService(), new I18nService(), tableDefaultValues);
   });
 
   it('should create an instance', () => {

@@ -22,7 +22,7 @@ export const sortingCompare: CompareFunctions = {
 
 @Injectable()
 export class TableSortingService {
-  sort(rows: Row[], columnState: ColumnState, direction: string) {
+  sort(rows: Row[], columnState: ColumnState, direction?: string) {
     let sortType = columnState.config.sortType || 'other';
     let cmpFn = columnState.config.sortCompare || sortingCompare[sortType];
     if (!cmpFn) {

@@ -47,7 +47,7 @@ export class TbodyComponent implements AfterViewInit {
   private _rows: any[];
   private _visibleColumns: string[];
   private isEditable: boolean;
-  private tableComponent: TableComponent | undefined;
+  private tableComponent: TableComponent;
   private customCells: string[] = [];
   private cellTemplates: {[columnId: string]: TemplateRef<any>} = {};
 
@@ -103,15 +103,6 @@ export class TbodyComponent implements AfterViewInit {
 
   column(columnName: string): ColumnState {
     return this.columnsLookup[columnName];
-  }
-
-  registerCustomCell(columnId: string, template: TemplateRef<any>) {
-    this.cellTemplates[columnId] = template;
-    this.customCells.push(columnId);
-  }
-
-  isCustomCell(columnId: string) {
-    return this.customCells.indexOf(columnId) !== -1;
   }
 
   onRowClicked(index: number) {

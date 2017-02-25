@@ -5,8 +5,7 @@ import {people} from './people-mocks';
 
 @Injectable()
 export class TableExampleService {
-
-  rows = people;
+  rows: any[] = people;
 
   categories = {
     person: {id: 'person', text: 'Person'},
@@ -38,5 +37,6 @@ export class TableExampleService {
         // {id: 'country', text: 'Country', isVisible: false}
       ]}
   ];
-  constructor(private datePipe: DatePipe) {}
+  constructor(private datePipe: DatePipe) {
+  }
 }

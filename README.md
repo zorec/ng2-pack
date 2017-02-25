@@ -21,6 +21,33 @@ Additionally, we follow good practices and style guides:
 
 <!-- There are many other important characteristics (e.g. performance) that are not mentioned here as a main characteristic, but not neglected. -->
 
+#### Setup
+You can install the package with yarn or npm.
+```bash
+yarn add ng2-pack
+```
+
+Then you can import a module from 'ng2-pack' and use it. You may need to install jQuery and jQuery UI Sortable. These dependencies will soon be removed from this project.  
+
+```ts
+import { AppComponent } from './app.component';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { TableModule } from 'ng2-pack';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    TableModule,
+    // other modules ...
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+<!-- TODO: add setup for AOT! -->
+
 #### Roadmap:
 
 | Feature          | Status              | Docs         |
@@ -28,7 +55,7 @@ Additionally, we follow good practices and style guides:
 | Data Table       |               Alpha | [README][1]  |
 | Select2          |                 WIP |             -|
 | Inline editing   |                 WIP |             -|
-| Sortable items   |         Not started |             -|
+| Sortable items   |                 WIP |             -|
 
 [1]: https://github.com/zorec/ng2-pack/blob/master/src/lib/table/README.md
 

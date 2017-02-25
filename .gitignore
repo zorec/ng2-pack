@@ -31,3 +31,9 @@ testem.log
 #System Files
 .DS_Store
 Thumbs.db
+
+# *ngfactory.ts
+# *ngstyle.ts
+# *ngsummary.json
+
+.vscode/
