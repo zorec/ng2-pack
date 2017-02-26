@@ -2,7 +2,7 @@ import {ColumnState} from './column-state.class';
 import {I18nService} from './../services/i18n.service';
 import {TableInitService} from './table-init.service';
 import {ColumnConfig, ColumnLookup, SortDirection, Row, SortingMode} from './types';
-import {EditCellEvent, RowClickEvent, ToggleSubfieldEvent} from './events';
+import { EditCellEvent, RowClickEvent, ToggleSubfieldEvent, SortColumnEvent } from './events';
 import {TableSortingService} from './table-sorting.service';
 
 import {
@@ -58,7 +58,6 @@ export class TableComponent implements AfterViewInit, OnChanges {
   }
 
   @Input() rows: Row[];
-  @Input() visibleRowsLimit: number | undefined;
   @Input() reorderingEnabled: boolean;
   @Input() changeColumnVisibility: boolean;
   @Input() rowsSortingMode: SortingMode;
@@ -71,7 +70,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
 
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
-  @Output() sortColumn: EventEmitter<[string, string]> = new EventEmitter<[string, string]>();
+  @Output() sortColumn: EventEmitter<SortColumnEvent> = new EventEmitter<SortColumnEvent>();
   // @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
   @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
@@ -135,9 +134,8 @@ export class TableComponent implements AfterViewInit, OnChanges {
     this.rowClick.emit(rowClickEvent);
   }
 
-  onSortColumn(sortEvent: [string, string]) {
+  onSortColumn(sortEvent: SortColumnEvent) {
     this.sortColumn.emit(sortEvent);
-    // Only 'default' mode sorts the records
     if (this.rowsSortingMode === 'default') {
       this.sortRows(sortEvent);
     }
@@ -157,12 +155,12 @@ export class TableComponent implements AfterViewInit, OnChanges {
     this.toggleSubfield.emit(toggleSubfieldEvent);
   }
 
-  sortRows(sortEvent: [string, string]) {
-    let [property, direction] = sortEvent;
+  sortRows(sortEvent: SortColumnEvent) {
+    let {column, direction} = sortEvent;
     this.rows = this.tableSortingService.sort(
-      this.rows, this.columnsLookup[property]
+      this.rows, this.columnsLookup[column]
     );
-    this.sortedColumnName = property;
+    this.sortedColumnName = column;
   }
 
   initialSort() {
@@ -187,7 +185,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
       sortDirection = sortDirection || columnState.initialSortDirection;
       columnState.currentSortDirection = <SortDirection>sortDirection;
       // initial sort
-      this.sortRows([columnName, sortDirection]);
+      this.sortRows({column: columnName, direction: sortDirection});
     } else {
       console.warn('Missing configuration for column: ' + columnName);
     }

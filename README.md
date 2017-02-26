@@ -62,7 +62,6 @@ export class AppModule { }
 - **rows**: data to be displayed in the table rows. Type: Object[]. Required. All other inputs are optional.
 - **columnsConfig**: Configuration of a table. Type?: ColumnConfig[]
 - **visibleColumns** Ids of initially visible columns in a table. Type?: string[]
-- **visibleRowsLimit**: It limits the number of records visible in UI. It is intended for a (client-side) pagination. Type: number
 - **reorderingEnabled** Enable/Disable drag&drop reordering of columns. Type: boolean
 - **inlineEditingEnabled** Enable/Disable inline editing of the data. Type: boolean. Experimental.
 - **changeColumnVisibility** Enable/Disable user to select which columns are visible. Type: boolean
@@ -74,7 +73,7 @@ export class AppModule { }
 
 - **addColumn** A column was added by a user. Event data contain column id. Type: string
 - **removeColumn** A column was removed by a user. Event data contain column id. Type: string
-- **sortColumn** A column was sorted by a user. Event data contain a tuple with column id and direction, either 'asc' or 'desc'. Type: [string, string]
+- **sortColumn** A column was sorted by a user. Event data contain a tuple with column id and direction, either 'asc' or 'desc'. Type: SortColumnEvent
 - **addingColumn** A column is being added at a specific position. Event data Type. number | undefined
 - **reorderColumns** Columns were reordered. Event data contain new order of column ids Type: string[])
 - **toggleSubfield** Triggered when a visibility for a subfield is changed. Type: ToggleSubfieldEvent

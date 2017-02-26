@@ -1,6 +1,15 @@
-// contains new value, ref to a changed object, column name and row index
-export type EditCellEvent = [any, any, string, number];
-export type SortColumnEvent = [string, string | undefined];
+export interface EditCellEvent {
+  newValue: any;
+  column: string;
+  rowObject: any;
+  rowIndex: number;
+};
+
+export interface SortColumnEvent {
+  column: string;
+  direction: string | undefined;
+};
+
 export interface ToggleSubfieldEvent {
   column: string;
   toggleSubfield: string;

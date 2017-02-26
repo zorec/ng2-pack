@@ -1,7 +1,6 @@
 import {ColumnConfig, SortDirection, SortingMode} from './../types';
-import {ToggleSubfieldEvent} from '../events';
 import {ColumnState} from './../column-state.class';
-import {SortColumnEvent} from '../events';
+import {SortColumnEvent, ToggleSubfieldEvent} from '../events';
 import {TableComponent} from './../table.component';
 
 import {
@@ -93,7 +92,10 @@ export class ThComponent implements OnInit {
       column.currentSortDirection = <SortDirection>direction;
     }
 
-    this.sortColumn.emit([column.config.id, direction]);
+    this.sortColumn.emit({
+      column: column.config.id,
+      direction
+    });
   }
 
   onRemoveColumn(columnName: string) {

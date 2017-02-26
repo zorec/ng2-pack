@@ -1,5 +1,5 @@
 import {ColumnConfig, ColumnLookup} from './../types';
-import {ToggleSubfieldEvent} from '../events';
+import { SortColumnEvent, ToggleSubfieldEvent} from '../events';
 import {ColumnState} from './../column-state.class';
 import {TableComponent} from './../table.component';
 import {TableInitService} from '../table-init.service';
@@ -42,7 +42,7 @@ export class TheadComponent implements OnInit, AfterViewInit {
 
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
-  @Output() sortColumn: EventEmitter<[string, string]> = new EventEmitter<[string, string]>();
+  @Output() sortColumn: EventEmitter<SortColumnEvent> = new EventEmitter<SortColumnEvent>();
   @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
   @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent> = new EventEmitter<ToggleSubfieldEvent>();
@@ -149,8 +149,8 @@ export class TheadComponent implements OnInit, AfterViewInit {
     this.addingColumn.emit(index);
   }
 
-  onSortColumn(sortEvent: [string, string]) {
-    [this.tableComponent.sortedColumnName] = sortEvent;
+  onSortColumn(sortEvent: SortColumnEvent) {
+    this.tableComponent.sortedColumnName = sortEvent.column;
     this.sortColumn.emit(sortEvent);
   }
 

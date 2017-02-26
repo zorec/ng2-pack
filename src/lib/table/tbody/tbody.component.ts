@@ -71,14 +71,6 @@ export class TbodyComponent implements AfterViewInit {
     return this._rows || this.delegateInput('rows', []);
   }
 
-  get visibleRows(): any[] {
-    const limit = this.delegateInput('visibleRowsLimit', undefined);
-    if (limit) {
-      return this.rows.slice(0, limit);
-    }
-    return this.rows;
-  }
-
   get columnsConfig(): ColumnConfig[] {
     return this._columnsConfig || this.delegateInput('columnsConfig', []);
   };
@@ -122,12 +114,12 @@ export class TbodyComponent implements AfterViewInit {
 
   onEditCell(tdComponent: TdComponent, rowIndex: number) {
     if (!tdComponent.isChanged || !tdComponent.column) { return; }
-    let editCellEvent: EditCellEvent = [
-      tdComponent.content,
-      tdComponent.row,
-      tdComponent.column.config.id,
+    let editCellEvent: EditCellEvent = {
+      newValue: tdComponent.content,
+      column: tdComponent.column.config.id,
+      rowObject: tdComponent.row,
       rowIndex
-    ];
+    };
     this.editCell.emit(editCellEvent);
   }
 
