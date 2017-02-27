@@ -1,3 +1,4 @@
+import { SortColumnEvent } from './../events';
 import {ColumnState} from './../column-state.class';
 import {TableComponent} from './../table.component';
 import { ThComponent } from './th.component';
@@ -19,31 +20,41 @@ describe('Component: Th', () => {
 
   describe('onSortColumn', () => {
     beforeEach(() => {
-     component.sortingEnabled = true;
+     component.rowsSortingMode = 'default';
+    });
+
+    it('does not trigger the event when disabled', () => {
+      component.rowsSortingMode = 'disabled';
+      let isEventTriggered: boolean = false;
+      component.sortColumn.subscribe(() => {
+        isEventTriggered = true;
+      });
+      component.onSortColumn(new ColumnState({id: 'foo'}));
+      expect(isEventTriggered).toBe(false);
     });
 
     it('uses a toggled sorting direction if none provided', () => {
-      let name: string, direction: string;
-      component.sortColumn.subscribe((event: [string, string]) => {
-        [name, direction] = event;
+      let column: string, direction: string;
+      component.sortColumn.subscribe((event: SortColumnEvent) => {
+        ({column, direction} = event);
       });
       let columnState = new ColumnState({
         id: 'foo',
         initialSortDirection: 'desc'
       });
       component.onSortColumn(columnState);
-      expect(name).toEqual('foo');
+      expect(column).toEqual('foo');
       expect(direction).toEqual('desc');
     });
 
     it('changes sort direction', () => {
-      let name: string, direction: string;
-      component.sortColumn.subscribe((event: [string, string]) => {
-        [name, direction] = event;
+      let column: string, direction: string;
+      component.sortColumn.subscribe((event: SortColumnEvent) => {
+        ({column, direction} = event);
       });
       let columnState = new ColumnState({id: 'foo', initialSortDirection: 'desc'}, 'asc');
       component.onSortColumn(columnState);
-      expect(name).toEqual('foo');
+      expect(column).toEqual('foo');
       expect(direction).toEqual('desc');
     })
   })
