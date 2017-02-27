@@ -185,7 +185,9 @@ export class TableComponent implements AfterViewInit, OnChanges {
       sortDirection = sortDirection || columnState.initialSortDirection;
       columnState.currentSortDirection = <SortDirection>sortDirection;
       // initial sort
-      this.sortRows(this.rows, {column: columnName, direction: sortDirection});
+      if (this.rowsSortingMode === 'default') {
+        this.sortRows(this.rows, {column: columnName, direction: sortDirection});
+      }
     } else {
       console.warn('Missing configuration for column: ' + columnName);
     }

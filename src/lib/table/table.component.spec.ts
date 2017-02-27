@@ -69,6 +69,27 @@ describe('Component: Table', () => {
     expect(component.columnsConfig.length).toEqual(1);
   });
 
+  describe('initialSort', () => {
+    beforeEach(() => {
+      component.rows = [{name: 'foo', description: 'bar'}];
+      component.initialSortColumn = 'name';
+      component.sortRows = jasmine.createSpy('sortRows');
+      component.columnsConfig = [{id: 'name'}];
+    });
+
+    it('sorts in the default mode on init', () => {
+      component.rowsSortingMode = 'default';
+      component.ngOnChanges();
+      expect(component.sortRows).toHaveBeenCalled();
+    });
+
+    it('does not delegate to sortRows', () => {
+      component.rowsSortingMode = 'external';
+      component.ngOnChanges();
+      expect(component.sortRows).not.toHaveBeenCalled();
+    });
+  });
+
   describe('onSortColumn', () => {
     beforeEach(() => {
       component.sortRows = jasmine.createSpy('sortRows');
