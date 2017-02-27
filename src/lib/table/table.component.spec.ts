@@ -1,3 +1,4 @@
+import { RowClickEvent } from './events';
 import {I18nService} from './../services/i18n.service';
 import {TableInitService} from './table-init.service';
 import {TableSortingService} from './table-sorting.service';
@@ -11,7 +12,12 @@ describe('Component: Table', () => {
   let component: TableComponent;
 
   beforeEach(() => {
-    component = new TableComponent(<ElementRef>{}, new TableSortingService(), new TableInitService(), new I18nService(), tableDefaultValues);
+    component = new TableComponent(
+      <ElementRef>{}, new TableSortingService(),
+      new TableInitService(),
+      new I18nService(),
+      tableDefaultValues
+    );
   });
 
   it('should create an instance', () => {
@@ -63,13 +69,33 @@ describe('Component: Table', () => {
     expect(component.columnsConfig.length).toEqual(1);
   });
 
+  describe('onSortColumn', () => {
+    beforeEach(() => {
+      component.sortRows = jasmine.createSpy('sortRows');
+    });
 
-  describe('events', () => {
-    it('rowClick', () => {
-      component.rowClick.subscribe((event: number) => {
-        expect(event).toEqual(1);
+    it('does not trigger sorting in external mode', () => {
+      component.rowsSortingMode = 'external';
+      component.onSortColumn({column: 'foo', direction: 'desc'});
+      expect(component.sortRows).not.toHaveBeenCalled();
+    });
+
+    it('does trigger sorting in default mode', () => {
+      component.rowsSortingMode = 'default';
+      component.onSortColumn({column: 'foo', direction: 'desc'});
+      expect(component.sortRows).toHaveBeenCalled();
+    });
+  });
+
+  describe('rowClick', () => {
+    it('passes an event', () => {
+      let rowIndex: number, rowObject: any;
+      component.rowClick.subscribe((event: RowClickEvent) => {
+        ({rowIndex, rowObject} = event);
       });
-      component.onRowClicked(1);
+      component.onRowClicked({rowIndex: 1, rowObject: {a: 2}});
+      expect(rowIndex).toBe(1);
+      expect(rowObject.a).toBe(2);
     });
   });
 });

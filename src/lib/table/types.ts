@@ -3,6 +3,8 @@ import {PipeTransform} from '@angular/core';
 
 export type SortDirection = 'asc' | 'desc';
 
+export type SortingMode = 'default' | 'external' | 'disabled';
+
 export interface ColumnConfig {
   id: string;
   text?: string;
