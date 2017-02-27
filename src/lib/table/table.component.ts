@@ -137,7 +137,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
   onSortColumn(sortEvent: SortColumnEvent) {
     this.sortColumn.emit(sortEvent);
     if (this.rowsSortingMode === 'default') {
-      this.sortRows(sortEvent);
+      this.sortRows(this.rows, sortEvent);
     }
   }
 
@@ -155,10 +155,10 @@ export class TableComponent implements AfterViewInit, OnChanges {
     this.toggleSubfield.emit(toggleSubfieldEvent);
   }
 
-  sortRows(sortEvent: SortColumnEvent) {
+  sortRows(rows: any[], sortEvent: SortColumnEvent) {
     let {column, direction} = sortEvent;
     this.rows = this.tableSortingService.sort(
-      this.rows, this.columnsLookup[column]
+      rows, this.columnsLookup[column]
     );
     this.sortedColumnName = column;
   }
@@ -185,7 +185,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
       sortDirection = sortDirection || columnState.initialSortDirection;
       columnState.currentSortDirection = <SortDirection>sortDirection;
       // initial sort
-      this.sortRows({column: columnName, direction: sortDirection});
+      this.sortRows(this.rows, {column: columnName, direction: sortDirection});
     } else {
       console.warn('Missing configuration for column: ' + columnName);
     }
