@@ -187,10 +187,13 @@ export class TableComponent implements AfterViewInit, OnChanges {
       // initial sort
       if (this.rowsSortingMode === 'default') {
         this.sortRows(this.rows, {column: columnName, direction: sortDirection});
+      } else {
+        this.onSortColumn({column: columnName, direction: sortDirection});
       }
     } else {
       console.warn('Missing configuration for column: ' + columnName);
     }
+    this.sortedColumnName = columnName;
     this.initialSortColumn = undefined;
   }
 
