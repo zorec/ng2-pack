@@ -14,10 +14,6 @@ export class TableInitService {
 
   detectColumnLookup(rows: Row[]): ColumnLookup {
     let columnsLookup: ColumnLookup = {};
-    //  nothing can be done without actual data
-    if (typeof rows === 'undefined' || rows.length === 0) {
-      return undefined;
-    }
     rows.forEach(row => {
       Object.keys(row).forEach(key => {
         if (typeof columnsLookup[key] === 'undefined') {
@@ -57,10 +53,6 @@ export class TableInitService {
       if (columnsLookup.hasOwnProperty(columnName)) {
         columnsConfig.push(columnsLookup[columnName].config);
       }
-    }
-
-    if (columnsConfig.length === 0) {
-      return undefined;
     }
 
     return columnsConfig;

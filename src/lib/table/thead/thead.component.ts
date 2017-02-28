@@ -68,6 +68,7 @@ export class TheadComponent implements OnInit, AfterViewInit {
   }
 
   get changeColumnVisibility(): boolean {
+    if (!this.tableComponent) { return false; }
     return this.tableComponent.changeColumnVisibility;
   }
 
@@ -110,6 +111,7 @@ export class TheadComponent implements OnInit, AfterViewInit {
   }
 
   isSorted(column: ColumnState, direction: string) {
+    if (!this.tableComponent) { return false; }
     return this.tableComponent.isSorted(column, direction);
   }
 
@@ -150,7 +152,7 @@ export class TheadComponent implements OnInit, AfterViewInit {
   }
 
   onSortColumn(sortEvent: SortColumnEvent) {
-    this.tableComponent.sortedColumnName = sortEvent.column;
+    if (this.tableComponent) { this.tableComponent.sortedColumnName = sortEvent.column; }
     this.sortColumn.emit(sortEvent);
   }
 
