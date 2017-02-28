@@ -17,7 +17,7 @@ export class FormatColumnPipe implements PipeTransform {
     return this.defaultValuePipe.transform(formattedValue, '—');
   }
 
-  applyFormatters(value: any, formatters: DisplayFormatter[]): any {
+  applyFormatters(value: any, formatters: undefined | DisplayFormatter[]): any {
     if (!formatters) {
       return value;
     }

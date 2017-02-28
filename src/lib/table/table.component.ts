@@ -87,10 +87,10 @@ export class TableComponent implements AfterViewInit, OnChanges {
   private _columnsConfig: ColumnConfig[];
 
   constructor(
-    public elementRef: ElementRef,
-    public tableSortingService: TableSortingService,
-    public tableInitService: TableInitService,
-    public i18nService: I18nService,
+    private elementRef: ElementRef,
+    private tableSortingService: TableSortingService,
+    private tableInitService: TableInitService,
+    private i18nService: I18nService,
     @Inject(TableDefaults) defaults: any,
   ) {
     this.reorderingEnabled =  defaults.reorderingEnabled;
@@ -198,7 +198,8 @@ export class TableComponent implements AfterViewInit, OnChanges {
   }
 
   private initializeDefaults() {
-    if (typeof this.columnsConfig === 'undefined') {
+    const isWithoutData = (typeof this.rows === 'undefined' || this.rows.length === 0);
+    if (typeof this.columnsConfig === 'undefined' && !isWithoutData) {
       [this.columnsLookup, this._columnsConfig] = this.tableInitService.detectColumnConfiguration(this.rows);
     }
     if (typeof this.visibleColumns === 'undefined' && typeof this.columnsLookup !== 'undefined') {

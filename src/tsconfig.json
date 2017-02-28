@@ -16,7 +16,7 @@
     "outDir": "../dist/out-tsc",
     "skipLibCheck": true,
     "sourceMap": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "stripInternal": true,
     "target": "es5",
     "typeRoots": [

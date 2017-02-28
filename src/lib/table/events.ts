@@ -7,7 +7,7 @@ export interface EditCellEvent {
 
 export interface SortColumnEvent {
   column: string;
-  direction: string | undefined;
+  direction: string;
 };
 
 export interface ToggleSubfieldEvent {

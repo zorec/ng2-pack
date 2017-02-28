@@ -22,10 +22,10 @@ export class I18nService {
   get(nestedKey: string, language: string = this.language): string {
     if (!this.translations) {
       console.error('I18nService is used without initialization with translations');
-      return;
+      return '';
     }
     let keys: string[] = nestedKey.split('.');
-    let translation: string;
+    let translation: string = '';
     try {
       translation = <string>keys
         .reduce((translationTree: I18nLocale, key: string) => {
