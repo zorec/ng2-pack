@@ -1,6 +1,6 @@
 {
   "name": "ng2-pack",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
@@ -10,6 +10,10 @@
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "ng e2e"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/zorec/ng2-pack"
   },
   "dependencies": {
     "@angular/common": "2.4.8",
