@@ -114,24 +114,12 @@ export class AppModule { }
 - **editCell** This event is triggered when a cell was edited. Type EditCellEvent. Experimental.
 
 
-### Subcomponents
+#### Subcomponents
 - TheadComponent
   - ThComponent
   - AddComponent
 - Tbodyomponent
   - TdComponent
-
-
-<!--#### Roadmap:
-
-| Feature          | Status              | Docs         |
-|------------------|---------------------|--------------|
-| Data Table       |               Alpha | [README][1]  |
-| Select2          |                 WIP |             -|
-| Inline editing   |                 WIP |             -|
-| Sortable items   |                 WIP |             -|
-
-[1]: https://github.com/zorec/ng2-pack/blob/master/src/lib/table/README.md-->
 
 ### Licence
 MIT
