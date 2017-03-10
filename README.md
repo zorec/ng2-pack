@@ -1,12 +1,44 @@
 # Ng2Pack
 
-A data table component designed for data-intensive applications. See DEMO here: https://zorec.github.io/ng2-pack/
+A collection of components/utilities designed for data-intensive tables.  
+See DEMO here: https://zorec.github.io/ng2-pack/
+
+This library provides an APIs with different levels of abstraction. The highest abstraction gives you the most comfort. In the case you need more flexibility, you can switch to lower API. If that is not enough, you access even lower-level API. See the examples below for the illustration of different APIs.
+<!-- We follow the philosophy "convention over configuration", and intelligent defaults are provided. So that you can have an easy start despite many inputs and configuration. -->
+
+This library is currently under the development, and API may change. Please feel free to open issues for ideas,  comments, and questions (support requests). We would love to hear your feedback.
+
+#### Example 1: Basic HTML Interface
+We follow the philosophy "convention over configuration".
+There is only one required input &mdash; rows data attribute. All other attributes have default values. For example, columns configuration is initialized according to row keys and values.
+
+```html
+<iw-table [rows]="[{id: 1, name: 'A'}, {id: 2, name: 'B'}]"></iw-table>
+```
+
+See the sections about the Table API for the complete list of attributes (inputs and output events).
+
+#### Example 2 — Advanced HTML Interface
+The table component <iw-table> accepts a custom template inside its tags. But instead of rewriting the template from scratch, you can utilize smaller parts of the table. The following code snippet alters the table style with classes from the CSS framework "Pure CSS". So we just use subcomponents 'iw-theader' and 'iw-tbody' to render the default table header and body. We could provide custom implementation, e.g. summary of table data, pagination.  
+
+```html
+<iw-table [rows]="people">
+  <!-- Change table styles with classes from Pure CSS framework -->
+  <table class="pure-table pure-table-bordered">
+    <thead iw-thead></thead>
+    <tbody iw-tbody></tbody>
+    <!-- Your custom footer goes here  -->
+  </table>
+</iw-table>
+```
+<!-- TODO: add the link to repository -->
+We could go even further and customize the table body cells while using even smaller subcomponents.
 
 #### Features:
-- visible columns specified by user (UI for adding/removing a column)
+- visible columns specified by a user (UI for adding/removing a column)
 - sorting of columns on the client, callbacks for server-side sorting
-- column reordering by drag&drop
-- client-side or server-side pagination (an easy integration with [ng2-pagination](https://github.com/michaelbromley/ng2-pagination) ) 
+- drag&drop reordering of columns
+- client-side or server-side pagination
 - complex data types inside table cells
 - inline-editing of table cells
 - customize any part of template (e.g. header, footer, cells)
@@ -28,7 +60,7 @@ Additionally, we follow good practices and style guides:
 - **Testable** Your application should be tested as well and this library will not stand in your way, just the opposite.
 - **Convention over configuration**: You should have an easy start despite many inputs and configuration. Intelligent defaults are provided.-->
 
-<!-- There are many other important characteristics (e.g. performance) that are not mentioned here as a main characteristic, but not neglected. 
+<!-- There are many other important characteristics (e.g. performance) that are not mentioned here as a main characteristic, but not neglected.
 -->
 
 #### Setup
@@ -66,8 +98,8 @@ export class AppModule { }
 - **inlineEditingEnabled** Enable/Disable inline editing of the data. Type: boolean. Experimental.
 - **changeColumnVisibility** Enable/Disable user to select which columns are visible. Type: boolean
 - **rowsSortingMode** By default, table rows are sorted client-side. You can use the external mode for server-side sorting. Lastly, the sorting of rows can be disabled completely (no sorting icons).  Type: 'default' | 'external' | 'disabled'
-- **initialSortColumn** Set column to be sorted on initialization. Prefix of a column id, either plus or minus sign, specifies the sort direction. Type: string. 
-- **language** The default is english ('en'), alternative language is German ('de'). 
+- **initialSortColumn** Set column to be sorted on initialization. Prefix of a column id, either plus or minus sign, specifies the sort direction. Type: string.
+- **language** The default is english ('en'), alternative language is German ('de').
 
 #### Table API: Output events:
 
@@ -84,10 +116,10 @@ export class AppModule { }
 
 ### Subcomponents
 - TheadComponent
+  - ThComponent
+  - AddComponent
 - Tbodyomponent
-- ThComponent
-- TdComponent
-- AddComponent
+  - TdComponent
 
 
 <!--#### Roadmap:
