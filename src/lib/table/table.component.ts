@@ -155,12 +155,13 @@ export class TableComponent implements AfterViewInit, OnChanges {
     this.toggleSubfield.emit(toggleSubfieldEvent);
   }
 
-  sortRows(rows: any[], sortEvent: SortColumnEvent) {
+  sortRows(rows: any[], sortEvent: SortColumnEvent): Row[] {
     let {column, direction} = sortEvent;
     this.rows = this.tableSortingService.sort(
       rows, this.columnsLookup[column]
     );
     this.sortedColumnName = column;
+    return this.rows;
   }
 
   initialSort() {
