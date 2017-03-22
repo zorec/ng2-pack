@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "",
     "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -31,5 +31,8 @@
     "genDir": "aot",
     "skipMetadataEmit": false,
     "skipTemplateCodegen": true
-  }
+  },
+  "exclude": [
+    "test.ts"
+  ]
 }

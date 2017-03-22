@@ -13,7 +13,7 @@ import {I18nService} from './../services/i18n.service';
 import {TableSortingService} from './table-sorting.service';
 import {TableInitService} from './table-init.service';
 
-import { DropdownModule} from 'ng2-dropdown';
+import { DropdownModule} from 'ngx-dropdown';
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
