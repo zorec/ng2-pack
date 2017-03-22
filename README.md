@@ -18,7 +18,7 @@ There is only one required input &mdash; rows data attribute. All other attribut
 
 See the sections about the Table API for the complete list of attributes (inputs and output events).
 
-#### Example 2 — Advanced HTML Interface
+#### Example 2: Advanced HTML Interface
 The table component <iw-table> accepts a custom template inside its tags. But instead of rewriting the template from scratch, you can utilize smaller parts of the table. The following code snippet alters the table style with classes from the CSS framework "Pure CSS". So we just use subcomponents 'iw-theader' and 'iw-tbody' to render the default table header and body. We could provide custom implementation, e.g. summary of table data, pagination.  
 
 ```html

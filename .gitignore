@@ -32,7 +32,10 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# *ngfactory.ts
+# AOT
+aot/
+*.metadata.json
+*.ngfactory.ts
 # *ngstyle.ts
 # *ngsummary.json
 
