@@ -79,3 +79,25 @@ You can provide a component template inside a iw-table element, where smaller co
     </tbody>
   </table>
 </iw-table>
+
+
+<!-- TODO: example for sortable utility -->
+<!--
+  <table class="table rows-reordering">
+  <tr>
+    <th>Salutation</th>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>ID</th>
+  </tr>
+  <template ngFor let-person [ngForOf]="rows" let-index="index">
+    <tr iwSortableItem dropArea="rows">
+      <td>{{index}}</td>
+      <td>{{person.salutation}}</td>
+      <td>{{person.firstName}}</td>
+      <td>{{person.lastName}}</td>
+      <td>{{person.id}}</td>
+    </tr>
+  </template>
+</table>
+-->
