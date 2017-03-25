@@ -50,12 +50,9 @@ export class SortableItemDirective {
   // droppable
   @HostListener('dragend', ['$event'])
   onDragEnd(dragEvent: DragEvent) {
-    if (this.lastEvent === 'drop') { return; }
-    if (dragSource.dropArea === this.dropArea) {
-
-      if (originalNextSibling) {
-        originalNextSibling.parentNode.insertBefore(dragSource.elementRef.nativeElement, originalNextSibling);
-      }
+    if (!dragSource || this.lastEvent === 'drop') { return; }
+    if (dragSource.dropArea === this.dropArea && originalNextSibling) {
+      originalNextSibling.parentNode.insertBefore(dragSource.elementRef.nativeElement, originalNextSibling);
       originalNextSibling = null;
     }
   }
