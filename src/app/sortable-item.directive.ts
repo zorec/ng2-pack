@@ -6,12 +6,8 @@ import {
   Input
 } from '@angular/core';
 
-// TODO: identification of the "bucket", e.g. rows, columns
-// TODO: handle
-// NOTE: remove unnecessary arguments, split directive into draggable droppable?
-
 let dragSource: SortableItemDirective;
-let temporaryDropSource: SortableItemDirective;
+let originalNextSibling: Element;
 
 @Directive({
   selector: '[iwSortableItem]'
@@ -19,19 +15,11 @@ let temporaryDropSource: SortableItemDirective;
 export class SortableItemDirective {
   @HostBinding('attr.draggable') draggable: boolean = true;
   @HostBinding('attr.droppable') droppable: boolean = true;
-  @HostBinding('class.sortable-drop-placeholder') dragOver: boolean;
-  // @HostBinding('class.sortable-dragged') dragged: boolean;
-  // @Input() updateMode: 'dragenter' | 'drop';
-  @Input() itemId: number;
   @Input() dropArea: string = 'defaultDropArea';
 
-  constructor(public elementRef: ElementRef) {
-    // this.itemId = elementRef.nativeElement.parentNode.children.indexOf(elementRef.nativeElement);
+  private lastEvent: string = '';
 
-    elementRef.nativeElement.addEventListener('dragover', (e: DragEvent) => {
-      e.preventDefault();
-      this.elementRef.nativeElement.removeEventListener('dragover');
-    });
+  constructor(public elementRef: ElementRef) {
   }
 
   // draggable
@@ -39,61 +27,58 @@ export class SortableItemDirective {
   onDragStart(dragEvent: DragEvent) {
     dragEvent.dataTransfer.effectAllowed = 'move';
     dragSource = this;
-    // dragEvent.dataTransfer.setData('text/plain', String(this.itemId));
-    // this.dragged = true; // TODO: finish of this event?
+    originalNextSibling = this.elementRef.nativeElement.nextSibling;
   }
 
   // droppable
   @HostListener('dragenter', ['$event'])
   onDragEnter(dragEvent: DragEvent) {
+    this.lastEvent = 'dragenter';
     dragEvent.preventDefault();
-    if (dragSource.itemId !== this.itemId && dragSource.dropArea === this.dropArea && temporaryDropSource !== this) {
-      this.dragOver = true;
-      console.log(dragSource, this);
-      // temporaryDropSource = this;
-      // this.updateElements(dragSource, temporaryDropSource);
+    if (dragSource !== this && dragSource.dropArea === this.dropArea) {
+      // updating is only preview, it is undone if it is not finished by the drop event
+      this.updateElements(dragSource, this);
     }
   }
 
-  // droppable
-  @HostListener('dragleave', ['$event'])
-  onDragLeave(dragEvent: DragEvent) {
-    console.log('onDragLeave', dragEvent);
-    if (dragSource.dropArea === this.dropArea) {
-      // this.updateElements(temporaryDropSource, dragSource);
-      // temporaryDropSource = null;
-      this.dragOver = false;
-    }
+  @HostListener('dragover', ['$event'])
+  onDragOver(dragOverEvent: DragEvent) {
+    // necessary for drop event to be triggered
+    dragOverEvent.preventDefault();
   }
 
   // droppable
   @HostListener('dragend', ['$event'])
   onDragEnd(dragEvent: DragEvent) {
-    console.log('onDragEnd', dragEvent);
+    if (this.lastEvent === 'drop') { return; }
     if (dragSource.dropArea === this.dropArea) {
-      this.dragOver = false;
+
+      if (originalNextSibling) {
+        originalNextSibling.parentNode.insertBefore(dragSource.elementRef.nativeElement, originalNextSibling);
+      }
+      originalNextSibling = null;
     }
   }
 
-
   // droppable
   @HostListener('drop', ['$event'])
-  onDrop(dragEvent: DragEvent) {
-    dragEvent.stopPropagation();
+  onDrop(dropEvent: DragEvent) {
+    this.lastEvent = 'drop';
+    dropEvent.stopPropagation();
     if (this === dragSource) {
       return;
     }
-    console.log('onDrop', dragEvent);
-    this.updateElements(dragSource, this);
-    this.dragOver = false;
+    // this.updateElements(dragSource, this);
+    dragSource = null;
+    originalNextSibling = null;
   }
 
   private updateElements = (dragged: SortableItemDirective, droppedOn: SortableItemDirective) => {
     let parent: Element = droppedOn.elementRef.nativeElement.parentNode;
     let draggedEl: Element = dragged.elementRef.nativeElement;
     let dropEl: Element = droppedOn.elementRef.nativeElement;
-    let draggedIndex = dragged.itemId;
-    let dropIndex = droppedOn.itemId;
+    let draggedIndex = Array.prototype.indexOf.call(parent.children, draggedEl);
+    let dropIndex = Array.prototype.indexOf.call(parent.children, dropEl);
     if (draggedIndex === dropIndex) {
       // do nothing
     } else if (draggedIndex < dropIndex) {
