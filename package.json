@@ -52,7 +52,7 @@
     "protractor": "4.0.14",
     "ts-node": "1.2.1",
     "tslint": "4.4.2",
-    "typescript": "2.0.10"
+    "typescript": "2.1.0"
   },
   "peerDependencies": {
     "@angular/common": "2.4.10",
