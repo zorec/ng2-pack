@@ -1,8 +1,9 @@
+import { RowClickEvent } from './events';
 import {I18nService} from './../services/i18n.service';
 import {TableInitService} from './table-init.service';
 import {TableSortingService} from './table-sorting.service';
 /* tslint:disable:no-unused-variable */
-import { TableComponent } from './table.component';
+import { TableComponent, tableDefaultValues } from './table.component';
 
 import {ElementRef} from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
@@ -11,7 +12,12 @@ describe('Component: Table', () => {
   let component: TableComponent;
 
   beforeEach(() => {
-    component = new TableComponent(<ElementRef>{}, new TableSortingService(), new TableInitService(), new I18nService(), {});
+    component = new TableComponent(
+      <ElementRef>{}, new TableSortingService(),
+      new TableInitService(),
+      new I18nService(),
+      tableDefaultValues
+    );
   });
 
   it('should create an instance', () => {
@@ -63,13 +69,54 @@ describe('Component: Table', () => {
     expect(component.columnsConfig.length).toEqual(1);
   });
 
+  describe('initialSort', () => {
+    beforeEach(() => {
+      component.rows = [{name: 'foo', description: 'bar'}];
+      component.initialSortColumn = 'name';
+      component.sortRows = jasmine.createSpy('sortRows');
+      component.columnsConfig = [{id: 'name'}];
+    });
 
-  describe('events', () => {
-    it('rowClick', () => {
-      component.rowClick.subscribe((event: number) => {
-        expect(event).toEqual(1);
+    it('sorts in the default mode on init', () => {
+      component.rowsSortingMode = 'default';
+      component.ngOnChanges();
+      expect(component.sortRows).toHaveBeenCalled();
+    });
+
+    it('does not delegate to sortRows', () => {
+      component.rowsSortingMode = 'external';
+      component.ngOnChanges();
+      expect(component.sortRows).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('onSortColumn', () => {
+    beforeEach(() => {
+      component.sortRows = jasmine.createSpy('sortRows');
+    });
+
+    it('does not trigger sorting in external mode', () => {
+      component.rowsSortingMode = 'external';
+      component.onSortColumn({column: 'foo', direction: 'desc'});
+      expect(component.sortRows).not.toHaveBeenCalled();
+    });
+
+    it('does trigger sorting in default mode', () => {
+      component.rowsSortingMode = 'default';
+      component.onSortColumn({column: 'foo', direction: 'desc'});
+      expect(component.sortRows).toHaveBeenCalled();
+    });
+  });
+
+  describe('rowClick', () => {
+    it('passes an event', () => {
+      let rowIndex: number, rowObject: any;
+      component.rowClick.subscribe((event: RowClickEvent) => {
+        ({rowIndex, rowObject} = event);
       });
-      component.onRowClicked(1);
+      component.onRowClicked({rowIndex: 1, rowObject: {a: 2}});
+      expect(rowIndex).toBe(1);
+      expect(rowObject.a).toBe(2);
     });
   });
 });

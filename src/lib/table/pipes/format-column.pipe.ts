@@ -17,13 +17,13 @@ export class FormatColumnPipe implements PipeTransform {
     return this.defaultValuePipe.transform(formattedValue, '—');
   }
 
-  applyFormatters(value: any, formatters: DisplayFormatter[]): any {
+  applyFormatters(value: any, formatters: undefined | DisplayFormatter[]): any {
     if (!formatters) {
       return value;
     }
-    return formatters.reduce((value, formatter) => {
+    return formatters.reduce((currentValue, formatter) => {
       let args = formatter.arguments || [];
-      return formatter.transform(value, ...args);
+      return formatter.transform(currentValue, ...args);
     }, value);
   }
 }

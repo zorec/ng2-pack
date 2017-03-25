@@ -1,18 +1,10 @@
 <ng-content></ng-content>
 
 <template [ngIf]="!customTemplate">
-  <tr *ngFor="let row of rows; let rowIndex = index" (click)="onRowClicked(rowIndex)" >
+  <tr *ngFor="let row of rows; let rowIndex = index" (click)="onRowClicked(rowIndex, row)" >
     <template ngFor let-columnName [ngForOf]="visibleColumns" let-index="index">
       <td *ngIf="addingColumnIndex == index" class="combo-td"></td>
-      <td *ngIf="isCustomCell(columnName)">
-        <template
-          [iwInsertTemplate]="cellTemplates[columnName]"
-          [column]="column(columnName)"
-          [row]="row">
-        </template>
-      </td>
       <td
-        *ngIf="!isCustomCell(columnName)"
         #tdComponent
         iw-td
         [attr.contenteditable]="inlineEditingEnabled"

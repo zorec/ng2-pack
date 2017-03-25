@@ -2,7 +2,7 @@ import {TdComponent} from './../td/td.component';
 import {TableInitService} from './../table-init.service';
 import {ColumnConfig, ColumnLookup} from '../types';
 import {ColumnState} from './../column-state.class';
-import {EditCellEvent} from '../events';
+import {EditCellEvent, RowClickEvent} from '../events';
 import {TableComponent} from './../table.component';
 
 import {
@@ -37,7 +37,7 @@ export class TbodyComponent implements AfterViewInit {
     this._visibleColumns = visibleColumns;
   }
 
-  @Output() rowClick: EventEmitter<number> = new EventEmitter<number>();
+  @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
   @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
 
   customTemplate: boolean = false;
@@ -47,7 +47,7 @@ export class TbodyComponent implements AfterViewInit {
   private _rows: any[];
   private _visibleColumns: string[];
   private isEditable: boolean;
-  private tableComponent: TableComponent | undefined;
+  private tableComponent: TableComponent;
   private customCells: string[] = [];
   private cellTemplates: {[columnId: string]: TemplateRef<any>} = {};
 
@@ -105,27 +105,21 @@ export class TbodyComponent implements AfterViewInit {
     return this.columnsLookup[columnName];
   }
 
-  registerCustomCell(columnId: string, template: TemplateRef<any>) {
-    this.cellTemplates[columnId] = template;
-    this.customCells.push(columnId);
-  }
-
-  isCustomCell(columnId: string) {
-    return this.customCells.indexOf(columnId) !== -1;
-  }
-
-  onRowClicked(index: number) {
-    this.rowClick.emit(index);
+  onRowClicked(rowIndex: number, rowObject: any) {
+    this.rowClick.emit({
+      rowIndex,
+      rowObject
+    });
   }
 
   onEditCell(tdComponent: TdComponent, rowIndex: number) {
     if (!tdComponent.isChanged || !tdComponent.column) { return; }
-    let editCellEvent: EditCellEvent = [
-      tdComponent.content,
-      tdComponent.row,
-      tdComponent.column.config.id,
+    let editCellEvent: EditCellEvent = {
+      newValue: tdComponent.content,
+      column: tdComponent.column.config.id,
+      rowObject: tdComponent.row,
       rowIndex
-    ];
+    };
     this.editCell.emit(editCellEvent);
   }
 

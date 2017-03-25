@@ -32,8 +32,8 @@ describe('Service: TableSortingService', () => {
   });
 
   it('sorts DESCENDINGLY according to string property', () => {
-    let columnState = new ColumnState({id: 'foo', sortType: 'string'});
-    let result = <TestRow[]>service.sort(rows, columnState, 'desc');
+    let columnState = new ColumnState({id: 'foo', sortType: 'string'}, 'desc');
+    let result = <TestRow[]>service.sort(rows, columnState);
     expect(result[0].foo).toEqual('zzz');
     expect(result[1].foo).toEqual('center');
     expect(result[2].foo).toEqual('abc');
@@ -48,8 +48,11 @@ describe('Service: TableSortingService', () => {
   });
 
   it('uses default sorting for unknown sortType', () => {
-    let columnState = new ColumnState({id: 'bar', sortType: 'unknow'});
-    let result = <TestRow[]>service.sort(rows, columnState, 'DESC');
+    let columnState = new ColumnState({
+      id: 'bar',
+      sortType: 'unknow',
+    }, 'desc');
+    let result = <TestRow[]>service.sort(rows, columnState);
     expect(result[0].bar).toEqual(undefined);
     expect(result[1].bar).toEqual(42);
     expect(result[2].bar).toEqual(0);
@@ -63,8 +66,8 @@ describe('Service: TableSortingService', () => {
       if (b === 42 || b > a) { return -1; }
     };
     let numbers = [{bar: 16}, {bar: 42}, {bar: 0}, {bar: -42}, {bar: 100}, {bar: undefined}];
-    let columnState = new ColumnState({id: 'bar', sortCompare});
-    let result = <TestRow[]>service.sort(numbers, columnState, 'desc');
+    let columnState = new ColumnState({id: 'bar', sortCompare}, 'desc');
+    let result = <TestRow[]>service.sort(numbers, columnState);
     expect(result[0].bar).toEqual(42);
     expect(result[1].bar).toEqual(undefined);
     expect(result[2].bar).toEqual(100);
@@ -77,12 +80,6 @@ describe('Service: TableSortingService', () => {
     it('provided direction has the highest priority', () => {
       let columnState = new ColumnState({id: 'foo'}, 'asc');
       service.sort([], columnState, 'asc');
-      expect(columnState.currentSortDirection).toEqual('asc');
-    });
-
-    it('reverses current sort', () => {
-      let columnState = new ColumnState({id: 'foo'}, 'desc');
-      service.sort([], columnState);
       expect(columnState.currentSortDirection).toEqual('asc');
     });
 

@@ -2,38 +2,38 @@ declare var faker: any;
 
 let rand = (minimum: number, maximum: number) => {
   return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
-}
+};
 
 let randomItem = (arr: any[]) => {
   return arr[rand(0, arr.length - 1)];
+};
+
+export interface Study {
+  studyBegin: Date;
+  studyEnd: Date;
+  degree: 'Bachelor' | 'Master' | 'Doctor';
+  form: 'daily' | 'remotely';
+  area: string;
+  faculty: string;
+  finished: boolean;
+  university: string;
 }
 
-interface Study {
-  studyBegin: Date,
-  studyEnd: Date,
-  degree: 'Bachelor' | 'Master' | 'Doctor',
-  form: 'daily' | 'remotely',
-  area: string,
-  faculty: string,
-  finished: boolean,
-  university: string
-}
-
-interface Person {
-  salutation: 'Mrs.' | 'Mr.' | 'Miss' | 'Ms' | 'Dr.',
-  id: string,
-  firstName: string,
-  lastName: string,
-  birthday: Date,
-  email: string,
-  phone: string,
+export interface Person {
+  salutation: 'Mrs.' | 'Mr.' | 'Miss' | 'Ms' | 'Dr.';
+  id: string;
+  firstName: string;
+  lastName: string;
+  birthday: Date;
+  email: string;
+  phone: string;
   address: {
-    street: string,
-    city: string,
-  },
-  country: string,
-  // graduationYear: number,
-  studies: Study[]
+    street: string;
+    city: string;
+  };
+  country: string;
+  // graduationYear: number;
+  studies: Study[];
 }
 
 export let generatePeople = (numberOfRecords: number) => {
@@ -54,7 +54,7 @@ export let generatePeople = (numberOfRecords: number) => {
         faculty: 'Faculty of ' + faker.name.jobArea(),
         finished: Math.random() >= 0.3 ? true : false,
         university: Math.random() >= 0.3 ? null : 'University of ' + faker.name.jobArea()
-      }
+      };
       studies.push(study);
     }
 
@@ -73,11 +73,11 @@ export let generatePeople = (numberOfRecords: number) => {
       country: faker.address.country(),
       // graduationYear: rand(1970, 2016),
       studies: studies
-    }
+    };
 
     people.push(person);
   }
   return people;
-}
+};
 
 export let people = generatePeople(20);

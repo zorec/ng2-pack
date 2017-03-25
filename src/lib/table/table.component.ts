@@ -1,8 +1,8 @@
 import {ColumnState} from './column-state.class';
 import {I18nService} from './../services/i18n.service';
 import {TableInitService} from './table-init.service';
-import {ColumnConfig, ColumnLookup, Row} from './types';
-import {EditCellEvent, ToggleSubfieldEvent} from './events';
+import {ColumnConfig, ColumnLookup, SortDirection, Row, SortingMode} from './types';
+import { EditCellEvent, RowClickEvent, ToggleSubfieldEvent, SortColumnEvent } from './events';
 import {TableSortingService} from './table-sorting.service';
 
 import {
@@ -13,6 +13,7 @@ import {
   Input,
   Inject,
   OnChanges,
+  OpaqueToken,
   Output,
   ViewEncapsulation,
 } from '@angular/core';
@@ -21,14 +22,16 @@ declare var jQuery: any;
 
 export interface TableDefaultValues {
   reorderingEnabled: boolean;
-  sortingEnabled: boolean;
+  rowsSortingMode: SortingMode;
   inlineEditingEnabled: boolean;
   changeColumnVisibility: boolean;
   language: string;
 }
-export let tabledefaultValues: TableDefaultValues = {
+
+export const TableDefaults = new OpaqueToken('TableDefaults');
+export const tableDefaultValues: TableDefaultValues = {
   reorderingEnabled: true,
-  sortingEnabled: true,
+  rowsSortingMode: 'default',
   inlineEditingEnabled: false,
   changeColumnVisibility: true,
   language: 'en',
@@ -41,7 +44,7 @@ export let tabledefaultValues: TableDefaultValues = {
   // TODO: enable encapsulation again
   encapsulation: ViewEncapsulation.None,
   providers: [
-    {provide: 'tabledefaultValues', useValue: tabledefaultValues}
+    {provide: TableDefaults, useValue: tableDefaultValues}
   ]
 })
 export class TableComponent implements AfterViewInit, OnChanges {
@@ -57,20 +60,20 @@ export class TableComponent implements AfterViewInit, OnChanges {
   @Input() rows: Row[];
   @Input() reorderingEnabled: boolean;
   @Input() changeColumnVisibility: boolean;
-  @Input() sortingEnabled: boolean;
+  @Input() rowsSortingMode: SortingMode;
   @Input() inlineEditingEnabled: boolean;
   // @Input() columnsForAddingFn: (availableColumns: ColumnConfig[]) => any[] = (id) => id
   @Input() set language(language: string) {
     this.i18nService.language = language;
   }
-  @Input() initialSortColumn: string;
+  @Input() initialSortColumn: string | undefined;
 
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
-  @Output() sortColumn: EventEmitter<[string, string]> = new EventEmitter<[string, string]>();
+  @Output() sortColumn: EventEmitter<SortColumnEvent> = new EventEmitter<SortColumnEvent>();
   // @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
   @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
-  @Output() rowClick: EventEmitter<number> = new EventEmitter<number>();
+  @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
   @Output() visibleColumnsChange: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
   @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent> = new EventEmitter<ToggleSubfieldEvent>();
@@ -84,14 +87,14 @@ export class TableComponent implements AfterViewInit, OnChanges {
   private _columnsConfig: ColumnConfig[];
 
   constructor(
-    public elementRef: ElementRef,
-    public tableSortingService: TableSortingService,
-    public tableInitService: TableInitService,
-    public i18nService: I18nService,
-    @Inject('tabledefaultValues') defaults: TableDefaultValues,
+    private elementRef: ElementRef,
+    private tableSortingService: TableSortingService,
+    private tableInitService: TableInitService,
+    private i18nService: I18nService,
+    @Inject(TableDefaults) defaults: any,
   ) {
     this.reorderingEnabled =  defaults.reorderingEnabled;
-    this.sortingEnabled =  defaults.sortingEnabled;
+    this.rowsSortingMode =  defaults.rowsSortingMode;
     this.inlineEditingEnabled =  defaults.inlineEditingEnabled;
     this.changeColumnVisibility =  defaults.changeColumnVisibility;
     this.language = defaults.language;
@@ -127,13 +130,15 @@ export class TableComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  onRowClicked(rowClickEvent: number) {
+  onRowClicked(rowClickEvent: RowClickEvent) {
     this.rowClick.emit(rowClickEvent);
   }
 
-  onSortColumn(sortEvent: [string, string]) {
+  onSortColumn(sortEvent: SortColumnEvent) {
     this.sortColumn.emit(sortEvent);
-    this.sortRows(sortEvent);
+    if (this.rowsSortingMode === 'default') {
+      this.sortRows(this.rows, sortEvent);
+    }
   }
 
   onAddingColumn(index: number) {
@@ -150,12 +155,13 @@ export class TableComponent implements AfterViewInit, OnChanges {
     this.toggleSubfield.emit(toggleSubfieldEvent);
   }
 
-  sortRows(sortEvent: [string, string]) {
-    let [property, direction] = sortEvent;
+  sortRows(rows: any[], sortEvent: SortColumnEvent): Row[] {
+    let {column, direction} = sortEvent;
     this.rows = this.tableSortingService.sort(
-      this.rows, this.columnsLookup[property], direction
+      rows, this.columnsLookup[column]
     );
-    this.sortedColumnName = property;
+    this.sortedColumnName = column;
+    return this.rows;
   }
 
   initialSort() {
@@ -163,7 +169,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
       return;
     }
     let columnName = this.initialSortColumn.slice(1);
-    let sortDirection: string;
+    let sortDirection: string = 'asc';
     if (this.initialSortColumn[0] === '+') {
       // pluas at the beginning means 'asc'
       sortDirection = 'asc';
@@ -178,17 +184,23 @@ export class TableComponent implements AfterViewInit, OnChanges {
     let columnState = this.columnsLookup[columnName];
     if (columnState) {
       sortDirection = sortDirection || columnState.initialSortDirection;
-      columnState.currentSortDirection = sortDirection;
+      columnState.currentSortDirection = <SortDirection>sortDirection;
       // initial sort
-      this.sortRows([columnName, sortDirection]);
+      if (this.rowsSortingMode === 'default') {
+        this.sortRows(this.rows, {column: columnName, direction: sortDirection});
+      } else {
+        this.onSortColumn({column: columnName, direction: sortDirection});
+      }
     } else {
       console.warn('Missing configuration for column: ' + columnName);
     }
+    this.sortedColumnName = columnName;
     this.initialSortColumn = undefined;
   }
 
   private initializeDefaults() {
-    if (typeof this.columnsConfig === 'undefined') {
+    const isWithoutData = (typeof this.rows === 'undefined' || this.rows.length === 0);
+    if (typeof this.columnsConfig === 'undefined' && !isWithoutData) {
       [this.columnsLookup, this._columnsConfig] = this.tableInitService.detectColumnConfiguration(this.rows);
     }
     if (typeof this.visibleColumns === 'undefined' && typeof this.columnsLookup !== 'undefined') {
