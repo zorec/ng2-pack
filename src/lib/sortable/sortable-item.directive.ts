@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 let dragSource: SortableItemDirective;
-let originalNextSibling: Element;
+let originalNextSibling: Element | undefined;
 
 @Directive({
   selector: '[iwSortableItem]'
@@ -50,10 +50,10 @@ export class SortableItemDirective {
   // droppable
   @HostListener('dragend', ['$event'])
   onDragEnd(dragEvent: DragEvent) {
-    if (!dragSource || this.lastEvent === 'drop') { return; }
+    if (this.lastEvent === 'drop') { return; }
     if (dragSource.dropArea === this.dropArea && originalNextSibling) {
       originalNextSibling.parentNode.insertBefore(dragSource.elementRef.nativeElement, originalNextSibling);
-      originalNextSibling = null;
+      originalNextSibling = undefined;
     }
   }
 
@@ -66,8 +66,7 @@ export class SortableItemDirective {
       return;
     }
     // this.updateElements(dragSource, this);
-    dragSource = null;
-    originalNextSibling = null;
+    originalNextSibling = undefined;
   }
 
   private updateElements = (dragged: SortableItemDirective, droppedOn: SortableItemDirective) => {
