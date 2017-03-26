@@ -10,7 +10,7 @@ describe('ColumnState', () => {
     it('toggles current state', () => {
       let columnState = new ColumnState({id: 'foo', initialSortDirection: 'desc'}, 'asc');
       expect(columnState.toggleDirection()).toEqual('desc');
-    })
-  })
+    });
+  });
 
 });

@@ -43,7 +43,7 @@ export let generatePeople = (numberOfRecords: number) => {
     let studies: Study[] = [];
 
     let studiesCount = rand(1, 4);
-    for (let i = 0; i < studiesCount; i++) {
+    for (let j = 0; j < studiesCount; j++) {
       let study = {
         studyBegin: faker.date.past(),
         studyEnd: faker.date.past(),
