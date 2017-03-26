@@ -1,6 +1,6 @@
 <div class="cell-list-items" #cellListItems [class.show-all]="cellListItems.showAll">
 
-  <template ngFor let-subrow [ngForOf]="row[col.config.id]" let-itemIndex="index">
+  <ng-template ngFor let-subrow [ngForOf]="row[col.config.id]" let-itemIndex="index">
     <div class="cell-list-item" [class.cell-list-item--extended]="itemIndex > 0">
 
       <strong *ngIf="isSubColumnVisible('faculty')">
@@ -19,12 +19,12 @@
         No subfields enabled.
       </span>
     </div>
-  </template>
+  </ng-template>
   <span *ngIf="!row[col.config.id] || row[col.config.id].length === 0">No Studies</span>
 </div>
 
-<template [ngIf]="row[col.config.id] && row[col.config.id].length > 1">
+<ng-template [ngIf]="row[col.config.id] && row[col.config.id].length > 1">
   <a class="cell-list-expand-toggle" [class.is-open]="cellListItems.showAll" (click)="cellListItems.showAll = !cellListItems.showAll; $event.stopPropagation()">
     <span class="icon icon-triangle-down"></span>{{ cellListItems.showAll ? 'verstecken' : ((row[col.config.id].length - 1) + ' weitere') }}
   </a>
-</template>
+</ng-template>

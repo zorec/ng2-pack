@@ -1,7 +1,7 @@
 <ng-content></ng-content>
 
 <tr *ngIf="!customTemplate">
-  <template  ngFor let-columnName [ngForOf]="visibleColumns" let-columnIndex="index">
+  <ng-template  ngFor let-columnName [ngForOf]="visibleColumns" let-columnIndex="index">
     <th *ngIf="addingColumnIndex == columnIndex" class="combo-th">
       <div class="add-column combobox is-active">
         <iw-add-column
@@ -27,7 +27,7 @@
       [class.is-sorted--asc]="isSorted(column(columnName), 'asc')"
       [class.is-sorted--desc]="isSorted(column(columnName), 'desc')">
     </th>
-  </template>
+  </ng-template>
   <th *ngIf="changeColumnVisibility" class="combo-th">
     <div class="add-column combobox" [ngClass]="lastColumnComboboxActive ? 'is-active' : 'is-inactive'">
       <iw-add-column
