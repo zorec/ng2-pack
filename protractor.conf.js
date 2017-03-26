@@ -25,7 +25,7 @@ exports.config = {
       project: 'e2e'
     });
   },
-  onPrepare() {
+  onPrepare: function() {
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
   }
 };
