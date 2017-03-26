@@ -56,6 +56,6 @@ describe('Component: Th', () => {
       component.onSortColumn(columnState);
       expect(column).toEqual('foo');
       expect(direction).toEqual('desc');
-    })
-  })
+    });
+  });
 });

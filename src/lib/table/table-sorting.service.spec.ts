@@ -79,7 +79,7 @@ describe('Service: TableSortingService', () => {
   describe('sets correct currentSortDirection', () => {
     it('provided direction has the highest priority', () => {
       let columnState = new ColumnState({id: 'foo'}, 'asc');
-      service.sort([], columnState, 'asc');
+      service.sort([], columnState);
       expect(columnState.currentSortDirection).toEqual('asc');
     });
 

@@ -16,7 +16,7 @@ export class AppComponent {
   rows: any[];
   visibleColumns = ['firstName', 'lastName'];
   customizedFields = ['studies'];
-  actionList: string[] = []
+  actionList: string[] = [];
 
   constructor(private tableExampleService: TableExampleService) {
     this.columnsConfig = tableExampleService.columnsConfig;

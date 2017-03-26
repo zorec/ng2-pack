@@ -13,7 +13,7 @@
     "module": "es2015",
     "moduleResolution": "node",
     "noImplicitAny": true,
-    "outDir": "../dist/out-tsc",
+    "outDir": "../dist/out-tsc/app",
     "skipLibCheck": true,
     "sourceMap": true,
     "strictNullChecks": true,
@@ -33,6 +33,7 @@
     "skipTemplateCodegen": true
   },
   "exclude": [
-    "test.ts"
+    "test.ts",
+    "**/*.spec.ts"
   ]
 }

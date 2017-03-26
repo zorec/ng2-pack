@@ -18,8 +18,10 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 
 before_script:
-- npm install -g @angular/cli
-- yarn install
-- ng build
+  - npm install -g @angular/cli
+  - yarn install
+  - ng build
 
-script: ng test --watch false
+script:
+  - ng lint
+  - ng test --watch false

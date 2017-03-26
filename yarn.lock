@@ -64,6 +64,10 @@
   optionalDependencies:
     node-sass "^4.3.0"
 
+"@angular/common@2.4.10":
+  version "2.4.10"
+  resolved "https://registry.yarnpkg.com/@angular/common/-/common-2.4.10.tgz#a3a682d2228fa30ec23dd0eb57c8e887fba26997"
+
 "@angular/compiler-cli@^2.4.10":
   version "2.4.10"
   resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-2.4.10.tgz#c21143bfaab45231c8d2eaa82456bed3d39f91a3"
@@ -76,11 +80,35 @@
   version "2.4.10"
   resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-2.4.10.tgz#f51fd34820b2a02c7cb61fbcf49873c58056fb0c"
 
-"@angular/platform-server@^2.4.10":
+"@angular/core@2.4.10":
+  version "2.4.10"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-2.4.10.tgz#0b8320a65065965d998645b1f5cd3cf769b441ea"
+
+"@angular/forms@2.4.10":
+  version "2.4.10"
+  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-2.4.10.tgz#062133aaade1f3b3c962f1593208c541b622fd06"
+
+"@angular/http@2.4.10":
+  version "2.4.10"
+  resolved "https://registry.yarnpkg.com/@angular/http/-/http-2.4.10.tgz#ff6beade5b39c989ebf2393c49b34eebd43e9555"
+
+"@angular/platform-browser-dynamic@2.4.10":
+  version "2.4.10"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-2.4.10.tgz#8df25dec2b06adc690cc9bc26448deccaebcd8ec"
+
+"@angular/platform-browser@2.4.10":
+  version "2.4.10"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-2.4.10.tgz#cbf25608148fb4ffef96cc5005ba5d7b3e093906"
+
+"@angular/platform-server@2.4.10":
   version "2.4.10"
   resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-2.4.10.tgz#ede03075081f807ed83dd8ec92f2924858fb3455"
   dependencies:
     parse5 "^2.2.1"
+
+"@angular/router@3.4.10":
+  version "3.4.10"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-3.4.10.tgz#a466a0918fc2882ece18ca12bd5aea298050e91e"
 
 "@angular/tsc-wrapped@0.5.2":
   version "0.5.2"
@@ -101,13 +129,7 @@
     magic-string "^0.19.0"
     source-map "^0.5.6"
 
-"@types/jasmine@^2.2.30":
-  version "2.5.43"
-  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.5.43.tgz#6328a8c26082f2fd84f043c802c9ed7fa110b2dd"
-  dependencies:
-    typescript ">=2.1.4"
-
-"@types/jasmine@^2.5.36":
+"@types/jasmine@^2.5.36", "@types/jasmine@^2.5.41":
   version "2.5.46"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.5.46.tgz#bb3047a3f40f60dee03f52c3e2d955cd3d5066c8"
 
@@ -4727,17 +4749,13 @@ type-is@~1.6.14:
     media-typer "0.3.0"
     mime-types "~2.1.13"
 
+typescript@^2.1.0:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.2.1.tgz#4862b662b988a4c8ff691cc7969622d24db76ae9"
+
 "typescript@>=2.0.0 <2.2.0":
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.1.6.tgz#40c7e6e9e5da7961b7718b55505f9cac9487a607"
-
-typescript@>=2.1.4:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.2.0.tgz#626f2fc70087d2480f21ebb12c1888288c8614e3"
-
-typescript@2.0.10:
-  version "2.0.10"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.0.10.tgz#ccdd4ed86fd5550a407101a0814012e1b3fac3dd"
 
 uglify-js@^2.6, uglify-js@^2.7.5, uglify-js@2.7.x:
   version "2.7.5"
