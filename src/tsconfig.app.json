@@ -23,15 +23,6 @@
       "../node_modules/@types"
     ]
   },
-  "files": [
-    "../index.ts"
-  ],
-  "angularCompilerOptions": {
-    "debug": true,
-    "genDir": "aot",
-    "skipMetadataEmit": false,
-    "skipTemplateCodegen": true
-  },
   "exclude": [
     "test.ts",
     "**/*.spec.ts"

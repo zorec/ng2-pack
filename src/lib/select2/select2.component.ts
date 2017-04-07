@@ -56,7 +56,7 @@ export class Select2Component implements OnInit, OnChanges, ControlValueAccessor
     this.updateData();
   }
 
-  ngOnChanges() {
+  ngOnChanges(arg: any) {
     this.updateData();
   }
 

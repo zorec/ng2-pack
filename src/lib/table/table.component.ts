@@ -39,7 +39,7 @@ export const tableDefaultValues: TableDefaultValues = {
 
 @Component({
   selector: 'iw-table',
-  templateUrl: './table.component.html',
+  templateUrl: 'table.component.html',
   styleUrls: ['./table.component.scss'],
   // TODO: enable encapsulation again
   encapsulation: ViewEncapsulation.None,
@@ -100,7 +100,7 @@ export class TableComponent implements AfterViewInit, OnChanges {
     this.language = defaults.language;
   }
 
-  ngOnChanges() {
+  ngOnChanges(arg: any) {
     this.initializeDefaults();
     this.initialSort();
   }

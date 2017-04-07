@@ -22,7 +22,7 @@ export class AddColumnComponent implements OnChanges {
   constructor (private tableComponent: TableComponent) {
   }
 
-  ngOnChanges() {
+  ngOnChanges(arg: any) {
     let columns: ColumnConfig[] = this.columnsNotVisibleInTable();
     // this.items = this.tableComponent.columnsForAddingFn(options);
     this.items = this.categorizeColumns(columns);

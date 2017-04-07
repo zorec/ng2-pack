@@ -6,7 +6,7 @@ import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'iw-root',
-  templateUrl: './app.component.html',
+  templateUrl: 'app.component.html',
   styleUrls: ['./app.component.scss'],
   providers: [DatePipe, TableExampleService]
 })

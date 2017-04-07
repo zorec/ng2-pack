@@ -5,7 +5,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: '[iw-td]',
-  templateUrl: './td.component.html',
+  templateUrl: 'td.component.html',
   styleUrls: ['./td.component.css'],
   providers: [FormatColumnPipe]
 })

@@ -53,7 +53,7 @@ export let generatePeople = (numberOfRecords: number) => {
         area: faker.name.jobArea(),
         faculty: 'Faculty of ' + faker.name.jobArea(),
         finished: Math.random() >= 0.3 ? true : false,
-        university: Math.random() >= 0.3 ? null : 'University of ' + faker.name.jobArea()
+        university: 'University of ' + faker.name.jobArea()
       };
       studies.push(study);
     }

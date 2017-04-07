@@ -14,7 +14,7 @@ import {
 
 @Component({
   selector: '[iw-th]',
-  templateUrl: './th.component.html',
+  templateUrl: 'th.component.html',
   styleUrls: ['./th.component.css']
 })
 export class ThComponent implements OnInit {

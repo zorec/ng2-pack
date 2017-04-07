@@ -20,7 +20,7 @@ declare var jQuery: any;
 
 @Component({
   selector: '[iw-thead]',
-  templateUrl: './thead.component.html',
+  templateUrl: 'thead.component.html',
   styleUrls: ['./thead.component.css']
 })
 export class TheadComponent implements OnInit, AfterViewInit {

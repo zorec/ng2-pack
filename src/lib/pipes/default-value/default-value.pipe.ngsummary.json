@@ -1,1 +1,0 @@
-{"summaries":[{"symbol":{"__symbol":0,"members":[]},"metadata":{"__symbolic":"class"},"type":{"summaryKind":0,"type":{"reference":{"__symbol":0,"members":[]},"diDeps":[],"lifecycleHooks":[]},"name":"defaultValue","pure":true}}],"symbols":[{"__symbol":0,"name":"DefaultValuePipe","filePath":"/home/gabriel/devel/ng2-pack/src/lib/pipes/default-value/default-value.pipe.d.ts"}]}

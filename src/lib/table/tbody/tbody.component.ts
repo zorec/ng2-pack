@@ -18,7 +18,7 @@ import {
 
 @Component({
   selector: '[iw-tbody]',
-  templateUrl: './tbody.component.html',
+  templateUrl: 'tbody.component.html',
   styleUrls: ['./tbody.component.css']
 })
 export class TbodyComponent implements AfterViewInit {
