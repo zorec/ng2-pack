@@ -18,8 +18,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-declare var jQuery: any;
-
 export interface TableDefaultValues {
   reorderingEnabled: boolean;
   rowsSortingMode: SortingMode;
