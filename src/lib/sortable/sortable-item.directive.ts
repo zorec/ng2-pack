@@ -25,6 +25,7 @@ export class SortableItemDirective {
   @Input() disableSorting = false;
   @Output() sortableDrop = new EventEmitter<SortableEvent>();
   @Output() sortablePreview = new EventEmitter<SortableEvent>();
+  @Output() sortableCancelled = new EventEmitter<void>();
 
   private lastEvent: string = '';
 
@@ -50,6 +51,9 @@ export class SortableItemDirective {
   // droppable
   @HostListener('dragenter', ['$event'])
   onDragEnter(dragEvent: DragEvent) {
+    // The last preview cannot be previewed again because the preview causes change of content.
+    // So it may happen that after preview, columns are constantly switching
+    // if the preview moves the dragged column over its previous position
     if (this.disableSorting || lastPreview === this) { return; }
     lastPreview = undefined;
     this.lastEvent = 'dragenter';
@@ -62,10 +66,6 @@ export class SortableItemDirective {
         item: dragSource.elementRef
       });
       lastPreview = this;
-      // this.disableSorting = true;
-      // setTimeout(() => {
-      //   this.disableSorting = false;
-      // }, 1000);
     }
   }
 
@@ -80,10 +80,12 @@ export class SortableItemDirective {
   @HostListener('dragend', ['$event'])
   onDragEnd(dragEvent: DragEvent) {
     if (this.disableSorting || this.lastEvent === 'drop') { return; }
+    // restore the state before the preview(s)
     if (dragSource.dropArea === this.dropArea && typeof originalNextSibling !== 'undefined') {
       originalNextSibling.parentNode!.insertBefore(dragSource.elementRef.nativeElement, originalNextSibling);
       originalNextSibling = undefined;
     }
+    this.sortableCancelled.emit();
   }
 
   // droppable
