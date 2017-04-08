@@ -5,8 +5,10 @@ import {
   SortingMode
 } from './../types';
 import {
-  AddColumnEvent,
   AddColumnAtPositionEvent,
+  AddColumnEvent,
+  AddingColumnEvent,
+  RemoveColumnEvent,
   SortColumnEvent,
   ToggleSubfieldEvent,
   TableEvent,
@@ -111,12 +113,12 @@ export class TheadComponent implements OnChanges, OnInit, AfterViewInit {
     return this.lastColumnComboboxActive || this.addingColumnIndex === this.visibleColumns.length;
   }
 
-  @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
-  @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
-  @Output() sortColumn: EventEmitter<SortColumnEvent> = new EventEmitter<SortColumnEvent>();
-  @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
-  @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
-  @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent> = new EventEmitter<ToggleSubfieldEvent>();
+  @Output() addColumn: EventEmitter<AddColumnAtPositionEvent>;
+  @Output() removeColumn: EventEmitter<RemoveColumnEvent>;
+  @Output() sortColumn: EventEmitter<SortColumnEvent>;
+  @Output() addingColumn: EventEmitter<AddingColumnEvent>;
+  @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent>;
+  @Output() visibleColumnsChange: EventEmitter<string[]>;
 
   lastColumnComboboxActive: boolean = false;
   draggedColumnId: string | null;
@@ -131,6 +133,12 @@ export class TheadComponent implements OnChanges, OnInit, AfterViewInit {
     @Optional() tableComponent: TableComponent
   ) {
     this.tableStateService = (tableComponent && tableComponent.tableStateService) || tableStateService;
+    this.addColumn = this.tableStateService.addColumn;
+    this.removeColumn = this.tableStateService.removeColumn;
+    this.sortColumn = this.tableStateService.sortColumn;
+    this.addingColumn = this.tableStateService.addingColumn;
+    this.toggleSubfield = this.tableStateService.toggleSubfield;
+    this.visibleColumnsChange = this.tableStateService.visibleColumnsChange;
   }
 
   ngOnInit() {
@@ -160,12 +168,14 @@ export class TheadComponent implements OnChanges, OnInit, AfterViewInit {
 
   selectNewColumn(addColumnEvent: AddColumnEvent, atPosition: number) {
     this.lastColumnComboboxActive = false;
-    this.dispatch({
+    const addColumnAtPosition = {
       type: TableEventType.AddColumnAtPosition,
       value: addColumnEvent.value,
       atPosition,
-    } as TableEvent);
-    this.addColumn.emit(addColumnEvent.value);
+    };
+    this.dispatch(addColumnAtPosition);
+    this.addColumn.emit(addColumnAtPosition);
+    this.visibleColumnsChange.emit(this.visibleColumns);
   }
 
   toggleCombobox() {
@@ -179,7 +189,10 @@ export class TheadComponent implements OnChanges, OnInit, AfterViewInit {
   onAddCombobox(index: number) {
     this.lastColumnComboboxActive = false;
     this.addingColumnIndex = index;
-    this.addingColumn.emit(index);
+    this.addingColumn.emit({
+      type: TableEventType.AddingColumn,
+      atPosition: index
+    });
   }
 
   onSortColumn(sortEvent: SortColumnEvent) {
@@ -204,7 +217,7 @@ export class TheadComponent implements OnChanges, OnInit, AfterViewInit {
             attribute: 'data-col-ref'
           });
         this.visibleColumns = sortedIDs;
-        this.reorderColumns.emit(sortedIDs);
+        this.visibleColumnsChange.emit(sortedIDs);
         this.changeDetectorRef.detectChanges();
       },
       // NOTE: provide additional information about dragging

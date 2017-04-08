@@ -33,6 +33,11 @@
   (reorderColumns)="onAction('The order of columns changed to: ' + $event)"
   (editCell)="onAction('The cell in row ' + $event[3] + ' and column ' + $event[2] + ' was edited to value ' + $event[0])"
   >
+  <table class="results-table table table-bordered table-striped">
+    <thead iw-thead></thead>
+    <tbody iw-tbody></tbody>
+    <!-- customized table footer  -->
+  </table>
 </iw-table>
 
 

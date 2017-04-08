@@ -1,25 +1,20 @@
+import {
+  AddingColumnEvent,
+  AddColumnAtPositionEvent,
+  EditCellEvent,
+  RemoveColumnEvent,
+  RowClickEvent,
+  SortColumnEvent,
+  ToggleSubfieldEvent
+} from './events';
 import { ColumnState } from './column-state.class';
 import { ColumnConfig, ColumnLookup, Row, SortingMode } from './types';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 
 @Injectable()
 export class TableStateService {
-  set rows(rows: Row[]) {
-    this._rows = rows;
-    this.configReload = true;
-  }
-  get rows() {
-    return this._rows;
-  }
-
-  set columnsConfig(columnConfig: ColumnConfig[]) {
-    this._columnsConfig = columnConfig;
-    this.configReload = true;
-  }
-  get columnsConfig() {
-    return this._columnsConfig;
-  }
-
+  rows: Row[];
+  columnsConfig: ColumnConfig[];
   visibleColumns: string[];
   columnsLookup: ColumnLookup;
   sortedColumnName: string | undefined;
@@ -33,7 +28,19 @@ export class TableStateService {
   changeColumnVisibility = true;
   language = 'en';
 
-  configReload: boolean = false;
+  // output events
+  addColumn = new EventEmitter<AddColumnAtPositionEvent>();
+  removeColumn = new EventEmitter<RemoveColumnEvent>();
+  sortColumn = new EventEmitter<SortColumnEvent>();
+  addingColumn = new EventEmitter<AddingColumnEvent>();
+  toggleSubfield = new EventEmitter<ToggleSubfieldEvent>();
+  visibleColumnsChange = new EventEmitter<string[]>();
+  sortColumnInit = new EventEmitter<void>();
+  // @Output() addingColumn: EventEmitter<number>;
+  rowClick = new EventEmitter<RowClickEvent>();
+  editCell = new EventEmitter<EditCellEvent>();
+
+
   // these values require re-initialization with table-init.service
   private _rows: Row[];
   private _columnsConfig: ColumnConfig[];
@@ -52,5 +59,4 @@ export class TableStateService {
       return isSorted && directionMatch;
     }
   }
-
 }

@@ -90,6 +90,8 @@ export class TbodyComponent implements AfterViewInit, OnChanges, OnInit {
     @Optional() tableComponent: TableComponent
   ) {
       this.tableStateService = (tableComponent && tableComponent.tableStateService) || tableStateService;
+      this.rowClick = this.tableStateService.rowClick;
+      this.editCell = this.tableStateService.editCell;
   }
 
   ngOnInit() {

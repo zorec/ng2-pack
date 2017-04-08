@@ -1,3 +1,4 @@
+import { TableEvent } from './events';
 import { ColumnConfig } from './types';
 
 export enum TableEventType {
@@ -34,6 +35,10 @@ export interface ToggleSubfieldEvent extends TableEvent {
 export interface RowClickEvent extends TableEvent {
   rowIndex: number;
   rowObject: any;
+}
+
+export interface AddingColumnEvent extends TableEvent {
+  atPosition: number;
 }
 
 export interface AddColumnEvent extends TableEvent {

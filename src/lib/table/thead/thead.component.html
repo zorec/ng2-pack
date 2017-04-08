@@ -15,11 +15,7 @@
     <th
       iw-th
       [column]="column(columnName)"
-      [changeVisibility]="changeColumnVisibility"
-      (removeColumn)="removeColumn.emit($event)"
-      (sortColumn)="onSortColumn($event)"
-      (addCombobox)="onAddCombobox($event + columnIndex)"
-      (toggleSubfield)="onToggleSubfield($event)"
+      (addingColumn)="onAddCombobox($event + columnIndex)"
       class="drag-column"
       attr.data-col-ref="{{ column(columnName)?.config.id }}"
       attr.id="col-id-{{ column(columnName)?.config.id }}"

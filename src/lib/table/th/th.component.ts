@@ -1,4 +1,4 @@
-import { TableEvent, TableEventType, RemoveColumnEvent } from './../events';
+import { TableEvent, TableEventType, RemoveColumnEvent, AddingColumnEvent } from './../events';
 import { TableReducerService } from './../table-reducer.service';
 import { TheadComponent } from './../thead/thead.component';
 import { TableStateService } from './../table-state.service';
@@ -64,10 +64,11 @@ export class ThComponent implements OnInit {
     return this.visibleColumns.length !== 1;
   }
 
-  @Output() removeColumn: EventEmitter<RemoveColumnEvent> = new EventEmitter<RemoveColumnEvent>();
-  @Output() sortColumn: EventEmitter<SortColumnEvent> = new EventEmitter<SortColumnEvent>();
-  @Output() addCombobox: EventEmitter<number> = new EventEmitter<number>();
-  @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent> = new EventEmitter<ToggleSubfieldEvent>();
+  @Output() removeColumn: EventEmitter<RemoveColumnEvent>;
+  @Output() sortColumn: EventEmitter<SortColumnEvent>;
+  @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent>;
+  @Output() addingColumn: EventEmitter<AddingColumnEvent>;
+  @Output() visibleColumnsChange: EventEmitter<string[]>;
 
   tableStateService: TableStateService;
   constructor(
@@ -78,7 +79,12 @@ export class ThComponent implements OnInit {
     @Optional() theadComponent: TheadComponent
   ) {
     this.tableStateService = (tableComponent && tableComponent.tableStateService) ||
-      (theadComponent  && theadComponent.tableStateService) || tableStateService;
+      (theadComponent && theadComponent.tableStateService) || tableStateService;
+    this.removeColumn = this.tableStateService.removeColumn;
+    this.sortColumn = this.tableStateService.sortColumn;
+    this.toggleSubfield = this.tableStateService.toggleSubfield;
+    this.addingColumn = this.tableStateService.addingColumn;
+    this.visibleColumnsChange = this.tableStateService.visibleColumnsChange;
   }
 
   ngOnInit() {
@@ -118,6 +124,7 @@ export class ThComponent implements OnInit {
     };
     this.dispatch(removeColumnEvent);
     this.removeColumn.emit(removeColumnEvent);
+    this.visibleColumnsChange.emit(this.visibleColumns);
   }
 
   onToggleSubfield(column: ColumnState, subfieldName: string) {

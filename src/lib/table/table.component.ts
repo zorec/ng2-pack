@@ -6,13 +6,16 @@ import {
   Row,
 } from './types';
 import {
+  AddColumnAtPositionEvent,
+  AddingColumnEvent,
   EditCellEvent,
   RowClickEvent,
+  RemoveColumnEvent,
+  SetConfigEvent,
+  SortColumnEvent,
   TableEvent,
   TableEventType,
   ToggleSubfieldEvent,
-  SetConfigEvent,
-  SortColumnEvent,
 } from './events';
 import {ColumnState} from './column-state.class';
 import { TableStateService } from './table-state.service';
@@ -34,6 +37,7 @@ import {
   OnInit,
   OpaqueToken,
   Output,
+  Renderer,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -121,16 +125,16 @@ export class TableComponent implements AfterViewInit, OnChanges, OnInit {
     return this.tableStateService.columnsLookup;
   }
 
-  @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
-  @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
-  @Output() sortColumn: EventEmitter<SortColumnEvent> = new EventEmitter<SortColumnEvent>();
-  @Output() sortColumnInit: EventEmitter<void> = new EventEmitter<void>();
-  // @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
-  @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
-  @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
-  @Output() visibleColumnsChange: EventEmitter<string[]> = new EventEmitter<string[]>();
-  @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
-  @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent> = new EventEmitter<ToggleSubfieldEvent>();
+  @Output() addingColumn: EventEmitter<AddingColumnEvent>;
+  @Output() addColumn: EventEmitter<AddColumnAtPositionEvent>;
+  @Output() removeColumn: EventEmitter<RemoveColumnEvent>;
+  @Output() sortColumn: EventEmitter<SortColumnEvent>;
+  @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent>;
+  @Output() visibleColumnsChange: EventEmitter<string[]>;
+  @Output() sortColumnInit: EventEmitter<void>;
+  // @Output() addingColumn: EventEmitter<number>;
+  @Output() rowClick: EventEmitter<RowClickEvent>;
+  @Output() editCell: EventEmitter<EditCellEvent>;
 
   customTemplate: boolean = false;
 
@@ -143,6 +147,15 @@ export class TableComponent implements AfterViewInit, OnChanges, OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     public tableStateService: TableStateService,
   ) {
+    this.addColumn = this.tableStateService.addColumn;
+    this.removeColumn = this.tableStateService.removeColumn;
+    this.sortColumn = this.tableStateService.sortColumn;
+    this.addingColumn = this.tableStateService.addingColumn;
+    this.toggleSubfield = this.tableStateService.toggleSubfield;
+    this.visibleColumnsChange = this.tableStateService.visibleColumnsChange;
+    this.sortColumnInit = this.tableStateService.sortColumnInit;
+    this.rowClick = this.tableStateService.rowClick;
+    this.editCell = this.tableStateService.editCell;
   }
 
   ngOnInit() {
@@ -180,10 +193,6 @@ export class TableComponent implements AfterViewInit, OnChanges, OnInit {
 
   onAddingColumn(index: number) {
     this.tableStateService.addingColumnIndex = index;
-  }
-
-  onReorderColumns(reorderColumnsEvent: string[]) {
-    this.reorderColumns.emit(reorderColumnsEvent);
   }
 
   onToggleSubfield(toggleSubfieldEvent: ToggleSubfieldEvent) {
