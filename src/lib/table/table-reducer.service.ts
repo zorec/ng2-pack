@@ -17,6 +17,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 @Injectable()
 export class TableReducerService {
   nextState = new EventEmitter<void>();
+  skipNext = false;
 
   constructor(
     private tableInitService: TableInitService,
@@ -25,6 +26,9 @@ export class TableReducerService {
 
 
   reduce(state: TableStateService, event: TableEvent) {
+    console.log(TableEventType[event.type]);
+    this.skipNext = false;
+
     switch (event.type) {
       case TableEventType.SetConfig:
         this.setConfig(state, event as SetConfigEvent);
@@ -53,7 +57,10 @@ export class TableReducerService {
       default:
         return state;
     }
-    this.nextState.emit();
+
+    if (!this.skipNext) {
+      this.nextState.emit();
+    }
   }
 
   setConfig(state: TableStateService,
@@ -75,6 +82,7 @@ export class TableReducerService {
 
   private executeInitialSort(state: TableStateService) {
     if (!state.initialSortColumn || !state.rows) {
+      this.skipNext = true;
       return;
     }
     let columnName = state.initialSortColumn.slice(1);
@@ -120,6 +128,8 @@ export class TableReducerService {
         state.rows, state.columnsLookup[column]
       );
       state.sortedColumnName = column;
+    } else {
+      this.skipNext = true;
     }
     return state.rows;
   }

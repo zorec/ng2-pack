@@ -124,6 +124,7 @@ export class TableComponent implements AfterViewInit, OnChanges, OnInit {
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
   @Output() sortColumn: EventEmitter<SortColumnEvent> = new EventEmitter<SortColumnEvent>();
+  @Output() sortColumnInit: EventEmitter<void> = new EventEmitter<void>();
   // @Output() addingColumn: EventEmitter<number> = new EventEmitter<number>();
   @Output() reorderColumns: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
@@ -145,15 +146,14 @@ export class TableComponent implements AfterViewInit, OnChanges, OnInit {
   }
 
   ngOnInit() {
-    // this.tableReducerService.nextState.subscribe(() => {
-    //   this.changeDetectorRef.markForCheck();
-    //   console.log('check table service');
-    // });
   }
 
   ngOnChanges(arg: any) {
     this.dispatch({type: TableEventType.OnChanges});
     this.dispatch({type: TableEventType.SortColumnInit});
+    if (!this.tableReducerService.skipNext) {
+      this.onSortColumnInit();
+    }
   }
 
   ngAfterViewInit() {
@@ -172,6 +172,10 @@ export class TableComponent implements AfterViewInit, OnChanges, OnInit {
 
   onSortColumn(sortEvent: SortColumnEvent) {
     this.sortColumn.emit(sortEvent);
+  }
+
+  onSortColumnInit() {
+    this.sortColumnInit.emit();
   }
 
   onAddingColumn(index: number) {

@@ -79,11 +79,11 @@ describe('Component: Table', () => {
       component.columnsConfig = [{id: 'name'}];
     });
 
-    // TODO: trigger an event on initial sort
-    xit('sorts in the default mode on init', () => {
+    it('sorts in the default mode on init', () => {
+      component.onSortColumnInit = jasmine.createSpy('onSortColumn');
       component.rowsSortingMode = 'default';
       component.ngOnChanges(null);
-      expect(component.onSortColumn).toHaveBeenCalled();
+      expect(component.onSortColumnInit).toHaveBeenCalled();
     });
 
     it('does not delegate to onSortColumn', () => {
