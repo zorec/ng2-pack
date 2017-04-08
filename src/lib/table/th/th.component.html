@@ -38,13 +38,13 @@
       <li *ngIf="!isSortingDisabled(column) && changeVisibility" class="divider dropdown-divider"></li>
       <!-- NOTE: should it be disabled when there are no columns to add  -->
       <li *ngIf="changeVisibility">
-        <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox.emit(0)">
+        <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="addingAdjacentColumn(0)">
           {{ 'table.addLeft' | t}}
         </a>
       </li>
 
       <li *ngIf="changeVisibility">
-        <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="!hasAllColumnsVisble && addCombobox.emit(1)">
+        <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="addingAdjacentColumn(1)">
           {{ 'table.addRight' | t}}
         </a>
       </li>

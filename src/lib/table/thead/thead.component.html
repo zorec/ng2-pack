@@ -4,7 +4,7 @@
       <div class="add-column combobox is-active">
         <iw-add-column
           [visibleColumns]="visibleColumns"
-          (close)="onAddCombobox(undefined)"
+          (close)="onAddingColumnEnd()"
           (selected)="selectNewColumn($event, columnIndex)"
           attr.id="combobox-{{columnIndex}}">
         </iw-add-column>
@@ -13,7 +13,7 @@
     <th
       iw-th
       [column]="column(columnName)"
-      (addingColumn)="onAddCombobox($event + columnIndex)"
+      (addingColumn)="onAddingColumn(columnIndex, $event)"
       class="drag-column"
       attr.data-col-ref="{{ column(columnName)?.config.id }}"
       attr.id="col-id-{{ column(columnName)?.config.id }}"

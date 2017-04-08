@@ -2,6 +2,7 @@ import { SortDirection, Row } from './types';
 import {
   AddColumnEvent,
   AddColumnAtPositionEvent,
+  AddingColumnEvent,
   TableEvent,
   TableEventType,
   ToggleSubfieldEvent,
@@ -47,12 +48,16 @@ export class TableReducerService {
         this.sortColumn(state, event as SortColumnEvent);
         break;
 
+      case TableEventType.AddingColumn:
+        this.addingColumn(state, event as AddingColumnEvent);
+        break;
+
       case TableEventType.AddColumnAtPosition:
         this.addColumn(state, event as AddColumnAtPositionEvent);
         break;
 
       case TableEventType.RemoveColumn:
-        this.removeColumn(state, event as RemoveColumnEvent)
+        this.removeColumn(state, event as RemoveColumnEvent);
         break;
 
       case TableEventType.ToggleSubfield:
@@ -136,6 +141,10 @@ export class TableReducerService {
       this.skipNext = true;
     }
     return state.rows;
+  }
+
+  addingColumn(state: TableStateService, addingColumn: AddingColumnEvent) {
+    state.addingColumnIndex = addingColumn.atPosition;
   }
 
   addColumn(state: TableStateService, addColumn: AddColumnAtPositionEvent) {

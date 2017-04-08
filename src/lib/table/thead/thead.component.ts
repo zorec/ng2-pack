@@ -29,7 +29,6 @@ import {
   Input,
   OnInit,
   OnChanges,
-  OnDestroy,
   Output,
   Optional,
   TemplateRef,
@@ -43,7 +42,7 @@ declare var jQuery: any;
   styleUrls: ['./thead.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TheadComponent implements OnChanges, OnDestroy, OnInit {
+export class TheadComponent implements OnChanges, OnInit {
   @Input() set rows(rows: Row[]) {
     this.tableStateService.rows = rows;
   }
@@ -155,10 +154,6 @@ export class TheadComponent implements OnChanges, OnDestroy, OnInit {
     this.dispatch({type: TableEventType.SortColumnInit});
   }
 
-  ngOnDestroy() {
-    this.tableReducerService.nextState.unsubscribe();
-  }
-
   isSorted(column: ColumnState, direction: string) {
     return this.tableStateService.isSorted(column, direction);
   }
@@ -187,13 +182,15 @@ export class TheadComponent implements OnChanges, OnDestroy, OnInit {
     }, 0);
   }
 
-  onAddCombobox(index: number) {
+  onAddingColumn(index: number, addingEvent: AddingColumnEvent) {
+    addingEvent.atPosition += index;
+    this.dispatch(addingEvent);
+    this.addingColumn.emit();
+  }
+
+  onAddingColumnEnd() {
     this.lastColumnComboboxActive = false;
-    this.addingColumnIndex = index;
-    this.addingColumn.emit({
-      type: TableEventType.AddingColumn,
-      atPosition: index
-    });
+    this.addingColumnIndex = undefined;
   }
 
   onSortColumn(sortEvent: SortColumnEvent) {

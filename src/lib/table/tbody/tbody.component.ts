@@ -29,7 +29,7 @@ import {
   styleUrls: ['./tbody.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TbodyComponent implements AfterViewInit, OnChanges, OnInit {
+export class TbodyComponent implements OnChanges, OnInit {
   @Input() set rows(rows: any[]) {
     this.tableStateService.rows = rows;
   }
@@ -82,7 +82,6 @@ export class TbodyComponent implements AfterViewInit, OnChanges, OnInit {
   @ContentChild(TemplateRef)
   template: any;
 
-  customTemplate: boolean = false;
   tableStateService: TableStateService;
 
   constructor(
@@ -101,14 +100,6 @@ export class TbodyComponent implements AfterViewInit, OnChanges, OnInit {
   ngOnInit() {
     this.tableReducerService.nextState.subscribe(() => {
       this.changeDetectorRef.markForCheck();
-    });
-  }
-
-  ngAfterViewInit() {
-    setTimeout(() => {
-      // In our template we have N elements, where N is number of rows.
-      // If there is more elements, they must be projected => custom template is used
-      this.customTemplate = this.elementRef.nativeElement.children.length > this.rows.length;
     });
   }
 

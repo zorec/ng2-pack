@@ -138,6 +138,16 @@ export class ThComponent implements OnInit {
     this.toggleSubfield.emit(toggleSubfieldEvent);
   }
 
+  // atPosition is either 0 (left) or 1 (right)
+  addingAdjacentColumn(atPosition: 0 | 1) {
+    if (this.hasAllColumnsVisble) {
+      this.addingColumn.emit({
+        type: TableEventType.AddingColumn,
+        atPosition,
+      });
+    }
+  }
+
   private dispatch(event: TableEvent) {
     this.tableReducerService.reduce(this.tableStateService, event);
   }

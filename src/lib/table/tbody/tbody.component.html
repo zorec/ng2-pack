@@ -10,9 +10,11 @@
         [column]="column(columnName)"
         [row]="row"
         [class.is-sorted]="isSorted(column(columnName))"
-        attr.headers="col-id-{{ column(columnName)?.config.id }}">
+      >
       </td>
     </template>
-    <td *ngIf="changeColumnVisibility" class="combo-td"> <!-- empty for combobox --> </td>
+
+    <!-- empty td for combobox -->
+    <td *ngIf="changeColumnVisibility" class="combo-td"></td>
   </tr>
 </template>
