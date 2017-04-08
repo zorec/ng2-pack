@@ -1,17 +1,32 @@
-import {ColumnConfig, ColumnLookup} from './../types';
-import { SortColumnEvent, ToggleSubfieldEvent} from '../events';
+import {
+  ColumnConfig,
+  ColumnLookup,
+  Row,
+  SortingMode
+} from './../types';
+import {
+  AddColumnEvent,
+  AddColumnAtPositionEvent,
+  SortColumnEvent,
+  ToggleSubfieldEvent,
+  TableEvent,
+  TableEventType,
+} from '../events';
 import {ColumnState} from './../column-state.class';
 import {TableComponent} from './../table.component';
-import {TableInitService} from '../table-init.service';
+import { TableStateService } from './../table-state.service';
+import { TableReducerService } from './../table-reducer.service';
 
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   Input,
   OnInit,
+  OnChanges,
   Output,
   Optional,
 } from '@angular/core';
@@ -21,23 +36,79 @@ declare var jQuery: any;
 @Component({
   selector: '[iw-thead]',
   templateUrl: 'thead.component.html',
-  styleUrls: ['./thead.component.css']
+  styleUrls: ['./thead.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TheadComponent implements OnInit, AfterViewInit {
-  @Input() set columnsConfig(columnsConfig) {
-    if (this.tableComponent) {
-      this.tableComponent.columnsConfig = columnsConfig;
-    } else {
-      this._columnsConfig = columnsConfig;
-    }
+export class TheadComponent implements OnChanges, OnInit, AfterViewInit {
+  @Input() set rows(rows: Row[]) {
+    this.tableStateService.rows = rows;
   }
+  get rows(): Row[] {
+    return this.tableStateService.rows;
+  }
+
+  @Input() set columnsConfig(columnsConfig) {
+    this.tableStateService.columnsConfig = columnsConfig;
+  }
+  get columnsConfig(): ColumnConfig[] {
+    return this.tableStateService.columnsConfig;
+  }
+
   @Input() set visibleColumns(visibleColumns: string[]) {
-    if (this.tableComponent) {
-      this.tableComponent.visibleColumns = visibleColumns;
-    } else {
-      this._visibleColumns = visibleColumns;
-      // NOTE: what about output events?
-    }
+    this.tableStateService.visibleColumns = visibleColumns;
+  }
+  get visibleColumns(): string[] {
+    return this.tableStateService.visibleColumns;
+  }
+
+  @Input() set reorderingEnabled(reordering: boolean) {
+    this.tableStateService.reorderingEnabled = reordering;
+  }
+  get reorderingEnabled(): boolean {
+    return this.tableStateService.reorderingEnabled;
+  }
+
+  @Input() set addingColumnIndex(addingIndex: number | undefined) {
+    this.tableStateService.addingColumnIndex = addingIndex;
+  }
+  get addingColumnIndex() {
+    return this.tableStateService.addingColumnIndex;
+  }
+
+  @Input() set changeColumnVisibility(visibility: boolean) {
+    this.tableStateService.changeColumnVisibility = visibility;
+  }
+  get changeColumnVisibility() {
+    return this.tableStateService.changeColumnVisibility;
+  }
+
+  @Input() set rowsSortingMode(mode: SortingMode) {
+    this.tableStateService.rowsSortingMode = mode;
+  }
+  get rowsSortingMode() {
+    return this.tableStateService.rowsSortingMode;
+  }
+
+  @Input() set language(language: string) {
+    this.tableStateService.language = language;
+  }
+  get language() {
+    return this.tableStateService.language;
+  }
+
+  @Input() set initialSortColumn(column: string | undefined) {
+    this.tableStateService.initialSortColumn = column;
+  }
+  get initialSortColumn() {
+    return this.tableStateService.initialSortColumn;
+  }
+
+  get columnsLookup(): ColumnLookup {
+    return this.tableStateService.columnsLookup;
+  }
+
+  get isLastAddingColumnVisible() {
+    return this.lastColumnComboboxActive || this.addingColumnIndex === this.visibleColumns.length;
   }
 
   @Output() addColumn: EventEmitter<string> = new EventEmitter<string>();
@@ -48,34 +119,29 @@ export class TheadComponent implements OnInit, AfterViewInit {
   @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent> = new EventEmitter<ToggleSubfieldEvent>();
 
   lastColumnComboboxActive: boolean = false;
-  addingColumnIndex: number | null;
   draggedColumnId: string | null;
   customTemplate: boolean = false;
-
-  private _columnsConfig: ColumnConfig[];
-  private _visibleColumns: string[];
-  private _reorderingEnabled: boolean;
-  private _columnsLookup: ColumnLookup;
-  private tableComponent: TableComponent | undefined;
+  tableStateService: TableStateService;
 
   constructor(
     private elementRef: ElementRef,
-    private changeDetectorRef: ChangeDetectorRef, // needed to trigger change detection on jquery ui's callbacks
-    private tableInitService: TableInitService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private tableReducerService: TableReducerService,
+    tableStateService: TableStateService,
     @Optional() tableComponent: TableComponent
   ) {
-    this.tableComponent = tableComponent;
-  }
-
-  get changeColumnVisibility(): boolean {
-    if (!this.tableComponent) { return false; }
-    return this.tableComponent.changeColumnVisibility;
+    this.tableStateService = (tableComponent && tableComponent.tableStateService) || tableStateService;
   }
 
   ngOnInit() {
-    if (this.reorderingEnabled) {
-      this.initializeSortable();
-    }
+    this.tableReducerService.nextState.subscribe(() => {
+      this.changeDetectorRef.markForCheck();
+    });
+  }
+
+  ngOnChanges(arg: any) {
+    this.dispatch({type: TableEventType.OnChanges});
+    this.dispatch({type: TableEventType.SortColumnInit});
   }
 
   ngAfterViewInit() {
@@ -84,57 +150,22 @@ export class TheadComponent implements OnInit, AfterViewInit {
     });
   }
 
-  get columnsConfig(): ColumnConfig[] {
-    return this._columnsConfig || this.delegateInput('columnsConfig', []);
-  }
-
-  get columnsLookup(): ColumnLookup {
-    let columnsLookup = this._columnsLookup ||
-      (this.tableComponent && this.tableComponent.columnsLookup);
-    if (typeof columnsLookup === 'undefined') {
-      columnsLookup = this.tableInitService.columnsConfig2Lookup(this.columnsConfig);
-      this._columnsLookup = columnsLookup;
-    }
-    return columnsLookup;
-  }
-
-  get visibleColumns(): string[] {
-    return this._visibleColumns || this.delegateInput('visibleColumns', []);
-  }
-
-  get reorderingEnabled(): boolean {
-    return this._reorderingEnabled || this.delegateInput('reorderingEnabled', false);
-  }
-
-  get isLastAddingColumnVisible() {
-    return this.lastColumnComboboxActive || this.addingColumnIndex === this.visibleColumns.length;
-  }
-
   isSorted(column: ColumnState, direction: string) {
-    if (!this.tableComponent) { return false; }
-    return this.tableComponent.isSorted(column, direction);
+    return this.tableStateService.isSorted(column, direction);
   }
 
   column(columnName: string): ColumnState {
     return this.columnsLookup[columnName];
   }
 
-  selectNewColumn(item: {value: string}, atPosition: number) {
-    this.addingColumnIndex = null;
+  selectNewColumn(addColumnEvent: AddColumnEvent, atPosition: number) {
     this.lastColumnComboboxActive = false;
-
-    if (typeof atPosition !== 'undefined') {
-      // the order changed
-      this.visibleColumns = [
-        ...this.visibleColumns.slice(0, atPosition),
-        item.value,
-        ...this.visibleColumns.slice(atPosition),
-      ];
-    } else {
-      this.visibleColumns = [...this.visibleColumns, item.value];
-    }
-    this.addColumn.emit(item.value);
-    // this.visibleColumnsOutput.emit(this.visibleColumns);
+    this.dispatch({
+      type: TableEventType.AddColumnAtPosition,
+      value: addColumnEvent.value,
+      atPosition,
+    } as TableEvent);
+    this.addColumn.emit(addColumnEvent.value);
   }
 
   toggleCombobox() {
@@ -152,7 +183,6 @@ export class TheadComponent implements OnInit, AfterViewInit {
   }
 
   onSortColumn(sortEvent: SortColumnEvent) {
-    if (this.tableComponent) { this.tableComponent.sortedColumnName = sortEvent.column; }
     this.sortColumn.emit(sortEvent);
   }
 
@@ -190,13 +220,7 @@ export class TheadComponent implements OnInit, AfterViewInit {
     jQuery(this.elementRef.nativeElement).disableSelection();
   }
 
-  private delegateInput<T>(propertyName: string, defaultValue: T): T {
-    if (!this.tableComponent) {
-      // console.warn('TheadComponent: No parent "tableComponent" was found.' +
-      //   'Input "' + propertyName + '" was also not provided.');
-      return defaultValue;
-    }
-
-    return (<any>this.tableComponent)[propertyName] as T;
+  private dispatch(event: TableEvent) {
+    this.tableReducerService.reduce(this.tableStateService, event);
   }
 }

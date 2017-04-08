@@ -20,7 +20,7 @@ export class ColumnState {
     this._currentSortDirection = direction;
   }
 
-  toggleDirection() {
+  nextDirection(): SortDirection {
     if (!this._currentSortDirection) {
       this.currentSortDirection = this.initialSortDirection;
     } else {

@@ -1,9 +1,15 @@
+import { TableEvent, TableEventType } from './../events';
+import { TableReducerService } from './../table-reducer.service';
+import { TheadComponent } from './../thead/thead.component';
+import { TableStateService } from './../table-state.service';
 import {ColumnConfig, SortDirection, SortingMode} from './../types';
 import {ColumnState} from './../column-state.class';
 import {SortColumnEvent, ToggleSubfieldEvent} from '../events';
 import {TableComponent} from './../table.component';
 
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -15,54 +21,39 @@ import {
 @Component({
   selector: '[iw-th]',
   templateUrl: 'th.component.html',
-  styleUrls: ['./th.component.css']
+  styleUrls: ['./th.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 export class ThComponent implements OnInit {
   @Input() column: ColumnState;
-  @Input() changeVisibility: boolean = true;
-  @Input() set rowsSortingMode(rowsSortingMode: SortingMode) {
-    this._rowsSortingMode = rowsSortingMode;
-  };
-  @Input() set visibleColumns(visibleColumns: string[]) {
-    if (this.tableComponent) {
-      this.tableComponent.visibleColumns = visibleColumns;
-    } else {
-      this._visibleColumns = visibleColumns;
-    }
-  };
 
   @Input() set columnsConfig(columnsConfig: ColumnConfig[]) {
-    this._columnsConfig = columnsConfig;
+    this.tableStateService.columnsConfig = columnsConfig;
   };
-
-  @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
-  @Output() sortColumn: EventEmitter<SortColumnEvent> = new EventEmitter<SortColumnEvent>();
-  @Output() addCombobox: EventEmitter<number> = new EventEmitter<number>();
-  @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent> = new EventEmitter<ToggleSubfieldEvent>();
-
-  private _rowsSortingMode: SortingMode;
-  private _visibleColumns: string[];
-  private _columnsConfig: ColumnConfig[];
-  private tableComponent: TableComponent | undefined;
-
-  // TODO: some properties could be taken from thead component, same for add-column.component
-  constructor(@Optional() tableComponent: TableComponent) {
-    this.tableComponent = tableComponent;
-  }
-
-  ngOnInit() {
-  }
-
-  get rowsSortingMode(): SortingMode {
-    return this._rowsSortingMode || this.delegateInput('rowsSortingMode', <SortingMode>'default');
-  }
-
-  get visibleColumns(): string[] {
-    return this._visibleColumns || this.delegateInput('visibleColumns', []);
-  }
-
   get columnsConfig(): ColumnConfig[] {
-    return this._columnsConfig || this.delegateInput('columnsConfig', []);
+    return this.tableStateService.columnsConfig;
+  }
+
+  @Input() set visibleColumns(visibleColumns: string[]) {
+    this.tableStateService.visibleColumns = visibleColumns;
+  };
+  get visibleColumns(): string[] {
+    return this.tableStateService.visibleColumns;
+  }
+
+  @Input() set changeVisibility(visibility: boolean) {
+    this.tableStateService.changeColumnVisibility = visibility;
+  }
+  get changeVisibility(): boolean {
+    return this.tableStateService.changeColumnVisibility;
+  }
+
+  @Input() set rowsSortingMode(rowsSortingMode: SortingMode) {
+    this.tableStateService.rowsSortingMode = rowsSortingMode;
+  };
+  get rowsSortingMode(): SortingMode {
+    return this.tableStateService.rowsSortingMode;
   }
 
   get hasAllColumnsVisble(): boolean {
@@ -71,6 +62,29 @@ export class ThComponent implements OnInit {
 
   get isLastColumn(): boolean {
     return this.visibleColumns.length !== 1;
+  }
+
+  @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
+  @Output() sortColumn: EventEmitter<SortColumnEvent> = new EventEmitter<SortColumnEvent>();
+  @Output() addCombobox: EventEmitter<number> = new EventEmitter<number>();
+  @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent> = new EventEmitter<ToggleSubfieldEvent>();
+
+  tableStateService: TableStateService;
+  constructor(
+    tableStateService: TableStateService,
+    private tableReducerService: TableReducerService,
+    private changeDetectorRef: ChangeDetectorRef,
+    @Optional() tableComponent: TableComponent,
+    @Optional() theadComponent: TheadComponent
+  ) {
+    this.tableStateService = (tableComponent && tableComponent.tableStateService) ||
+      (theadComponent  && theadComponent.tableStateService) || tableStateService;
+  }
+
+  ngOnInit() {
+    this.tableReducerService.nextState.subscribe(() => {
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   isSortingDisabled(column: ColumnState) {
@@ -86,16 +100,13 @@ export class ThComponent implements OnInit {
 
   onSortColumn (column: ColumnState, direction?: string) {
     if (this.isSortingDisabled(column)) { return; }
-    if (!direction) {
-      direction = column.toggleDirection();
-    } else {
-      column.currentSortDirection = <SortDirection>direction;
-    }
-
-    this.sortColumn.emit({
+    const sortColumnEvent = {
+      type: TableEventType.SortColumn,
       column: column.config.id,
-      direction
-    });
+      direction: direction || column.nextDirection()
+    };
+    this.dispatch(sortColumnEvent);
+    this.sortColumn.emit(sortColumnEvent);
   }
 
   onRemoveColumn(columnName: string) {
@@ -108,28 +119,17 @@ export class ThComponent implements OnInit {
   }
 
   onToggleSubfield(column: ColumnState, subfieldName: string) {
-    let subfieldIndex = column.activeFields.indexOf(subfieldName);
-    if (subfieldIndex === -1) {
-      // it was not active, therefore it needs to be actived
-      column.activeFields.push(subfieldName);
-    } else {
-      // it was active, therefore disable it
-      column.activeFields.splice(subfieldIndex, 1);
-    }
-    this.toggleSubfield.emit({
+    const toggleSubfieldEvent = {
+      type: TableEventType.ToggleSubfield,
       column: column.config.id,
       activeSubfields: column.activeFields,
       toggleSubfield: subfieldName
-    });
+    };
+    this.dispatch(toggleSubfieldEvent);
+    this.toggleSubfield.emit(toggleSubfieldEvent);
   }
 
-  private delegateInput<T>(propertyName: string, defaultValue: T): T {
-    if (!this.tableComponent) {
-      // console.warn('TheadComponent: No parent "tableComponent" was found.' +
-      //   'Input "' + propertyName + '" was also not provided.');
-      return defaultValue;
-    }
-
-    return (<any>this.tableComponent)[propertyName] as T;
+  private dispatch(event: TableEvent) {
+    this.tableReducerService.reduce(this.tableStateService, event);
   }
 }

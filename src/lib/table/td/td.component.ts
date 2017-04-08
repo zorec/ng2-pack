@@ -1,13 +1,21 @@
 import {ColumnState} from './../column-state.class';
 import {FormatColumnPipe} from './../pipes/format-column.pipe';
 
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 
 @Component({
   selector: '[iw-td]',
   templateUrl: 'td.component.html',
   styleUrls: ['./td.component.css'],
-  providers: [FormatColumnPipe]
+  providers: [FormatColumnPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TdComponent implements OnInit {
   @Input() column: ColumnState;
@@ -18,7 +26,9 @@ export class TdComponent implements OnInit {
   private _currentCellValue: any;
   private _currentFormattedValue: any;
 
-  constructor(private formatColumnPipe: FormatColumnPipe) { }
+  constructor(
+    private formatColumnPipe: FormatColumnPipe,
+    ) { }
 
   ngOnInit() {
   }

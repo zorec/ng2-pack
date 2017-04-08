@@ -1,3 +1,4 @@
+import { TableModule } from './../table.module';
 import { SortColumnEvent } from './../events';
 import {ColumnState} from './../column-state.class';
 import {TableComponent} from './../table.component';
@@ -5,13 +6,20 @@ import { ThComponent } from './th.component';
 /* tslint:disable:no-unused-variable */
 /* tslint:global:describe,beforeEach,it */
 
-import { TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 
 describe('Component: Th', () => {
+  let fixture: ComponentFixture<ThComponent>;
   let component: ThComponent;
 
   beforeEach(() => {
-    component = new ThComponent(<TableComponent>{});
+    TestBed.configureTestingModule({
+      imports: [TableModule]
+    });
+    fixture = TestBed.createComponent(ThComponent);
+    component = fixture.componentInstance;
+    component.tableStateService.columnsLookup = {};
+    component.tableStateService.rows = [];
   });
 
   it('should create an instance', () => {
@@ -20,7 +28,8 @@ describe('Component: Th', () => {
 
   describe('onSortColumn', () => {
     beforeEach(() => {
-     component.rowsSortingMode = 'default';
+      component.rowsSortingMode = 'default';
+      component.tableStateService.rows = [];
     });
 
     it('does not trigger the event when disabled', () => {
@@ -42,6 +51,7 @@ describe('Component: Th', () => {
         id: 'foo',
         initialSortDirection: 'desc'
       });
+      component.tableStateService.columnsLookup['foo'] = columnState;
       component.onSortColumn(columnState);
       expect(column).toEqual('foo');
       expect(direction).toEqual('desc');
@@ -53,6 +63,7 @@ describe('Component: Th', () => {
         ({column, direction} = event);
       });
       let columnState = new ColumnState({id: 'foo', initialSortDirection: 'desc'}, 'asc');
+      component.tableStateService.columnsLookup['foo'] = columnState;
       component.onSortColumn(columnState);
       expect(column).toEqual('foo');
       expect(direction).toEqual('desc');

@@ -1,3 +1,5 @@
+import { TableReducerService } from './table-reducer.service';
+import { TableStateService } from './table-state.service';
 import {TableComponent} from './table.component';
 import {TheadComponent} from './thead/thead.component';
 import {TbodyComponent} from './tbody/tbody.component';
@@ -49,6 +51,8 @@ import { FormsModule } from '@angular/forms';
   providers: [
     TableSortingService,
     TableInitService,
+    TableStateService,
+    TableReducerService,
     I18nService,
     DefaultValuePipe
   ]

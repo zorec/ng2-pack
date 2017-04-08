@@ -1,5 +1,7 @@
+import { TableEvent, TableEventType } from './../events';
+import { TableReducerService } from './../table-reducer.service';
+import { TableStateService } from './../table-state.service';
 import {TdComponent} from './../td/td.component';
-import {TableInitService} from './../table-init.service';
 import {ColumnConfig, ColumnLookup} from '../types';
 import {ColumnState} from './../column-state.class';
 import {EditCellEvent, RowClickEvent} from '../events';
@@ -7,10 +9,14 @@ import {TableComponent} from './../table.component';
 
 import {
   AfterViewInit,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
+  OnInit,
   Optional,
   Output,
   TemplateRef,
@@ -19,44 +25,77 @@ import {
 @Component({
   selector: '[iw-tbody]',
   templateUrl: 'tbody.component.html',
-  styleUrls: ['./tbody.component.css']
+  styleUrls: ['./tbody.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TbodyComponent implements AfterViewInit {
-  // NOTE: not sure weather this should be a public API
-  @Input() addingColumnIndex: number;
-  @Input() set inlineEditingEnabled(isEditable: boolean) {
-    this.isEditable = isEditable;
-  };
+export class TbodyComponent implements AfterViewInit, OnChanges, OnInit {
   @Input() set rows(rows: any[]) {
-    this._rows = rows;
+    this.tableStateService.rows = rows;
   }
+  get rows(): any[] {
+    return this.tableStateService.rows;
+  }
+
   @Input() set columnsConfig(columnsConfig: ColumnConfig[]) {
-    this._columnsConfig = columnsConfig;
+    this.tableStateService.columnsConfig = columnsConfig;
   }
+  get columnsConfig(): ColumnConfig[] {
+    return this.tableStateService.columnsConfig;
+  };
+
   @Input() set visibleColumns(visibleColumns: string[]) {
-    this._visibleColumns = visibleColumns;
+    this.tableStateService.visibleColumns = visibleColumns;
+  }
+  get visibleColumns(): string[] {
+    return this.tableStateService.visibleColumns;
+  };
+
+  @Input() set changeColumnVisibility(visibility: boolean) {
+    this.tableStateService.changeColumnVisibility = visibility;
+  }
+  get changeColumnVisibility(): boolean {
+    return this.tableStateService.changeColumnVisibility;
+  }
+
+  @Input() set inlineEditingEnabled(isEditable: boolean) {
+    this.tableStateService.inlineEditingEnabled = isEditable;
+  };
+  get inlineEditingEnabled() {
+    return this.tableStateService.inlineEditingEnabled;
+  }
+
+  @Input() set addingColumnIndex(index: number | undefined) {
+    this.tableStateService.addingColumnIndex = index;
+  }
+  get addingColumnIndex() {
+    return this.tableStateService.addingColumnIndex;
+  }
+
+  get columnsLookup(): ColumnLookup {
+    return this.tableStateService.columnsLookup;
   }
 
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
   @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
 
   customTemplate: boolean = false;
-
-  private _columnsConfig: ColumnConfig[];
-  private _columnsLookup: ColumnLookup;
-  private _rows: any[];
-  private _visibleColumns: string[];
-  private isEditable: boolean;
-  private tableComponent: TableComponent;
-  private customCells: string[] = [];
-  private cellTemplates: {[columnId: string]: TemplateRef<any>} = {};
+  tableStateService: TableStateService;
 
   constructor(
     private elementRef: ElementRef,
-    private tableInitService: TableInitService,
+    private tableReducerService: TableReducerService,
+    private changeDetectorRef: ChangeDetectorRef,
+
+    tableStateService: TableStateService,
     @Optional() tableComponent: TableComponent
   ) {
-    this.tableComponent = tableComponent;
+      this.tableStateService = (tableComponent && tableComponent.tableStateService) || tableStateService;
+  }
+
+  ngOnInit() {
+    this.tableReducerService.nextState.subscribe(() => {
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   ngAfterViewInit() {
@@ -67,38 +106,12 @@ export class TbodyComponent implements AfterViewInit {
     });
   }
 
-  get rows(): any[] {
-    return this._rows || this.delegateInput('rows', []);
-  }
-
-  get columnsConfig(): ColumnConfig[] {
-    return this._columnsConfig || this.delegateInput('columnsConfig', []);
-  };
-
-  get visibleColumns(): string[] {
-    return this._visibleColumns || this.delegateInput('visibleColumns', []);
-  };
-
-  get inlineEditingEnabled() {
-    return this.isEditable || this.delegateInput('inlineEditingEnabled', false);
-  }
-
-  get columnsLookup(): ColumnLookup {
-    let columnsLookup = this._columnsLookup ||
-      (this.tableComponent && this.tableComponent.columnsLookup);
-    if (!columnsLookup) {
-      columnsLookup = this.tableInitService.columnsConfig2Lookup(this.columnsConfig);
-      this._columnsLookup = columnsLookup;
-    }
-    return columnsLookup;
-  }
-
-  get changeColumnVisibility(): boolean {
-    return this.tableComponent.changeColumnVisibility;
+  ngOnChanges(arg: any) {
+    this.dispatch({type: TableEventType.OnChanges});
   }
 
   isSorted(column: ColumnState, direction: string) {
-    return this.tableComponent.isSorted(column, direction);
+    return this.tableStateService.isSorted(column, direction);
   }
 
   column(columnName: string): ColumnState {
@@ -107,6 +120,7 @@ export class TbodyComponent implements AfterViewInit {
 
   onRowClicked(rowIndex: number, rowObject: any) {
     this.rowClick.emit({
+      type: TableEventType.RowClick,
       rowIndex,
       rowObject
     });
@@ -115,6 +129,7 @@ export class TbodyComponent implements AfterViewInit {
   onEditCell(tdComponent: TdComponent, rowIndex: number) {
     if (!tdComponent.isChanged || !tdComponent.column) { return; }
     let editCellEvent: EditCellEvent = {
+      type: TableEventType.EditCell,
       newValue: tdComponent.content,
       column: tdComponent.column.config.id,
       rowObject: tdComponent.row,
@@ -123,13 +138,7 @@ export class TbodyComponent implements AfterViewInit {
     this.editCell.emit(editCellEvent);
   }
 
-  private delegateInput<T>(propertyName: string, defaultValue: T): T {
-    if (!this.tableComponent) {
-      // console.warn('TbodyComponent: No parent "tableComponent" was found.' +
-      //   'Input "' + propertyName + '" was also not provided.');
-      return defaultValue;
-    }
-
-    return (<any>this.tableComponent)[propertyName] as T;
+  private dispatch(event: TableEvent) {
+    this.tableReducerService.reduce(this.tableStateService, event);
   }
 }

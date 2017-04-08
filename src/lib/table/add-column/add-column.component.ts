@@ -1,25 +1,55 @@
 import {ColumnConfig} from '../types';
-import {Select2Option, Select2CategorizedOption, Select2ItemOption} from '../../select2/select2.component';
+import { AddColumnEvent, TableEvent, TableEventType } from './../events';
 import {TableComponent} from './../table.component';
+import { TheadComponent } from './../thead/thead.component';
+import {
+  Select2Option,
+  Select2CategorizedOption,
+  Select2ItemOption
+} from '../../select2/select2.component';
+import { TableReducerService } from './../table-reducer.service';
+import { TableStateService } from './../table-state.service';
 
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Optional,
+  Output
+} from '@angular/core';
 
 @Component({
   selector: 'iw-add-column',
   templateUrl: 'add-column.component.html',
-  styleUrls: ['add-column.component.css']
+  styleUrls: ['add-column.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddColumnComponent implements OnChanges {
   @Input() visibleColumns: string[];
   @Input() open: boolean = true;
 
-  @Output() selected: EventEmitter<{value: string}> = new EventEmitter<{value: string}>();
+  @Output() selected: EventEmitter<AddColumnEvent> = new EventEmitter<{value: string}>();
   @Output() close = new EventEmitter();
 
   items: Select2Option[];
   value: string | null = null;
+  tableStateService: TableStateService;
 
-  constructor (private tableComponent: TableComponent) {
+  constructor (
+    tableStateService: TableStateService,
+    private tableReducerService: TableReducerService,
+    @Optional() tableComponent: TableComponent,
+    @Optional() theadComponent: TheadComponent,
+    ) {
+      this.tableStateService = (tableComponent && tableComponent.tableStateService) ||
+        (theadComponent  && theadComponent.tableStateService) || tableStateService;
+  }
+
+  get columnsConfig() {
+    return this.tableStateService.columnsConfig;
   }
 
   ngOnChanges(arg: any) {
@@ -30,7 +60,10 @@ export class AddColumnComponent implements OnChanges {
 
   onSelected(value: string): void {
     if (!value) { return; }
-    this.selected.emit({value});
+    this.selected.emit({
+      value,
+      type: TableEventType.AddColumn
+    });
     setTimeout(() => {
       this.value = null;
     }, 0);
@@ -38,7 +71,7 @@ export class AddColumnComponent implements OnChanges {
 
   columnsNotVisibleInTable(): ColumnConfig[] {
     let items: ColumnConfig[] = [];
-    this.tableComponent.columnsConfig.forEach((columnConfig: ColumnConfig) => {
+    this.columnsConfig.forEach((columnConfig: ColumnConfig) => {
       if (this.visibleColumns.indexOf(columnConfig.id) === -1) {
         columnConfig.text = columnConfig.text || columnConfig.id;
         items.push(columnConfig);
@@ -73,4 +106,7 @@ export class AddColumnComponent implements OnChanges {
     return options;
   }
 
+  private dispatch(event: TableEvent) {
+    this.tableReducerService.reduce(this.tableStateService, event);
+  }
 }
