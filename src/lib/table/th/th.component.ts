@@ -1,4 +1,4 @@
-import { TableEvent, TableEventType } from './../events';
+import { TableEvent, TableEventType, RemoveColumnEvent } from './../events';
 import { TableReducerService } from './../table-reducer.service';
 import { TheadComponent } from './../thead/thead.component';
 import { TableStateService } from './../table-state.service';
@@ -64,7 +64,7 @@ export class ThComponent implements OnInit {
     return this.visibleColumns.length !== 1;
   }
 
-  @Output() removeColumn: EventEmitter<string> = new EventEmitter<string>();
+  @Output() removeColumn: EventEmitter<RemoveColumnEvent> = new EventEmitter<RemoveColumnEvent>();
   @Output() sortColumn: EventEmitter<SortColumnEvent> = new EventEmitter<SortColumnEvent>();
   @Output() addCombobox: EventEmitter<number> = new EventEmitter<number>();
   @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent> = new EventEmitter<ToggleSubfieldEvent>();
@@ -109,13 +109,15 @@ export class ThComponent implements OnInit {
     this.sortColumn.emit(sortColumnEvent);
   }
 
-  onRemoveColumn(columnName: string) {
-    let columnIndex = this.visibleColumns.indexOf(columnName);
-    this.visibleColumns = [
-      ...this.visibleColumns.slice(0, columnIndex),
-      ...this.visibleColumns.slice(columnIndex + 1),
-    ];
-    this.removeColumn.emit(columnName);
+  onRemoveColumn(columnId: string) {
+    let columnIndex = this.visibleColumns.indexOf(columnId);
+    const removeColumnEvent = {
+      type: TableEventType.RemoveColumn,
+      column: columnId,
+      index: columnIndex,
+    };
+    this.dispatch(removeColumnEvent);
+    this.removeColumn.emit(removeColumnEvent);
   }
 
   onToggleSubfield(column: ColumnState, subfieldName: string) {

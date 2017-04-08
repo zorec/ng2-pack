@@ -1,16 +1,17 @@
 import { ColumnConfig } from './types';
 
 export enum TableEventType {
-  EditCell,
-  SortColumn,
-  SortColumnInit,
-  ToggleSubfield,
-  RowClick,
-  SetConfig,
-  OnChanges,
   AddingColumn,
   AddColumn,
   AddColumnAtPosition,
+  EditCell,
+  OnChanges,
+  RemoveColumn,
+  RowClick,
+  SortColumn,
+  SortColumnInit,
+  SetConfig,
+  ToggleSubfield,
 }
 
 export interface TableEvent {
@@ -41,6 +42,11 @@ export interface AddColumnEvent extends TableEvent {
 
 export interface AddColumnAtPositionEvent extends AddColumnEvent {
   atPosition: number;
+}
+
+export interface RemoveColumnEvent extends TableEvent {
+  column: string;
+  index: number;
 }
 
 export interface EditCellEvent extends TableEvent {

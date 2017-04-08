@@ -5,6 +5,7 @@ import {
   TableEvent,
   TableEventType,
   ToggleSubfieldEvent,
+  RemoveColumnEvent,
   SetConfigEvent,
   SortColumnEvent,
 } from './events';
@@ -48,6 +49,10 @@ export class TableReducerService {
 
       case TableEventType.AddColumnAtPosition:
         this.addColumn(state, event as AddColumnAtPositionEvent);
+        break;
+
+      case TableEventType.RemoveColumn:
+        this.removeColumn(state, event as RemoveColumnEvent)
         break;
 
       case TableEventType.ToggleSubfield:
@@ -146,6 +151,13 @@ export class TableReducerService {
     } else {
       state.visibleColumns = [...state.visibleColumns, addColumn.value];
     }
+  }
+
+  removeColumn(state: TableStateService, removeColumn: RemoveColumnEvent) {
+    state.visibleColumns = [
+      ...state.visibleColumns.slice(0, removeColumn.index),
+      ...state.visibleColumns.slice(removeColumn.index + 1),
+    ];
   }
 
   toggleSubfield(state: TableStateService, toggleEvent: ToggleSubfieldEvent) {
