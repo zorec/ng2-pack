@@ -38,7 +38,7 @@ export interface RowClickEvent extends TableEvent {
 }
 
 export interface AddingColumnEvent extends TableEvent {
-  atPosition: number;
+  index: number;
 }
 
 export interface AddColumnEvent extends TableEvent {
@@ -46,7 +46,7 @@ export interface AddColumnEvent extends TableEvent {
 }
 
 export interface AddColumnAtPositionEvent extends AddColumnEvent {
-  atPosition: number;
+  index: number;
 }
 
 export interface RemoveColumnEvent extends TableEvent {

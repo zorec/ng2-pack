@@ -162,12 +162,12 @@ export class TheadComponent implements OnChanges, OnInit {
     return this.columnsLookup[columnName];
   }
 
-  selectNewColumn(addColumnEvent: AddColumnEvent, atPosition: number) {
+  selectNewColumn(addColumnEvent: AddColumnEvent, index: number) {
     this.lastColumnComboboxActive = false;
     const addColumnAtPosition = {
       type: TableEventType.AddColumnAtPosition,
       value: addColumnEvent.value,
-      atPosition,
+      index,
     };
     this.dispatch(addColumnAtPosition);
     this.addColumn.emit(addColumnAtPosition);
@@ -183,7 +183,7 @@ export class TheadComponent implements OnChanges, OnInit {
   }
 
   onAddingColumn(index: number, addingEvent: AddingColumnEvent) {
-    addingEvent.atPosition += index;
+    addingEvent.index += index;
     this.dispatch(addingEvent);
     this.addingColumn.emit();
   }

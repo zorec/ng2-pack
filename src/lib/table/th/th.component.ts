@@ -143,7 +143,7 @@ export class ThComponent implements OnInit {
     if (this.hasAllColumnsVisble) {
       this.addingColumn.emit({
         type: TableEventType.AddingColumn,
-        atPosition,
+        index: atPosition,
       });
     }
   }

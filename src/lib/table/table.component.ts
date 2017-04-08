@@ -186,7 +186,10 @@ export class TableComponent implements OnChanges {
   }
 
   onAddingColumn(index: number) {
-    this.tableStateService.addingColumnIndex = index;
+    this.addingColumn.emit({
+      type: TableEventType.AddingColumn,
+      index
+    });
   }
 
   onToggleSubfield(toggleSubfieldEvent: ToggleSubfieldEvent) {

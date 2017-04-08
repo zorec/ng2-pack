@@ -144,17 +144,17 @@ export class TableReducerService {
   }
 
   addingColumn(state: TableStateService, addingColumn: AddingColumnEvent) {
-    state.addingColumnIndex = addingColumn.atPosition;
+    state.addingColumnIndex = addingColumn.index;
   }
 
   addColumn(state: TableStateService, addColumn: AddColumnAtPositionEvent) {
     state.addingColumnIndex = undefined;
-    if (typeof addColumn.atPosition !== 'undefined') {
+    if (typeof addColumn.index !== 'undefined') {
       // the order changed
       state.visibleColumns = [
-        ...state.visibleColumns.slice(0, addColumn.atPosition),
+        ...state.visibleColumns.slice(0, addColumn.index),
         addColumn.value,
-        ...state.visibleColumns.slice(addColumn.atPosition),
+        ...state.visibleColumns.slice(addColumn.index),
       ];
     } else {
       state.visibleColumns = [...state.visibleColumns, addColumn.value];
