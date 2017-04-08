@@ -27,7 +27,7 @@ export class TableReducerService {
 
 
   reduce(state: TableStateService, event: TableEvent) {
-    console.log(TableEventType[event.type]);
+    // console.log(TableEventType[event.type]);
     this.skipNext = false;
 
     switch (event.type) {
@@ -78,7 +78,6 @@ export class TableReducerService {
     if (typeof state.columnsConfig === 'undefined' && !isWithoutData) {
       [state.columnsLookup, state.columnsConfig] =
         this.tableInitService.detectColumnConfiguration(state.rows);
-      state.configReload = false;
     }
     if (typeof state.visibleColumns === 'undefined' && typeof state.columnsLookup !== 'undefined') {
       state.visibleColumns = Object.keys(state.columnsLookup);

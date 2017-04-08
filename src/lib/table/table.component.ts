@@ -25,18 +25,18 @@ import {TableInitService} from './table-init.service';
 import {TableSortingService} from './table-sorting.service';
 
 import {
-  AfterViewInit,
   Component,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  ContentChild,
   ElementRef,
   EventEmitter,
   Input,
   Inject,
   OnChanges,
-  OnInit,
   OpaqueToken,
   Output,
+  TemplateRef,
   Renderer,
   ViewEncapsulation,
 } from '@angular/core';
@@ -53,7 +53,7 @@ import {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent implements AfterViewInit, OnChanges, OnInit {
+export class TableComponent implements OnChanges {
   @Input() set rows(rows: Row[]) {
     this.tableStateService.rows = rows;
   }
@@ -136,7 +136,10 @@ export class TableComponent implements AfterViewInit, OnChanges, OnInit {
   @Output() rowClick: EventEmitter<RowClickEvent>;
   @Output() editCell: EventEmitter<EditCellEvent>;
 
-  customTemplate: boolean = false;
+  @ContentChild(TemplateRef) template: any;
+  // simulate multiple elements in order to render
+  // custom template with ngForTemplate
+  tables = [1];
 
   constructor(
     private elementRef: ElementRef,
@@ -158,21 +161,12 @@ export class TableComponent implements AfterViewInit, OnChanges, OnInit {
     this.editCell = this.tableStateService.editCell;
   }
 
-  ngOnInit() {
-  }
-
   ngOnChanges(arg: any) {
     this.dispatch({type: TableEventType.OnChanges});
     this.dispatch({type: TableEventType.SortColumnInit});
     if (!this.tableReducerService.skipNext) {
       this.onSortColumnInit();
     }
-  }
-
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.customTemplate = this.elementRef.nativeElement.children.length !== 1;
-    });
   }
 
   isSorted(column: ColumnState, direction: string) {

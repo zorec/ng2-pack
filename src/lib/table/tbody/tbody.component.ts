@@ -11,6 +11,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  ContentChild,
   Component,
   ElementRef,
   EventEmitter,
@@ -77,6 +78,9 @@ export class TbodyComponent implements AfterViewInit, OnChanges, OnInit {
 
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
   @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
+
+  @ContentChild(TemplateRef)
+  template: any;
 
   customTemplate: boolean = false;
   tableStateService: TableStateService;

@@ -20,17 +20,19 @@ import { TableStateService } from './../table-state.service';
 import { TableReducerService } from './../table-reducer.service';
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ContentChild,
   ElementRef,
   EventEmitter,
   Input,
   OnInit,
   OnChanges,
+  OnDestroy,
   Output,
   Optional,
+  TemplateRef,
 } from '@angular/core';
 
 declare var jQuery: any;
@@ -41,7 +43,7 @@ declare var jQuery: any;
   styleUrls: ['./thead.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TheadComponent implements OnChanges, OnInit, AfterViewInit {
+export class TheadComponent implements OnChanges, OnDestroy, OnInit {
   @Input() set rows(rows: Row[]) {
     this.tableStateService.rows = rows;
   }
@@ -113,6 +115,8 @@ export class TheadComponent implements OnChanges, OnInit, AfterViewInit {
     return this.lastColumnComboboxActive || this.addingColumnIndex === this.visibleColumns.length;
   }
 
+  @ContentChild(TemplateRef) template: any;
+
   @Output() addColumn: EventEmitter<AddColumnAtPositionEvent>;
   @Output() removeColumn: EventEmitter<RemoveColumnEvent>;
   @Output() sortColumn: EventEmitter<SortColumnEvent>;
@@ -122,7 +126,6 @@ export class TheadComponent implements OnChanges, OnInit, AfterViewInit {
 
   lastColumnComboboxActive: boolean = false;
   draggedColumnId: string | null;
-  customTemplate: boolean = false;
   tableStateService: TableStateService;
 
   constructor(
@@ -152,10 +155,8 @@ export class TheadComponent implements OnChanges, OnInit, AfterViewInit {
     this.dispatch({type: TableEventType.SortColumnInit});
   }
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.customTemplate = this.elementRef.nativeElement.children.length !== 1;
-    });
+  ngOnDestroy() {
+    this.tableReducerService.nextState.unsubscribe();
   }
 
   isSorted(column: ColumnState, direction: string) {

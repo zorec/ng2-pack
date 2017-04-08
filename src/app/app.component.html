@@ -1,3 +1,15 @@
+<table>
+  <tbody iw-tbody [rows]="rows">
+    <template let-item="$implicit" let-i="index">
+      <tr>
+        <td colspan="8">
+          [{{i}}] Hello: {{item.title}}
+        </td>
+      </tr>
+    </template>
+  </tbody>
+</table>
+
 <!-- TODO: show code snippets with the description-->
 <h1>
   Data table component

@@ -1,5 +1,6 @@
-<ng-content></ng-content>
-<table *ngIf="!customTemplate" class="results-table table table-bordered table-striped">
-  <thead iw-thead></thead>
-  <tbody iw-tbody></tbody>
-</table>
+<template ngFor [ngForOf]="tables" [ngForTemplate]="template">
+  <table *ngIf="!customTemplate" class="results-table table table-bordered table-striped">
+    <thead iw-thead></thead>
+    <tbody iw-tbody></tbody>
+  </table>
+</template>
