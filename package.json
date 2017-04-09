@@ -9,7 +9,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "prepare-demo-deploy": "ng build --op build --prod --aot true --base-href https://zorec.github.io/ng2-pack/"
   },
   "repository": {
     "type": "git",
