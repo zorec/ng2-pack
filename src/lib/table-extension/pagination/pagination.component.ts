@@ -19,7 +19,7 @@ export class PaginationComponent implements OnChanges {
 
   constructor() { }
 
-  ngOnChanges() {
+  ngOnChanges(arg: any) {
     this.page = this.initialPage;
   }
 
