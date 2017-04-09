@@ -1,11 +1,19 @@
-import { TableEvent, TableEventType, RemoveColumnEvent, AddingColumnEvent } from './../events';
-import { TableReducerService } from './../table-reducer.service';
-import { TheadComponent } from './../thead/thead.component';
-import { TableStateService } from './../table-state.service';
+import {
+  AdjacentDirection,
+  AddingAdjacentEvent,
+  AddingColumnEvent,
+  RemoveColumnEvent,
+  SortColumnEvent,
+  ToggleSubfieldEvent,
+  TableEvent,
+  TableEventType
+} from './../events';
 import {ColumnConfig, SortDirection, SortingMode} from './../types';
+import { TheadComponent } from './../thead/thead.component';
 import {ColumnState} from './../column-state.class';
-import {SortColumnEvent, ToggleSubfieldEvent} from '../events';
 import {TableComponent} from './../table.component';
+import { TableReducerService } from './../table-reducer.service';
+import { TableStateService } from './../table-state.service';
 
 import {
   ChangeDetectionStrategy,
@@ -65,7 +73,7 @@ export class ThComponent implements OnInit {
   }
 
   // addingAdjacentColumn is not shared
-  @Output() addingAdjacentColumn = new EventEmitter<AddingColumnEvent>();
+  @Output() addingAdjacentColumn = new EventEmitter<AddingAdjacentEvent>();
   @Output() removeColumn: EventEmitter<RemoveColumnEvent>;
   @Output() sortColumn: EventEmitter<SortColumnEvent>;
   @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent>;
@@ -106,7 +114,7 @@ export class ThComponent implements OnInit {
 
   onSortColumn (column: ColumnState, direction?: string) {
     if (this.isSortingDisabled(column)) { return; }
-    const sortColumnEvent = {
+    const sortColumnEvent: SortColumnEvent = {
       type: TableEventType.SortColumn,
       column: column.config.id,
       direction: direction || column.nextDirection()
@@ -117,7 +125,7 @@ export class ThComponent implements OnInit {
 
   onRemoveColumn(columnId: string) {
     let columnIndex = this.visibleColumns.indexOf(columnId);
-    const removeColumnEvent = {
+    const removeColumnEvent: RemoveColumnEvent = {
       type: TableEventType.RemoveColumn,
       column: columnId,
       index: columnIndex,
@@ -128,7 +136,7 @@ export class ThComponent implements OnInit {
   }
 
   onToggleSubfield(column: ColumnState, subfieldName: string) {
-    const toggleSubfieldEvent = {
+    const toggleSubfieldEvent: ToggleSubfieldEvent = {
       type: TableEventType.ToggleSubfield,
       column: column.config.id,
       activeSubfields: column.activeFields,
@@ -138,8 +146,7 @@ export class ThComponent implements OnInit {
     this.toggleSubfield.emit(toggleSubfieldEvent);
   }
 
-  // atPosition is either 0 (left) or 1 (right)
-  onAddingAdjacentColumn(atPosition: 0 | 1) {
+  onAddingAdjacentColumn(atPosition: AdjacentDirection) {
     if (this.hasAllColumnsVisble) {
       return;
     }
@@ -147,7 +154,7 @@ export class ThComponent implements OnInit {
     this.addingAdjacentColumn.emit({
       type: TableEventType.AddingAdjacentColumn,
       index: atPosition,
-    });
+    } as AddingAdjacentEvent);
   }
 
   private dispatch(event: TableEvent) {

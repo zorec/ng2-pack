@@ -20,6 +20,7 @@ export class TableStateService {
   sortedColumnName: string | undefined;
   addingColumnIndex: number | undefined;
   initialSortColumn: string | undefined;
+  visibleColumnsBeforePreview: string[] | undefined;
 
   // defaults
   reorderingEnabled = true;
@@ -38,11 +39,6 @@ export class TableStateService {
   visibleColumnsChange = new EventEmitter<string[]>();
   rowClick = new EventEmitter<RowClickEvent>();
   editCell = new EventEmitter<EditCellEvent>();
-
-
-  // these values require re-initialization with table-init.service
-  private _rows: Row[];
-  private _columnsConfig: ColumnConfig[];
 
   constructor() {
 

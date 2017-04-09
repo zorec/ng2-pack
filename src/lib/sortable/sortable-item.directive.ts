@@ -25,7 +25,7 @@ export class SortableItemDirective {
   @Input() disableSorting = false;
   @Output() sortableDrop = new EventEmitter<SortableEvent>();
   @Output() sortablePreview = new EventEmitter<SortableEvent>();
-  @Output() sortableCancelled = new EventEmitter<void>();
+  @Output() sortableDragEnd = new EventEmitter<void>();
 
   private lastEvent: string = '';
 
@@ -85,7 +85,7 @@ export class SortableItemDirective {
       originalNextSibling.parentNode!.insertBefore(dragSource.elementRef.nativeElement, originalNextSibling);
       originalNextSibling = undefined;
     }
-    this.sortableCancelled.emit();
+    this.sortableDragEnd.emit();
   }
 
   // droppable

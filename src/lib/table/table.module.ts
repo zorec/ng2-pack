@@ -16,6 +16,7 @@ import {TableSortingService} from './table-sorting.service';
 import {TableInitService} from './table-init.service';
 
 import { DropdownModule} from 'ngx-dropdown';
+import { SortableModule } from './../sortable/sortable.module';
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -26,7 +27,8 @@ import { FormsModule } from '@angular/forms';
     PipesModule,
     CommonModule,
     FormsModule,
-    DropdownModule
+    DropdownModule,
+    SortableModule,
   ],
   declarations: [
     TableComponent,

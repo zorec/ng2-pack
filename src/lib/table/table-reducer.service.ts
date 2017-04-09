@@ -3,6 +3,7 @@ import {
   AddColumnEvent,
   AddColumnAtPositionEvent,
   AddingColumnEvent,
+  DragPreviewEvent,
   TableEvent,
   TableEventType,
   ToggleSubfieldEvent,
@@ -53,6 +54,18 @@ export class TableReducerService {
 
       case TableEventType.AddColumnAtPosition:
         this.addColumn(state, event as AddColumnAtPositionEvent);
+        break;
+
+      case TableEventType.DragPreview:
+        this.previewColumns(state, event as DragPreviewEvent);
+        break;
+
+      case TableEventType.DragEnd:
+        this.revertPreview(state);
+        break;
+
+      case TableEventType.DropColumn:
+        this.dropColumn(state);
         break;
 
       case TableEventType.RemoveColumn:
@@ -162,6 +175,23 @@ export class TableReducerService {
     } else {
       state.visibleColumns = [...state.visibleColumns, addColumn.column];
     }
+  }
+
+  previewColumns(state: TableStateService, dragPreview: DragPreviewEvent) {
+    // remember the state before the first preview
+    state.visibleColumnsBeforePreview = state.visibleColumnsBeforePreview || state.visibleColumns;
+    state.visibleColumns = dragPreview.columns;
+  }
+
+  revertPreview(state: TableStateService) {
+    if (state.visibleColumnsBeforePreview) {
+      state.visibleColumns = state.visibleColumnsBeforePreview;
+    }
+    state.visibleColumnsBeforePreview = undefined;
+  }
+
+  dropColumn(state: TableStateService) {
+    state.visibleColumnsBeforePreview = undefined;
   }
 
   removeColumn(state: TableStateService, removeColumn: RemoveColumnEvent) {

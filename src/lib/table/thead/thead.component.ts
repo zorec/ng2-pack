@@ -9,6 +9,9 @@ import {
   AddColumnEvent,
   AddingAdjacentEvent,
   AddingColumnEvent,
+  DragPreviewEvent,
+  DragPreviewRevertEvent,
+  DropEvent,
   RemoveColumnEvent,
   SortColumnEvent,
   ToggleSubfieldEvent,
@@ -17,6 +20,7 @@ import {
 } from '../events';
 import {ColumnState} from './../column-state.class';
 import {TableComponent} from './../table.component';
+import { SortableEvent } from './../../sortable/sortable-item.directive';
 import { TableStateService } from './../table-state.service';
 import { TableReducerService } from './../table-reducer.service';
 
@@ -34,8 +38,6 @@ import {
   Optional,
   TemplateRef,
 } from '@angular/core';
-
-declare var jQuery: any;
 
 @Component({
   selector: '[iw-thead]',
@@ -126,7 +128,7 @@ export class TheadComponent implements OnChanges, OnInit {
   @Output() visibleColumnsChange: EventEmitter<string[]>;
 
   lastColumnComboboxActive: boolean = false;
-  draggedColumnId: string | null;
+  visibleColumnsBeforePreview: string[];
   tableStateService: TableStateService;
 
   constructor(
@@ -149,15 +151,15 @@ export class TheadComponent implements OnChanges, OnInit {
   ngOnInit() {
     this.tableReducerService.nextState.subscribe(() => {
       this.changeDetectorRef.markForCheck();
-      if (!this.tableReducerService.skipNext) {
-        this.onSortColumnInit();
-      }
     });
   }
 
   ngOnChanges(arg: any) {
     this.dispatch({type: TableEventType.OnChanges});
     this.dispatch({type: TableEventType.SortColumnInit});
+    if (!this.tableReducerService.skipNext) {
+      this.onSortColumnInit();
+    }
   }
 
   isSorted(column: ColumnState, direction: string) {
@@ -175,14 +177,11 @@ export class TheadComponent implements OnChanges, OnInit {
       type: TableEventType.AddingColumn,
       index: this.visibleColumns.length
     });
-    setTimeout(() => {
-      jQuery(this.elementRef.nativeElement).scrollLeft(99999);
-    }, 0);
   }
 
   onSelectNewColumn(addColumnEvent: AddColumnEvent, index: number | undefined) {
     this.lastColumnComboboxActive = false;
-    const addColumnAtPosition = {
+    const addColumnAtPosition: AddColumnAtPositionEvent = {
       type: TableEventType.AddColumnAtPosition,
       column: addColumnEvent.column,
       index: index || this.visibleColumns.length,
@@ -193,7 +192,7 @@ export class TheadComponent implements OnChanges, OnInit {
   }
 
   onAddingAdjacentColumn(index: number, addingAdjacentEvent: AddingAdjacentEvent) {
-    const addingEvent = {
+    const addingEvent: AddingColumnEvent = {
       type: TableEventType.AddingColumn,
       index: index + addingAdjacentEvent.index
     };
@@ -218,38 +217,30 @@ export class TheadComponent implements OnChanges, OnInit {
     this.sortColumnInit.emit();
   }
 
-  onToggleSubfield(toggleSubfieldEvent: ToggleSubfieldEvent) {
-    this.toggleSubfield.emit(toggleSubfieldEvent);
+  onDrop(sortableEvent: SortableEvent) {
+    this.visibleColumnsChange.emit(this.visibleColumns);
+    this.dispatch({type: TableEventType.DropColumn} as DropEvent);
   }
 
-  private initializeSortable() {
-    jQuery(this.elementRef.nativeElement).sortable({
-      cursor: 'move',
-      axis: 'x',
-      tolerance: 'pointer',
-      items: '.drag-column',
-      handle: '.col-label',
-      update: () => {
-        this.draggedColumnId = '';
-        let sortedIDs = jQuery( this.elementRef.nativeElement )
-          .sortable( 'toArray', {
-            attribute: 'data-col-ref'
-          });
-        this.visibleColumns = sortedIDs;
-        this.visibleColumnsChange.emit(sortedIDs);
-        this.changeDetectorRef.detectChanges();
-      },
-      // NOTE: provide additional information about dragging
-      // when dragging is started
-      // activate: (event: any, ui: any) => {
-      //   this.draggedColumnId = ui.item.attr('data-col-ref');
-      // },
-      // stop: () => {
-      //   this.draggedColumnId = '';
-      //   this.changeDetectorRef.detectChanges();
-      // }
-    });
-    jQuery(this.elementRef.nativeElement).disableSelection();
+  onDragPreview(sortableEvent: SortableEvent) {
+    const columns = sortableEvent.ids
+      // slice 'col-id-' from the beggining
+      .map((id: string) => id.slice(7));
+    const dragPreviewEvent: DragPreviewEvent = {
+      type: TableEventType.DragPreview,
+      columns
+    };
+    this.dispatch(dragPreviewEvent);
+  }
+
+  onDragEnd() {
+    this.dispatch({
+      type: TableEventType.DragEnd
+    } as DragPreviewRevertEvent);
+  }
+
+  onToggleSubfield(toggleSubfieldEvent: ToggleSubfieldEvent) {
+    this.toggleSubfield.emit(toggleSubfieldEvent);
   }
 
   private dispatch(event: TableEvent) {

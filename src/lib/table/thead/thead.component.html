@@ -14,9 +14,14 @@
       iw-th
       [column]="column(columnName)"
       (addingAdjacentColumn)="onAddingAdjacentColumn(columnIndex, $event)"
-      class="drag-column"
-      attr.data-col-ref="{{ column(columnName)?.config.id }}"
+
+      iwSortableItem
+      [disableSorting]="!reorderingEnabled"
+      (sortableDrop)="onDrop($event)"
+      (sortablePreview)="onDragPreview($event)"
+      (sortableDragEnd)="onDragEnd()"
       attr.id="col-id-{{ column(columnName)?.config.id }}"
+
       [class.is-sorted]="isSorted(column(columnName))"
       [class.is-sorted--asc]="isSorted(column(columnName), 'asc')"
       [class.is-sorted--desc]="isSorted(column(columnName), 'desc')">
