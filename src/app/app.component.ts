@@ -1,7 +1,8 @@
+import { PaginationComponent } from './../lib/table-extension/pagination/pagination.component';
 import {ColumnConfig} from './../lib/table';
 import {TableExampleService} from './table-example/table-example.service';
 
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {DatePipe} from '@angular/common';
 
 @Component({
@@ -14,6 +15,7 @@ export class AppComponent {
   title = 'Data Table';
   columnsConfig: ColumnConfig[];
   rows: any[];
+  paginatedRows: any[];
   visibleColumns = ['firstName', 'lastName'];
   customizedFields = ['studies'];
   actionList: string[] = [];
@@ -34,6 +36,7 @@ export class AppComponent {
         };
         return copy;
       });
+    this.onPageChange(0, 10);
   }
 
   get rowsWithStudies(): any[] {
@@ -49,5 +52,9 @@ export class AppComponent {
 
   isCustomField(columnId: string): boolean {
     return this.customizedFields.indexOf(columnId) !== -1;
+  }
+
+  onPageChange(pageStart: number, pageEnd: number) {
+    this.paginatedRows = this.rows.slice(pageStart, pageEnd);
   }
 }
