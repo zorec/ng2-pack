@@ -1,4 +1,4 @@
-import { TableEvent } from './events';
+import { ColumnState } from './column-state.class';
 import { ColumnConfig } from './types';
 
 export enum TableEventType {
@@ -84,6 +84,7 @@ export interface RowClickEvent {
 export interface SortColumnEvent {
   type: TableEventType.SortColumn;
   column: string;
+  columnState: ColumnState;
   direction: string;
 };
 

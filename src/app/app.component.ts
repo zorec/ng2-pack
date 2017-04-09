@@ -1,5 +1,6 @@
+import { TableSortingService } from './../lib/table/table-sorting.service';
 import { PaginationComponent } from './../lib/table-extension/pagination/pagination.component';
-import {ColumnConfig} from './../lib/table';
+import {ColumnConfig, SortColumnEvent} from './../lib/table';
 import {TableExampleService} from './table-example/table-example.service';
 
 import { Component, ViewChild } from '@angular/core';
@@ -20,7 +21,12 @@ export class AppComponent {
   customizedFields = ['studies'];
   actionList: string[] = [];
 
-  constructor(private tableExampleService: TableExampleService) {
+  private pageStart = 0;
+  private pageEnd = 10;
+
+  constructor(
+    private tableExampleService: TableExampleService,
+    private tableSortingService: TableSortingService) {
     this.columnsConfig = tableExampleService.columnsConfig;
     this.rows = tableExampleService.rows
       .map((row) => {
@@ -36,7 +42,7 @@ export class AppComponent {
         };
         return copy;
       });
-    this.onPageChange(0, 10);
+    this.onPageChange(this.pageStart, this.pageEnd);
   }
 
   get rowsWithStudies(): any[] {
@@ -56,5 +62,10 @@ export class AppComponent {
 
   onPageChange(pageStart: number, pageEnd: number) {
     this.paginatedRows = this.rows.slice(pageStart, pageEnd);
+  }
+
+  onSortColumn(sortColumnEvent: SortColumnEvent) {
+    this.tableSortingService.sort(this.rows, sortColumnEvent.columnState);
+    this.onPageChange(this.pageStart, this.pageEnd);
   }
 }

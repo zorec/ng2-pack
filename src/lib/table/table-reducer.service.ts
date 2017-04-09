@@ -86,10 +86,10 @@ export class TableReducerService {
     }
 
     if (!this.skipNext) {
-      console.log(TableEventType[event.type], event);
+      // console.log(TableEventType[event.type], event);
       this.nextState.emit();
     }
-    this.skipNext && console.log('skipping ' + TableEventType[event.type]);
+    // this.skipNext && console.log('skipping ' + TableEventType[event.type]);
   }
 
   onChanges(state: TableStateService) {
@@ -132,6 +132,7 @@ export class TableReducerService {
       this.sortRows(state, {
         type: TableEventType.SortColumn,
         column: columnName,
+        columnState,
         direction: sortDirection
       });
     } else {

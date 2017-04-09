@@ -42,7 +42,7 @@
 
 <h3>3.A Custom template (customized table footer)</h3>
 You can provide a component template inside a iw-table element, where smaller composite directives can be used for not customized parts of the template. We use subcomponents 'iw-theader' and 'iw-tbody' to render table header and body.
-<iw-table [rows]="paginatedRows" [columnsConfig]="columnsConfig">
+<iw-table [rows]="paginatedRows" [columnsConfig]="columnsConfig" rowsSortingMode="external">
   <template>
     <table class="results-table table table-bordered table-striped">
       <thead iw-thead></thead>
