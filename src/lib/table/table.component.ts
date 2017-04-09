@@ -164,7 +164,7 @@ export class TableComponent implements OnChanges {
   ngOnChanges(arg: any) {
     this.dispatch({type: TableEventType.OnChanges});
     this.dispatch({type: TableEventType.SortColumnInit});
-    if (this.tableReducerService.skipNext) {
+    if (!this.tableReducerService.skipNext) {
       this.onSortColumnInit();
     }
   }

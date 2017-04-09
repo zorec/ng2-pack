@@ -34,17 +34,31 @@ describe('TableReducerService', () => {
       state.columnsLookup = {
         foo: new ColumnState({id: 'foo'})
       };
-      state.rows = [];
+      state.rows = [{foo: 'c'}, {foo: 'a'}, {foo: 'b'}];
     });
 
-    it('does not trigger sorting in external mode', () => {
-      state.rowsSortingMode = 'external';
+    it('does not trigger sorting in disabled mode', () => {
+      state.rowsSortingMode = 'disabled';
       service.sortColumn(state, {
         type: TableEventType.SortColumn,
         column: 'foo',
         direction: 'desc'
       });
       expect(state.sortedColumnName).not.toEqual('foo');
+    });
+
+    it('does trigger sorting in external mode', () => {
+      state.rowsSortingMode = 'external';
+      service.sortColumn(state, {
+        type: TableEventType.SortColumn,
+        column: 'foo',
+        direction: 'desc'
+      });
+      expect(state.sortedColumnName).toEqual('foo');
+      // does not sort
+      expect(state.rows).toEqual([
+        {foo: 'c'}, {foo: 'a'}, {foo: 'b'}
+      ]);
     });
 
     it('does trigger sorting in default mode', () => {
@@ -55,6 +69,9 @@ describe('TableReducerService', () => {
         direction: 'desc'
       });
       expect(state.sortedColumnName).toEqual('foo');
+      expect(state.rows).toEqual([
+        {foo: 'c'}, {foo: 'b'}, {foo: 'a'}
+      ]);
     });
   });
 });

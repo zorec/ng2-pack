@@ -89,7 +89,7 @@ export class TableReducerService {
     }
   }
 
-  private executeInitialSort(state: TableStateService) {
+  executeInitialSort(state: TableStateService) {
     if (!state.initialSortColumn || !state.rows) {
       this.skipNext = true;
       return;
@@ -131,15 +131,18 @@ export class TableReducerService {
   }
 
   sortRows(state: TableStateService, sortEvent: SortColumnEvent): Row[] {
-    state.sortedColumnName = sortEvent.column;
-    if (state.rowsSortingMode === 'default') {
+    if (state.rowsSortingMode === 'disabled') {
+      this.skipNext = true;
+    } else if (state.rowsSortingMode === 'external') {
+      state.sortedColumnName = sortEvent.column;
+    } else {
       let {column, direction} = sortEvent;
       state.rows = this.tableSortingService.sort(
         state.rows, state.columnsLookup[column]
       );
-    } else {
-      this.skipNext = true;
+      state.sortedColumnName = sortEvent.column;
     }
+
     return state.rows;
   }
 

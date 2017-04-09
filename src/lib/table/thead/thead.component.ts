@@ -149,7 +149,7 @@ export class TheadComponent implements OnChanges, OnInit {
   ngOnInit() {
     this.tableReducerService.nextState.subscribe(() => {
       this.changeDetectorRef.markForCheck();
-      if (this.tableReducerService.skipNext) {
+      if (!this.tableReducerService.skipNext) {
         this.onSortColumnInit();
       }
     });

@@ -75,37 +75,26 @@ describe('Component: Table', () => {
     beforeEach(() => {
       component.rows = [{name: 'foo', description: 'bar'}];
       component.initialSortColumn = 'name';
-      component.onSortColumn = jasmine.createSpy('onSortColumn');
+      component.onSortColumnInit = jasmine.createSpy('onSortColumnInit');
       component.columnsConfig = [{id: 'name'}];
     });
 
-    it('sorts in the default mode on init', () => {
-      component.onSortColumnInit = jasmine.createSpy('onSortColumn');
+    it('is performed in the default mode', () => {
       component.rowsSortingMode = 'default';
       component.ngOnChanges(null);
       expect(component.onSortColumnInit).toHaveBeenCalled();
     });
 
-    it('does not delegate to onSortColumn', () => {
-      component.rowsSortingMode = 'external';
+    it('is performed in the external mode', () => {
+      component.rowsSortingMode = 'default';
       component.ngOnChanges(null);
-      expect(component.onSortColumn).not.toHaveBeenCalled();
+      expect(component.onSortColumnInit).toHaveBeenCalled();
     });
-  });
 
-  describe('rowClick', () => {
-    it('passes an event', () => {
-      let rowIndex: number, rowObject: any;
-      component.rowClick.subscribe((event: RowClickEvent) => {
-        ({rowIndex, rowObject} = event);
-      });
-      component.onRowClicked({
-        type: TableEventType.RowClick,
-        rowIndex: 1,
-        rowObject: {a: 2}
-      });
-      expect(rowIndex).toBe(1);
-      expect(rowObject.a).toBe(2);
+    it('does nothing if disabled', () => {
+      component.rowsSortingMode = 'disabled';
+      component.ngOnChanges(null);
+      expect(component.onSortColumnInit).not.toHaveBeenCalled();
     });
   });
 });
