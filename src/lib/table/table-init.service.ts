@@ -17,10 +17,15 @@ export class TableInitService {
     rows.forEach(row => {
       Object.keys(row).forEach(key => {
         if (typeof columnsLookup[key] === 'undefined') {
+          let sortType = typeof row[key];
+          if (row[key] instanceof Date) {
+            sortType = 'number';
+          }
+          const sortingDisabled = ['number', 'string'].indexOf(sortType) < 0;
           let columnConfig: ColumnConfig = {
             id: key,
-            sortType: typeof row[key],
-            sortingDisabled: false,
+            sortType,
+            sortingDisabled,
             initialSortDirection: 'asc'
           };
           columnsLookup[key] = new ColumnState(columnConfig);
