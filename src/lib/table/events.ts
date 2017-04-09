@@ -13,7 +13,6 @@ export enum TableEventType {
   OnChanges, // internal
   RemoveColumn,
   RowClick,
-  SetConfig,
   SortColumn,
   SortColumnInit,
   ToggleSubfield,
@@ -80,11 +79,6 @@ export interface RowClickEvent {
   type: TableEventType.RowClick;
   rowIndex: number;
   rowObject: any;
-}
-
-export interface SetConfigEvent {
-  type: TableEventType.SetConfig;
-  columnsConfig: ColumnConfig[];
 }
 
 export interface SortColumnEvent {

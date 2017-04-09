@@ -67,10 +67,10 @@ export class PaginationComponent implements OnChanges {
   }
 
   previousPage() {
-    this._page = this.page - 1;
+    this.page = this.page - 1;
   }
 
   nextPage() {
-    this._page = this.page + 1;
+    this.page = this.page + 1;
   }
 }

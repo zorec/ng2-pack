@@ -205,10 +205,6 @@ export class TheadComponent implements OnChanges, OnInit {
     this.addingColumnIndex = undefined;
   }
 
-  onSortColumn(sortEvent: SortColumnEvent) {
-    this.sortColumn.emit(sortEvent);
-  }
-
   onSortColumnInit() {
     this.sortColumnInit.emit();
   }

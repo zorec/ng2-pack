@@ -4,11 +4,12 @@ import {
   AddColumnAtPositionEvent,
   AddingColumnEvent,
   DragPreviewEvent,
+  EditCellEvent,
   TableEvent,
   TableEventType,
   ToggleSubfieldEvent,
   RemoveColumnEvent,
-  SetConfigEvent,
+  RowClickEvent,
   SortColumnEvent,
 } from './events';
 import { TableSortingService } from './table-sorting.service';
@@ -32,10 +33,6 @@ export class TableReducerService {
     this.skipNext = false;
 
     switch (event.type) {
-      case TableEventType.SetConfig:
-        this.setConfig(state, event as SetConfigEvent);
-        break;
-
       case TableEventType.OnChanges:
         this.onChanges(state);
         break;
@@ -76,22 +73,29 @@ export class TableReducerService {
         this.toggleSubfield(state, event as ToggleSubfieldEvent);
         break;
 
+      case TableEventType.RowClick:
+        this.skipNext = true;
+        break;
+
+      case TableEventType.EditCell:
+        this.skipNext = true;
+        break;
+
       default:
         return state;
     }
 
     if (!this.skipNext) {
-      // console.log(TableEventType[event.type], event);
+      console.log(TableEventType[event.type], event);
       this.nextState.emit();
     }
-  }
-
-  setConfig(state: TableStateService,
-  event: SetConfigEvent) {
-    state.columnsLookup = this.tableInitService.columnsConfig2Lookup(event.columnsConfig);
+    this.skipNext && console.log('skipping ' + TableEventType[event.type]);
   }
 
   onChanges(state: TableStateService) {
+    if (typeof state.columnsConfig !== 'undefined') {
+      state.columnsLookup = this.tableInitService.columnsConfig2Lookup(state.columnsConfig);
+    }
     const isWithoutData = (typeof state.rows === 'undefined' || state.rows.length === 0);
     if (typeof state.columnsConfig === 'undefined' && !isWithoutData) {
       [state.columnsLookup, state.columnsConfig] =
