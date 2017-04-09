@@ -1,13 +1,16 @@
-<!-- TODO: show code snippets with the description-->
 <h1>
   Data table component
 </h1>
+
+<a href="https://github.com/zorec/ng2-pack/blob/master/src/app/app.component.html">
+  The source code of this demo is located here.
+</a>
 
 <h3>1. Convention over configuration</h3>
 <p>There is only one required input &mdash; rows data attribute. All other attributes have default values. For example, columns configuration is initialized according to row keys and values. All keys are visible by default.</p>
 <iw-table [rows]="rows"></iw-table>
 
-<!-- NOTE: language should be set with token -->
+<!-- NOTE: language should be set globally -->
 <h3>2. Customization with all available inputs and outputs</h3>
 <p>
   Default values can be overwritten. Here is a list of all inputs and outputs. In this case, the inline editing is enabled, and language is changed to German.
@@ -40,11 +43,13 @@
 <h3>3.A Custom template (customized table footer)</h3>
 You can provide a component template inside a iw-table element, where smaller composite directives can be used for not customized parts of the template. We use subcomponents 'iw-theader' and 'iw-tbody' to render table header and body.
 <iw-table [rows]="rows" [columnsConfig]="columnsConfig">
-  <table class="results-table table table-bordered table-striped">
-    <thead iw-thead></thead>
-    <tbody iw-tbody></tbody>
-    <!-- customized table footer  -->
-  </table>
+  <template>
+    <table class="results-table table table-bordered table-striped">
+      <thead iw-thead></thead>
+      <tbody iw-tbody></tbody>
+      <!-- customized table footer  -->
+    </table>
+  </template>
 </iw-table>
 
 <h3>3.B Custom template (Customized body cells)</h3>
@@ -56,29 +61,31 @@ You can provide a component template inside a iw-table element, where smaller co
   [rows]="rowsWithStudies"
   [visibleColumns]="['firstName', 'email', 'studies']"
   #tableComponent>
-  <table class="results-table table table-bordered table-striped">
-    <thead iw-thead></thead>
-    <tbody>
-      <tr *ngFor="let row of rowsWithStudies; let rowIndex = index">
-        <template ngFor let-columnName [ngForOf]="tableComponent.visibleColumns">
-          <td
-            [class]="isCustomField(columnName)"
-            *ngIf="!isCustomField(columnName)"
-            iw-td
-            [column]="tableComponent.columnsLookup[columnName]"
-            [row]="rowsWithStudies[rowIndex]">
-          </td>
-          <td *ngIf="isCustomField(columnName)">
-            <iw-studies-cell
-             [row]="row"
-             [col]="tableComponent.columnsLookup['studies']">
-           </iw-studies-cell>
-          </td>
-        </template>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+  <template>
+    <table class="results-table table table-bordered table-striped">
+      <thead iw-thead></thead>
+      <tbody>
+        <tr *ngFor="let row of rowsWithStudies; let rowIndex = index">
+          <template ngFor let-columnName [ngForOf]="tableComponent.visibleColumns">
+            <td
+              [class]="isCustomField(columnName)"
+              *ngIf="!isCustomField(columnName)"
+              iw-td
+              [column]="tableComponent.columnsLookup[columnName]"
+              [row]="rowsWithStudies[rowIndex]">
+            </td>
+            <td *ngIf="isCustomField(columnName)">
+              <iw-studies-cell
+              [row]="row"
+              [col]="tableComponent.columnsLookup['studies']">
+            </iw-studies-cell>
+            </td>
+          </template>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </template>
 </iw-table>
 
 
