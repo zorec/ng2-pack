@@ -130,10 +130,9 @@ export class TableComponent implements OnChanges {
   @Output() addColumn: EventEmitter<AddColumnAtPositionEvent>;
   @Output() removeColumn: EventEmitter<RemoveColumnEvent>;
   @Output() sortColumn: EventEmitter<SortColumnEvent>;
+  @Output() sortColumnInit: EventEmitter<void>;
   @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent>;
   @Output() visibleColumnsChange: EventEmitter<string[]>;
-  @Output() sortColumnInit: EventEmitter<void>;
-  // @Output() addingColumn: EventEmitter<number>;
   @Output() rowClick: EventEmitter<RowClickEvent>;
   @Output() editCell: EventEmitter<EditCellEvent>;
 
@@ -165,36 +164,13 @@ export class TableComponent implements OnChanges {
   ngOnChanges(arg: any) {
     this.dispatch({type: TableEventType.OnChanges});
     this.dispatch({type: TableEventType.SortColumnInit});
-    if (!this.tableReducerService.skipNext) {
+    if (this.tableReducerService.skipNext) {
       this.onSortColumnInit();
     }
   }
 
-  isSorted(column: ColumnState, direction: string) {
-    return this.tableStateService.isSorted(column, direction);
-  }
-
-  onRowClicked(rowClickEvent: RowClickEvent) {
-    this.rowClick.emit(rowClickEvent);
-  }
-
-  onSortColumn(sortEvent: SortColumnEvent) {
-    this.sortColumn.emit(sortEvent);
-  }
-
   onSortColumnInit() {
     this.sortColumnInit.emit();
-  }
-
-  onAddingColumn(index: number) {
-    this.addingColumn.emit({
-      type: TableEventType.AddingColumn,
-      index
-    });
-  }
-
-  onToggleSubfield(toggleSubfieldEvent: ToggleSubfieldEvent) {
-    this.toggleSubfield.emit(toggleSubfieldEvent);
   }
 
   private dispatch(event: TableEvent) {

@@ -3,6 +3,7 @@ import { ColumnConfig } from './types';
 
 export enum TableEventType {
   AddingColumn,
+  AddingAdjacentColumn,
   AddColumn,
   AddColumnAtPosition,
   EditCell,
@@ -41,8 +42,12 @@ export interface AddingColumnEvent extends TableEvent {
   index: number;
 }
 
+export interface AddingAdjacentEvent extends TableEvent {
+  index: 0 | 1;
+}
+
 export interface AddColumnEvent extends TableEvent {
-  value: string;
+  column: string;
 }
 
 export interface AddColumnAtPositionEvent extends AddColumnEvent {

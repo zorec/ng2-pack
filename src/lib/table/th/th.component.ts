@@ -64,10 +64,11 @@ export class ThComponent implements OnInit {
     return this.visibleColumns.length !== 1;
   }
 
+  // addingAdjacentColumn is not shared
+  @Output() addingAdjacentColumn = new EventEmitter<AddingColumnEvent>();
   @Output() removeColumn: EventEmitter<RemoveColumnEvent>;
   @Output() sortColumn: EventEmitter<SortColumnEvent>;
   @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent>;
-  @Output() addingColumn: EventEmitter<AddingColumnEvent>;
   @Output() visibleColumnsChange: EventEmitter<string[]>;
 
   tableStateService: TableStateService;
@@ -83,7 +84,6 @@ export class ThComponent implements OnInit {
     this.removeColumn = this.tableStateService.removeColumn;
     this.sortColumn = this.tableStateService.sortColumn;
     this.toggleSubfield = this.tableStateService.toggleSubfield;
-    this.addingColumn = this.tableStateService.addingColumn;
     this.visibleColumnsChange = this.tableStateService.visibleColumnsChange;
   }
 
@@ -139,13 +139,15 @@ export class ThComponent implements OnInit {
   }
 
   // atPosition is either 0 (left) or 1 (right)
-  addingAdjacentColumn(atPosition: 0 | 1) {
+  onAddingAdjacentColumn(atPosition: 0 | 1) {
     if (this.hasAllColumnsVisble) {
-      this.addingColumn.emit({
-        type: TableEventType.AddingColumn,
-        index: atPosition,
-      });
+      return;
     }
+
+    this.addingAdjacentColumn.emit({
+      type: TableEventType.AddingAdjacentColumn,
+      index: atPosition,
+    });
   }
 
   private dispatch(event: TableEvent) {

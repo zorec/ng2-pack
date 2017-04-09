@@ -28,7 +28,6 @@ export class TableReducerService {
 
 
   reduce(state: TableStateService, event: TableEvent) {
-    // console.log(TableEventType[event.type]);
     this.skipNext = false;
 
     switch (event.type) {
@@ -69,6 +68,7 @@ export class TableReducerService {
     }
 
     if (!this.skipNext) {
+      // console.log(TableEventType[event.type], event);
       this.nextState.emit();
     }
   }
@@ -131,12 +131,12 @@ export class TableReducerService {
   }
 
   sortRows(state: TableStateService, sortEvent: SortColumnEvent): Row[] {
+    state.sortedColumnName = sortEvent.column;
     if (state.rowsSortingMode === 'default') {
       let {column, direction} = sortEvent;
       state.rows = this.tableSortingService.sort(
         state.rows, state.columnsLookup[column]
       );
-      state.sortedColumnName = column;
     } else {
       this.skipNext = true;
     }
@@ -153,11 +153,11 @@ export class TableReducerService {
       // the order changed
       state.visibleColumns = [
         ...state.visibleColumns.slice(0, addColumn.index),
-        addColumn.value,
+        addColumn.column,
         ...state.visibleColumns.slice(addColumn.index),
       ];
     } else {
-      state.visibleColumns = [...state.visibleColumns, addColumn.value];
+      state.visibleColumns = [...state.visibleColumns, addColumn.column];
     }
   }
 

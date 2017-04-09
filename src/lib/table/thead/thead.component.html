@@ -5,7 +5,7 @@
         <iw-add-column
           [visibleColumns]="visibleColumns"
           (close)="onAddingColumnEnd()"
-          (selected)="selectNewColumn($event, columnIndex)"
+          (selected)="onSelectNewColumn($event, columnIndex)"
           attr.id="combobox-{{columnIndex}}">
         </iw-add-column>
       </div>
@@ -13,7 +13,7 @@
     <th
       iw-th
       [column]="column(columnName)"
-      (addingColumn)="onAddingColumn(columnIndex, $event)"
+      (addingAdjacentColumn)="onAddingAdjacentColumn(columnIndex, $event)"
       class="drag-column"
       attr.data-col-ref="{{ column(columnName)?.config.id }}"
       attr.id="col-id-{{ column(columnName)?.config.id }}"
@@ -28,7 +28,7 @@
         *ngIf="lastColumnComboboxActive"
         [visibleColumns]="visibleColumns"
         (close)="toggleCombobox()"
-        (selected)="selectNewColumn($event)"
+        (selected)="onSelectNewColumn($event)"
       ></iw-add-column>
       <span
         *ngIf="!lastColumnComboboxActive"

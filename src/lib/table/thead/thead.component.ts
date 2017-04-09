@@ -7,6 +7,7 @@ import {
 import {
   AddColumnAtPositionEvent,
   AddColumnEvent,
+  AddingAdjacentEvent,
   AddingColumnEvent,
   RemoveColumnEvent,
   SortColumnEvent,
@@ -116,10 +117,11 @@ export class TheadComponent implements OnChanges, OnInit {
 
   @ContentChild(TemplateRef) template: any;
 
+  @Output() addingColumn: EventEmitter<AddingColumnEvent>;
   @Output() addColumn: EventEmitter<AddColumnAtPositionEvent>;
   @Output() removeColumn: EventEmitter<RemoveColumnEvent>;
   @Output() sortColumn: EventEmitter<SortColumnEvent>;
-  @Output() addingColumn: EventEmitter<AddingColumnEvent>;
+  @Output() sortColumnInit: EventEmitter<void>;
   @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent>;
   @Output() visibleColumnsChange: EventEmitter<string[]>;
 
@@ -135,10 +137,11 @@ export class TheadComponent implements OnChanges, OnInit {
     @Optional() tableComponent: TableComponent
   ) {
     this.tableStateService = (tableComponent && tableComponent.tableStateService) || tableStateService;
+    this.addingColumn = this.tableStateService.addingColumn;
     this.addColumn = this.tableStateService.addColumn;
     this.removeColumn = this.tableStateService.removeColumn;
     this.sortColumn = this.tableStateService.sortColumn;
-    this.addingColumn = this.tableStateService.addingColumn;
+    this.sortColumnInit = this.tableStateService.sortColumnInit;
     this.toggleSubfield = this.tableStateService.toggleSubfield;
     this.visibleColumnsChange = this.tableStateService.visibleColumnsChange;
   }
@@ -146,6 +149,9 @@ export class TheadComponent implements OnChanges, OnInit {
   ngOnInit() {
     this.tableReducerService.nextState.subscribe(() => {
       this.changeDetectorRef.markForCheck();
+      if (this.tableReducerService.skipNext) {
+        this.onSortColumnInit();
+      }
     });
   }
 
@@ -162,30 +168,41 @@ export class TheadComponent implements OnChanges, OnInit {
     return this.columnsLookup[columnName];
   }
 
-  selectNewColumn(addColumnEvent: AddColumnEvent, index: number) {
+  toggleCombobox() {
+    this.lastColumnComboboxActive = !this.lastColumnComboboxActive;
+    if (!this.lastColumnComboboxActive) { return; }
+    this.onAddingColumn({
+      type: TableEventType.AddingColumn,
+      index: this.visibleColumns.length
+    });
+    setTimeout(() => {
+      jQuery(this.elementRef.nativeElement).scrollLeft(99999);
+    }, 0);
+  }
+
+  onSelectNewColumn(addColumnEvent: AddColumnEvent, index: number | undefined) {
     this.lastColumnComboboxActive = false;
     const addColumnAtPosition = {
       type: TableEventType.AddColumnAtPosition,
-      value: addColumnEvent.value,
-      index,
+      column: addColumnEvent.column,
+      index: index || this.visibleColumns.length,
     };
     this.dispatch(addColumnAtPosition);
     this.addColumn.emit(addColumnAtPosition);
     this.visibleColumnsChange.emit(this.visibleColumns);
   }
 
-  toggleCombobox() {
-    this.lastColumnComboboxActive = !this.lastColumnComboboxActive;
-    if (!this.lastColumnComboboxActive) { return; }
-    setTimeout(() => {
-      jQuery(this.elementRef.nativeElement).scrollLeft(99999);
-    }, 0);
+  onAddingAdjacentColumn(index: number, addingAdjacentEvent: AddingAdjacentEvent) {
+    const addingEvent = {
+      type: TableEventType.AddingColumn,
+      index: index + addingAdjacentEvent.index
+    };
+    this.onAddingColumn(addingEvent);
   }
 
-  onAddingColumn(index: number, addingEvent: AddingColumnEvent) {
-    addingEvent.index += index;
+  onAddingColumn(addingEvent: AddingColumnEvent) {
     this.dispatch(addingEvent);
-    this.addingColumn.emit();
+    this.addingColumn.emit(addingEvent);
   }
 
   onAddingColumnEnd() {
@@ -195,6 +212,10 @@ export class TheadComponent implements OnChanges, OnInit {
 
   onSortColumn(sortEvent: SortColumnEvent) {
     this.sortColumn.emit(sortEvent);
+  }
+
+  onSortColumnInit() {
+    this.sortColumnInit.emit();
   }
 
   onToggleSubfield(toggleSubfieldEvent: ToggleSubfieldEvent) {

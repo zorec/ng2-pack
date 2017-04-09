@@ -31,7 +31,7 @@ export class AddColumnComponent implements OnChanges {
   @Input() visibleColumns: string[];
   @Input() open: boolean = true;
 
-  @Output() selected: EventEmitter<AddColumnEvent> = new EventEmitter<{value: string}>();
+  @Output() selected: EventEmitter<AddColumnEvent> = new EventEmitter<AddColumnEvent>();
   @Output() close = new EventEmitter();
 
   items: Select2Option[];
@@ -61,7 +61,7 @@ export class AddColumnComponent implements OnChanges {
   onSelected(value: string): void {
     if (!value) { return; }
     this.selected.emit({
-      value,
+      column: value,
       type: TableEventType.AddColumn
     });
     setTimeout(() => {

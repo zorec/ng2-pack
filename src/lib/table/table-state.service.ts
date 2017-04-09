@@ -29,14 +29,13 @@ export class TableStateService {
   language = 'en';
 
   // output events
+  addingColumn = new EventEmitter<AddingColumnEvent>();
   addColumn = new EventEmitter<AddColumnAtPositionEvent>();
   removeColumn = new EventEmitter<RemoveColumnEvent>();
   sortColumn = new EventEmitter<SortColumnEvent>();
-  addingColumn = new EventEmitter<AddingColumnEvent>();
+  sortColumnInit = new EventEmitter<void>();
   toggleSubfield = new EventEmitter<ToggleSubfieldEvent>();
   visibleColumnsChange = new EventEmitter<string[]>();
-  sortColumnInit = new EventEmitter<void>();
-  // @Output() addingColumn: EventEmitter<number>;
   rowClick = new EventEmitter<RowClickEvent>();
   editCell = new EventEmitter<EditCellEvent>();
 

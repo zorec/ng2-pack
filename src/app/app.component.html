@@ -25,19 +25,15 @@
   changeColumnVisibility="true"
   language="de"
   initialSortColumn="firstName"
-  (rowClick)="onAction('Row nr.' + $event.rowIndex  + ' was clicked!')"
-  (sortColumn)="onAction('Column ' + $event[0] + ' was sorted in the direction `' + $event[1] + '`!')"
-  (addColumn)="onAction('Column ' + $event + ' was added!')"
-  (removeColumn)="onAction('Column ' + $event + ' was removed!')"
+  (rowClick)="onAction('Row nr.' + $event.rowIndex  + ' was clicked')"
+  (sortColumnInit)="onAction('Sort init!')"
+  (sortColumn)="onAction('Column `' + $event.column + '` was sorted in the direction `' + $event.direction)"
+  (addingColumn)="onAction('Column is being added at position ' + $event.index)"
+  (addColumn)="onAction('Column ' + $event.column + ' was added')"
+  (removeColumn)="onAction('Column ' + $event.column + ' was removed')"
   (visibleColumnsChange)="onAction('Visible columns changed to: ' + $event)"
-  (reorderColumns)="onAction('The order of columns changed to: ' + $event)"
-  (editCell)="onAction('The cell in row ' + $event[3] + ' and column ' + $event[2] + ' was edited to value ' + $event[0])"
+  (editCell)="onAction('The cell in row ' + $event.rowIndex + ' and column ' + $event.column + ' was edited to value ' + $event.newValue)"
   >
-  <table class="results-table table table-bordered table-striped">
-    <thead iw-thead></thead>
-    <tbody iw-tbody></tbody>
-    <!-- customized table footer  -->
-  </table>
 </iw-table>
 
 
