@@ -41,6 +41,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+
 @Component({
   selector: 'iw-table',
   templateUrl: 'table.component.html',
