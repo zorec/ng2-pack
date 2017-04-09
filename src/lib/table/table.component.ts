@@ -34,6 +34,7 @@ import {
   Input,
   Inject,
   OnChanges,
+  OnDestroy,
   OpaqueToken,
   Output,
   TemplateRef,
@@ -54,7 +55,7 @@ import {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent implements OnChanges {
+export class TableComponent implements OnChanges, OnDestroy {
   @Input() set rows(rows: Row[]) {
     this.tableStateService.rows = rows;
   }
@@ -167,6 +168,10 @@ export class TableComponent implements OnChanges {
     if (!this.tableReducerService.skipNext) {
       this.onSortColumnInit();
     }
+  }
+
+  ngOnDestroy() {
+    this.tableReducerService.nextState.unsubscribe();
   }
 
   onSortColumnInit() {
