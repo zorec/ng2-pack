@@ -70,7 +70,7 @@ You can install the package with yarn or npm.
 yarn add ng2-pack
 ```
 
-Then you can import a module from 'ng2-pack' and use it. You may need to install jQuery and jQuery UI Sortable. These dependencies will be removed from this project soon.  
+Then you can import a module from 'ng2-pack' and use it. You may need to install Select 2 (the dependency will be removed in the final version).  
 
 ```ts
 import { AppComponent } from './app.component';
