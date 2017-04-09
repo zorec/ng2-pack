@@ -79,8 +79,7 @@ export class TbodyComponent implements OnChanges, OnInit {
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
   @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
 
-  @ContentChild(TemplateRef)
-  template: any;
+  @ContentChild(TemplateRef) template: any;
 
   tableStateService: TableStateService;
 

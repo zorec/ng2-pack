@@ -20,6 +20,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  HostBinding,
   Input,
   OnInit,
   Output,
@@ -93,6 +94,23 @@ export class ThComponent implements OnInit {
     this.sortColumn = this.tableStateService.sortColumn;
     this.toggleSubfield = this.tableStateService.toggleSubfield;
     this.visibleColumnsChange = this.tableStateService.visibleColumnsChange;
+  }
+
+  @HostBinding('attr.id') get id() {
+    if (!this.column) { return ''; }
+    return `col-id-${this.column.config.id}`;
+  }
+
+  @HostBinding('class.is-sorted') get isSorted() {
+    return this.tableStateService.isSorted(this.column, undefined);
+  }
+
+  @HostBinding('class.is-sorted--asc') get isSortedAsc() {
+    return this.tableStateService.isSorted(this.column, undefined);
+  }
+
+  @HostBinding('class.is-sorted--desc') get isSortedDesc() {
+    return this.tableStateService.isSorted(this.column, undefined);
   }
 
   ngOnInit() {

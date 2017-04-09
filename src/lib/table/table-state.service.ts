@@ -44,7 +44,7 @@ export class TableStateService {
 
   }
 
-  isSorted(column: ColumnState, direction: string) {
+  isSorted(column: ColumnState, direction: string | undefined) {
     if (!column) { return; }
     let isSorted: boolean = column.config.id === this.sortedColumnName;
     if (!direction) {

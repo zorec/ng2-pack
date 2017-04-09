@@ -162,10 +162,6 @@ export class TheadComponent implements OnChanges, OnInit {
     }
   }
 
-  isSorted(column: ColumnState, direction: string) {
-    return this.tableStateService.isSorted(column, direction);
-  }
-
   column(columnName: string): ColumnState {
     return this.columnsLookup[columnName];
   }
