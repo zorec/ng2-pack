@@ -1,14 +1,12 @@
-<div>
-  <div *ngIf="!hasSubfields" #contentDiv>
+<template [ngIf]="!hasSubfields">
     {{ cellValue | formatColumn: column }}
-  </div>
+</template>
 
-  <div *ngIf="hasSubfields && !isArray">
-    <iw-object-cell [object]="cellValue" [column]="column"></iw-object-cell>
-  </div>
+<div *ngIf="hasSubfields && !isArray">
+  <iw-object-cell [object]="cellValue" [column]="column"></iw-object-cell>
+</div>
 
-  <!-- it is an array -->
-  <div *ngIf="hasSubfields && isArray">
-    <iw-array-cell [subrows]="row[column.config.id]" [column]="column"></iw-array-cell>
-  </div>
+<!-- it is an array -->
+<div *ngIf="hasSubfields && isArray">
+  <iw-array-cell [subrows]="row[column.config.id]" [column]="column"></iw-array-cell>
 </div>

@@ -5,11 +5,11 @@
       <td
         #tdComponent
         iw-td
-        [attr.contenteditable]="inlineEditingEnabled"
-        (blur)="onEditCell(tdComponent, rowIndex)"
         [column]="column(columnName)"
         [row]="row"
         [class.is-sorted]="isSorted(column(columnName))"
+        [iwInlineEditable]="isColumnEditable(columnName)"
+        (onSave)="onEditCell($event, columnName, row, rowIndex)"
       >
       </td>
     </template>

@@ -29,4 +29,8 @@ export class ColumnState {
     return this.currentSortDirection;
   }
 
+  get hasSubfields() {
+    return this.config.subFields && this.config.subFields.length > 0;
+  }
+
 }

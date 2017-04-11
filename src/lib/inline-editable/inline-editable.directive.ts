@@ -9,47 +9,45 @@ import {
   Renderer,
 } from '@angular/core';
 
-enum KeyCodes {
-  Enter = 13,
-  Escape = 27
-}
-
 @Directive({
   selector: '[iwInlineEditable]'
 })
 export class InlineEditableDirective {
-  @Input('iwInlineEditable') set iwInlineEditable(isEnabled: boolean) {
-    this.contentEditable = isEnabled;
-  };
+  @Input() iwInlineEditable = true;
+  @Input() fixedWidth = true;
 
-  // @Input() set triggerEvent(triggerEvent: string) {
-  //   if (!this.element) {
-  //     return;
-  //   }
-  //   console.log(triggerEvent, this.element);
-  //   this.renderer.listen(this.element.nativeElement, triggerEvent, () => {
-  //     this.contentEditable = true;
-  //   });
-  // }
+  @Output() save: EventEmitter<string> = new EventEmitter<string>();
+  @Output() cancel: EventEmitter<string> = new EventEmitter<string>();
 
-  @Output() onEnter: EventEmitter<string> = new EventEmitter<string>();
-
-  @HostBinding('attr.contenteditable') contentEditable: boolean = true;
-
-  originalContent: string;
-
-  @HostListener('focus') startEditing() {
-    this.originalContent = this.content;
+  @HostBinding('attr.contenteditable') get contenteditable() {
+    return this.iwInlineEditable && !this.editingEnd;
   }
 
-  @HostListener('keydown', ['$event']) keyPressed(event: KeyboardEvent) {
-    switch (event.keyCode) {
-      case KeyCodes.Enter:
+  originalContent: string | undefined;
+  private editingEnd: boolean = false;
+
+  @HostListener('focus', ['$event'])
+  onFocus(event: Event) {
+    this.editingEnd = false;
+    this.startEditing();
+  }
+
+  @HostListener('click', ['$event'])
+  onClick(event: Event) {
+    this.editingEnd = false;
+    this.startEditing();
+  }
+
+  @HostListener('keydown', ['$event'])
+  keyPressed(event: KeyboardEvent) {
+    switch (event.key) {
+      case 'Enter':
         event.stopPropagation();
-        this.onEnter.emit(this.content);
+        this.saveEditing();
         break;
 
-      case KeyCodes.Escape:
+      case 'Escape':
+        this.removeFocus();
         this.cancelEditing();
         break;
     }
@@ -69,10 +67,40 @@ export class InlineEditableDirective {
   }
 
   set content(content: string) {
-    this.renderer.setElementProperty(this.element, 'innerText', content);
+    this.renderer.setElementProperty(this.element, 'textContent', content);
+  }
+
+  startEditing() {
+    this.element.nativeElement.setAttribute('title', 'Press enter to save. Escape to cancel editing.');
+    if (!this.originalContent) {
+      this.originalContent = this.content;
+    }
+    let originalWidth = this.element.nativeElement.offsetWidth;
+    if (this.fixedWidth) {
+      this.element.nativeElement.style.width = `${originalWidth}px`;
+    }
+  }
+
+  saveEditing() {
+    if (this.isChanged) {
+      this.save.emit(this.content);
+      this.originalContent = undefined;
+    }
+    this.removeFocus();
   }
 
   cancelEditing() {
-    this.content = this.originalContent;
+    this.cancel.emit(this.originalContent);
+    this.content = this.originalContent || '';
+    this.removeFocus();
+  }
+
+  private removeFocus() {
+    this.element.nativeElement.setAttribute('title', '');
+    this.editingEnd = true;
+    setTimeout(() => {
+      // enable editing after a short delay
+      this.renderer.invokeElementMethod(this.element.nativeElement, 'click');
+    }, 100);
   }
 }

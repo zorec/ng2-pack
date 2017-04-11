@@ -110,6 +110,10 @@ export class TbodyComponent implements OnChanges, OnInit {
     return this.tableStateService.isSorted(column, direction);
   }
 
+  isColumnEditable(columnName: string) {
+    return this.inlineEditingEnabled && !this.column(columnName).hasSubfields;
+  }
+
   column(columnName: string): ColumnState {
     return this.columnsLookup[columnName];
   }
@@ -122,13 +126,12 @@ export class TbodyComponent implements OnChanges, OnInit {
     });
   }
 
-  onEditCell(tdComponent: TdComponent, rowIndex: number) {
-    if (!tdComponent.isChanged || !tdComponent.column) { return; }
+  onEditCell(newValue: string, column: string, rowObject: any, rowIndex: number) {
     let editCellEvent: EditCellEvent = {
       type: TableEventType.EditCell,
-      newValue: tdComponent.content,
-      column: tdComponent.column.config.id,
-      rowObject: tdComponent.row,
+      newValue,
+      column,
+      rowObject,
       rowIndex
     };
     this.editCell.emit(editCellEvent);

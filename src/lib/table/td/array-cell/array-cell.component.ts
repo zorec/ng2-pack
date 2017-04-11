@@ -8,7 +8,7 @@ import { Component, ContentChild, Input, OnInit, TemplateRef } from '@angular/co
   styleUrls: ['./array-cell.component.css']
 })
 export class ArrayCellComponent extends TdComponent implements OnInit {
-  @Input() subrows: any;
+  @Input() subrows: any = [];
   @Input() column: ColumnState;
   @Input() showAll = false;
   @ContentChild(TemplateRef) template: any;

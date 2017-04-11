@@ -1,3 +1,4 @@
+import { InlineEditableModule } from './../inline-editable/inline-editable.module';
 import {TableComponent} from './table.component';
 import {TheadComponent} from './thead/thead.component';
 import {TbodyComponent} from './tbody/tbody.component';
@@ -31,6 +32,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     DropdownModule,
     SortableModule,
+    InlineEditableModule,
   ],
   declarations: [
     TableComponent,

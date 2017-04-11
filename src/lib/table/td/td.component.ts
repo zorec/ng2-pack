@@ -25,8 +25,6 @@ export class TdComponent implements OnInit {
   @Input() column: ColumnState;
   @Input() row: any;
 
-  @ViewChild('contentDiv') contentDiv: ElementRef;
-
   private _currentCellValue: any;
   private _currentFormattedValue: any;
 
@@ -48,14 +46,6 @@ export class TdComponent implements OnInit {
     return this.row[this.column.config.id];
   }
 
-  get content(): string {
-    return this.contentDiv.nativeElement.textContent;
-  }
-
-  get isChanged(): boolean {
-    return this.contentDiv.nativeElement.textContent.trim() !== this.formattedValue;
-  }
-
   get formattedValue() {
     if (!this.column) { return; }
     return this.formatColumnPipe.transform(this.cellValue, this.column);
@@ -71,7 +61,7 @@ export class TdComponent implements OnInit {
 
   get hasSubfields() {
     if (!this.column) { return; }
-    return this.column.config.subFields && this.column.config.subFields.length > 0;
+    return this.column.hasSubfields;
   }
 
   isSubColumnVisible(subcolumn: string): boolean {

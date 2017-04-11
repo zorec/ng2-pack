@@ -15,9 +15,6 @@
 <p>
   Default values can be overwritten. Here is a list of all inputs and outputs. In this case, the inline editing is enabled, and language is changed to German.
 </p>
-<div>
-  <p *ngFor="let action of actionList">{{action}}</p>
-</div>
 <iw-table
   [rows]="rows"
   [columnsConfig]="columnsConfig"
@@ -38,7 +35,10 @@
   (editCell)="onAction('The cell in row ' + $event.rowIndex + ' and column ' + $event.column + ' was edited to value ' + $event.newValue)"
   >
 </iw-table>
-
+<div>
+  Events:
+  <p *ngFor="let action of actionList">{{action}}</p>
+</div>
 
 <h3>3.A Custom template (customized table footer)</h3>
 You can provide a component template inside a iw-table element, where smaller composite directives can be used for not customized parts of the template. We use subcomponents 'iw-theader' and 'iw-tbody' to render table header and body.
@@ -50,7 +50,7 @@ You can provide a component template inside a iw-table element, where smaller co
       <!-- customized table footer  -->
       <tr>
         <th [attr.colspan]="tbodyComp.visibleColumns.length + 1">
-          <iw-pagination #p [totalItems]="rows.length" (pageChange)="onPageChange(p.pageStart, p.pageEnd)" ></iw-pagination>
+          <iw-pagination #p [itemsPerPage]="5" [totalItems]="rows.length" (pageChange)="onPageChange(p.pageStart, p.pageEnd)" ></iw-pagination>
         </th>
       </tr>
     </table>
