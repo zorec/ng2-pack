@@ -1,3 +1,4 @@
+import { ColumnConfig } from './../../lib/table/types';
 import {Injectable} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import {people} from './people-mocks';
@@ -12,10 +13,11 @@ export class TableExampleService {
     contact: {id: 'contact', text: 'Contact'},
   };
 
-  columnsConfig = [
+  columnsConfig: ColumnConfig[] = [
     {id: 'salutation', sortType: 'string', category: this.categories.person},
     {id: 'firstName', sortType: 'string', category: this.categories.person},
     {id: 'lastName', sortType: 'string', category: this.categories.person},
+    {id: 'birthday', sortType: 'number', category: this.categories.person},
     {id: 'email', sortType: 'string', category: this.categories.contact},
     {id: 'phone', sortType: 'string', category: this.categories.contact},
     {
@@ -25,16 +27,22 @@ export class TableExampleService {
       subFields: [
         {id: 'street', text: 'Street', isVisible: true},
         {id: 'city', text: 'City', isVisible: true},
+        {id: 'country', text: 'Country', isVisible: true},
       ]
     },
-    {id: 'country', sortType: 'string', category: this.categories.contact},
     {
       id: 'studies',
       sortingDisabled: true,
       subFields: [
         {id: 'university', text: 'University', isVisible: true},
         {id: 'faculty', text: 'Faculty', isVisible: true},
-        // {id: 'country', text: 'Country', isVisible: false}
+        {id: 'degree', text: 'Degree', isVisible: false},
+        {
+          id: 'finished',
+          text: 'Finished',
+          isVisible: true,
+          formatters: [{transform: (isFinshed) => isFinshed ? 'Finished' : ''}]
+        }
       ]}
   ];
   constructor(private datePipe: DatePipe) {

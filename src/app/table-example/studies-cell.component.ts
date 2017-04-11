@@ -1,3 +1,6 @@
+import { Study } from './people-mocks';
+import { FormatColumnPipe } from './../../lib/table/pipes/format-column.pipe';
+import { TdComponent } from './../../lib/table/td/td.component';
 import {ColumnState} from './../../lib/table';
 
 import {Component, Input} from '@angular/core';
@@ -5,18 +8,15 @@ import {Component, Input} from '@angular/core';
 @Component({
   selector: 'iw-studies-cell',
   templateUrl: 'studies-cell.component.html',
+  providers: [
+    FormatColumnPipe
+  ]
 })
-export class StudiesCellComponent {
-  @Input() row: any;
-  @Input() col: ColumnState;
-
-  constructor() {}
+export class StudiesCellComponent extends TdComponent {
+  @Input () row: Study;
+  @Input() column: ColumnState;
 
   isSubColumnVisible(subcolumn: string): boolean {
-    return (this.col.activeFields.indexOf(subcolumn) !== -1);
-  }
-
-  get allSubfieldsHidden(): boolean {
-    return this.col.activeFields.length === 0;
+    return super.isSubColumnVisible(subcolumn);
   }
 }

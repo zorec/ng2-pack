@@ -211,10 +211,16 @@ export class TableReducerService {
     let subfieldIndex = column.activeFields.indexOf(toggleEvent.toggleSubfield);
     if (subfieldIndex === -1) {
       // it was not active, therefore it needs to be actived
-      column.activeFields.push(toggleEvent.toggleSubfield);
+      column.activeFields = [
+        ...column.activeFields,
+        toggleEvent.toggleSubfield
+      ];
     } else {
       // it was active, therefore disable it
-      column.activeFields.splice(subfieldIndex, 1);
+      column.activeFields = [
+        ...column.activeFields.slice(0, subfieldIndex),
+        ...column.activeFields.slice(subfieldIndex + 1)
+      ];
     }
   }
 }

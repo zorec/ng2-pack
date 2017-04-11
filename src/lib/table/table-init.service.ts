@@ -1,11 +1,14 @@
+import { DatePipe } from '@angular/common';
 import {ColumnState} from './column-state.class';
-import {ColumnConfig, ColumnLookup, Row} from './types';
+import { ColumnConfig, ColumnLookup, Row, SubFieldConfig, DisplayFormatter } from './types';
 import { Injectable } from '@angular/core';
+
+const MAX_DETECT_COUNT = 1;
 
 @Injectable()
 export class TableInitService {
 
-  constructor() { }
+  constructor(private datePipe: DatePipe) { }
 
   detectColumnConfiguration(rows: Row[]): [ColumnLookup, ColumnConfig[]] {
     let columnsLookup = this.detectColumnLookup(rows);
@@ -14,22 +17,42 @@ export class TableInitService {
 
   detectColumnLookup(rows: Row[]): ColumnLookup {
     let columnsLookup: ColumnLookup = {};
-    rows.forEach(row => {
-      Object.keys(row).forEach(key => {
-        if (typeof columnsLookup[key] === 'undefined') {
-          let sortType = typeof row[key];
-          if (row[key] instanceof Date) {
-            sortType = 'number';
+    rows.forEach((row, index) => {
+      if (index >= MAX_DETECT_COUNT) {
+        return columnsLookup;
+      }
+
+      Object.keys(row).forEach((key) => {
+        let previousConfig = (columnsLookup[key] && columnsLookup[key].config);
+        let columnConfig = previousConfig || {
+          id: key,
+          sortingDisabled: true,
+        };
+        let activeFields: string[] = [];
+        if (typeof row[key] === 'undefined' || row[key] === null) {
+          // use default
+        } else if (typeof row[key] === 'object' && !(row[key] instanceof Date)) {
+          let obj = row[key];
+          if (Array.isArray(obj)) {
+            obj = row[key][0] || {};
           }
-          const sortingDisabled = ['number', 'string'].indexOf(sortType) < 0;
-          let columnConfig: ColumnConfig = {
-            id: key,
-            sortType,
-            sortingDisabled,
-            initialSortDirection: 'asc'
-          };
-          columnsLookup[key] = new ColumnState(columnConfig);
+          columnConfig.subFields = [];
+          Object.keys(obj).forEach((subkey) => {
+            let subfield = this.detectColumnConfigFromValue(subkey, obj[subkey]);
+            columnConfig.subFields!.push({
+              id: subfield.id,
+              text: subfield.text || subfield.id,
+              isVisible: true,
+              formatters: subfield.formatters,
+            });
+            activeFields.push(subkey);
+          });
+        } else {
+          // NOTE: only certain fields could be overriden
+          columnConfig = this.detectColumnConfigFromValue(key, row[key]);
         }
+
+        columnsLookup[key] = new ColumnState(columnConfig, undefined, activeFields);
       });
     });
     return columnsLookup;
@@ -61,5 +84,24 @@ export class TableInitService {
     }
 
     return columnsConfig;
+  }
+
+  private detectColumnConfigFromValue(key: string, value: any): ColumnConfig {
+    let sortType = typeof value;
+    let formatters: DisplayFormatter[] = [];
+    if (value instanceof Date) {
+      sortType = 'number';
+      formatters = [
+        this.datePipe
+      ];
+    }
+    const sortingDisabled = ['number', 'string'].indexOf(sortType) < 0;
+    return {
+      id: key,
+      sortType,
+      sortingDisabled,
+      formatters: formatters,
+      initialSortDirection: 'asc'
+    };
   }
 }

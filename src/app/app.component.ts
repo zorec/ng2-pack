@@ -17,7 +17,7 @@ export class AppComponent {
   columnsConfig: ColumnConfig[];
   rows: any[];
   paginatedRows: any[];
-  visibleColumns = ['firstName', 'lastName'];
+  visibleColumns = ['salutation', 'firstName', 'lastName', 'email'];
   customizedFields = ['studies'];
   actionList: string[] = [];
 
@@ -28,25 +28,8 @@ export class AppComponent {
     private tableExampleService: TableExampleService,
     private tableSortingService: TableSortingService) {
     this.columnsConfig = tableExampleService.columnsConfig;
-    this.rows = tableExampleService.rows
-      .map((row) => {
-        let copy = {
-          id: row.id,
-          salutation: row.salutation,
-          firstName: row.firstName,
-          lastName: row.lastName,
-          birthday: row.birthday,
-          email: row.email,
-          phone: row.phone,
-          country: row.country,
-        };
-        return copy;
-      });
+    this.rows = tableExampleService.rows;
     this.onPageChange(this.pageStart, this.pageEnd);
-  }
-
-  get rowsWithStudies(): any[] {
-    return this.tableExampleService.rows;
   }
 
   onAction(action: string) {

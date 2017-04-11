@@ -1,0 +1,11 @@
+<div *ngFor="let key of activeFields">
+  <span *ngIf="hasPrefix" class="prefix-label">
+    {{keyToSubcolumn(key)?.text || key}}:
+  </span>
+  {{object[key] | formatColumn: keyToSubcolumn(key).formatters}}
+</div>
+
+<span title="Fields can be selected in the column header" *ngIf="allSubfieldsHidden">
+  No subfields selected.
+</span>
+

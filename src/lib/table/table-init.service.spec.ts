@@ -1,3 +1,4 @@
+import { TableModule } from './table.module';
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
@@ -6,7 +7,7 @@ import { TableInitService } from './table-init.service';
 describe('Service: TableInit', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [TableInitService]
+      imports: [TableModule]
     });
   });
 
