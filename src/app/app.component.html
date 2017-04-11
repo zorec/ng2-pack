@@ -42,12 +42,17 @@
 
 <h3>3.A Custom template (customized table footer)</h3>
 You can provide a component template inside a iw-table element, where smaller composite directives can be used for not customized parts of the template. We use subcomponents 'iw-theader' and 'iw-tbody' to render table header and body.
-<iw-table [rows]="rows" [columnsConfig]="columnsConfig">
+<iw-table [rows]="paginatedRows" [columnsConfig]="columnsConfig" rowsSortingMode="external">
   <template>
     <table class="results-table table table-bordered table-striped">
       <thead iw-thead></thead>
-      <tbody iw-tbody></tbody>
+      <tbody #tbodyComp iw-tbody></tbody>
       <!-- customized table footer  -->
+      <tr>
+        <th [attr.colspan]="tbodyComp.visibleColumns.length + 1">
+          <iw-pagination #p [totalItems]="rows.length" (pageChange)="onPageChange(p.pageStart, p.pageEnd)" ></iw-pagination>
+        </th>
+      </tr>
     </table>
   </template>
 </iw-table>
@@ -58,26 +63,26 @@ You can provide a component template inside a iw-table element, where smaller co
 </p>
 <iw-table
   [columnsConfig]="columnsConfig"
-  [rows]="rowsWithStudies"
+  [rows]="rows"
   [visibleColumns]="['firstName', 'email', 'studies']"
   #tableComponent>
   <template>
     <table class="results-table table table-bordered table-striped">
       <thead iw-thead></thead>
       <tbody>
-        <tr *ngFor="let row of rowsWithStudies; let rowIndex = index">
+        <tr *ngFor="let row of rows; let rowIndex = index">
           <template ngFor let-columnName [ngForOf]="tableComponent.visibleColumns">
             <td
               [class]="isCustomField(columnName)"
               *ngIf="!isCustomField(columnName)"
               iw-td
               [column]="tableComponent.columnsLookup[columnName]"
-              [row]="rowsWithStudies[rowIndex]">
+              [row]="rows[rowIndex]">
             </td>
             <td *ngIf="isCustomField(columnName)">
               <iw-studies-cell
-              [row]="row"
-              [col]="tableComponent.columnsLookup['studies']">
+                [row]="row"
+                [column]="tableComponent.columnsLookup['studies']">
             </iw-studies-cell>
             </td>
           </template>

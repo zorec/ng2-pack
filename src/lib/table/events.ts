@@ -1,4 +1,4 @@
-import { TableEvent } from './events';
+import { ColumnState } from './column-state.class';
 import { ColumnConfig } from './types';
 
 export enum TableEventType {
@@ -13,7 +13,6 @@ export enum TableEventType {
   OnChanges, // internal
   RemoveColumn,
   RowClick,
-  SetConfig,
   SortColumn,
   SortColumnInit,
   ToggleSubfield,
@@ -82,14 +81,10 @@ export interface RowClickEvent {
   rowObject: any;
 }
 
-export interface SetConfigEvent {
-  type: TableEventType.SetConfig;
-  columnsConfig: ColumnConfig[];
-}
-
 export interface SortColumnEvent {
   type: TableEventType.SortColumn;
   column: string;
+  columnState: ColumnState;
   direction: string;
 };
 

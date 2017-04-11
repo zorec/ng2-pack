@@ -11,7 +11,6 @@ import {
   EditCellEvent,
   RowClickEvent,
   RemoveColumnEvent,
-  SetConfigEvent,
   SortColumnEvent,
   TableEvent,
   TableEventType,
@@ -65,10 +64,6 @@ export class TableComponent implements OnChanges, OnDestroy {
 
   @Input() set columnsConfig(columnsConfig: ColumnConfig[]) {
     this.tableStateService.columnsConfig = columnsConfig;
-    this.dispatch({
-      type: TableEventType.SetConfig,
-      columnsConfig
-    } as SetConfigEvent);
   }
   get columnsConfig(): ColumnConfig[] {
     return this.tableStateService.columnsConfig;

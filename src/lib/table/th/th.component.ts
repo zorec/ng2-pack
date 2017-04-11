@@ -135,6 +135,7 @@ export class ThComponent implements OnInit {
     const sortColumnEvent: SortColumnEvent = {
       type: TableEventType.SortColumn,
       column: column.config.id,
+      columnState: column,
       direction: direction || column.nextDirection()
     };
     this.dispatch(sortColumnEvent);

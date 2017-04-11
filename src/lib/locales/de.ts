@@ -8,5 +8,8 @@ export const de = {
     subFields: 'Felder in der Spalte',
     removeColumn: 'Diese Spalte entfernen',
     typeToSearch: 'Tippen zum Suchen',
+    noSubrows: 'Keine Unterreihe',
+    showSubrows: 'weitere',
+    hideSubrows: 'verstecken'
   }
 } as I18nLocale;

@@ -1,0 +1,12 @@
+{{paginationLabel}}
+
+<span *ngIf="showInput">
+  <input required type="number" min="1" [max]="maxPages" [ngModel]="page" (input)="page = $event.target.value">
+</span>
+
+{{pageStart}}&mdash;{{pageEnd}} of {{totalItems}}
+
+<span *ngIf="showArrows">
+  <button class="btn" [disabled]="isFirst" (click)="previousPage()"><</button>
+  <button class="btn" [disabled]="isLast" (click)="nextPage()">></button>
+</span>

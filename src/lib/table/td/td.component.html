@@ -1,13 +1,14 @@
 <div>
-  <div *ngIf="!column?.config.subFields" #contentDiv>
+  <div *ngIf="!hasSubfields" #contentDiv>
     {{ cellValue | formatColumn: column }}
   </div>
 
-  <div *ngIf="hasSubfields && cellValue && cellValue.length > 0">
+  <div *ngIf="hasSubfields && !isArray">
+    <iw-object-cell [object]="cellValue" [column]="column"></iw-object-cell>
+  </div>
 
-    <div class="cell-list" [ngSwitch]="(column.config.id)">
-
-      <!-- TODO: default template for columns with subfields  -->
-    </div>
+  <!-- it is an array -->
+  <div *ngIf="hasSubfields && isArray">
+    <iw-array-cell [subrows]="row[column.config.id]" [column]="column"></iw-array-cell>
   </div>
 </div>

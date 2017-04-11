@@ -1,6 +1,7 @@
 import { PipesModule } from './../lib/pipes/pipes.module';
 import {StudiesCellComponent} from './table-example/studies-cell.component';
 import {TableModule} from './../lib/table/table.module';
+import { TableExtensionModule } from './../lib/table-extension/table-extension.module';
 /* tslint:disable:no-unused-variable */
 import { FormsModule } from '@angular/forms';
 
@@ -18,6 +19,7 @@ describe('App: Ng2Pack', () => {
         FormsModule,
         TableModule,
         PipesModule,
+        TableExtensionModule
       ],
       providers: [
       ]

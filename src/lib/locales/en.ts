@@ -8,5 +8,8 @@ export const en = {
     subFields: 'Subfields in the column',
     removeColumn: 'Remove this column',
     typeToSearch: 'Type to search',
+    noSubrows: 'No items',
+    showSubrows: 'more',
+    hideSubrows: 'hide'
   }
 } as I18nLocale;

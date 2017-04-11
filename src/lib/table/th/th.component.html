@@ -53,16 +53,19 @@
       <li *ngIf="column?.config.subFields" class="dropdown-item-group" dropdown-not-closable-zone>
         <span class="dropdown-header">{{ 'table.subFields' | t}}</span>
 
-        <div *ngFor="let subfield of column?.config.subFields">
-          <label class="dropdown-item c-input c-checkbox">
-            <input type="checkbox"
-                (change)="onToggleSubfield(column, subfield.id)"
-                [checked]="subfield.isVisible"
-            >
-            <span class="c-indicator"></span>
-            {{subfield.text || subfield.id }}
-          </label>
-        </div>
+        <ul class="subfield-list">
+          <li *ngFor="let subfield of column?.config.subFields">
+            <label class="dropdown-item">
+              <input type="checkbox"
+                  (change)="onToggleSubfield(column, subfield.id)"
+                  [checked]="subfield.isVisible"
+              >
+              <span class="c-indicator"></span>
+              {{subfield.text || subfield.id }}
+            </label>
+          </li>
+        </ul>
+
       </li>
 
       <li *ngIf="changeVisibility" class="divider dropdown-divider"></li>

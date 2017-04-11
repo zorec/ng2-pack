@@ -1,7 +1,9 @@
-import {ColumnConfig} from './../lib/table';
+import { TableSortingService } from './../lib/table/table-sorting.service';
+import { PaginationComponent } from './../lib/table-extension/pagination/pagination.component';
+import {ColumnConfig, SortColumnEvent} from './../lib/table';
 import {TableExampleService} from './table-example/table-example.service';
 
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {DatePipe} from '@angular/common';
 
 @Component({
@@ -14,30 +16,20 @@ export class AppComponent {
   title = 'Data Table';
   columnsConfig: ColumnConfig[];
   rows: any[];
-  visibleColumns = ['firstName', 'lastName'];
+  paginatedRows: any[];
+  visibleColumns = ['salutation', 'firstName', 'lastName', 'email'];
   customizedFields = ['studies'];
   actionList: string[] = [];
 
-  constructor(private tableExampleService: TableExampleService) {
-    this.columnsConfig = tableExampleService.columnsConfig;
-    this.rows = tableExampleService.rows
-      .map((row) => {
-        let copy = {
-          id: row.id,
-          salutation: row.salutation,
-          firstName: row.firstName,
-          lastName: row.lastName,
-          birthday: row.birthday,
-          email: row.email,
-          phone: row.phone,
-          country: row.country,
-        };
-        return copy;
-      });
-  }
+  private pageStart = 0;
+  private pageEnd = 10;
 
-  get rowsWithStudies(): any[] {
-    return this.tableExampleService.rows;
+  constructor(
+    private tableExampleService: TableExampleService,
+    private tableSortingService: TableSortingService) {
+    this.columnsConfig = tableExampleService.columnsConfig;
+    this.rows = tableExampleService.rows;
+    this.onPageChange(this.pageStart, this.pageEnd);
   }
 
   onAction(action: string) {
@@ -49,5 +41,14 @@ export class AppComponent {
 
   isCustomField(columnId: string): boolean {
     return this.customizedFields.indexOf(columnId) !== -1;
+  }
+
+  onPageChange(pageStart: number, pageEnd: number) {
+    this.paginatedRows = this.rows.slice(pageStart, pageEnd);
+  }
+
+  onSortColumn(sortColumnEvent: SortColumnEvent) {
+    this.tableSortingService.sort(this.rows, sortColumnEvent.columnState);
+    this.onPageChange(this.pageStart, this.pageEnd);
   }
 }

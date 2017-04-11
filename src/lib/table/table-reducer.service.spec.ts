@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { ColumnState } from './column-state.class';
 import { TableEvent, TableEventType } from './events';
 import { TableSortingService } from './table-sorting.service';
@@ -15,6 +16,7 @@ describe('TableReducerService', () => {
         TableInitService,
         TableReducerService,
         TableSortingService,
+        DatePipe
       ]
     });
   });
@@ -29,10 +31,13 @@ describe('TableReducerService', () => {
 
   describe('sortColumn', () => {
     let state: TableStateService;
+    let columnState: ColumnState;
+
     beforeEach(() => {
+      columnState = new ColumnState({id: 'foo'});
       state = new TableStateService();
       state.columnsLookup = {
-        foo: new ColumnState({id: 'foo'})
+        foo: columnState
       };
       state.rows = [{foo: 'c'}, {foo: 'a'}, {foo: 'b'}];
     });
@@ -42,6 +47,7 @@ describe('TableReducerService', () => {
       service.sortColumn(state, {
         type: TableEventType.SortColumn,
         column: 'foo',
+        columnState,
         direction: 'desc'
       });
       expect(state.sortedColumnName).not.toEqual('foo');
@@ -52,6 +58,7 @@ describe('TableReducerService', () => {
       service.sortColumn(state, {
         type: TableEventType.SortColumn,
         column: 'foo',
+        columnState,
         direction: 'desc'
       });
       expect(state.sortedColumnName).toEqual('foo');
@@ -66,6 +73,7 @@ describe('TableReducerService', () => {
       service.sortColumn(state, {
         type: TableEventType.SortColumn,
         column: 'foo',
+        columnState,
         direction: 'desc'
       });
       expect(state.sortedColumnName).toEqual('foo');

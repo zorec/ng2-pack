@@ -9,14 +9,12 @@ let randomItem = (arr: any[]) => {
 };
 
 export interface Study {
-  studyBegin: Date;
-  studyEnd: Date;
-  degree: 'Bachelor' | 'Master' | 'Doctor';
-  form: 'daily' | 'remotely';
-  area: string;
-  faculty: string;
-  finished: boolean;
   university: string;
+  faculty: string;
+  // studyDuration: [Date, Date];
+  degree: 'Bachelor' | 'Master' | 'Doctor';
+  // form: 'Daily' | 'Remotely';
+  finished: boolean;
 }
 
 export interface Person {
@@ -30,9 +28,8 @@ export interface Person {
   address: {
     street: string;
     city: string;
+    country: string;
   };
-  country: string;
-  // graduationYear: number;
   studies: Study[];
 }
 
@@ -45,15 +42,13 @@ export let generatePeople = (numberOfRecords: number) => {
     let studiesCount = rand(1, 4);
     for (let j = 0; j < studiesCount; j++) {
       let study = {
-        studyBegin: faker.date.past(),
-        studyEnd: faker.date.past(),
-
-        degree: randomItem(['Bachelor', 'Master', 'Doctor']),
-        form: randomItem(['daily', 'remotely']),
-        area: faker.name.jobArea(),
+        university: 'University of ' + faker.name.jobArea(),
         faculty: 'Faculty of ' + faker.name.jobArea(),
+        degree: randomItem(['Bachelor', 'Master', 'Doctor']),
+        // form: randomItem(['Daily', 'Remotely']),
+        // area: faker.name.jobArea(),
         finished: Math.random() >= 0.3 ? true : false,
-        university: 'University of ' + faker.name.jobArea()
+        // studyDuration: [faker.date.past(), faker.date.past()] as [Date, Date],
       };
       studies.push(study);
     }
@@ -69,8 +64,8 @@ export let generatePeople = (numberOfRecords: number) => {
       address: {
         street: faker.address.streetAddress(),
         city: faker.address.city(),
+        country: faker.address.country(),
       },
-      country: faker.address.country(),
       // graduationYear: rand(1970, 2016),
       studies: studies
     };

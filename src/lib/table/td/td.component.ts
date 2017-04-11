@@ -1,7 +1,9 @@
+import { TableReducerService } from './../table-reducer.service';
 import {ColumnState} from './../column-state.class';
 import {FormatColumnPipe} from './../pipes/format-column.pipe';
 
 import {
+  ChangeDetectorRef,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -14,8 +16,10 @@ import {
   selector: '[iw-td]',
   templateUrl: 'td.component.html',
   styleUrls: ['./td.component.css'],
-  providers: [FormatColumnPipe],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    FormatColumnPipe,
+  ],
 })
 export class TdComponent implements OnInit {
   @Input() column: ColumnState;
@@ -27,10 +31,16 @@ export class TdComponent implements OnInit {
   private _currentFormattedValue: any;
 
   constructor(
-    private formatColumnPipe: FormatColumnPipe,
-    ) { }
+    protected formatColumnPipe: FormatColumnPipe,
+    // protected tableReducerService: TableReducerService,
+    // protected changeDetectorRef: ChangeDetectorRef
+    ) {
+    }
 
   ngOnInit() {
+    // this.tableReducerService.nextState.subscribe(() => {
+    //   this.changeDetectorRef.markForCheck();
+    // });
   }
 
   get cellValue(): any {
@@ -46,13 +56,25 @@ export class TdComponent implements OnInit {
     return this.contentDiv.nativeElement.textContent.trim() !== this.formattedValue;
   }
 
+  get formattedValue() {
+    if (!this.column) { return; }
+    return this.formatColumnPipe.transform(this.cellValue, this.column);
+  }
+
+  get isArray() {
+    return (this.cellValue && Array.isArray(this.cellValue));
+  }
+
+  get activeFields() {
+    return this.column.activeFields;
+  }
+
   get hasSubfields() {
     if (!this.column) { return; }
     return this.column.config.subFields && this.column.config.subFields.length > 0;
   }
 
-  get formattedValue() {
-    if (!this.column) { return; }
-    return this.formatColumnPipe.transform(this.cellValue, this.column);
+  isSubColumnVisible(subcolumn: string): boolean {
+    return (this.activeFields.indexOf(subcolumn) !== -1);
   }
 }

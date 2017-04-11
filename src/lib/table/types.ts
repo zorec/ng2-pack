@@ -25,6 +25,7 @@ export interface SubFieldConfig {
   id: string;
   text: string;
   isVisible: boolean;
+  formatters?: DisplayFormatter[];
 }
 
 export interface ColumnLookup {
