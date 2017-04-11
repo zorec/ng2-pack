@@ -8,13 +8,16 @@ import {StudiesCellComponent} from './table-example/studies-cell.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { DropdownModule } from 'ngx-dropdown';
+
 @NgModule({
   imports: [
     BrowserModule,
     TableModule,
+    TableExtensionModule,
+    DropdownModule,
     InlineEditableModule,
-    PipesModule,
-    TableExtensionModule
+    PipesModule
   ],
   declarations: [
     AppComponent,

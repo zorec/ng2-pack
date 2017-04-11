@@ -1,7 +1,9 @@
-<iw-array-cell [row]="row" [column]="column">
-  <template let-subrow="$implicit" let-itemIndex="index">
-    <div class="cell-list-item" [class.cell-list-item--extended]="itemIndex > 0">
-      <strong *ngIf="isSubColumnVisible('faculty')">
+<div class="dropdown" dropdown>
+  <a  dropdown-open>{{row[column.config.id].length}}  studies</a>
+  <div class="dropdown-menu">
+    <div class="dropdown-content" *ngFor="let subrow of row[column.config.id]" >
+      <div class="cell-list-item" dropdown-not-closable-zone>
+        <strong *ngIf="isSubColumnVisible('faculty')" >
           {{ subrow.faculty | defaultValue }}
         </strong>
 
@@ -12,6 +14,7 @@
         <div *ngIf="isSubColumnVisible('degree')">
           Degree: {{ subrow.degree | defaultValue }}
         </div>
+      </div>
     </div>
-  </template>
-</iw-array-cell>
+  </div>
+</div>
