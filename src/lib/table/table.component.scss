@@ -319,6 +319,11 @@ $result-table-border-color-outer: app-color(bluegray);
   }
 }
 
+// double class to give higher priority without using !important
+.is-not-sortable.is-not-sortable {
+  cursor: default;
+}
+
 .col-menu {
   position: absolute;
   text-align: right;

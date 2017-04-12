@@ -6,7 +6,7 @@ See DEMO here: https://zorec.github.io/ng2-pack/
 This library provides an APIs with different levels of abstraction. The highest abstraction gives you the most comfort. In the case you need more flexibility, you can switch to lower API. If that is not enough, you access even lower-level API. See the examples below for the illustration of different APIs.
 <!-- We follow the philosophy "convention over configuration", and intelligent defaults are provided. So that you can have an easy start despite many inputs and configuration. -->
 
-This library is currently under the development, and API may change. Please feel free to open issues for ideas,  comments, and questions (support requests). We would love to hear your feedback.
+This library is currently under the development so API may change. Please feel free to open issues for ideas,  comments, and questions (support requests). We would love to hear your feedback.
 
 #### Example 1: Basic HTML Interface
 We follow the philosophy "convention over configuration".
@@ -31,7 +31,6 @@ The table component <iw-table> accepts a custom template inside its tags. But in
   </table>
 </iw-table>
 ```
-<!-- TODO: add the link to repository -->
 We could go even further and customize the table body cells while using even smaller subcomponents.
 
 #### Features:
@@ -91,7 +90,7 @@ export class AppModule { }
 ```
 
 #### Table API: Inputs
-- **rows**: data to be displayed in the table rows. Type: Row. The only required input. 
+- **rows**: data to be displayed in the table rows. Type: Row. The only required input.
 - **columnsConfig**: Configuration of a table. Type?: ColumnConfig[]
 - **visibleColumns** Ids of initially visible columns in a table. Type?: string[]. Two-way data binding.
 - **reorderingEnabled** Enable/Disable drag&drop reordering of columns. Type: boolean

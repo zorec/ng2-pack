@@ -1,7 +1,5 @@
 <div>
-
-  <!-- NOTE: do not use pointer cursor when sorting is disabled -->
-  <span class="col-label" (click)="onSortColumn(column)" >
+  <span class="col-label" [class.is-not-sortable]="column?.config.sortingDisabled" (click)="onSortColumn(column)" >
     {{ column?.config.text || column?.config.id  }}
     <i *ngIf="showSortIcon(column, 'string', 'asc')" class="ico-col-sort ico-col-sort--asc"><i>A</i><i>Z</i><i>↓</i></i>
     <i *ngIf="showSortIcon(column, 'string', 'desc')" class="ico-col-sort ico-col-sort--desc"><i>Z</i><i>A</i><i>↓</i></i>
