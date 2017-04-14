@@ -172,7 +172,7 @@ $result-table-border-color-outer: app-color(bluegray);
 
   tbody {
     tr {
-      cursor: pointer;
+      cursor: default;
 
       &:hover {
         background: #eee;

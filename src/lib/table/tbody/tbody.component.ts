@@ -114,11 +114,13 @@ export class TbodyComponent implements OnChanges, OnInit {
     return this.columnsLookup[columnName];
   }
 
-  onRowClicked(rowIndex: number, rowObject: any) {
+  onRowClick(rowIndex: number, rowObject: any, columnIndex: number, column: string) {
     this.rowClick.emit({
       type: TableEventType.RowClick,
       rowIndex,
-      rowObject
+      rowObject,
+      columnIndex,
+      column,
     });
   }
 

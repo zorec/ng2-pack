@@ -79,6 +79,8 @@ export interface RowClickEvent {
   type: TableEventType.RowClick;
   rowIndex: number;
   rowObject: any;
+  columnIndex: number;
+  column: string;
 }
 
 export interface SortColumnEvent {
