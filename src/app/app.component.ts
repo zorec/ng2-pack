@@ -1,3 +1,4 @@
+import { TableEvent, TableEventType } from './../lib/table/events';
 import { TableSortingService } from './../lib/table/table-sorting.service';
 import { PaginationComponent } from './../lib/table-extension/pagination/pagination.component';
 import {ColumnConfig, SortColumnEvent} from './../lib/table';
@@ -32,11 +33,14 @@ export class AppComponent {
     this.onPageChange(this.pageStart, this.pageEnd);
   }
 
-  onAction(action: string) {
+  onAction(tableEvent: TableEvent, description: string) {
+    if (tableEvent) {
+      console.log(TableEventType[tableEvent.type], tableEvent);
+    }
     if (this.actionList.length > 3) {
       this.actionList.shift();
     }
-    this.actionList.push(action);
+    this.actionList.push(description);
   }
 
   isCustomField(columnId: string): boolean {

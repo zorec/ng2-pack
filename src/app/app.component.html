@@ -7,13 +7,13 @@
 </a>
 
 <h3>1. Convention over configuration</h3>
-<p>There is only one required input &mdash; rows data attribute. All other attributes have default values. For example, columns configuration is initialized according to row keys and values. All keys are visible by default.</p>
+<p>There is only one required input &mdash; rows data attribute. Columns configuration is detected according to row keys and values of rows. All row keys are visible by default.</p>
 <iw-table [rows]="rows"></iw-table>
 
 <!-- NOTE: language should be set globally -->
 <h3>2. Customization with all available inputs and outputs</h3>
 <p>
-  Default values can be overwritten. Here is a list of all inputs and outputs. In this case, the inline editing is enabled, and language is changed to German.
+  Default values can be overwritten. Here is a component with all inputs and outputs. In console, you can see the details for each triggered event.
 </p>
 <div>
   <p *ngFor="let action of actionList">{{action}}</p>
@@ -28,14 +28,14 @@
   changeColumnVisibility="true"
   language="de"
   initialSortColumn="firstName"
-  (rowClick)="onAction('Row click at position [' + $event.rowIndex  + ' , ' + $event.columnIndex + ']')"
-  (sortColumnInit)="onAction('Sort init!')"
-  (sortColumn)="onAction('Column `' + $event.column + '` was sorted in the direction `' + $event.direction + '`')"
-  (addingColumn)="onAction('Column is being added at position ' + $event.index)"
-  (addColumn)="onAction('Column ' + $event.column + ' was added')"
-  (removeColumn)="onAction('Column ' + $event.column + ' was removed')"
-  (visibleColumnsChange)="onAction('Visible columns changed to: ' + $event)"
-  (editCell)="onAction('The cell in row ' + $event.rowIndex + ' and column ' + $event.column + ' was edited to value ' + $event.newValue)"
+  (rowClick)="onAction($event, 'Row click at position [' + $event.rowIndex  + ' , ' + $event.columnIndex + ']')"
+  (sortColumnInit)="onAction($event, 'Sort init!')"
+  (sortColumn)="onAction($event, 'Column `' + $event.column + '` was sorted in the direction `' + $event.direction + '`')"
+  (addingColumn)="onAction($event, 'Column is being added at position ' + $event.index)"
+  (addColumn)="onAction($event, 'Column ' + $event.column + ' was added')"
+  (removeColumn)="onAction($event, 'Column ' + $event.column + ' was removed')"
+  (visibleColumnsChange)="onAction($event, 'Visible columns changed to: ' + $event)"
+  (editCell)="onAction($event, 'The cell in row ' + $event.rowIndex + ' and column ' + $event.column + ' was edited to value ' + $event.newValue)"
   >
 </iw-table>
 

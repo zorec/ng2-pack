@@ -108,7 +108,7 @@ export class AppModule { }
 - **addingColumn** A column is being added at a specific position. Type: AddingColumnEvent
 - **toggleSubfield** Triggered when a visibility for a subfield is changed. Type: ToggleSubfieldEvent
 - **visibleColumnsChange** This event is trigged whenever a column is added/removed or the order changed.
-- **rowClick** Row was clicked. Event data is row index. Type: RowClickEvent
+- **rowClick** Body row was clicked. Event data is row index. Type: RowClickEvent
 - **editCell** This event is triggered when a cell was edited. Type EditCellEvent. Experimental.
 
 
