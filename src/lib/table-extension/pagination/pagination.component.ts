@@ -50,6 +50,10 @@ export class PaginationComponent implements OnChanges {
     return (this.page - 1) * this.itemsPerPage;
   }
 
+  get userPageStart(): number {
+    return this.pageStart + 1;
+  }
+
   get pageEnd(): number {
     let pageEnd = this.pageStart + this.itemsPerPage;
     if (pageEnd > this.totalItems) {
