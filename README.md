@@ -39,7 +39,6 @@ We could go even further and customize the table body cells while using even sma
 - drag&drop reordering of columns
 - client-side or server-side pagination
 - complex data types inside table cells
-- inline-editing of table cells
 - customize any part of template (e.g. header, footer, cells)
 - AOT compatible
 
@@ -94,7 +93,6 @@ export class AppModule { }
 - **columnsConfig**: Configuration of a table. Type?: ColumnConfig[]
 - **visibleColumns** Ids of initially visible columns in a table. Type?: string[]. Two-way data binding.
 - **reorderingEnabled** Enable/Disable drag&drop reordering of columns. Type: boolean
-- **inlineEditingEnabled** Enable/Disable inline editing of the data. Type: boolean. Experimental.
 - **changeColumnVisibility** Enable/Disable user to select which columns are visible. Type: boolean
 - **rowsSortingMode** By default, table rows are sorted client-side. You can use the external mode for server-side sorting. Lastly, the sorting of rows can be disabled completely (no sorting icons).  Type: 'default' | 'external' | 'disabled'
 - **initialSortColumn** Set column to be sorted on initialization. Optionally put plus or minus sign to specify the sort direction. Type: string.
@@ -109,7 +107,6 @@ export class AppModule { }
 - **toggleSubfield** Triggered when a visibility for a subfield is changed. Type: ToggleSubfieldEvent
 - **visibleColumnsChange** This event is trigged whenever a column is added/removed or the order changed.
 - **rowClick** Body row was clicked. Event data is row index. Type: RowClickEvent
-- **editCell** This event is triggered when a cell was edited. Type EditCellEvent. Experimental.
 
 
 #### Subcomponents

@@ -58,13 +58,6 @@ export class TbodyComponent implements OnChanges, OnInit {
     return this.tableStateService.changeColumnVisibility;
   }
 
-  @Input() set inlineEditingEnabled(isEditable: boolean) {
-    this.tableStateService.inlineEditingEnabled = isEditable;
-  };
-  get inlineEditingEnabled() {
-    return this.tableStateService.inlineEditingEnabled;
-  }
-
   @Input() set addingColumnIndex(index: number | undefined) {
     this.tableStateService.addingColumnIndex = index;
   }

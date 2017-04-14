@@ -6,7 +6,6 @@
         (click)="onRowClick(rowIndex, row, columnIndex, columnName)"
         #tdComponent
         iw-td
-        [attr.contenteditable]="inlineEditingEnabled"
         (blur)="onEditCell(tdComponent, rowIndex)"
         [column]="column(columnName)"
         [row]="row"

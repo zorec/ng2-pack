@@ -97,13 +97,6 @@ export class TableComponent implements OnChanges, OnDestroy {
     return this.tableStateService.rowsSortingMode;
   }
 
-  @Input() set inlineEditingEnabled(editing: boolean) {
-    this.tableStateService.inlineEditingEnabled = editing;
-  };
-  get inlineEditingEnabled() {
-    return this.tableStateService.inlineEditingEnabled;
-  }
-
   @Input() set language(language: string) {
     this.tableStateService.language = language;
   }

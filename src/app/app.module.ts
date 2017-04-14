@@ -1,5 +1,4 @@
 import { TableExtensionModule } from './../lib/table-extension/table-extension.module';
-import {InlineEditableModule} from '../lib/inline-editable/';
 import {PipesModule} from './../lib/pipes/pipes.module';
 import {TableModule} from '../lib/table/';
 import {AppComponent} from './app.component';
@@ -16,7 +15,6 @@ import { DropdownModule } from 'ngx-dropdown';
     TableModule,
     TableExtensionModule,
     DropdownModule,
-    InlineEditableModule,
     PipesModule
   ],
   declarations: [

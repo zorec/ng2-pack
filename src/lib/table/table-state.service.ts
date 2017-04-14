@@ -25,7 +25,6 @@ export class TableStateService {
   // defaults
   reorderingEnabled = true;
   rowsSortingMode: SortingMode = 'default';
-  inlineEditingEnabled = false;
   changeColumnVisibility = true;
   language = 'en';
 
