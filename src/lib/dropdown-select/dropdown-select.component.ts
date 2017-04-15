@@ -7,7 +7,7 @@ import {
   OnChanges
 } from '@angular/core';
 
-export interface Item {
+export interface LeafItem {
   text?: string;
   id: string;
   disabled?: boolean;
@@ -16,12 +16,12 @@ export interface Item {
 export interface Category {
   id: string;
   text?: string;
-  children: Item[];
+  children: LeafItem[];
 
   isTheNoCategory?: boolean;
 }
 
-export type AnyItem = Category | Item | string;
+export type Item = Category | LeafItem | string;
 
 
 @Component({
@@ -31,10 +31,10 @@ export type AnyItem = Category | Item | string;
 })
 export class DropdownSelectComponent implements OnChanges {
 
-  @Input() items: AnyItem[];
+  @Input() items: Item[];
   // NOTE: input for hidding categories
   // NOTE: input whather a category is selectable
-  @Input() model: Item | string;
+  @Input() model: LeafItem | string;
   @Input() set isOpen(v: boolean) {
     this._isOpen = v;
   }
@@ -47,16 +47,16 @@ export class DropdownSelectComponent implements OnChanges {
   // TODO:
   @Input() allowCustom: boolean = false;
 
-  @Output() itemSelected: EventEmitter<any> = new EventEmitter<{ category: Category | undefined, item: Item }>();
+  @Output() itemSelected: EventEmitter<any> = new EventEmitter<{ category: Category | undefined, item: LeafItem }>();
   @Output() categorySelected: EventEmitter<Category> = new EventEmitter<Category>();
   @Output() open: EventEmitter<void> = new EventEmitter<void>();
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
 
-  selectedItem: Item | undefined;
-  activeItem: Item;
+  selectedItem: LeafItem | undefined;
+  activeItem: LeafItem;
 
-  private _previousCategories: AnyItem[];
-  private _previousModel: Item | string;
+  private _previousCategories: Item[];
+  private _previousModel: LeafItem | string;
   private _inCategories: Category[] = [];
   private _expandedByUser: { [id: string]: boolean } = {};
   public expandedCategories: { [id: string]: boolean } = {};
@@ -136,11 +136,11 @@ export class DropdownSelectComponent implements OnChanges {
     this.categorySelected.emit(category);
   }
 
-  onSelectItem(item: Item, category: Category) {
+  onSelectItem(item: LeafItem, category: Category) {
     if (item.disabled) { return; }
     this.selectedItem = item;
     // NOTE: Change to item!
-    let event: { category: Category | undefined, field: Item };
+    let event: { category: Category | undefined, field: LeafItem };
     if (category.isTheNoCategory) {
       event = { category: undefined, field: item };
     } else {
@@ -158,7 +158,7 @@ export class DropdownSelectComponent implements OnChanges {
     this.close.emit();
   }
 
-  onItemHover(item: Item) {
+  onItemHover(item: LeafItem) {
     this.activeItem = item;
   }
 
@@ -179,10 +179,10 @@ export class DropdownSelectComponent implements OnChanges {
   private getDisplayedItems() {
     return this.displayedCategories
       .filter(cat => cat.isTheNoCategory || this.expandedCategories[cat.id])
-      .reduce<Item[]>((prev, value) => prev.concat(value.children), []);
+      .reduce<LeafItem[]>((prev, value) => prev.concat(value.children), []);
   }
 
-  private getCategoryOfItem(item: Item): Category {
+  private getCategoryOfItem(item: LeafItem): Category {
     for (let category of this._inCategories) {
       if (category.children.indexOf(item) > -1) {
         return category;
@@ -203,7 +203,7 @@ export class DropdownSelectComponent implements OnChanges {
         };
       });
     } else { // we have Item[], we create a fake category
-      let items: Item[];
+      let items: LeafItem[];
       if (typeof (anyItems[0]) === 'string') {
         items = (<string[]>anyItems).map(item => {
           return {
@@ -212,7 +212,7 @@ export class DropdownSelectComponent implements OnChanges {
           };
         });
       } else {
-        items = <Item[]>anyItems;
+        items = <LeafItem[]>anyItems;
       }
       categories = [{
         id: '',

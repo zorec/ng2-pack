@@ -2,9 +2,7 @@ import {ColumnConfig} from '../types';
 import { AddColumnEvent, TableEvent, TableEventType } from './../events';
 import {TableComponent} from './../table.component';
 import { TheadComponent } from './../thead/thead.component';
-import {
-  Item, Category
-} from '../../dropdown-select/dropdown-select.component';
+import { LeafItem, Category } from './../../dropdown-select/dropdown-select.component';
 import { TableReducerService } from './../table-reducer.service';
 import { TableStateService } from './../table-state.service';
 
@@ -32,7 +30,7 @@ export class AddColumnComponent implements OnChanges {
   @Output() selected: EventEmitter<AddColumnEvent> = new EventEmitter<AddColumnEvent>();
   @Output() close = new EventEmitter();
 
-  items: (Category | Item)[];
+  items: (Category | LeafItem)[];
   value: string | null = null;
   tableStateService: TableStateService;
 
@@ -51,12 +49,11 @@ export class AddColumnComponent implements OnChanges {
   }
 
   ngOnChanges(arg: any) {
-    // let columns: ColumnConfig[] = this.columnsNotVisibleInTable();
-    // this.items = this.tableComponent.columnsForAddingFn(options);
-    this.items = this.categorizeColumns(this.tableStateService.columnsConfig);
+    let columns: ColumnConfig[] = this.columnsNotVisibleInTable();
+    this.items = this.categorizeColumns(columns);
   }
 
-  onSelected(selection: {field: Item}): void {
+  onSelected(selection: {field: LeafItem}): void {
     this.selected.emit({
       column: selection.field.id,
       type: TableEventType.AddColumn
@@ -81,14 +78,13 @@ export class AddColumnComponent implements OnChanges {
     return items;
   }
 
-  categorizeColumns(columns: ColumnConfig[]): (Category | Item)[] {
+  categorizeColumns(columns: ColumnConfig[]): (Category | LeafItem)[] {
     let itemsWithCategory = columns.filter((item) => typeof item.category !== 'undefined');
     if (itemsWithCategory.length === 0) {
       // no categories present
       return columns.map((column) => {
         return {
           ...column,
-          disabled: this.visibleColumns.indexOf(column.id) > -1
         };
       });
     }
@@ -105,15 +101,11 @@ export class AddColumnComponent implements OnChanges {
           text: (column.category && column.category.text) || categoryId,
           children: [{
             ...column,
-            disabled: this.visibleColumns.indexOf(column.id) > -1
           }]
         };
         options.push(option);
       } else {
-        options[categoryIndex].children.push({
-          ...column,
-          disabled: this.visibleColumns.indexOf(column.id) > -1
-        });
+        options[categoryIndex].children.push(column);
       }
     });
     return options;
