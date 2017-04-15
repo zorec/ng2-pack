@@ -31,6 +31,7 @@
       <button
         [title]="hasAllColumnsVisible ? ('table.noMoreColumns' | t) : ''"
         [disabled]="hasAllColumnsVisible"
+        [class.disabled]="hasAllColumnsVisible"
         *ngIf="!lastColumnComboboxActive"
         (click)="toggleCombobox()"
         class="add-column-button combo-toggle btn btn-sm btn-success"

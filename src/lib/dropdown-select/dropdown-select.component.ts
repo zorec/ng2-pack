@@ -71,8 +71,6 @@ export class DropdownSelectComponent implements OnChanges, ControlValueAccessor 
   private _previousCategories: Item[];
   private _previousModel: LeafItem | string;
   private _inCategories: Category[] = [];
-  // private _expandedByUser: { [id: string]: boolean } = {};
-  // public expandedCategories: { [id: string]: boolean } = {};
   displayedCategories: Category[];
   hasOptions: boolean;
   searchQuery: string;
@@ -95,7 +93,6 @@ export class DropdownSelectComponent implements OnChanges, ControlValueAccessor 
   handleKey(event: KeyboardEvent) {
     if (!this._isOpen) { return; }
     // NOTE: opening a dropdown with a keyboard shortcut?
-    // NOTE: navigation for items with categories?
 
     let preventDefault = true;
     if (event.key === 'Escape') {
@@ -190,11 +187,6 @@ export class DropdownSelectComponent implements OnChanges, ControlValueAccessor 
     this.updateDisplayedCategories();
   }
 
-  toggleCategorySubField(cat: Category) {
-    // this.expandedCategories[cat.id] = !this.expandedCategories[cat.id];
-    // this._expandedByUser[cat.id] = this.expandedCategories[cat.id];
-  }
-
   clear() {
     this.propagateChange(undefined);
     this.selectedItem = undefined;
@@ -245,11 +237,6 @@ export class DropdownSelectComponent implements OnChanges, ControlValueAccessor 
       }];
     }
     this._inCategories = categories;
-    // this._expandedByUser = {};
-    // this.expandedCategories = {};
-    // if (this._inCategories.length === 1) {
-    //   this.expandedCategories[categories[0].id] = true;
-    // }
     this.updateDisplayedCategories();
   }
 
@@ -290,15 +277,7 @@ export class DropdownSelectComponent implements OnChanges, ControlValueAccessor 
         result.push(filteredCategory);
       }
     });
-    // let expandedByUser = this._expandedByUser;
-    // let expanded = this.expandedCategories;
-    // tslint:disable-next-line:forin
-    // for (let id in expanded) {
-    //   expanded[id] = expandedByUser[id];
-    // }
-    // if (result.length === 1) {
-    //   expanded[result[0].id] = true;
-    // }
+
     this.displayedCategories = result;
     this.hasOptions = this.displayedCategories.length > 0;
   }
