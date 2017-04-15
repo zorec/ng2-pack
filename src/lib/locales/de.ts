@@ -6,8 +6,10 @@ export const de = {
     addLeft: 'Spalte links hinzufügen',
     addRight: 'Spalte rechts hinzufügen',
     subFields: 'Felder in der Spalte',
+    chooseColumn: 'Eine Spalte hinzufügen',
     removeColumn: 'Diese Spalte verstecken',
     typeToSearch: 'Tippen zum Suchen',
+    noMoreColumns: 'Keine Spalte zum Hinzufügen',
     noSubrows: 'Keine Unterreihe',
     showSubrows: 'weitere',
     hideSubrows: 'verstecken'

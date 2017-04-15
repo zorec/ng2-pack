@@ -2,7 +2,6 @@ import {TableComponent} from './table.component';
 import {TheadComponent} from './thead/thead.component';
 import {TbodyComponent} from './tbody/tbody.component';
 import {AddColumnComponent} from './add-column/add-column.component';
-import {Select2Component} from './../select2/select2.component';
 import {TdComponent} from './td/td.component';
 import {ThComponent} from './th/th.component';
 import { ArrayCellComponent } from './td/array-cell/array-cell.component';
@@ -17,12 +16,14 @@ import {TableInitService} from './table-init.service';
 import { TableReducerService } from './table-reducer.service';
 import { TableStateService } from './table-state.service';
 
-import { DropdownModule} from 'ngx-dropdown';
 import { SortableModule } from './../sortable/sortable.module';
+import { DropdownSelectModule } from './../dropdown-select/dropdown-select.module';
 
 import { CommonModule, UpperCasePipe, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
+import { DropdownModule} from 'ngx-dropdown';
 
 @NgModule({
   imports: [
@@ -31,13 +32,13 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     DropdownModule,
     SortableModule,
+    DropdownSelectModule
   ],
   declarations: [
     TableComponent,
     TheadComponent,
     TbodyComponent,
     AddColumnComponent,
-    Select2Component,
     TdComponent,
     ThComponent,
     ObjectCellComponent,
@@ -49,7 +50,6 @@ import { FormsModule } from '@angular/forms';
     TheadComponent,
     TbodyComponent,
     AddColumnComponent,
-    Select2Component,
     TdComponent,
     ThComponent,
     ObjectCellComponent,

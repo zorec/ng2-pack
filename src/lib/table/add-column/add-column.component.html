@@ -1,11 +1,13 @@
-<!-- NOTE: indicate no columns to add in a better way  -->
 <div class="combo-input-wrap">
-  <iw-select2
-    [placeholder]="'table.typeToSearch' | t"
+  <iw-dropdown-select
+    [searchPlaceholder]="'table.typeToSearch' | t"
+    [placeholder]="'table.chooseColumn' | t"
+    [noOptionsMessage]="'table.noMoreColumns' | t"
     [items]="items"
-    [(ngModel)]="value"
-    [open]="open"
-    (close)="close.emit($event)"
-    (ngModelChange)="onSelected($event)">
-  </iw-select2>
+    [isOpen]="open"
+    (close)="onClose()"
+    (itemSelected)="onSelected($event)"
+  >
+  </iw-dropdown-select>
+
 </div>

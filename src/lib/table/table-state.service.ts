@@ -43,6 +43,10 @@ export class TableStateService {
 
   }
 
+  get hasAllColumnsVisible() {
+    return this.visibleColumns.length === this.columnsConfig.length;
+  }
+
   isSorted(column: ColumnState, direction: string | undefined) {
     if (!column) { return; }
     let isSorted: boolean = column.config.id === this.sortedColumnName;

@@ -14,7 +14,7 @@
       [id]="column?.config.id + '-dropdown'">&#9660;
     </a>
 
-    <ul class="dropdown-menu dropdown-menu-right" dropdownMenu attr.aria-labelledby="{{column?.config.id}}-dropdown">
+    <ul class="dropdown-menu dropdown-menu-right" attr.aria-labelledby="{{column?.config.id}}-dropdown">
 
       <li *ngIf="!isSortingDisabled(column)">
         <a class="dropdown-item" (click)="onSortColumn(column, 'asc')">

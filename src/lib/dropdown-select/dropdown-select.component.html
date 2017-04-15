@@ -1,0 +1,43 @@
+<div class="dropdown" dropdown [class.open]="isOpen" (onOpen)="onOpen()" (onClose)="onClose()" >
+  <span class="c-select" dropdown-open  tabindex="0"  >
+    <span title="leeren" (click)="clear()" *ngIf="selectedItem">&times;</span>
+    {{ itemText || placeholder }}
+  </span>
+
+    <div class="dropdown-menu" attr.aria-labelledby="query-builder-filter-menu">
+    <input
+      #searchElement
+      class="dropdown-search"
+      type="text"
+      placeholder="Suchen"
+      [ngModel]="searchQuery"
+      (ngModelChange)="search($event)"
+      autofocus="true"/>
+
+      <div class="dropdown-item-list">
+        <template ngFor let-category [ngForOf]="displayedCategories">
+          <div class="dropdown-item-group">
+            <span class="dropdown-header" *ngIf="!category.isTheNoCategory">
+              <span class="dropdown-header-text" (click)="onSelectCategory(category)">
+                {{ category.text || category.id }} ({{category.children.length}})
+              </span>
+              <!--<span (click)="toggleCategorySubField(category)">
+                {{ expandedCategories[category.id] ? 'Alle verstecken' : 'Alle anzeigen' }}
+              </span>-->
+            </span>
+            <div class="dropdown-item-sub-list">
+              <!--[class.is-open]="expandedCategories[category.id]"-->
+              <template ngFor let-item let-index [ngForOf]="category.children" [ngForTemplate]="itemTemplate">
+                <span class="dropdown-item" [class.disabled]="item.disabled" (click)="onSelectItem(item, category)"
+                  [ngClass]="{'dropdown-item--active': item === activeItem, 'no-hover-effect': index !== activeItem}"
+                  (mousemove)="onItemHover(item)">
+                    {{ item.text || item.id }}
+                </span>
+              </template>
+            </div>
+          </div>
+        </template>
+      </div>
+      <div class="fill-rest"></div>
+    </div>
+</div>
