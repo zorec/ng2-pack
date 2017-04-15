@@ -276,6 +276,10 @@ $result-table-border-color-outer: app-color(bluegray);
   height: 1.5rem;
   width: 1.5rem;
 
+  .dropdown-item.disabled, .dropdown-item.disabled:focus, .dropdown-item.disabled:hover {
+    color: #b3b3b3;
+    cursor: not-allowed;
+  }
   .dropdown-toggle {
     display: block;
     width: 100%;

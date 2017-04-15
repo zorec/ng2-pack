@@ -3,10 +3,8 @@ import { AddColumnEvent, TableEvent, TableEventType } from './../events';
 import {TableComponent} from './../table.component';
 import { TheadComponent } from './../thead/thead.component';
 import {
-  Select2Option,
-  Select2CategorizedOption,
-  Select2ItemOption
-} from '../../select2/select2.component';
+  Item, Category
+} from '../../dropdown-select/dropdown-select.component';
 import { TableReducerService } from './../table-reducer.service';
 import { TableStateService } from './../table-state.service';
 
@@ -34,7 +32,7 @@ export class AddColumnComponent implements OnChanges {
   @Output() selected: EventEmitter<AddColumnEvent> = new EventEmitter<AddColumnEvent>();
   @Output() close = new EventEmitter();
 
-  items: Select2Option[];
+  items: (Category | Item)[];
   value: string | null = null;
   tableStateService: TableStateService;
 
@@ -53,20 +51,23 @@ export class AddColumnComponent implements OnChanges {
   }
 
   ngOnChanges(arg: any) {
-    let columns: ColumnConfig[] = this.columnsNotVisibleInTable();
+    // let columns: ColumnConfig[] = this.columnsNotVisibleInTable();
     // this.items = this.tableComponent.columnsForAddingFn(options);
-    this.items = this.categorizeColumns(columns);
+    this.items = this.categorizeColumns(this.tableStateService.columnsConfig);
   }
 
-  onSelected(value: string): void {
-    if (!value) { return; }
+  onSelected(selection: {field: Item}): void {
     this.selected.emit({
-      column: value,
+      column: selection.field.id,
       type: TableEventType.AddColumn
     });
     setTimeout(() => {
       this.value = null;
     }, 0);
+  }
+
+  onClose() {
+    this.close.emit();
   }
 
   columnsNotVisibleInTable(): ColumnConfig[] {
@@ -80,27 +81,39 @@ export class AddColumnComponent implements OnChanges {
     return items;
   }
 
-  categorizeColumns(columns: ColumnConfig[]): Select2Option[] {
+  categorizeColumns(columns: ColumnConfig[]): (Category | Item)[] {
     let itemsWithCategory = columns.filter((item) => typeof item.category !== 'undefined');
     if (itemsWithCategory.length === 0) {
       // no categories present
-      return <Select2ItemOption[]>columns;
+      return columns.map((column) => {
+        return {
+          ...column,
+          disabled: this.visibleColumns.indexOf(column.id) > -1
+        };
+      });
     }
     let category2Index: {[categoryId: string]: number} = {};
     let index = 0;
-    let options: Select2CategorizedOption[] = [];
+    let options: Category[] = [];
     columns.forEach((column: ColumnConfig) => {
       let categoryId = (column.category && column.category.id) || 'Other';
       let categoryIndex = category2Index[categoryId];
       if (typeof categoryIndex === 'undefined') {
         category2Index[categoryId] = index++;
-        let option: Select2CategorizedOption = {
+        let option: Category = {
+          id: categoryId,
           text: (column.category && column.category.text) || categoryId,
-          children: [<Select2ItemOption>column]
+          children: [{
+            ...column,
+            disabled: this.visibleColumns.indexOf(column.id) > -1
+          }]
         };
         options.push(option);
       } else {
-        options[categoryIndex].children.push(<Select2ItemOption>column);
+        options[categoryIndex].children.push({
+          ...column,
+          disabled: this.visibleColumns.indexOf(column.id) > -1
+        });
       }
     });
     return options;

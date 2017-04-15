@@ -7,7 +7,9 @@ export const en = {
     addRight: 'Add column to the right',
     subFields: 'Subfields in the column',
     removeColumn: 'Remove this column',
+    chooseColumn: 'Add a column',
     typeToSearch: 'Type to search',
+    noMoreColumns: 'No more columns to add',
     noSubrows: 'No items',
     showSubrows: 'more',
     hideSubrows: 'hide'
