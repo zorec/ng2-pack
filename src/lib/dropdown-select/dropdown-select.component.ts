@@ -3,10 +3,12 @@ import {
   Component,
   EventEmitter,
   Input,
+  forwardRef,
   HostListener,
   Output,
   OnChanges
 } from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 export interface LeafItem {
   text?: string;
@@ -27,15 +29,21 @@ export interface SelectItemEvent {
   item: LeafItem;
 }
 
+
+const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => DropdownSelectComponent),
+  multi: true
+};
+
 @Component({
   selector: 'iw-dropdown-select',
   templateUrl: 'dropdown-select.component.html',
-  styleUrls: ['./dropdown-select.component.scss']
+  styleUrls: ['./dropdown-select.component.scss'],
+  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
-export class DropdownSelectComponent implements OnChanges {
+export class DropdownSelectComponent implements OnChanges, ControlValueAccessor {
   @Input() items: Item[];
-  // TODO: use ngModel
-  @Input() model: LeafItem | string;
   @Input() set isOpen(v: boolean) {
     this._isOpen = v;
   }
@@ -56,6 +64,7 @@ export class DropdownSelectComponent implements OnChanges {
 
   @ContentChild(TemplateRef) itemTemplate: any;
 
+  model: LeafItem | string;
   selectedItem: LeafItem | undefined;
   activeItem: LeafItem;
 
@@ -68,6 +77,7 @@ export class DropdownSelectComponent implements OnChanges {
   hasOptions: boolean;
   searchQuery: string;
   _isOpen: boolean;
+  propagateChange = (_: any) => {};
 
   constructor() { }
 
@@ -133,6 +143,19 @@ export class DropdownSelectComponent implements OnChanges {
     return this.selectedItem && this.selectedItem.text;
   }
 
+  writeValue(initialValue: LeafItem | string): void {
+    console.log(initialValue);
+    this.model = initialValue;
+  }
+
+  registerOnChange(fn: any) {
+    this.propagateChange = fn;
+  }
+
+  registerOnTouched() {
+
+  }
+
   onSelectCategory(category: Category) {
     if (this.isCategorySelectable) {
       this._isOpen = false;
@@ -144,6 +167,7 @@ export class DropdownSelectComponent implements OnChanges {
   onSelectItem(item: LeafItem, category: Category) {
     if (item.disabled) { return; }
     this.selectedItem = item;
+    this.propagateChange(item);
     let event: SelectItemEvent = { category, item };
     this._isOpen = false;
     this.itemSelected.emit(event);
@@ -172,6 +196,7 @@ export class DropdownSelectComponent implements OnChanges {
   }
 
   clear() {
+    this.propagateChange(undefined);
     this.selectedItem = undefined;
   }
 

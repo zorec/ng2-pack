@@ -31,7 +31,6 @@ export class AddColumnComponent implements OnChanges {
   @Output() close = new EventEmitter();
 
   items: (Category | LeafItem)[];
-  value: string | null = null;
   tableStateService: TableStateService;
 
   constructor (
@@ -58,9 +57,6 @@ export class AddColumnComponent implements OnChanges {
       column: selection.item.id,
       type: TableEventType.AddColumn
     });
-    setTimeout(() => {
-      this.value = null;
-    }, 0);
   }
 
   onClose() {
