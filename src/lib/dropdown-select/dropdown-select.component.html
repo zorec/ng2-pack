@@ -1,18 +1,19 @@
 <div class="dropdown" dropdown [class.open]="isOpen" (onOpen)="onOpen()" (onClose)="onClose()" >
   <span class="c-select" dropdown-open  tabindex="0"  >
-    <span title="leeren" (click)="clear()" *ngIf="selectedItem">&times;</span>
+    <span (click)="clear()" *ngIf="selectedItem">&times;</span>
     {{ itemText || placeholder }}
   </span>
 
     <div class="dropdown-menu" attr.aria-labelledby="query-builder-filter-menu">
     <input
-      #searchElement
+      #searchInput
       class="dropdown-search"
       type="text"
       placeholder="Suchen"
       [ngModel]="searchQuery"
+      (blur)="onBlur()"
       (ngModelChange)="search($event)"
-      autofocus="true"/>
+      />
 
       <div class="dropdown-item-list">
         <template ngFor let-category [ngForOf]="displayedCategories">

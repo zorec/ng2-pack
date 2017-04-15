@@ -207,6 +207,7 @@ export class TheadComponent implements OnChanges, OnInit {
   onAddingColumnEnd() {
     this.lastColumnComboboxActive = false;
     this.addingColumnIndex = undefined;
+    this.dispatch({type: TableEventType.AddingColumn});
   }
 
   onSortColumnInit() {

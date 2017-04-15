@@ -1,12 +1,17 @@
-import { ContentChild, TemplateRef } from '@angular/core';
 import {
+  AfterViewInit,
   Component,
+  ContentChild,
+  ElementRef,
   EventEmitter,
   Input,
   forwardRef,
   HostListener,
   Output,
-  OnChanges
+  OnChanges,
+  Renderer,
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
@@ -42,14 +47,14 @@ const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   styleUrls: ['./dropdown-select.component.scss'],
   providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
-export class DropdownSelectComponent implements OnChanges, ControlValueAccessor {
+export class DropdownSelectComponent implements AfterViewInit, OnChanges, ControlValueAccessor {
   @Input() items: Item[];
   @Input() set isOpen(v: boolean) {
     this._isOpen = v;
   }
-  @Input() noSelection: boolean = false;
-  @Input() allowClear = true;
+  @Input() allowClear = false;
   @Input() isCategorySelectable = false;
+  @Input() focusSearch = true;
 
   @Input() placeholder: string = 'Please select a value';
   @Input() searchPlaceholder: string = 'Type to search';
@@ -63,6 +68,7 @@ export class DropdownSelectComponent implements OnChanges, ControlValueAccessor 
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
 
   @ContentChild(TemplateRef) itemTemplate: any;
+  @ViewChild('searchInput') searchInput: ElementRef;
 
   model: LeafItem | string;
   selectedItem: LeafItem | undefined;
@@ -77,7 +83,7 @@ export class DropdownSelectComponent implements OnChanges, ControlValueAccessor 
   _isOpen: boolean;
   propagateChange = (_: any) => {};
 
-  constructor() { }
+  constructor(private renderer: Renderer) { }
 
   ngOnChanges(arg: any) {
     if (this.items === this._previousCategories && this.model === this._previousModel) {
@@ -87,6 +93,14 @@ export class DropdownSelectComponent implements OnChanges, ControlValueAccessor 
     this._previousCategories = this.items;
     this.updateItems();
     this.updateSelectedItem();
+  }
+
+  ngAfterViewInit() {
+    if (this.focusSearch && this.searchInput) {
+      setTimeout(() => {
+        this.renderer.invokeElementMethod(this.searchInput.nativeElement, 'focus');
+      }, 0);
+    }
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -131,9 +145,6 @@ export class DropdownSelectComponent implements OnChanges, ControlValueAccessor 
   }
 
   get itemText(): string | undefined {
-    if (this.noSelection) {
-      return undefined;
-    }
     if (!this.hasOptions) {
       return this.noOptionsMessage;
     }
@@ -176,6 +187,14 @@ export class DropdownSelectComponent implements OnChanges, ControlValueAccessor 
 
   onClose() {
     this.close.emit();
+  }
+
+  onBlur() {
+    setTimeout(() => {
+      // in timeout so that the possible click event on an item is handled first
+      this._isOpen = false;
+      this.onClose();
+    }, 500);
   }
 
   onItemHover(item: LeafItem) {
