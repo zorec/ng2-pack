@@ -66,7 +66,7 @@ export class ThComponent implements OnInit {
   }
 
   get hasAllColumnsVisble(): boolean {
-    return this.visibleColumns.length === this.columnsConfig.length;
+    return this.tableStateService.hasAllColumnsVisible;
   }
 
   get isLastColumn(): boolean {

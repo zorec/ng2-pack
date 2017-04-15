@@ -28,11 +28,13 @@
         (close)="toggleCombobox()"
         (selected)="onSelectNewColumn($event)"
       ></iw-add-column>
-      <span
+      <button
+        [title]="hasAllColumnsVisible ? ('table.noMoreColumns' | t) : ''"
+        [disabled]="hasAllColumnsVisible"
         *ngIf="!lastColumnComboboxActive"
         (click)="toggleCombobox()"
         class="add-column-button combo-toggle btn btn-sm btn-success"
-      >+</span>
+      >+</button>
     </div>
   </th>
 </tr>

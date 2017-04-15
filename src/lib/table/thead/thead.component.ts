@@ -162,6 +162,10 @@ export class TheadComponent implements OnChanges, OnInit {
     }
   }
 
+  get hasAllColumnsVisible(): boolean {
+    return this.tableStateService.hasAllColumnsVisible;
+  }
+
   column(columnName: string): ColumnState {
     return this.columnsLookup[columnName];
   }
