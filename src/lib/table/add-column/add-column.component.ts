@@ -2,7 +2,7 @@ import {ColumnConfig} from '../types';
 import { AddColumnEvent, TableEvent, TableEventType } from './../events';
 import {TableComponent} from './../table.component';
 import { TheadComponent } from './../thead/thead.component';
-import { LeafItem, Category } from './../../dropdown-select/dropdown-select.component';
+import { LeafItem, Category, SelectItemEvent } from './../../dropdown-select/dropdown-select.component';
 import { TableReducerService } from './../table-reducer.service';
 import { TableStateService } from './../table-state.service';
 
@@ -53,9 +53,9 @@ export class AddColumnComponent implements OnChanges {
     this.items = this.categorizeColumns(columns);
   }
 
-  onSelected(selection: {field: LeafItem}): void {
+  onSelected(selection: SelectItemEvent): void {
     this.selected.emit({
-      column: selection.field.id,
+      column: selection.item.id,
       type: TableEventType.AddColumn
     });
     setTimeout(() => {

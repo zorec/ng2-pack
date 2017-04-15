@@ -1,3 +1,4 @@
+import { ContentChild, TemplateRef } from '@angular/core';
 import {
   Component,
   EventEmitter,
@@ -17,12 +18,14 @@ export interface Category {
   id: string;
   text?: string;
   children: LeafItem[];
-
-  isTheNoCategory?: boolean;
 }
 
 export type Item = Category | LeafItem | string;
 
+export interface SelectItemEvent {
+  category: Category | undefined;
+  item: LeafItem;
+}
 
 @Component({
   selector: 'iw-dropdown-select',
@@ -30,27 +33,28 @@ export type Item = Category | LeafItem | string;
   styleUrls: ['./dropdown-select.component.scss']
 })
 export class DropdownSelectComponent implements OnChanges {
-
   @Input() items: Item[];
-  // NOTE: input for hidding categories
-  // NOTE: input whather a category is selectable
+  // TODO: use ngModel
   @Input() model: LeafItem | string;
   @Input() set isOpen(v: boolean) {
     this._isOpen = v;
   }
   @Input() noSelection: boolean = false;
   @Input() allowClear = true;
+  @Input() isCategorySelectable = false;
 
   @Input() placeholder: string = 'Please select a value';
   @Input() searchPlaceholder: string = 'Type to search';
   @Input() noOptionsMessage: string = 'No options…';
-  // TODO:
-  @Input() allowCustom: boolean = false;
+  // NOTE: allow custom values?
+  // @Input() allowCustom: boolean = false;
 
   @Output() itemSelected: EventEmitter<any> = new EventEmitter<{ category: Category | undefined, item: LeafItem }>();
   @Output() categorySelected: EventEmitter<Category> = new EventEmitter<Category>();
   @Output() open: EventEmitter<void> = new EventEmitter<void>();
   @Output() close: EventEmitter<void> = new EventEmitter<void>();
+
+  @ContentChild(TemplateRef) itemTemplate: any;
 
   selectedItem: LeafItem | undefined;
   activeItem: LeafItem;
@@ -58,8 +62,8 @@ export class DropdownSelectComponent implements OnChanges {
   private _previousCategories: Item[];
   private _previousModel: LeafItem | string;
   private _inCategories: Category[] = [];
-  private _expandedByUser: { [id: string]: boolean } = {};
-  public expandedCategories: { [id: string]: boolean } = {};
+  // private _expandedByUser: { [id: string]: boolean } = {};
+  // public expandedCategories: { [id: string]: boolean } = {};
   displayedCategories: Category[];
   hasOptions: boolean;
   searchQuery: string;
@@ -81,7 +85,7 @@ export class DropdownSelectComponent implements OnChanges {
   handleKey(event: KeyboardEvent) {
     if (!this._isOpen) { return; }
     // NOTE: opening a dropdown with a keyboard shortcut?
-    // NOTE: navigation for items with categories
+    // NOTE: navigation for items with categories?
 
     let preventDefault = true;
     if (event.key === 'Escape') {
@@ -130,22 +134,17 @@ export class DropdownSelectComponent implements OnChanges {
   }
 
   onSelectCategory(category: Category) {
-    // NOTE: does this make sense?
-    this._isOpen = false;
-    this.selectedItem = category;
-    this.categorySelected.emit(category);
+    if (this.isCategorySelectable) {
+      this._isOpen = false;
+      this.selectedItem = category;
+      this.categorySelected.emit(category);
+    }
   }
 
   onSelectItem(item: LeafItem, category: Category) {
     if (item.disabled) { return; }
     this.selectedItem = item;
-    // NOTE: Change to item!
-    let event: { category: Category | undefined, field: LeafItem };
-    if (category.isTheNoCategory) {
-      event = { category: undefined, field: item };
-    } else {
-      event = { category, field: item };
-    }
+    let event: SelectItemEvent = { category, item };
     this._isOpen = false;
     this.itemSelected.emit(event);
   }
@@ -168,8 +167,8 @@ export class DropdownSelectComponent implements OnChanges {
   }
 
   toggleCategorySubField(cat: Category) {
-    this.expandedCategories[cat.id] = !this.expandedCategories[cat.id];
-    this._expandedByUser[cat.id] = this.expandedCategories[cat.id];
+    // this.expandedCategories[cat.id] = !this.expandedCategories[cat.id];
+    // this._expandedByUser[cat.id] = this.expandedCategories[cat.id];
   }
 
   clear() {
@@ -178,7 +177,7 @@ export class DropdownSelectComponent implements OnChanges {
 
   private getDisplayedItems() {
     return this.displayedCategories
-      .filter(cat => cat.isTheNoCategory || this.expandedCategories[cat.id])
+      // .filter(cat => this.expandedCategories[cat.id])
       .reduce<LeafItem[]>((prev, value) => prev.concat(value.children), []);
   }
 
@@ -218,15 +217,14 @@ export class DropdownSelectComponent implements OnChanges {
         id: '',
         text: '',
         children: items,
-        isTheNoCategory: true
       }];
     }
     this._inCategories = categories;
-    this._expandedByUser = {};
-    this.expandedCategories = {};
-    if (this._inCategories.length === 1) {
-      this.expandedCategories[categories[0].id] = true;
-    }
+    // this._expandedByUser = {};
+    // this.expandedCategories = {};
+    // if (this._inCategories.length === 1) {
+    //   this.expandedCategories[categories[0].id] = true;
+    // }
     this.updateDisplayedCategories();
   }
 
@@ -237,7 +235,7 @@ export class DropdownSelectComponent implements OnChanges {
       for (let category of this._inCategories) {
         for (let item of category.children) {
           if (item.id.toLocaleLowerCase() !== id.toLocaleLowerCase()) { continue; }
-          this.expandedCategories[category.id] = true;
+          // this.expandedCategories[category.id] = true;
           this.selectedItem = item;
           this.activeItem = item;
           return;
@@ -262,21 +260,20 @@ export class DropdownSelectComponent implements OnChanges {
         children: filtered,
         id: category.id,
         text: category.text,
-        isTheNoCategory: category.isTheNoCategory
       };
       if (filteredCategory.children.length > 0) {
         result.push(filteredCategory);
       }
     });
-    let expandedByUser = this._expandedByUser;
-    let expanded = this.expandedCategories;
+    // let expandedByUser = this._expandedByUser;
+    // let expanded = this.expandedCategories;
     // tslint:disable-next-line:forin
-    for (let id in expanded) {
-      expanded[id] = expandedByUser[id];
-    }
-    if (result.length === 1) {
-      expanded[result[0].id] = true;
-    }
+    // for (let id in expanded) {
+    //   expanded[id] = expandedByUser[id];
+    // }
+    // if (result.length === 1) {
+    //   expanded[result[0].id] = true;
+    // }
     this.displayedCategories = result;
     this.hasOptions = this.displayedCategories.length > 0;
   }

@@ -25,8 +25,9 @@
                 {{ expandedCategories[category.id] ? 'Alle verstecken' : 'Alle anzeigen' }}
               </span>-->
             </span>
-            <div class="dropdown-item-sub-list" [class.is-open]="expandedCategories[category.id]">
-              <template ngFor let-item let-index [ngForOf]="category.children">
+            <div class="dropdown-item-sub-list">
+              <!--[class.is-open]="expandedCategories[category.id]"-->
+              <template ngFor let-item let-index [ngForOf]="category.children" [ngForTemplate]="itemTemplate">
                 <span class="dropdown-item" [class.disabled]="item.disabled" (click)="onSelectItem(item, category)"
                   [ngClass]="{'dropdown-item--active': item === activeItem, 'no-hover-effect': index !== activeItem}"
                   (mousemove)="onItemHover(item)">
