@@ -6,7 +6,7 @@ export const de = {
     addLeft: 'Spalte links hinzufügen',
     addRight: 'Spalte rechts hinzufügen',
     subFields: 'Felder in der Spalte',
-    removeColumn: 'Diese Spalte entfernen',
+    removeColumn: 'Diese Spalte verstecken',
     typeToSearch: 'Tippen zum Suchen',
     noSubrows: 'Keine Unterreihe',
     showSubrows: 'weitere',
