@@ -11,7 +11,7 @@
     <a
       dropdown-open
       class="btn btn-sm btn-secondary dropdown-toggle"
-      [id]="column?.config.id + '-dropdown'">
+      [id]="column?.config.id + '-dropdown'">&#9660;
     </a>
 
     <ul class="dropdown-menu dropdown-menu-right" attr.aria-labelledby="{{column?.config.id}}-dropdown">
@@ -32,9 +32,7 @@
         </a>
       </li>
 
-      <!-- NOTE: do not display divider when adding columns is disabled -->
       <li *ngIf="!isSortingDisabled(column) && changeVisibility" class="divider dropdown-divider"></li>
-      <!-- NOTE: should it be disabled when there are no columns to add  -->
       <li *ngIf="changeVisibility">
         <a [class.disabled]="hasAllColumnsVisble" class="dropdown-item" (click)="onAddingAdjacentColumn(0)">
           {{ 'table.addLeft' | t}}
@@ -46,6 +44,15 @@
           {{ 'table.addRight' | t}}
         </a>
       </li>
+
+      <li *ngIf="changeVisibility">
+        <a
+        class="dropdown-item"
+        (click)="isLastColumn && onRemoveColumn(column?.config.id)">
+          {{ 'table.removeColumn' | t}}
+        </a>
+      </li>
+
 
       <li *ngIf="column?.config.subFields" class="divider dropdown-divider"></li>
       <li *ngIf="column?.config.subFields" class="dropdown-item-group" dropdown-not-closable-zone>
@@ -65,19 +72,6 @@
         </ul>
 
       </li>
-
-      <li *ngIf="changeVisibility" class="divider dropdown-divider"></li>
-      <li *ngIf="changeVisibility">
-        <!-- disable removing column if it's the last one  -->
-        <!-- NOTE: is there a better way how to indicate that -->
-        <a
-        [class.disabled]="visibleColumns.length === 1"
-        class="dropdown-item"
-        (click)="isLastColumn && onRemoveColumn(column?.config.id)">
-          {{ 'table.removeColumn' | t}}
-        </a>
-      </li>
-
     </ul>
   </div>
 </div>
