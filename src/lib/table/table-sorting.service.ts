@@ -10,7 +10,8 @@ export interface Sorting {
 export const sortingCompare: CompareFunctions = {
   number: (a: number, b: number): number => a - b,
   string: (a: string, b: string): number => {
-    if (typeof a === 'undefined') { return -1; }
+    if (!a) { return 1; }
+    if (!b) { return -1; }
     return a.localeCompare(b);
   },
   other: (a: any, b: any): number => {
