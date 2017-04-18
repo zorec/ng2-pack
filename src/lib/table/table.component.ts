@@ -135,8 +135,8 @@ export class TableComponent implements OnChanges, OnDestroy {
     private tableSortingService: TableSortingService,
     private tableInitService: TableInitService,
     private i18nService: I18nService,
-    private tableReducerService: TableReducerService,
     private changeDetectorRef: ChangeDetectorRef,
+    public tableReducerService: TableReducerService,
     public tableStateService: TableStateService,
   ) {
     this.addColumn = this.tableStateService.addColumn;
