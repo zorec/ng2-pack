@@ -20,6 +20,15 @@ export class ArrayCellComponent extends TdComponent implements OnInit {
   ngOnInit() {
   }
 
+  toggle(clickEvent: Event) {
+    clickEvent.stopPropagation();
+    this.showAll = !this.showAll;
+  }
+
+  isHiddenItem(index: number) {
+    return index > 0 && !this.showAll;
+  }
+
   get hasNoSubrows(): boolean {
     return this.subrows.length === 0;
   }

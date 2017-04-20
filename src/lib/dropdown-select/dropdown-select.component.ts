@@ -153,7 +153,6 @@ export class DropdownSelectComponent implements AfterViewInit, OnChanges, Contro
   }
 
   writeValue(initialValue: LeafItem | string): void {
-    console.log(initialValue);
     this.model = initialValue;
   }
 

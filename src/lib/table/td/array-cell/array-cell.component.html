@@ -1,6 +1,6 @@
 <div class="cell-list-items" [class.show-all]="showAll">
   <template ngFor let-subrow let-itemIndex="index" [ngForOf]="subrows" [ngForTemplate]="template">
-    <div class="cell-list-item" [class.cell-list-item--extended]="itemIndex > 0">
+    <div class="cell-list-item" [class.cell-list-item--extended]="isHiddenItem(itemIndex)">
       <iw-object-cell [object]="subrow" [column]="column"></iw-object-cell>
     </div>
   </template>
@@ -10,13 +10,12 @@
     <a
       class="cell-list-expand-toggle"
       [class.is-open]="showAll"
-      (click)="showAll = !showAll; $event.stopPropagation()">
-      <span class="icon icon-triangle-down"></span>
+      (click)="toggle($event)">
       <span *ngIf="showAll">
-        {{ 'table.hideSubrows' | t}}
+        &#x25B2; {{ 'table.hideSubrows' | t}}
       </span>
       <span *ngIf="!showAll">
-        {{subrows.length - 1}} {{ 'table.showSubrows' | t}}
+        &#x25BC; {{subrows.length - 1}} {{ 'table.showSubrows' | t}}
       </span>
     </a>
   </template>

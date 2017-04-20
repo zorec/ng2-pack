@@ -485,18 +485,6 @@ $result-table-border-color-outer: app-color(bluegray);
 
 .cell-list-expand-toggle {
   cursor: pointer;
-
-  .icon {
-    transform-origin: 50% 45%;
-    transition: transform 0.4s;
-  }
-
-  &.is-open {
-
-    .icon {
-      transform: rotate(180deg);
-    }
-  }
 }
 
 .ico-col-sort {
