@@ -73,6 +73,7 @@ export class DropdownSelectComponent implements AfterViewInit, OnChanges, Contro
   model: LeafItem | string;
   selectedItem: LeafItem | undefined;
   activeItem: LeafItem;
+  isFakeCategory = false;
 
   private _previousCategories: Item[];
   private _previousModel: LeafItem | string;
@@ -230,6 +231,7 @@ export class DropdownSelectComponent implements AfterViewInit, OnChanges, Contro
     let anyItems = this.items || [];
     let categories: Category[];
     if (anyItems.length > 0 && (<Category>anyItems[0]).children) { // we have Category[]
+      this.isFakeCategory = false;
       categories = (<Category[]>anyItems).map(c => {
         return {
           id: c.id,
@@ -249,6 +251,7 @@ export class DropdownSelectComponent implements AfterViewInit, OnChanges, Contro
       } else {
         items = <LeafItem[]>anyItems;
       }
+      this.isFakeCategory = true;
       categories = [{
         id: '',
         text: '',

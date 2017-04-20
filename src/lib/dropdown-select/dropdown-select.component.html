@@ -18,7 +18,7 @@
       <div class="dropdown-item-list">
         <template ngFor let-category [ngForOf]="displayedCategories">
           <div class="dropdown-item-group">
-            <span class="dropdown-header" *ngIf="!category.isTheNoCategory">
+            <span class="dropdown-header" *ngIf="!isFakeCategory">
               <span class="dropdown-header-text" (click)="onSelectCategory(category)">
                 {{ category.text || category.id }} ({{category.children.length}})
               </span>
