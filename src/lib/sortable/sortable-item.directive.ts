@@ -44,6 +44,7 @@ export class SortableItemDirective {
   onDragStart(dragEvent: DragEvent) {
     if (this.disableSorting) { return; }
     dragEvent.dataTransfer.effectAllowed = 'move';
+    dragEvent.dataTransfer.setData('text', '');
     dragSource = this;
     originalNextSibling = this.elementRef.nativeElement.nextSibling;
   }
