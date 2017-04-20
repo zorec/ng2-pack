@@ -1,3 +1,4 @@
+import { FormatColumnPipe } from './../../pipes/format-column.pipe';
 import { ColumnState } from './../../column-state.class';
 import { TdComponent } from './../td.component';
 import { Component, ContentChild, Input, OnInit, TemplateRef } from '@angular/core';
@@ -5,7 +6,10 @@ import { Component, ContentChild, Input, OnInit, TemplateRef } from '@angular/co
 @Component({
   selector: 'iw-array-cell',
   templateUrl: './array-cell.component.html',
-  styleUrls: ['./array-cell.component.css']
+  styleUrls: ['./array-cell.component.css'],
+  providers: [
+    FormatColumnPipe,
+  ]
 })
 export class ArrayCellComponent extends TdComponent implements OnInit {
   @Input() subrows: any;

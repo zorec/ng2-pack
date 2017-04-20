@@ -34,7 +34,6 @@ import {
   Inject,
   OnChanges,
   OnDestroy,
-  OpaqueToken,
   Output,
   TemplateRef,
   Renderer,
