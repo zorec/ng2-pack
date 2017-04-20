@@ -1,6 +1,6 @@
-<div class="dropdown" dropdown>
+<div class="iw-table-dropdown" dropdown>
   <a  dropdown-open>{{row[column.config.id].length}}  studies</a>
-  <div class="dropdown-menu">
+  <div class="iw-table-dropdown-menu">
     <div class="dropdown-content" *ngFor="let subrow of row[column.config.id]" >
       <div class="cell-list-item" dropdown-not-closable-zone>
         <strong *ngIf="isSubColumnVisible('faculty')" >
