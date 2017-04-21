@@ -1,4 +1,4 @@
-<template ngFor let-row let-rowIndex="index" [ngForOf]="rows" [ngForTemplate]="template">
+<template ngFor let-row let-rowIndex="index" [ngForOf]="rows" [ngForTemplate]="bodyRowTemplate">
   <tr>
     <template ngFor let-columnName [ngForOf]="visibleColumns" let-columnIndex="index">
       <td *ngIf="addingColumnIndex == columnIndex" class="combo-td"></td>

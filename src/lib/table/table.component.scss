@@ -35,9 +35,6 @@ $_color-gray-x-dark: #4d4d4d;
 This must be included because library users may have incompatible version of Bootstrap
 or no Bootstrap at all.
 */
-.iw-table-dropdown {
-  position: absolute;
-}
 
 .iw-table-dropdown-toggle {
   cursor: pointer;

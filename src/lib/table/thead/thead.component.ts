@@ -109,6 +109,8 @@ export class TheadComponent implements OnChanges, OnInit {
     return this.tableStateService.initialSortColumn;
   }
 
+  @Input() headerRowTemplate: any;
+
   get columnsLookup(): ColumnLookup {
     return this.tableStateService.columnsLookup;
   }

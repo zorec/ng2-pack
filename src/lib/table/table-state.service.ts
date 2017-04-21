@@ -43,7 +43,8 @@ export class TableStateService {
 
   }
 
-  get hasAllColumnsVisible() {
+  get hasAllColumnsVisible(): boolean {
+    if (!this.visibleColumns) { return true; }
     return this.visibleColumns.length === this.columnsConfig.length;
   }
 

@@ -69,6 +69,8 @@ export class TbodyComponent implements OnChanges, OnInit {
     return this.tableStateService.columnsLookup;
   }
 
+  @Input() bodyRowTemplate: any;
+
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
   @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
 

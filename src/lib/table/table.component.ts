@@ -27,7 +27,6 @@ import {
   Component,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
-  ContentChild,
   ElementRef,
   EventEmitter,
   Input,
@@ -110,6 +109,11 @@ export class TableComponent implements OnChanges, OnDestroy {
     return this.tableStateService.initialSortColumn;
   }
 
+  // templates
+  @Input() tableTemplate: any;
+  @Input() headerRowTemplate: any;
+  @Input() bodyRowTemplate: any;
+
   get columnsLookup(): ColumnLookup {
     return this.tableStateService.columnsLookup;
   }
@@ -124,7 +128,6 @@ export class TableComponent implements OnChanges, OnDestroy {
   @Output() rowClick: EventEmitter<RowClickEvent>;
   @Output() editCell: EventEmitter<EditCellEvent>;
 
-  @ContentChild(TemplateRef) template: any;
   // simulate multiple elements in order to render
   // custom template with ngForTemplate
   tables = [1];

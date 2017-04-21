@@ -1,3 +1,4 @@
+import { SortableModule } from './../lib/sortable/sortable.module';
 import { TableExtensionModule } from './../lib/table-extension/table-extension.module';
 import {PipesModule} from './../lib/pipes/pipes.module';
 import {TableModule} from '../lib/table/';
@@ -17,6 +18,7 @@ import { DropdownModule } from 'ngx-dropdown';
     TableExtensionModule,
     DropdownModule,
     PipesModule,
+    SortableModule,
     DropdownSelectModule,
   ],
   declarations: [
