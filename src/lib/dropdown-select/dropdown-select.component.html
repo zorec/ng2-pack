@@ -1,11 +1,12 @@
 <div class="dropdown" dropdown [class.open]="isOpen" (onOpen)="onOpen()" (onClose)="onClose()" >
   <span class="c-select" dropdown-open  tabindex="0"  >
-    <span (click)="clear()" *ngIf="selectedItem">&times;</span>
+    <span (click)="clear()" *ngIf="isRemoveDisplayed">&times;</span>
     {{ itemText || placeholder }}
   </span>
 
     <div class="dropdown-menu" attr.aria-labelledby="query-builder-filter-menu">
     <input
+      dropdown-not-closable-zone
       #searchInput
       class="dropdown-search"
       type="text"

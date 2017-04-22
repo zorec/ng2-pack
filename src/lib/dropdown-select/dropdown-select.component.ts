@@ -45,7 +45,7 @@ const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   selector: 'iw-dropdown-select',
   templateUrl: 'dropdown-select.component.html',
   styleUrls: ['./dropdown-select.component.scss'],
-  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
+  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
 })
 export class DropdownSelectComponent implements AfterViewInit, OnChanges, ControlValueAccessor {
   @Input() items: Item[];
@@ -81,7 +81,7 @@ export class DropdownSelectComponent implements AfterViewInit, OnChanges, Contro
   displayedCategories: Category[];
   hasOptions: boolean;
   searchQuery: string;
-  _isOpen: boolean;
+  _isOpen: boolean = false;
   propagateChange = (_: any) => {};
 
   constructor(private renderer: Renderer) { }
@@ -97,11 +97,7 @@ export class DropdownSelectComponent implements AfterViewInit, OnChanges, Contro
   }
 
   ngAfterViewInit() {
-    if (this.focusSearch && this.searchInput) {
-      setTimeout(() => {
-        this.renderer.invokeElementMethod(this.searchInput.nativeElement, 'focus');
-      }, 0);
-    }
+    this.activateFocus();
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -152,8 +148,13 @@ export class DropdownSelectComponent implements AfterViewInit, OnChanges, Contro
     return this.selectedItem && this.selectedItem.text;
   }
 
+  get isRemoveDisplayed() {
+    return (this.allowClear && this.selectedItem);
+  }
+
   writeValue(initialValue: LeafItem | string): void {
     this.model = initialValue;
+    this.updateSelectedItem();
   }
 
   registerOnChange(fn: any) {
@@ -175,17 +176,20 @@ export class DropdownSelectComponent implements AfterViewInit, OnChanges, Contro
   onSelectItem(item: LeafItem, category: Category) {
     if (item.disabled) { return; }
     this.selectedItem = item;
-    this.propagateChange(item);
+    this.propagateChange(item.id);
     let event: SelectItemEvent = { category, item };
     this._isOpen = false;
     this.itemSelected.emit(event);
   }
 
   onOpen() {
+    this._isOpen = true;
+    this.activateFocus();
     this.open.emit();
   }
 
   onClose() {
+    this._isOpen = false;
     this.close.emit();
   }
 
@@ -209,6 +213,12 @@ export class DropdownSelectComponent implements AfterViewInit, OnChanges, Contro
   clear() {
     this.propagateChange(undefined);
     this.selectedItem = undefined;
+  }
+
+  private activateFocus() {
+    if (this.focusSearch && this.searchInput) {
+      this.renderer.invokeElementMethod(this.searchInput.nativeElement, 'focus');
+    }
   }
 
   private getDisplayedItems() {
