@@ -26,3 +26,6 @@ script:
   - ng build --aot true
   - ng lint
   - ng test --watch false
+  - yarn run prepare-demo-deploy
+  - git status
+  - git checkout gh-pages
