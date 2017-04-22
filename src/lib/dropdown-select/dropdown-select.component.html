@@ -1,14 +1,14 @@
-<div class="dropdown" dropdown [class.open]="isOpen" (onOpen)="onOpen()" (onClose)="onClose()" >
+<div dropdown [class.open]="isOpen" (onOpen)="onOpen()" (onClose)="onClose()" >
   <span class="c-select" dropdown-open  tabindex="0"  >
     <span (click)="clear()" *ngIf="isRemoveDisplayed">&times;</span>
     {{ itemText || placeholder }}
   </span>
 
-    <div class="dropdown-menu" attr.aria-labelledby="query-builder-filter-menu">
+    <div class="dropdown-select-menu" attr.aria-labelledby="query-builder-filter-menu">
     <input
       dropdown-not-closable-zone
       #searchInput
-      class="dropdown-search"
+      class="dropdown-select-search"
       type="text"
       placeholder="Suchen"
       [ngModel]="searchQuery"
@@ -16,18 +16,18 @@
       (ngModelChange)="search($event)"
       />
 
-      <div class="dropdown-item-list">
+      <div class="dropdown-select-item-list">
         <template ngFor let-category [ngForOf]="displayedCategories">
-          <div class="dropdown-item-group">
-            <span class="dropdown-header" *ngIf="!isFakeCategory">
-              <span class="dropdown-header-text" (click)="onSelectCategory(category)">
+          <div class="dropdown-select-item-group">
+            <span class="dropdown-select-header" *ngIf="!isFakeCategory">
+              <span class="dropdown-select-header-text" (click)="onSelectCategory(category)">
                 {{ category.text || category.id }} ({{category.children.length}})
               </span>
             </span>
-            <div class="dropdown-item-sub-list">
+            <div class="dropdown-select-item-sub-list">
               <template ngFor let-item let-index [ngForOf]="category.children" [ngForTemplate]="itemTemplate">
-                <span class="dropdown-item" [class.disabled]="item.disabled" (click)="onSelectItem(item, category)"
-                  [ngClass]="{'dropdown-item--active': item === activeItem, 'no-hover-effect': index !== activeItem}"
+                <span class="dropdown-select-item" [class.disabled]="item.disabled" (click)="onSelectItem(item, category)"
+                  [ngClass]="{'dropdown-select-item--active': item === activeItem, 'no-hover-effect': index !== activeItem}"
                   (mousemove)="onItemHover(item)">
                     {{ item.text || item.id }}
                 </span>

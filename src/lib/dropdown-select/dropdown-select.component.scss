@@ -1,6 +1,6 @@
 .c-select {
   // should it be applied elsewhere
-  min-width: 200px;
+  min-width: 150px;
 
   cursor: pointer;
   display: inline-block;
@@ -15,7 +15,54 @@
   -webkit-appearance: none;
 }
 
-.dropdown-item {
+/* Slightly modified style from Bootstrap.
+This must be included because library users may have incompatible version of Bootstrap
+or no Bootstrap at all.
+*/
+
+.dropdown-select-menu {
+  position: absolute;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 1rem;
+  color: #4d4d4d;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.dropdown-select-header {
+  cursor: default;
+  display: block;
+  padding: 3px 20px;
+  font-size: 12px;
+  line-height: 1.42857143;
+  color: #777;
+  white-space: nowrap;
+}
+
+.open {
+  // Show the menu
+  > .dropdown-select-menu {
+    display: block;
+  }
+
+  // Remove the outline when :focus is triggered
+  > a {
+    outline: 0;
+  }
+}
+
+.dropdown-select-item {
   cursor: pointer;
   display: block;
   width: 100%;
@@ -30,30 +77,28 @@
   border: 0;
 }
 
-.dropdown-item-group .dropdown-item {
+.dropdown-select-item-group .dropdown-select-item {
     padding-left: 35px;
 }
 
-.dropdown-item--active {
+.dropdown-select-item--active {
   color: #4d4d4d;
-  text-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
   background-color: #f5f5f5;
 }
 
-.dropdown-item:focus, .dropdown-item:hover {
-  text-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+.dropdown-select-item:focus, .dropdown-select-item:hover {
   color: #404040;
   text-decoration: none;
   background-color: #f5f5f5;
 }
 
-.dropdown-search {
+.dropdown-select-search {
   width: 100%;
   padding-left: 10px;
 }
 
 
-.dropdown-toggle.c-select {
+.dropdown-select-toggle.c-select {
   text-decoration: none;
 
   &:after {
@@ -61,18 +106,17 @@
   }
 }
 
-.dropdown-item.disabled, .dropdown-item.disabled:focus, .dropdown-item.disabled:hover {
+.dropdown-select-item.disabled, .dropdown-select-item.disabled:focus, .dropdown-select-item.disabled:hover {
   color: #b3b3b3;
   cursor: not-allowed;
 }
 
-.dropdown-item {
+.dropdown-select-item {
   &:hover:not(.no-hover-effect) {
   }
 }
 
 .no-hover-effect {
   color: black;
-  text-shadow: none;
   background: transparent;
 }

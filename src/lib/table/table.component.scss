@@ -39,19 +39,6 @@ or no Bootstrap at all.
 .iw-table-dropdown-toggle {
   cursor: pointer;
 
-  // Generate the caret automatically
-  &::after {
-    display: inline-block;
-    width: 0;
-    height: 0;
-    vertical-align: middle;
-    color: white;
-    content: "";
-    border-top: 0.3em solid;
-    border-right: 0.3em solid transparent;
-    border-left: 0.3em solid transparent;
-  }
-
   // Prevent the focus on the dropdown toggle when closing dropdowns
   &:focus {
     outline: 0;
@@ -104,12 +91,12 @@ or no Bootstrap at all.
   background-color: #f5f5f5;
 }
 
-.iw-table-dropdown-item.active {
-  color: #fff;
-  text-decoration: none;
-  background-color: #1aa0d8;
-  outline: 0;
-}
+// .iw-table-dropdown-item.active {
+//   color: #fff;
+//   text-decoration: none;
+//   background-color: #1aa0d8;
+//   outline: 0;
+// }
 
 .iw-table-dropdown-item.disabled, .iw-table-dropdown-item.disabled:focus, .iw-table-dropdown-item.disabled:hover {
   color: #b3b3b3;
