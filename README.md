@@ -1,9 +1,6 @@
 # Ng2Pack
 
-A collection of components/utilities designed for data-intensive tables.  
-See DEMO here: https://zorec.github.io/ng2-pack/
-
-This library provides APIs with different levels of abstraction. The highest abstraction gives you the most comfort. In the case you need more flexibility, you can switch to lower API. If that is not enough, you access even lower-level API. See the examples below for the illustration.
+A collection of components/utilities designed for data-intensive tables.
 
 This library is currently under the development so API may change. Please feel free to open issues not only for bug reports, but also for ideas, comments, and questions (support requests). We would love to hear your feedback.
 
@@ -13,76 +10,87 @@ You can install the package with yarn or npm.
 yarn add ng2-pack
 ```
 
-Then just import the table module from 'ng2-pack'.
+Then import the table module from 'ng2-pack'.
 
 ```ts
-import { AppComponent } from './app.component';
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { TableModule } from 'ng2-pack';
+// import your other modules (AppComponent, BrowserModule, ...) 
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule,
     TableModule,
-    // other modules ...
+    // add other modules...
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
 ```
 
+We recommend that you install some CSS framework (e.g. Bootstrap) to enhance the style of the table.
+<!-- NOTE: describe styling -->
+
 ## Getting Started
 We follow the philosophy "convention over configuration" to make it easier for you to get started. You can see it from the first code snippet.
+
+> NOTE: The examples in the [demo app](https://zorec.github.io/ng2-pack/) correspond to the following code snippets.
+
 <!-- NOTE: add gif -->
 
-0. **Prepare your data** &mdash; an array of objects (a.k.a. rows). Each row object can contain a nested object or an array of objects with simple data types (in other words, two levels of nesting are allowed).
-1. **Pass the data as `rows` input**. Other attributes have intelligent defaults.
-```html
-<iw-table #table [rows]="[{
+0. **Prepare your data** &mdash; an array of objects (a.k.a. rows). Each row object can contain a nested object or an array of objects with simple data types (in other words, two levels of nesting are allowed). For example:
+```js
+let rows = [{
     name: 'Alan',
-    studies: [{university: 'TUM', …}, …],
-    address: {country: 'cz', …},
-}, …]">
-</iw-table>
+    studies: [{
+      university: 'TUM', 
+      // additional attributes (degree, specialization, …)
+    }, 
+    // more study subrows 
+    ],
+    address: {
+      country: 'cz', 
+      // city, postal code …
+    },
+  }, 
+  // more rows…
+]
+```
+1. **Pass the data to `rows` input**. Other attributes have intelligent defaults.
+```html
+<iw-table #table [rows]="rows"></iw-table>
 <!-- HINT: You can display how the column configuration was initialized: <pre>{{ table.columnsConfig | json }} </pre>   -->
 ```
-2. **Adjust according to your needs**. The most important attribute is the column configuration since the initialized values may not be exactly what you want. See the Table API section for the description of all input attributes and output events.
+2. **Adjust according to your needs**. The most important attribute is the column configuration since the initialized values may not be exactly what you want. See the [Table API section](https://github.com/zorec/ng2-pack#table-api-inputs) for the description of all input attributes and output events.
 
 ```html
 <iw-table
   [rows]="rows"
   [columnsConfig]="columnsConfig"
   [visibleColumns]="visibleColumns"
-  reorderingEnabled="true"
   rowsSortingMode="external"
-  changeColumnVisibility="true"
   language="de"
   initialSortColumn="firstName"
-  (rowClick)="onAction($event, 'Row click at position [' + $event.rowIndex  + ' , ' + $event.columnIndex + ']')"
-  (sortColumnInit)="onAction($event, 'Sort init!')"
-  (sortColumn)="onAction($event, 'Column `' + $event.column + '` was sorted in the direction `' + $event.direction + '`')"
-  (addingColumn)="onAction($event, 'Column is being added at position ' + $event.index)"
-  (addColumn)="onAction($event, 'Column ' + $event.column + ' was added')"
-  (removeColumn)="onAction($event, 'Column ' + $event.column + ' was removed')"
-  (visibleColumnsChange)="onAction($event, 'Visible columns changed to: ' + $event)"
-  (editCell)="onAction($event, 'The cell in row ' + $event.rowIndex + ' and column ' + $event.column + ' was edited to value ' + $event.newValue)"
+  (rowClick)="onAction($event)"
+  (sortColumnInit)="onAction($event)"
+  (sortColumn)="onAction($event)"
+  (addingColumn)="onAction($event)"
+  (addColumn)="onAction($event)"
+  (removeColumn)="onAction($event)"
+  (visibleColumnsChange)="onAction($event)"
   >
 </iw-table>
 ```
 
-### Additional (advanced) customizations
-
 <!--TODO: wiki page with integrations -->
-1. Activate extensions
+<!--NOTE: wiki page overriding dependencies -->
+3. Activate extensions
 ```html
 <iw-table [rows]="paginatedRows" [columnsConfig]="columnsConfig" rowsSortingMode="external">
 </iw-table>
 <iw-pagination #p [totalItems]="rows.length" (pageChange)="onPageChange(p.pageStart, p.pageEnd)" ></iw-pagination>
 ```
 
-2. **Customize with your templates** while using handy utilities and subcomponents. Here a custom template for body rows is defined. So that we can make table rows sortable (with directive `iwSortableItem`), and we use application-specific component to modify the look of a specific cell.
+4. **Customize with your templates** while using handy utilities and subcomponents. Here a custom template for body rows is defined. So that we can make table rows sortable (with directive `iwSortableItem`), and we use application-specific component to modify the look of a specific cell.
 ```html
 <iw-table
   [bodyRowTemplate]="bodyRowTemplate"
@@ -127,8 +135,11 @@ We follow the philosophy "convention over configuration" to make it easier for y
 -->
 
 <!--
+This library provides APIs with different levels of abstraction. The highest abstraction gives you the most comfort. In the case you need more flexibility, you can switch to lower API. If that is not enough, you access even lower-level API. See the examples below for the illustration.
 
 ### Design goals
+
+The main design goal was a very customizable data table library without sacrificing the ease of use.
 
 We value flexibility above all! In order to ensure it in various use cases:
   - Components accept a **wide range of inputs** and/or configuration.
@@ -148,14 +159,17 @@ We follow good practices and style guides:
 
 
 #### Table API: Inputs
-- **rows**: data to be displayed in the table rows. Type: Row. The only required input.
-- **columnsConfig**: Configuration of a table. Type?: ColumnConfig[]
+- **rows** Data to be displayed in the table rows. Type: Row. The only required input.
+- **columnsConfig**: Configuration of a table. Type?: ColumnConfig[].
 - **visibleColumns** Ids of initially visible columns in a table. Type?: string[]. Two-way data binding.
-- **reorderingEnabled** Enable/Disable drag&drop reordering of columns. Type: boolean
-- **changeColumnVisibility** Enable/Disable user to select which columns are visible. Type: boolean
-- **rowsSortingMode** By default, table rows are sorted client-side. You can use the external mode for server-side sorting. Lastly, the sorting of rows can be disabled completely (no sorting icons).  Type: 'default' | 'external' | 'disabled'
+- **reorderingEnabled** Enable/Disable drag&drop reordering of columns. Type: boolean.
+- **changeColumnVisibility** Enable/Disable user to select which columns are visible. Type: boolean.
+- **rowsSortingMode** By default, table rows are sorted client-side. You can use the external mode for server-side sorting. Lastly, the sorting of rows can be disabled completely (no sorting icons).  Type: 'default' | 'external' | 'disabled'.
 - **initialSortColumn** Set column to be sorted on initialization. Optionally put plus or minus sign to specify the sort direction. Type: string.
 - **language** The default is english ('en'), alternative language is German ('de').
+- **bodyRowTemplate** Specify a template to render for each body row.
+- **headerRowTemplate** Specify a template to render for table header row.
+- **tableTemplate** Specify a custom template for the whole table.
 
 #### Table API: Output events:
 
