@@ -1,6 +1,6 @@
-<template ngFor [ngForOf]="tables" [ngForTemplate]="tableTemplate">
+<ng-template ngFor [ngForOf]="tables" [ngForTemplate]="tableTemplate">
   <table class="iw-table table table-bordered table-striped">
     <thead iw-thead [headerRowTemplate]="headerRowTemplate"></thead>
     <tbody iw-tbody [bodyRowTemplate]="bodyRowTemplate"></tbody>
   </table>
-</template>
+</ng-template>

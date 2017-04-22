@@ -88,9 +88,9 @@
     [columnsConfig]="columnsConfig"
     [rows]="rows"
     #tableComponent>
-    <template #bodyRowTemplate let-row let-i="index">
+    <ng-template #bodyRowTemplate let-row let-i="index">
       <tr iwSortableItem>
-        <template ngFor let-columnName [ngForOf]="tableComponent.visibleColumns">
+        <ng-template ngFor let-columnName [ngForOf]="tableComponent.visibleColumns">
           <td
             [class]="isCustomField(columnName)"
             *ngIf="!isCustomField(columnName)"
@@ -104,10 +104,10 @@
               [column]="tableComponent.columnsLookup['studies']">
           </iw-studies-cell>
           </td>
-        </template>
+        </ng-template>
         <td *ngIf="tableComponent.changeColumnVisibility"></td>
       </tr>
-    </template>
+    </ng-template>
   </iw-table>
 </div>
 
@@ -120,7 +120,7 @@
     <th>Last name</th>
     <th>ID</th>
   </tr>
-  <template ngFor let-person [ngForOf]="rows" let-index="index">
+  <ng-template ngFor let-person [ngForOf]="rows" let-index="index">
     <tr iwSortableItem dropArea="rows">
       <td>{{index}}</td>
       <td>{{person.salutation}}</td>
@@ -128,6 +128,6 @@
       <td>{{person.lastName}}</td>
       <td>{{person.id}}</td>
     </tr>
-  </template>
+  </ng-template>
 </table>
 -->

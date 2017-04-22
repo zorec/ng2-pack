@@ -1,5 +1,5 @@
 <tr>
-  <template  ngFor let-columnName [ngForOf]="visibleColumns" let-columnIndex="index" [ngForTemplate]="headerRowTemplate">
+  <ng-template  ngFor let-columnName [ngForOf]="visibleColumns" let-columnIndex="index" [ngForTemplate]="headerRowTemplate">
     <th *ngIf="addingColumnIndex == columnIndex" class="combo-th">
       <div class="add-column combobox is-active">
         <iw-add-column
@@ -19,7 +19,7 @@
       (sortablePreview)="onDragPreview($event)"
       (sortableDragEnd)="onDragEnd()">
     </th>
-  </template>
+  </ng-template>
   <th *ngIf="changeColumnVisibility" class="combo-th">
     <div class="add-column combobox" [ngClass]="lastColumnComboboxActive ? 'is-active' : 'is-inactive'">
       <iw-add-column

@@ -1,6 +1,6 @@
-<template ngFor let-row let-rowIndex="index" [ngForOf]="rows" [ngForTemplate]="bodyRowTemplate">
+<ng-template ngFor let-row let-rowIndex="index" [ngForOf]="rows" [ngForTemplate]="bodyRowTemplate">
   <tr>
-    <template ngFor let-columnName [ngForOf]="visibleColumns" let-columnIndex="index">
+    <ng-template ngFor let-columnName [ngForOf]="visibleColumns" let-columnIndex="index">
       <td *ngIf="addingColumnIndex == columnIndex" class="combo-td"></td>
       <td
         (click)="onRowClick(rowIndex, row, columnIndex, columnName)"
@@ -12,9 +12,9 @@
         [class.is-sorted]="isSorted(column(columnName))"
       >
       </td>
-    </template>
+    </ng-template>
 
     <!-- empty td for combobox -->
     <td *ngIf="changeColumnVisibility" class="combo-td"></td>
   </tr>
-</template>
+</ng-template>

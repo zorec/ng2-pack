@@ -1,12 +1,12 @@
 <div class="cell-list-items" [class.show-all]="showAll">
-  <template ngFor let-subrow let-itemIndex="index" [ngForOf]="subrows" [ngForTemplate]="template">
+  <ng-template ngFor let-subrow let-itemIndex="index" [ngForOf]="subrows" [ngForTemplate]="template">
     <div class="cell-list-item" [class.cell-list-item--extended]="isHiddenItem(itemIndex)">
       <iw-object-cell [object]="subrow" [column]="column"></iw-object-cell>
     </div>
-  </template>
+  </ng-template>
   <span *ngIf="hasNoSubrows">{{ 'table.noSubrows' | t }}</span>
 
-  <template [ngIf]="hasMultipleSubrows">
+  <ng-template [ngIf]="hasMultipleSubrows">
     <a
       class="cell-list-expand-toggle"
       [class.is-open]="showAll"
@@ -18,5 +18,5 @@
         &#x25BC; {{subrows.length - 1}} {{ 'table.showSubrows' | t}}
       </span>
     </a>
-  </template>
+  </ng-template>
 </div>

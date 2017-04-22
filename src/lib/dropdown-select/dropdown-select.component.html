@@ -17,7 +17,7 @@
       />
 
       <div class="dropdown-select-item-list">
-        <template ngFor let-category [ngForOf]="displayedCategories">
+        <ng-template ngFor let-category [ngForOf]="displayedCategories">
           <div class="dropdown-select-item-group">
             <span class="dropdown-select-header" *ngIf="!isFakeCategory">
               <span class="dropdown-select-header-text" (click)="onSelectCategory(category)">
@@ -25,16 +25,16 @@
               </span>
             </span>
             <div class="dropdown-select-item-sub-list">
-              <template ngFor let-item let-index [ngForOf]="category.children" [ngForTemplate]="itemTemplate">
+              <ng-template ngFor let-item let-index [ngForOf]="category.children" [ngForTemplate]="itemTemplate">
                 <span class="dropdown-select-item" [class.disabled]="item.disabled" (click)="onSelectItem(item, category)"
                   [ngClass]="{'dropdown-select-item--active': item === activeItem, 'no-hover-effect': index !== activeItem}"
                   (mousemove)="onItemHover(item)">
                     {{ item.text || item.id }}
                 </span>
-              </template>
+              </ng-template>
             </div>
           </div>
-        </template>
+        </ng-template>
       </div>
       <div class="fill-rest"></div>
     </div>

@@ -97,9 +97,9 @@ let rows = [{
   [columnsConfig]="columnsConfig"
   [rows]="rows"
   #tableComponent>
-  <template #bodyRowTemplate let-row let-i="index">
+  <ng-template #bodyRowTemplate let-row let-i="index">
     <tr iwSortableItem>
-      <template ngFor let-columnName [ngForOf]="tableComponent.visibleColumns">
+      <ng-template ngFor let-columnName [ngForOf]="tableComponent.visibleColumns">
         <td
           [class]="isCustomField(columnName)"
           *ngIf="!isCustomField(columnName)"
@@ -113,10 +113,10 @@ let rows = [{
             [column]="tableComponent.columnsLookup['studies']">
         </iw-studies-cell>
         </td>
-      </template>
+      </ng-template>
       <td *ngIf="tableComponent.changeColumnVisibility"></td>
     </tr>
-  </template>
+  </ng-template>
 </iw-table>
 ```
 <!-- NOTE: do not use method isCustomField -->
