@@ -17,7 +17,14 @@ export class TableExampleService {
     {id: 'salutation', sortType: 'string', category: this.categories.person},
     {id: 'firstName', sortType: 'string', category: this.categories.person},
     {id: 'lastName', sortType: 'string', category: this.categories.person},
-    {id: 'birthday', sortType: 'number', category: this.categories.person},
+    {
+      id: 'birthday',
+      sortType: 'number',
+      category: this.categories.person,
+      formatters: [
+        this.datePipe
+      ]
+    },
     {id: 'email', sortType: 'string', category: this.categories.contact},
     {id: 'phone', sortType: 'string', category: this.categories.contact},
     {

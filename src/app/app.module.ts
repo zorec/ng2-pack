@@ -7,6 +7,7 @@ import {StudiesCellComponent} from './table-example/studies-cell.component';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { DropdownSelectModule } from './../lib/dropdown-select/dropdown-select.module';
 import { DropdownModule } from 'ngx-dropdown';
@@ -20,6 +21,7 @@ import { DropdownModule } from 'ngx-dropdown';
     PipesModule,
     SortableModule,
     DropdownSelectModule,
+    FormsModule
   ],
   declarations: [
     AppComponent,

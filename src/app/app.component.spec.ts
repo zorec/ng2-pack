@@ -1,9 +1,5 @@
-import { PipesModule } from './../lib/pipes/pipes.module';
-import {StudiesCellComponent} from './table-example/studies-cell.component';
-import {TableModule} from './../lib/table/table.module';
-import { TableExtensionModule } from './../lib/table-extension/table-extension.module';
+import { AppModule } from './app.module';
 /* tslint:disable:no-unused-variable */
-import { FormsModule } from '@angular/forms';
 
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
@@ -11,15 +7,8 @@ import { AppComponent } from './app.component';
 describe('App: Ng2Pack', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent,
-        StudiesCellComponent
-      ],
       imports: [
-        FormsModule,
-        TableModule,
-        PipesModule,
-        TableExtensionModule
+       AppModule,
       ],
       providers: [
       ]
@@ -38,7 +27,7 @@ describe('App: Ng2Pack', () => {
     expect(app.title).toEqual('Data Table');
   }));
 
-  xit('should render title in a h1 tag', async(() => {
+  it('should render title in a h1 tag', async(() => {
     let fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     let compiled = fixture.debugElement.nativeElement;

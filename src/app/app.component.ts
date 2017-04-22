@@ -22,6 +22,15 @@ export class AppComponent {
   customizedFields = ['studies'];
   actionList: string[] = [];
 
+  demoExamples = [
+    {id: 'simple', text: '1. Simple usage'},
+    {id: 'all-options', text: '2. Simple usage with small adjustments.'},
+    {id: 'extension', text: '3. Table extensions'},
+    {id: 'custom-template', text: '4. Custom template'},
+  ];
+  active = 'all-options';
+
+
   private pageStart = 0;
   private pageEnd = 10;
 

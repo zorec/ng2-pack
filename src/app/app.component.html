@@ -1,81 +1,116 @@
 <h1>
-  Data table component
+  Data Table
 </h1>
 
-<a href="https://github.com/zorec/ng2-pack/blob/refactor/state-management/src/app/app.component.html">
-  The source code of this demo is located here.
-</a>
-
-<h3>1. Convention over configuration</h3>
-<p>There is only one required input &mdash; rows data attribute. Columns configuration is detected according to row keys and values of rows. All row keys are visible by default.</p>
-<iw-table [rows]="rows"></iw-table>
-
-<!-- NOTE: language should be set globally -->
-<h3>2. Customization with all available inputs and outputs</h3>
 <p>
-  Default values can be overwritten. Here is a component with all inputs and outputs. In console, you can see the details for each triggered event.
+  This demo application demonstrates the examples from README (in the same order).
+  <a href="https://github.com/zorec/ng2-pack/blob/refactor/state-management/src/app/app.component.html">
+    The source code is located here.
+  </a>
 </p>
-<div>
-  <p *ngFor="let action of actionList">{{action}}</p>
+
+<label for="demo-selection">
+  Select an example:
+</label>
+<iw-dropdown-select
+  id="demo-selection"
+  [allowClear]="false"
+  [items]="demoExamples"
+  [(ngModel)]="active">
+</iw-dropdown-select>
+<br>
+
+
+<div [hidden]="active !== 'simple'">
+  <p>
+    This table was initialized purely from the random data without any additional configuration.
+  </p>
+  <iw-table [rows]="rows"></iw-table>
+
+  The random data:
+  <pre>
+    {{rows | json}}
+  </pre>
 </div>
-<iw-table
-  [rows]="rows"
-  [columnsConfig]="columnsConfig"
-  [visibleColumns]="visibleColumns"
-  reorderingEnabled="true"
-  rowsSortingMode="external"
-  changeColumnVisibility="true"
-  language="de"
-  initialSortColumn="firstName"
-  (rowClick)="onAction($event, 'Row click at position [' + $event.rowIndex  + ' , ' + $event.columnIndex + ']')"
-  (sortColumnInit)="onAction($event, 'Sort init!')"
-  (sortColumn)="onAction($event, 'Column `' + $event.column + '` was sorted in the direction `' + $event.direction + '`')"
-  (addingColumn)="onAction($event, 'Column is being added at position ' + $event.index)"
-  (addColumn)="onAction($event, 'Column ' + $event.column + ' was added')"
-  (removeColumn)="onAction($event, 'Column ' + $event.column + ' was removed')"
-  (visibleColumnsChange)="onAction($event, 'Visible columns changed to: ' + $event)"
-  (editCell)="onAction($event, 'The cell in row ' + $event.rowIndex + ' and column ' + $event.column + ' was edited to value ' + $event.newValue)"
-  >
-</iw-table>
 
+<div [hidden]="active !== 'all-options'">
+  <ul>
+    <li>We are listening to all events and printing summary above the table. The details (event name and object) is also printed in the console.</li>
+    <li>Visible columns are limited to {{visibleColumns | json}}</li>
+    <li>Sorting is switched to external (back-end) mode (note that the server-side sorting is not implemented for the demo so the results will simply not be sorted).</li>
+    <li>...</li>
+  </ul>
+  <div>
+    <b>Event summary:</b>
+    <p *ngFor="let action of actionList">{{action}}</p>
+  </div>
+  <iw-table
+    [rows]="rows"
+    [columnsConfig]="columnsConfig"
+    [visibleColumns]="visibleColumns"
+    reorderingEnabled="true"
+    rowsSortingMode="external"
+    changeColumnVisibility="true"
+    language="de"
+    initialSortColumn="firstName"
+    (rowClick)="onAction($event, 'Row click at position [' + $event.rowIndex  + ' , ' + $event.columnIndex + ']')"
+    (sortColumnInit)="onAction($event, 'Sort init!')"
+    (sortColumn)="onAction($event, 'Column `' + $event.column + '` was sorted in the direction `' + $event.direction + '`')"
+    (addingColumn)="onAction($event, 'Column is being added at position ' + $event.index)"
+    (addColumn)="onAction($event, 'Column ' + $event.column + ' was added')"
+    (removeColumn)="onAction($event, 'Column ' + $event.column + ' was removed')"
+    (visibleColumnsChange)="onAction($event, 'Visible columns changed to: ' + $event)"
+    (editCell)="onAction($event, 'The cell in row ' + $event.rowIndex + ' and column ' + $event.column + ' was edited to value ' + $event.newValue)"
+    >
+  </iw-table>
+</div>
 
-<h3>3.A Custom template (customized table footer)</h3>
-You can provide a component template inside a iw-table element, where smaller composite directives can be used for not customized parts of the template. We use subcomponents 'iw-theader' and 'iw-tbody' to render table header and body.
-<iw-table [rows]="paginatedRows" [columnsConfig]="columnsConfig" rowsSortingMode="external">
-</iw-table>
-<iw-pagination #p [totalItems]="rows.length" (pageChange)="onPageChange(p.pageStart, p.pageEnd)" ></iw-pagination>
+<div [hidden]="active !== 'extension'">
+  <p>
+  The library is designed to be easily integrated with other external components, e.g. pagination.
+  </p>
+  <div>
+    <iw-pagination
+    #p
+    [totalItems]="rows.length"
+    [itemsPerPage]="5"
+    (pageChange)="onPageChange(p.pageStart, p.pageEnd)" ></iw-pagination>
+  </div>
+  <iw-table [rows]="paginatedRows" [columnsConfig]="columnsConfig" rowsSortingMode="external">
+  </iw-table>
+</div>
 
-<h3>3.B Custom template (Customized body cells)</h3>
-<p>
-  In this example, display of some cells is customized. We are using a public API of table component to get visibleColumns and get column state for specific a field.
-</p>
-<iw-table
-  [bodyRowTemplate]="bodyRowTemplate"
-  [columnsConfig]="columnsConfig"
-  [rows]="rows"
-  #tableComponent>
-  <template #bodyRowTemplate let-row let-i="index">
-    <tr iwSortableItem>
-      <template ngFor let-columnName [ngForOf]="tableComponent.visibleColumns">
-        <td
-          [class]="isCustomField(columnName)"
-          *ngIf="!isCustomField(columnName)"
-          iw-td
-          [column]="tableComponent.columnsLookup[columnName]"
-          [row]="row">
-        </td>
-        <td *ngIf="isCustomField(columnName)">
-          <iw-studies-cell
-            [row]="row"
-            [column]="tableComponent.columnsLookup['studies']">
-        </iw-studies-cell>
-        </td>
-      </template>
-      <td *ngIf="tableComponent.changeColumnVisibility"></td>
-    </tr>
-  </template>
-</iw-table>
-
+<div [hidden]="active !== 'custom-template'">
+  <p>
+    In this example, the look of the studies cell is customized with custom template defined by application (not the library). Table rows are also made sortable.
+  </p>
+  <iw-table
+    [bodyRowTemplate]="bodyRowTemplate"
+    [columnsConfig]="columnsConfig"
+    [rows]="rows"
+    #tableComponent>
+    <template #bodyRowTemplate let-row let-i="index">
+      <tr iwSortableItem>
+        <template ngFor let-columnName [ngForOf]="tableComponent.visibleColumns">
+          <td
+            [class]="isCustomField(columnName)"
+            *ngIf="!isCustomField(columnName)"
+            iw-td
+            [column]="tableComponent.columnsLookup[columnName]"
+            [row]="row">
+          </td>
+          <td *ngIf="isCustomField(columnName)">
+            <iw-studies-cell
+              [row]="row"
+              [column]="tableComponent.columnsLookup['studies']">
+          </iw-studies-cell>
+          </td>
+        </template>
+        <td *ngIf="tableComponent.changeColumnVisibility"></td>
+      </tr>
+    </template>
+  </iw-table>
+</div>
 
 <!-- NOTE: example for sortable utility -->
 <!--
