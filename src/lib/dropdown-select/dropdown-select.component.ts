@@ -62,7 +62,7 @@ export class DropdownSelectComponent implements AfterViewInit, OnChanges, Contro
   // NOTE: allow custom values?
   // @Input() allowCustom: boolean = false;
 
-  @Output() itemSelected: EventEmitter<any> = new EventEmitter<{ category: Category | undefined, item: LeafItem }>();
+  @Output() itemSelected: EventEmitter<any> = new EventEmitter<SelectItemEvent>();
   @Output() categorySelected: EventEmitter<Category> = new EventEmitter<Category>();
   @Output() open: EventEmitter<void> = new EventEmitter<void>();
   @Output() close: EventEmitter<void> = new EventEmitter<void>();

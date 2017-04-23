@@ -10,7 +10,7 @@
       #searchInput
       class="dropdown-select-search"
       type="text"
-      placeholder="Suchen"
+      [placeholder]="searchPlaceholder"
       [ngModel]="searchQuery"
       (blur)="onBlur()"
       (ngModelChange)="search($event)"
