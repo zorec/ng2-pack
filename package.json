@@ -32,7 +32,7 @@
     "ngx-dropdown": "0.0.22",
     "rxjs": "^5.1.0",
     "select2": "^4.0.3",
-    "zone.js": "^0.8.4"
+    "zone.js": "^0.8.8"
   },
   "devDependencies": {
     "@angular/cli": "^1.0.0",
