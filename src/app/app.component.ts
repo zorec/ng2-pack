@@ -28,7 +28,7 @@ export class AppComponent {
     {id: 'extension', text: '3. Table extensions'},
     {id: 'custom-template', text: '4. Custom template'},
   ];
-  active = 'all-options';
+  active = 'simple';
 
 
   private pageStart = 0;
