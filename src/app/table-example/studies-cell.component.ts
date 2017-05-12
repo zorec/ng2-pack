@@ -1,6 +1,6 @@
 import { Row } from './../../lib/table/types';
 import { FormatColumnPipe } from './../../lib/table/pipes/format-column.pipe';
-import { TdComponent } from './../../lib/table/td/td.component';
+import { TdComponent } from './../../lib/table/';
 import {ColumnState} from './../../lib/table';
 
 import {Component, Input} from '@angular/core';

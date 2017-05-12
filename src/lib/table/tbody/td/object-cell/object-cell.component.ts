@@ -1,6 +1,6 @@
-import { TableReducerService } from './../../table-reducer.service';
-import { SubFieldConfig } from './../../types';
-import { FormatColumnPipe } from './../../pipes/format-column.pipe';
+import { TableReducerService } from './../../../table-reducer.service';
+import { SubFieldConfig } from './../../../types';
+import { FormatColumnPipe } from './../../../pipes/format-column.pipe';
 import { TdComponent } from './../../td/td.component';
 
 import { Component, Input, ChangeDetectorRef, ChangeDetectionStrategy, OnInit } from '@angular/core';

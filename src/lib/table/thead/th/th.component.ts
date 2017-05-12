@@ -7,13 +7,13 @@ import {
   ToggleSubfieldEvent,
   TableEvent,
   TableEventType
-} from './../events';
-import {ColumnConfig, SortDirection, SortingMode} from './../types';
-import { TheadComponent } from './../thead/thead.component';
-import {ColumnState} from './../column-state.class';
-import {TableComponent} from './../table.component';
-import { TableReducerService } from './../table-reducer.service';
-import { TableStateService } from './../table-state.service';
+} from './../../events';
+import {ColumnConfig, SortDirection, SortingMode} from './../../types';
+import { TheadComponent } from '../thead.component';
+import {ColumnState} from './../../column-state.class';
+import {TableComponent} from './../../table.component';
+import { TableReducerService } from './../../table-reducer.service';
+import { TableStateService } from './../../table-state.service';
 
 import {
   ChangeDetectionStrategy,

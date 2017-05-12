@@ -1,7 +1,7 @@
 import { TableEvent, TableEventType } from './../events';
 import { TableReducerService } from './../table-reducer.service';
 import { TableStateService } from './../table-state.service';
-import {TdComponent} from './../td/td.component';
+import {TdComponent} from './td/td.component';
 import {ColumnConfig, ColumnLookup} from '../types';
 import {ColumnState} from './../column-state.class';
 import {EditCellEvent, RowClickEvent} from '../events';

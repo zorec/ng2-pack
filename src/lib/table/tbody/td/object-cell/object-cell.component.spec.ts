@@ -1,13 +1,12 @@
-import { ColumnState } from './../../column-state.class';
-import { TableModule } from './../../table.module';
+import { ColumnState } from './../../../column-state.class';
+import { TableModule } from './../../../table.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArrayCellComponent } from './array-cell.component';
+import { ObjectCellComponent } from './object-cell.component';
 
-
-describe('ArrayCellComponent', () => {
-  let component: ArrayCellComponent;
-  let fixture: ComponentFixture<ArrayCellComponent>;
+describe('ObjectCellComponent', () => {
+  let component: ObjectCellComponent;
+  let fixture: ComponentFixture<ObjectCellComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -17,9 +16,9 @@ describe('ArrayCellComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ArrayCellComponent);
+    fixture = TestBed.createComponent(ObjectCellComponent);
     component = fixture.componentInstance;
-    component.subrows = [{a: []}];
+    component.row = {a: {}};
     component.column = new ColumnState({id: 'a'});
     fixture.detectChanges();
   });

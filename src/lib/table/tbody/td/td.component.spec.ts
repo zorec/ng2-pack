@@ -1,4 +1,4 @@
-import {DefaultValuePipe} from './../../pipes/default-value/default-value.pipe';
+import {DefaultValuePipe} from './../../../pipes/default-value/default-value.pipe';
 import { TdComponent } from './td.component';
 /* tslint:disable:no-unused-variable */
 

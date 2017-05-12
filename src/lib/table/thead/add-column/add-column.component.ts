@@ -1,10 +1,10 @@
-import {ColumnConfig} from '../types';
-import { AddColumnEvent, TableEvent, TableEventType } from './../events';
-import {TableComponent} from './../table.component';
-import { TheadComponent } from './../thead/thead.component';
-import { LeafItem, Category, SelectItemEvent } from './../../dropdown-select/dropdown-select.component';
-import { TableReducerService } from './../table-reducer.service';
-import { TableStateService } from './../table-state.service';
+import {ColumnConfig} from '../../types';
+import { AddColumnEvent, TableEvent, TableEventType } from './../../events';
+import {TableComponent} from './../../table.component';
+import { TheadComponent } from '../thead.component';
+import { LeafItem, Category, SelectItemEvent } from './../../../dropdown-select/dropdown-select.component';
+import { TableReducerService } from './../../table-reducer.service';
+import { TableStateService } from './../../table-state.service';
 
 import {
   ChangeDetectorRef,

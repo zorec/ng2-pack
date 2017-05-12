@@ -1,7 +1,7 @@
-import { TableModule } from './../table.module';
-import { SortColumnEvent } from './../events';
-import {ColumnState} from './../column-state.class';
-import {TableComponent} from './../table.component';
+import { TableModule } from './../../table.module';
+import { SortColumnEvent } from './../../events';
+import {ColumnState} from './../../column-state.class';
+import {TableComponent} from './../../table.component';
 import { ThComponent } from './th.component';
 /* tslint:disable:no-unused-variable */
 /* tslint:global:describe,beforeEach,it */

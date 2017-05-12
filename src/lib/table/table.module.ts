@@ -1,11 +1,11 @@
 import {TableComponent} from './table.component';
 import {TheadComponent} from './thead/thead.component';
 import {TbodyComponent} from './tbody/tbody.component';
-import {AddColumnComponent} from './add-column/add-column.component';
-import {TdComponent} from './td/td.component';
-import {ThComponent} from './th/th.component';
-import { ArrayCellComponent } from './td/array-cell/array-cell.component';
-import { ObjectCellComponent } from './td/object-cell/object-cell.component';
+import {AddColumnComponent} from './thead/add-column/add-column.component';
+import {ThComponent} from './thead/th/th.component';
+import {TdComponent} from './tbody/td/td.component';
+import { ArrayCellComponent } from './tbody/td/array-cell/array-cell.component';
+import { ObjectCellComponent } from './tbody/td/object-cell/object-cell.component';
 import {PipesModule} from './../pipes/';
 import {DefaultValuePipe} from './../pipes/default-value/default-value.pipe';
 import {FormatColumnPipe} from './pipes/format-column.pipe';

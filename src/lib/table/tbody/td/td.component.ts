@@ -1,6 +1,6 @@
-import { TableReducerService } from './../table-reducer.service';
-import {ColumnState} from './../column-state.class';
-import {FormatColumnPipe} from './../pipes/format-column.pipe';
+import { TableReducerService } from './../../table-reducer.service';
+import {ColumnState} from './../../column-state.class';
+import {FormatColumnPipe} from './../../pipes/format-column.pipe';
 
 import {
   ChangeDetectorRef,

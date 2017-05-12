@@ -4,6 +4,23 @@ A collection of components/utilities designed for data-intensive tables.
 
 This library is currently under the development so API may change. Please feel free to open issues not only for bug reports, but also for ideas, comments, and questions (support requests). We would love to hear your feedback.
 
+The main design goal is **adaptability**. A library should adapt to you, not vice versa. You should be able to get started quickly thanks to high abstraction components favoring convention over configuration. If you need more control, you can (gradually) get it from the library.
+
+<!--Regardless whether you are just getting started or know the library well already, -->
+
+1. **Convention over configuration** - Despite many inputs and configuration options, you should be able to get running quickly because sensible defaults are predefined, implied or computed.
+<!--1. **Declarativness** - Similarly as the Angular framework itself, we try to be as declarative as possible. Whenever it makes sense. -->
+
+1. **API layers** This library provides APIs with different levels of abstraction. The highest abstraction gives you the most comfort. In the case you need more flexibility, you can switch to lower API. If that is not enough, you access even lower-level API. 
+
+
+My experience
+- you start to use a library. So far, everything's great. 
+- you use it for some time
+- new requirement comes in
+- you have to replace the component
+
+
 ## Installation
 You can install the package with yarn or npm.
 ```bash
@@ -135,7 +152,6 @@ let rows = [{
 -->
 
 <!--
-This library provides APIs with different levels of abstraction. The highest abstraction gives you the most comfort. In the case you need more flexibility, you can switch to lower API. If that is not enough, you access even lower-level API. See the examples below for the illustration.
 
 ### Design goals
 
@@ -152,9 +168,8 @@ We follow good practices and style guides:
 
 - **Well-tested**: Both comprehensive test suite and usability testing are necessary to verify that the components work as expected.
 - **Testable** Your application should be tested as well and this library will not stand in your way, just the opposite.
-- **Convention over configuration**: You should have an easy start despite many inputs and configuration. Intelligent defaults are provided.-->
 
-<!-- There are many other important characteristics (e.g. performance) that are not mentioned here as a main characteristic, but not neglected.
+There are many other important characteristics (e.g. performance) that are not mentioned here as a main characteristic, but not neglected.
 -->
 
 

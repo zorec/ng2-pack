@@ -1,5 +1,5 @@
-import { FormatColumnPipe } from './../../pipes/format-column.pipe';
-import { ColumnState } from './../../column-state.class';
+import { FormatColumnPipe } from './../../../pipes/format-column.pipe';
+import { ColumnState } from './../../../column-state.class';
 import { TdComponent } from './../td.component';
 import { Component, ContentChild, Input, OnInit, TemplateRef } from '@angular/core';
 
