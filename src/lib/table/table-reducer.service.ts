@@ -93,15 +93,15 @@ export class TableReducerService {
   }
 
   onChanges(state: TableStateService) {
-    if (typeof state.columnsConfig !== 'undefined') {
+    if (state.columnsConfig) {
       state.columnsLookup = this.tableInitService.columnsConfig2Lookup(state.columnsConfig);
     }
-    const isWithoutData = (typeof state.rows === 'undefined' || state.rows.length === 0);
-    if (typeof state.columnsConfig === 'undefined' && !isWithoutData) {
+    const isWithoutData = (!state.rows || state.rows.length === 0);
+    if (!state.columnsConfig && !isWithoutData) {
       [state.columnsLookup, state.columnsConfig] =
         this.tableInitService.detectColumnConfiguration(state.rows);
     }
-    if (typeof state.visibleColumns === 'undefined' && typeof state.columnsLookup !== 'undefined') {
+    if (!state.visibleColumns && state.columnsLookup) {
       state.visibleColumns = Object.keys(state.columnsLookup);
     }
   }
