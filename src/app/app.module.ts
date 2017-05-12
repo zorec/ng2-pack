@@ -1,5 +1,5 @@
+import { PaginationModule } from './../lib/pagination/pagination.module';
 import { SortableModule } from './../lib/sortable/sortable.module';
-import { TableExtensionModule } from './../lib/table-extension/table-extension.module';
 import {PipesModule} from './../lib/pipes/pipes.module';
 import {TableModule} from '../lib/table/';
 import {AppComponent} from './app.component';
@@ -16,7 +16,7 @@ import { DropdownModule } from 'ngx-dropdown';
   imports: [
     BrowserModule,
     TableModule,
-    TableExtensionModule,
+    PaginationModule,
     DropdownModule,
     PipesModule,
     SortableModule,

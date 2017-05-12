@@ -1,6 +1,6 @@
 import { TableEvent, TableEventType } from './../lib/table/events';
 import { TableSortingService } from './../lib/table/table-sorting.service';
-import { PaginationComponent } from './../lib/table-extension/pagination/pagination.component';
+import { PaginationComponent } from './../lib/pagination/pagination.component';
 import {ColumnConfig, SortColumnEvent} from './../lib/table';
 import {TableExampleService} from './table-example/table-example.service';
 

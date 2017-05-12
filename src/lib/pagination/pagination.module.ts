@@ -1,4 +1,4 @@
-import { PaginationComponent } from './pagination/pagination.component';
+import { PaginationComponent } from './pagination.component';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,6 +17,6 @@ import { NgModule } from '@angular/core';
     PaginationComponent,
   ]
 })
-export class TableExtensionModule {
+export class PaginationModule {
 
 }
