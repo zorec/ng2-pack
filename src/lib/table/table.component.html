@@ -1,6 +1,4 @@
-<ng-template ngFor [ngForOf]="tables" [ngForTemplate]="tableTemplate">
-  <table class="iw-table table table-bordered table-striped">
-    <thead iw-thead [headerRowTemplate]="headerRowTemplate"></thead>
-    <tbody iw-tbody [bodyRowTemplate]="bodyRowTemplate"></tbody>
-  </table>
-</ng-template>
+<table *ngIf="!tableTemplate; else tableTemplate" class="iw-table table table-bordered table-striped">
+  <thead iw-thead [headerRowTemplate]="headerRowTemplate"></thead>
+  <tbody iw-tbody [bodyRowTemplate]="bodyRowTemplate"></tbody>
+</table>

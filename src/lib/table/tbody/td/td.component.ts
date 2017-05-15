@@ -27,9 +27,6 @@ export class TdComponent implements OnInit {
 
   @ViewChild('contentDiv') contentDiv: ElementRef;
 
-  private _currentCellValue: any;
-  private _currentFormattedValue: any;
-
   constructor(
     protected formatColumnPipe: FormatColumnPipe,
     // protected tableReducerService: TableReducerService,

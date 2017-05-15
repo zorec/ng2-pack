@@ -37,7 +37,7 @@ export class TableStateService {
   toggleSubfield = new EventEmitter<ToggleSubfieldEvent>();
   visibleColumnsChange = new EventEmitter<string[]>();
   rowClick = new EventEmitter<RowClickEvent>();
-  editCell = new EventEmitter<EditCellEvent>();
+  // editCell = new EventEmitter<EditCellEvent>();
 
   constructor() {
 

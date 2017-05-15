@@ -8,17 +8,10 @@ The main design goal is **adaptability**. A library should adapt to you, not vic
 
 <!--Regardless whether you are just getting started or know the library well already, -->
 
-1. **Convention over configuration** - Despite many inputs and configuration options, you should be able to get running quickly because sensible defaults are predefined, implied or computed.
+<!--1. **Convention over configuration** - Despite many inputs and configuration options, you should be able to get running quickly because sensible defaults are predefined, implied or computed.-->
 <!--1. **Declarativness** - Similarly as the Angular framework itself, we try to be as declarative as possible. Whenever it makes sense. -->
 
-1. **API layers** This library provides APIs with different levels of abstraction. The highest abstraction gives you the most comfort. In the case you need more flexibility, you can switch to lower API. If that is not enough, you access even lower-level API. 
-
-
-My experience
-- you start to use a library. So far, everything's great. 
-- you use it for some time
-- new requirement comes in
-- you have to replace the component
+<!--1. **API layers** This library provides APIs with different levels of abstraction. The highest abstraction gives you the most comfort. In the case you need more flexibility, you can switch to lower API. If that is not enough, you access even lower-level API. -->
 
 
 ## Installation
@@ -175,7 +168,7 @@ There are many other important characteristics (e.g. performance) that are not m
 
 #### Table API: Inputs
 - **rows** Data to be displayed in the table rows. Type: Row. The only required input.
-- **columnsConfig**: Configuration of a table. Type?: ColumnConfig[].
+- **columnsConfig** Configuration of a table. Type?: ColumnConfig[].
 - **visibleColumns** Ids of initially visible columns in a table. Type?: string[]. Two-way data binding.
 - **reorderingEnabled** Enable/Disable drag&drop reordering of columns. Type: boolean.
 - **changeColumnVisibility** Enable/Disable user to select which columns are visible. Type: boolean.

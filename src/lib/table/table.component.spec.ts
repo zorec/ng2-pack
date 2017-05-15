@@ -2,9 +2,6 @@ import { TableModule } from './table.module';
 import { TableStateService } from './table-state.service';
 import { TableReducerService } from './table-reducer.service';
 import { RowClickEvent, TableEventType } from './events';
-import {I18nService} from './../services/i18n.service';
-import {TableInitService} from './table-init.service';
-import {TableSortingService} from './table-sorting.service';
 /* tslint:disable:no-unused-variable */
 import { TableComponent } from './table.component';
 

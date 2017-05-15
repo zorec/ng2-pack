@@ -15,17 +15,17 @@ import { Component, Input, ChangeDetectorRef, ChangeDetectionStrategy, OnInit } 
   ]
 })
 export class ObjectCellComponent extends TdComponent implements OnInit {
-  @Input() object: {[key: string]: string};
+  @Input() object: Object;
   @Input() hasPrefix = false;
+
+  get allSubfieldsHidden(): boolean {
+    return this.activeFields.length === 0;
+  }
 
   ngOnInit() {
     // this.tableReducerService.nextState.subscribe(() => {
     //   this.changeDetectorRef.markForCheck();
     // });
-  }
-
-  get allSubfieldsHidden(): boolean {
-    return this.activeFields.length === 0;
   }
 
   keyToSubcolumn(key: string): SubFieldConfig | undefined {

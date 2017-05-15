@@ -83,7 +83,7 @@ export class ThComponent implements OnInit {
   tableStateService: TableStateService;
   constructor(
     tableStateService: TableStateService,
-    private tableReducerService: TableReducerService,
+    public tableReducerService: TableReducerService,
     private changeDetectorRef: ChangeDetectorRef,
     @Optional() tableComponent: TableComponent,
     @Optional() theadComponent: TheadComponent

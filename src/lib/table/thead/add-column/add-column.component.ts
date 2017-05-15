@@ -37,7 +37,7 @@ export class AddColumnComponent implements OnChanges {
 
   constructor (
     tableStateService: TableStateService,
-    private tableReducerService: TableReducerService,
+    public tableReducerService: TableReducerService,
     @Optional() tableComponent: TableComponent,
     @Optional() theadComponent: TheadComponent,
     ) {

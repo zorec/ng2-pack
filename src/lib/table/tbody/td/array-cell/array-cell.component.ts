@@ -12,22 +12,10 @@ import { Component, ContentChild, Input, OnInit, TemplateRef } from '@angular/co
   ]
 })
 export class ArrayCellComponent extends TdComponent implements OnInit {
-  @Input() subrows: any;
+  @Input() subrows: Object[];
   @Input() column: ColumnState;
   @Input() showAll = false;
-  @ContentChild(TemplateRef) template: any;
-
-  ngOnInit() {
-  }
-
-  toggle(clickEvent: Event) {
-    clickEvent.stopPropagation();
-    this.showAll = !this.showAll;
-  }
-
-  isHiddenItem(index: number) {
-    return index > 0 && !this.showAll;
-  }
+  @ContentChild(TemplateRef) arrayItemTemplate: any;
 
   get hasNoSubrows(): boolean {
     return this.subrows.length === 0;
@@ -44,5 +32,17 @@ export class ArrayCellComponent extends TdComponent implements OnInit {
       return [this.subrows[0]];
     }
     return [];
+  }
+
+  ngOnInit() {
+  }
+
+  toggle(clickEvent: Event) {
+    clickEvent.stopPropagation();
+    this.showAll = !this.showAll;
+  }
+
+  isHiddenItem(index: number) {
+    return index > 0 && !this.showAll;
   }
 }

@@ -13,7 +13,6 @@ import {
   ChangeDetectionStrategy,
   ContentChild,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -72,14 +71,11 @@ export class TbodyComponent implements OnChanges, OnInit {
   @Input() bodyRowTemplate: any;
 
   @Output() rowClick: EventEmitter<RowClickEvent> = new EventEmitter<RowClickEvent>();
-  @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
-
-  @ContentChild(TemplateRef) template: any;
+  // @Output() editCell: EventEmitter<EditCellEvent> = new EventEmitter<EditCellEvent>();
 
   tableStateService: TableStateService;
 
   constructor(
-    private elementRef: ElementRef,
     private tableReducerService: TableReducerService,
     private changeDetectorRef: ChangeDetectorRef,
 
@@ -88,7 +84,7 @@ export class TbodyComponent implements OnChanges, OnInit {
   ) {
       this.tableStateService = (tableComponent && tableComponent.tableStateService) || tableStateService;
       this.rowClick = this.tableStateService.rowClick;
-      this.editCell = this.tableStateService.editCell;
+      // this.editCell = this.tableStateService.editCell;
   }
 
   ngOnInit() {
@@ -119,6 +115,7 @@ export class TbodyComponent implements OnChanges, OnInit {
     });
   }
 
+  /*
   onEditCell(tdComponent: TdComponent, rowIndex: number) {
     if (!tdComponent.isChanged || !tdComponent.column) { return; }
     let editCellEvent: EditCellEvent = {
@@ -130,6 +127,7 @@ export class TbodyComponent implements OnChanges, OnInit {
     };
     this.editCell.emit(editCellEvent);
   }
+  */
 
   private dispatch(event: TableEvent) {
     this.tableReducerService.reduce(this.tableStateService, event);

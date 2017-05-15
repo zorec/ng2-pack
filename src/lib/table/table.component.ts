@@ -19,15 +19,11 @@ import {
 import {ColumnState} from './column-state.class';
 import { TableStateService } from './table-state.service';
 import { TableReducerService } from './table-reducer.service';
-import {I18nService} from './../services/i18n.service';
-import {TableInitService} from './table-init.service';
-import {TableSortingService} from './table-sorting.service';
 
 import {
   Component,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
-  ElementRef,
   EventEmitter,
   Input,
   Inject,
@@ -126,17 +122,9 @@ export class TableComponent implements OnChanges, OnDestroy {
   @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent>;
   @Output() visibleColumnsChange: EventEmitter<string[]>;
   @Output() rowClick: EventEmitter<RowClickEvent>;
-  @Output() editCell: EventEmitter<EditCellEvent>;
-
-  // simulate multiple elements in order to render
-  // custom template with ngForTemplate
-  tables = [1];
+  // @Output() editCell: EventEmitter<EditCellEvent>;
 
   constructor(
-    private elementRef: ElementRef,
-    private tableSortingService: TableSortingService,
-    private tableInitService: TableInitService,
-    private i18nService: I18nService,
     private changeDetectorRef: ChangeDetectorRef,
     public tableReducerService: TableReducerService,
     public tableStateService: TableStateService,
@@ -149,7 +137,7 @@ export class TableComponent implements OnChanges, OnDestroy {
     this.visibleColumnsChange = this.tableStateService.visibleColumnsChange;
     this.sortColumnInit = this.tableStateService.sortColumnInit;
     this.rowClick = this.tableStateService.rowClick;
-    this.editCell = this.tableStateService.editCell;
+    // this.editCell = this.tableStateService.editCell;
   }
 
   ngOnChanges(arg: any) {

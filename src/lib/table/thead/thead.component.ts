@@ -28,8 +28,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChild,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -74,18 +72,18 @@ export class TheadComponent implements OnChanges, OnInit {
     return this.tableStateService.reorderingEnabled;
   }
 
-  @Input() set addingColumnIndex(addingIndex: number | undefined) {
-    this.tableStateService.addingColumnIndex = addingIndex;
-  }
-  get addingColumnIndex() {
-    return this.tableStateService.addingColumnIndex;
-  }
-
   @Input() set changeColumnVisibility(visibility: boolean) {
     this.tableStateService.changeColumnVisibility = visibility;
   }
   get changeColumnVisibility() {
     return this.tableStateService.changeColumnVisibility;
+  }
+
+  @Input() set addingColumnIndex(addingIndex: number | undefined) {
+    this.tableStateService.addingColumnIndex = addingIndex;
+  }
+  get addingColumnIndex() {
+    return this.tableStateService.addingColumnIndex;
   }
 
   @Input() set rowsSortingMode(mode: SortingMode) {
@@ -119,7 +117,9 @@ export class TheadComponent implements OnChanges, OnInit {
     return this.lastColumnComboboxActive || this.addingColumnIndex === this.visibleColumns.length;
   }
 
-  @ContentChild(TemplateRef) template: any;
+  get hasAllColumnsVisible(): boolean {
+    return this.tableStateService.hasAllColumnsVisible;
+  }
 
   @Output() addingColumn: EventEmitter<AddingColumnEvent>;
   @Output() addColumn: EventEmitter<AddColumnAtPositionEvent>;
@@ -129,14 +129,13 @@ export class TheadComponent implements OnChanges, OnInit {
   @Output() toggleSubfield: EventEmitter<ToggleSubfieldEvent>;
   @Output() visibleColumnsChange: EventEmitter<string[]>;
 
-  lastColumnComboboxActive: boolean = false;
-  visibleColumnsBeforePreview: string[];
-  tableStateService: TableStateService;
+  private lastColumnComboboxActive: boolean = false;
+  private visibleColumnsBeforePreview: string[];
+  public tableStateService: TableStateService;
 
   constructor(
-    private elementRef: ElementRef,
     private changeDetectorRef: ChangeDetectorRef,
-    private tableReducerService: TableReducerService,
+    public tableReducerService: TableReducerService,
     tableStateService: TableStateService,
     @Optional() tableComponent: TableComponent
   ) {
@@ -162,10 +161,6 @@ export class TheadComponent implements OnChanges, OnInit {
     if (!this.tableReducerService.skipNext) {
       this.onSortColumnInit();
     }
-  }
-
-  get hasAllColumnsVisible(): boolean {
-    return this.tableStateService.hasAllColumnsVisible;
   }
 
   column(columnName: string): ColumnState {
