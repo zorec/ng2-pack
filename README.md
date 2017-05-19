@@ -13,7 +13,6 @@ The main design goal is **adaptability**. A library should adapt to you, not vic
 
 <!--1. **API layers** This library provides APIs with different levels of abstraction. The highest abstraction gives you the most comfort. In the case you need more flexibility, you can switch to lower API. If that is not enough, you access even lower-level API. -->
 
-
 ## Installation
 You can install the package with yarn or npm.
 ```bash

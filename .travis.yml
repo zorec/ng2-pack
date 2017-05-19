@@ -23,6 +23,6 @@ before_script:
   - ng build
 
 script:
+  - ng test --watch false
   - ng build --aot true
   - ng lint
-  - ng test --watch false

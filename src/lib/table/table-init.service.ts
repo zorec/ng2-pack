@@ -5,8 +5,14 @@ import { Injectable } from '@angular/core';
 
 const MAX_DETECT_COUNT = 1;
 
+export interface Initializable {
+  detectColumnConfiguration(rows: Row[]): [ColumnLookup, ColumnConfig[]];
+  columnsConfig2Lookup(columnsConfig: ColumnConfig[]): ColumnLookup;
+}
+
+
 @Injectable()
-export class TableInitService {
+export class TableInitService implements Initializable {
 
   constructor(private datePipe: DatePipe) { }
 
@@ -15,7 +21,24 @@ export class TableInitService {
     return [columnsLookup, this.columnsLookup2Config(columnsLookup)];
   }
 
-  detectColumnLookup(rows: Row[]): ColumnLookup {
+  columnsConfig2Lookup(columnsConfig: ColumnConfig[]): ColumnLookup {
+    let columnsLookup: ColumnLookup = {};
+    columnsConfig.forEach((columnConfig) => {
+      let activeFields: string[] = [];
+      if (typeof columnConfig.subFields !== 'undefined') {
+        activeFields = columnConfig.subFields
+          .filter((subfield) => subfield.isVisible)
+          .map((subfield) => subfield.id);
+      }
+      let columnState = new ColumnState(columnConfig);
+      columnState.activeFields = activeFields;
+      columnsLookup[columnConfig.id] = columnState;
+    });
+
+    return columnsLookup;
+  }
+
+  private detectColumnLookup(rows: Row[]): ColumnLookup {
     let columnsLookup: ColumnLookup = {};
     rows.forEach((row, index) => {
       if (index >= MAX_DETECT_COUNT) {
@@ -58,24 +81,7 @@ export class TableInitService {
     return columnsLookup;
   }
 
-  columnsConfig2Lookup(columnsConfig: ColumnConfig[]): ColumnLookup {
-    let columnsLookup: ColumnLookup = {};
-    columnsConfig.forEach((columnConfig) => {
-      let activeFields: string[] = [];
-      if (typeof columnConfig.subFields !== 'undefined') {
-        activeFields = columnConfig.subFields
-          .filter((subfield) => subfield.isVisible)
-          .map((subfield) => subfield.id);
-      }
-      let columnState = new ColumnState(columnConfig);
-      columnState.activeFields = activeFields;
-      columnsLookup[columnConfig.id] = columnState;
-    });
-
-    return columnsLookup;
-  }
-
-  columnsLookup2Config(columnsLookup: ColumnLookup): ColumnConfig[] {
+  private columnsLookup2Config(columnsLookup: ColumnLookup): ColumnConfig[] {
     let columnsConfig: ColumnConfig[] = [];
     for (let columnName in columnsLookup) {
       if (columnsLookup.hasOwnProperty(columnName)) {

@@ -18,6 +18,10 @@ import { TableStateService } from './table-state.service';
 
 import { Injectable, EventEmitter } from '@angular/core';
 
+export interface Reducable {
+  reduce(state: TableStateService, event: TableEvent): void;
+}
+
 @Injectable()
 export class TableReducerService {
   nextState = new EventEmitter<void>();

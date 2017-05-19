@@ -3,8 +3,8 @@ import {CompareFunctions, Row} from './types';
 
 import {Injectable} from '@angular/core';
 
-export interface Sorting {
-  sort(rows: Row[], columnState: ColumnState): any[];
+export interface Sortable {
+  sort(rows: Row[], columnState: ColumnState): Row[];
 }
 
 export const sortingCompare: CompareFunctions = {
@@ -22,7 +22,7 @@ export const sortingCompare: CompareFunctions = {
 };
 
 @Injectable()
-export class TableSortingService {
+export class TableSortingService implements Sortable {
   sort(rows: Row[], columnState: ColumnState) {
     let sortType = columnState.config.sortType || 'other';
     let cmpFn = columnState.config.sortCompare || sortingCompare[sortType];

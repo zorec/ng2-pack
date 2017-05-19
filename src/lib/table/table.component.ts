@@ -107,6 +107,8 @@ export class TableComponent implements OnChanges, OnDestroy {
 
   // templates
   @Input() tableTemplate: any;
+  // @Input() headerTemplate: any;
+  // @Input() bodyTemplate: any;
   @Input() headerRowTemplate: any;
   @Input() bodyRowTemplate: any;
 
