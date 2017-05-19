@@ -1,3 +1,4 @@
+import { TableConfigService } from './table-config.service';
 import {
   ColumnConfig,
   ColumnLookup,
@@ -27,6 +28,7 @@ import {
   EventEmitter,
   Input,
   Inject,
+  InjectionToken,
   OnChanges,
   OnDestroy,
   Output,
@@ -40,16 +42,15 @@ import {
   selector: 'iw-table',
   templateUrl: 'table.component.html',
   styleUrls: ['./table.component.scss'],
-  // TODO: enable encapsulation again
   encapsulation: ViewEncapsulation.None,
   providers: [
     TableStateService,
     TableReducerService,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: TableConfigService.strategy,
 })
 export class TableComponent implements OnChanges, OnDestroy {
-  @Input() set rows(rows: Row[]) {
+   @Input() set rows(rows: Row[]) {
     this.tableStateService.rows = rows;
   }
   get rows() {

@@ -1,3 +1,4 @@
+import { TableConfigService } from './../table-config.service';
 import {
   ColumnConfig,
   ColumnLookup,
@@ -41,7 +42,7 @@ import {
   selector: '[iw-thead]',
   templateUrl: 'thead.component.html',
   styleUrls: ['./thead.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: TableConfigService.strategy,
 })
 export class TheadComponent implements OnChanges, OnInit {
   @Input() set rows(rows: Row[]) {

@@ -9,7 +9,7 @@ import { Component, Input, ChangeDetectorRef, ChangeDetectionStrategy, OnInit } 
   selector: 'iw-object-cell',
   templateUrl: './object-cell.component.html',
   styleUrls: ['./object-cell.component.css'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: TableConfigService.strategy,
   providers: [
     FormatColumnPipe
   ]

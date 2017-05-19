@@ -16,7 +16,7 @@ import {
   selector: '[iw-td]',
   templateUrl: 'td.component.html',
   styleUrls: ['./td.component.css'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: TableConfigService.strategy,
   providers: [
     FormatColumnPipe,
   ],

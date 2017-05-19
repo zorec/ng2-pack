@@ -1,3 +1,4 @@
+import { TableConfigService } from './../../table-config.service';
 import {
   AdjacentDirection,
   AddingAdjacentEvent,
@@ -31,7 +32,7 @@ import {
   selector: '[iw-th]',
   templateUrl: 'th.component.html',
   styleUrls: ['./th.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: TableConfigService.strategy,
 
 })
 export class ThComponent implements OnInit {

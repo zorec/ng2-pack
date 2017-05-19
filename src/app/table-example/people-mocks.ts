@@ -74,5 +74,4 @@ export let generatePeople = (numberOfRecords: number) => {
   }
   return people;
 };
-
 export let people = generatePeople(20);

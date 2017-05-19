@@ -1,3 +1,4 @@
+import { TableConfigService } from './../table-config.service';
 import { TableEvent, TableEventType } from './../events';
 import { TableReducerService } from './../table-reducer.service';
 import { TableStateService } from './../table-state.service';
@@ -26,7 +27,7 @@ import {
   selector: '[iw-tbody]',
   templateUrl: 'tbody.component.html',
   styleUrls: ['./tbody.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: TableConfigService.strategy,
 })
 export class TbodyComponent implements OnChanges, OnInit {
   @Input() set rows(rows: any[]) {

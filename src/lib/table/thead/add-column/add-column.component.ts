@@ -1,3 +1,4 @@
+import { TableConfigService } from './../../table-config.service';
 import {ColumnConfig} from '../../types';
 import { AddColumnEvent, TableEvent, TableEventType } from './../../events';
 import {TableComponent} from './../../table.component';
@@ -23,7 +24,7 @@ import {
   selector: 'iw-add-column',
   templateUrl: 'add-column.component.html',
   styleUrls: ['add-column.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: TableConfigService.strategy
 })
 export class AddColumnComponent implements OnChanges {
   @Input() visibleColumns: string[];

@@ -9,5 +9,6 @@ export * from './tbody/td/td.component';
 export * from './column-state.class';
 export * from './table-sorting.service';
 export * from './table-init.service';
+export * from './table-config.service';
 export * from './pipes/format-column.pipe';
 export * from './table.module';
