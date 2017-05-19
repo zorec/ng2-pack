@@ -1,4 +1,5 @@
 <table *ngIf="!tableTemplate; else tableTemplate" class="iw-table table table-bordered table-striped">
-  <thead iw-thead [headerRowTemplate]="headerRowTemplate"></thead>
-  <tbody iw-tbody [bodyRowTemplate]="bodyRowTemplate"></tbody>
+  <thead *ngIf="!headerTemplate; else headerTemplate" iw-thead [headerRowTemplate]="headerRowTemplate"></thead>
+  <tbody *ngIf="!bodyTemplate; else bodyTemplate" iw-tbody [bodyRowTemplate]="bodyRowTemplate"></tbody>
+  <tfoot *ngIf="footerTemplate; then footerTemplate"></tfoot>
 </table>
