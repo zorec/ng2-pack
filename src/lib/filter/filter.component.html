@@ -1,5 +1,7 @@
 <input
   type="text"
   [placeholder]="placeholder"
-  ngModel
-  (ngModelChange)="onFilter($event)">
+  ngModel="filterTerm"
+  (ngModelChange)="onFilter()">
+
+<button (click)="onFilter()" *ngIf="!instantFiltering">{{filterText}}</button>

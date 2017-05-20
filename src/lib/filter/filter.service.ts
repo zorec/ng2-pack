@@ -53,9 +53,7 @@ export class FilterService {
   // }
 
 
-  filterByTree(rows: any[], filterTree: FilterTree) {
-    console.log(filterTree);
-
+  filterByTree(rows: Object[], filterTree: FilterTree): Object[] {
     if (filterTree.filters.length === 0) {
         return rows;
     }

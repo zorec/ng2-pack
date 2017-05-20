@@ -7,17 +7,20 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./filter.component.css']
 })
 export class FilterComponent implements OnInit {
-  @Input() set rows(rows: Object[]) {
-    if (!rows) { return; }
-    this.allRows = rows;
-    this.filters = this.filterService.detectFilters(rows);
+  @Input() set records(records: Object[]) {
+    if (!records) { return; }
+    this.allRecords = records;
+    this.filters = this.filterService.detectFilters(records);
   }
-  @Input() placeholder = 'Type to search';
+  @Input() filterTerm: string;
+  @Input() instantFiltering = true;
+  @Input() placeholder = 'Type to filter';
+  @Input() filterText = 'filter';
   // @Input() callback: (item: any) => boolean;
   // @Input() classes = 'filter-input';
   @Output() filter = new EventEmitter<any[]>();
 
-  private allRows: Object[] = [];
+  private allRecords: Object[] = [];
   private filters: Filter[] = [];
 
 
@@ -26,13 +29,14 @@ export class FilterComponent implements OnInit {
   ngOnInit() {
   }
 
-  onFilter(term: string) {
+  onFilter() {
+    const term = this.filterTerm;
     this.applyValue(this.filters, term);
     let filterTree: FilterTree = {
       operator: 'or',
       filters: this.filters
     };
-    let filtered = this.filterService.filterByTree(this.allRows, filterTree);
+    let filtered = this.filterService.filterByTree(this.allRecords, filterTree);
     this.filter.emit(filtered);
   }
 
