@@ -2,16 +2,20 @@
 
 A collection of components/utilities designed for data-intensive tables.
 
-This library is currently under the development so API may change. Please feel free to open issues not only for bug reports, but also for ideas, comments, and questions (support requests). We would love to hear your feedback.
+This library is currently under the development. API may still change! Please feel free to open issues not only for bug reports but also for ideas, comments, and questions, a.k.a. support requests. We would love to hear your feedback.
 
-The main design goal is **adaptability**. A library should adapt to you, not vice versa. You should be able to get started quickly thanks to high abstraction components favoring convention over configuration. If you need more control, you can (gradually) get it from the library.
+<!--The main design goal is **adaptability**. A library should adapt to you, not vice versa. You should be able to get started quickly thanks to high abstraction components favoring convention over configuration. If you need more control, you can (gradually) get it from the library.-->
 
-<!--Regardless whether you are just getting started or know the library well already, -->
+There are several key characteristics of the library:
 
-<!--1. **Convention over configuration** - Despite many inputs and configuration options, you should be able to get running quickly because sensible defaults are predefined, implied or computed.-->
+1. **Levels of abstraction** This library provides components with a varying level of abstraction. The highest abstraction gives you the most comfort. In the case that you need more flexibility, you can switch to lower API. If that is not enough, you access even lower-level API. 
+
+1. **Convention over configuration** Despite many inputs and configuration options, you should be able to get running quickly because sensible defaults are preset or computed from the data. In some cases, even required inputs are automatically initialized for the subcomponents according to certain conventions. 
+
 <!--1. **Declarativness** - Similarly as the Angular framework itself, we try to be as declarative as possible. Whenever it makes sense. -->
 
-<!--1. **API layers** This library provides APIs with different levels of abstraction. The highest abstraction gives you the most comfort. In the case you need more flexibility, you can switch to lower API. If that is not enough, you access even lower-level API. -->
+1. **Fallback** You can gradually migrate out of the library abstraction. It happens that library's abstractions are in the way. In that case, you can get full control by providing a custom template. The library accepts custom templates of different granularity. 
+
 
 ## Installation
 You can install the package with yarn or npm.
@@ -23,13 +27,13 @@ Then import the table module from 'ng2-pack'.
 
 ```ts
 import { TableModule } from 'ng2-pack';
-// import your other modules (AppComponent, BrowserModule, ...) 
+// import other modules (AppComponent, BrowserModule, ...) 
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     TableModule,
-    // add other modules...
+    // list other modules...
   ],
   bootstrap: [AppComponent]
 })
@@ -37,6 +41,7 @@ export class AppModule { }
 ```
 
 We recommend that you install some CSS framework (e.g. Bootstrap) to enhance the style of the table.
+ <!--but it is optional. By default, the table element has these Bootstrap classes "table table-bordered table-striped". It is possible to change them. -->
 <!-- NOTE: describe styling -->
 
 ## Getting Started
