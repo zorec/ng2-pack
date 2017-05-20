@@ -21,11 +21,13 @@
 <br>
 
 
+<!--<iw-filter [rows]="rows" (filter)="filteredRows = $event"></iw-filter>-->
+
 <div [hidden]="active !== 'simple'">
   <p>
     This table was initialized purely from the random data without any additional configuration (the random data are printed below the table).
   </p>
-  <iw-table [rows]="rows"></iw-table>
+  <iw-table [rows]="filteredRows"></iw-table>
 
   The random data:
   <pre>

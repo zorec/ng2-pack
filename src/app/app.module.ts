@@ -1,5 +1,6 @@
 import { PaginationModule } from './../lib/pagination/pagination.module';
 import { SortableModule } from './../lib/sortable/sortable.module';
+import { FilterModule } from './../lib/filter/filter.module';
 import {PipesModule} from './../lib/pipes/pipes.module';
 import {TableModule} from '../lib/table/';
 import {AppComponent} from './app.component';
@@ -21,7 +22,8 @@ import { DropdownModule } from 'ngx-dropdown';
     PipesModule,
     SortableModule,
     DropdownSelectModule,
-    FormsModule
+    FormsModule,
+    FilterModule
   ],
   declarations: [
     AppComponent,

@@ -29,6 +29,7 @@ export class AppComponent {
     {id: 'custom-template', text: '4. Custom template'},
   ];
   active = 'simple';
+  filteredRows: any[] = [];
 
 
   private pageStart = 0;
@@ -39,6 +40,7 @@ export class AppComponent {
     private tableSortingService: TableSortingService) {
     this.columnsConfig = tableExampleService.columnsConfig;
     this.rows = tableExampleService.rows;
+    this.filteredRows = this.rows;
     this.onPageChange(this.pageStart, this.pageEnd);
   }
 
