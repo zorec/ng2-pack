@@ -82,7 +82,6 @@ let rows = [{
   [columnsConfig]="columnsConfig"
   [visibleColumns]="visibleColumns"
   rowsSortingMode="external"
-  language="de"
   initialSortColumn="firstName"
   (rowClick)="onAction($event)"
   (sortColumnInit)="onAction($event)"
@@ -178,7 +177,6 @@ There are many other important characteristics (e.g. performance) that are not m
 - **changeColumnVisibility** Enable/Disable user to select which columns are visible. Type: boolean.
 - **rowsSortingMode** By default, table rows are sorted client-side. You can use the external mode for server-side sorting. Lastly, the sorting of rows can be disabled completely (no sorting icons).  Type: 'default' | 'external' | 'disabled'.
 - **initialSortColumn** Set column to be sorted on initialization. Optionally put plus or minus sign to specify the sort direction. Type: string.
-- **language** The default is english ('en'), alternative language is German ('de').
 - **bodyRowTemplate** Specify a template to render for each body row.
 - **headerRowTemplate** Specify a template to render for table header row.
 - **tableTemplate** Specify a custom template for the whole table.

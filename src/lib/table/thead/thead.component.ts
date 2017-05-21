@@ -94,13 +94,6 @@ export class TheadComponent implements OnChanges, OnInit {
     return this.tableStateService.rowsSortingMode;
   }
 
-  @Input() set language(language: string) {
-    this.tableStateService.language = language;
-  }
-  get language() {
-    return this.tableStateService.language;
-  }
-
   @Input() set initialSortColumn(column: string | undefined) {
     this.tableStateService.initialSortColumn = column;
   }

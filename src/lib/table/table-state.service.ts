@@ -26,7 +26,6 @@ export class TableStateService {
   reorderingEnabled = true;
   rowsSortingMode: SortingMode = 'default';
   changeColumnVisibility = true;
-  language = 'en';
 
   // output events
   addingColumn = new EventEmitter<AddingColumnEvent>();

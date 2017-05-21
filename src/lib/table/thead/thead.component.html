@@ -29,7 +29,8 @@
         (selected)="onSelectNewColumn($event)"
       ></iw-add-column>
       <button
-        [title]="hasAllColumnsVisible ? ('table.noMoreColumns' | t) : ''"
+        i18n-title
+        [title]="hasAllColumnsVisible ? 'No more columns to add' : ''"
         [disabled]="hasAllColumnsVisible"
         [class.disabled]="hasAllColumnsVisible"
         *ngIf="!lastColumnComboboxActive"

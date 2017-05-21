@@ -9,7 +9,6 @@ import { ObjectCellComponent } from './tbody/td/object-cell/object-cell.componen
 import {PipesModule} from './../pipes/';
 import {DefaultValuePipe} from './../pipes/default-value/default-value.pipe';
 import {FormatColumnPipe} from './pipes/format-column.pipe';
-import {I18nService} from './../services/i18n.service';
 
 import {TableSortingService} from './table-sorting.service';
 import {TableInitService} from './table-init.service';
@@ -61,7 +60,6 @@ import { DropdownModule} from 'ngx-dropdown';
     TableInitService,
     TableStateService,
     TableReducerService,
-    I18nService,
     DefaultValuePipe,
     DatePipe
   ]

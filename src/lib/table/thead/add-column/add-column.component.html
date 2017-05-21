@@ -1,8 +1,11 @@
 <div class="combo-input-wrap">
   <iw-dropdown-select
-    [searchPlaceholder]="'table.typeToSearch' | t"
-    [placeholder]="'table.chooseColumn' | t"
-    [noOptionsMessage]="'table.noMoreColumns' | t"
+    i18n-searchPlaceholder
+    searchPlaceholder="Type to search"
+    i18n-placeholder
+    placeholder="Add a column"
+    i18n-noOptionsMessage
+    noOptionsMessage="No more columns to add"
     [items]="items"
     [isOpen]="open"
     (close)="onClose()"

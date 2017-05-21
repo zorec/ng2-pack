@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="2f828745e0ef5500652ee8b57c1e6b55af1eb605" datatype="html">
+        <source>
+          Sort
+          <x id="START_TAG_SPAN" ctype="x-span"/>0→9<x id="CLOSE_TAG_SPAN" ctype="x-span"/>
+          <x id="START_TAG_SPAN_1" ctype="x-span"/>A→Z<x id="CLOSE_TAG_SPAN" ctype="x-span"/>
+        </source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/lib/table/thead/th/th.component.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="efb043856e3f08f902df4efa5746192ce380df30" datatype="html">
+        <source>
+          Sort
+          <x id="START_TAG_SPAN" ctype="x-span"/>9→0<x id="CLOSE_TAG_SPAN" ctype="x-span"/>
+          <x id="START_TAG_SPAN_1" ctype="x-span"/>Z→A<x id="CLOSE_TAG_SPAN" ctype="x-span"/>
+        </source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/lib/table/thead/th/th.component.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0bd5e6fd710dbafad4461ea1a74d7614cd899d9a" datatype="html">
+        <source>
+          Add column to the left
+        </source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/lib/table/thead/th/th.component.ts</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3b1b9ec373ec5f144ef29756c8c7ecd3a6e04100" datatype="html">
+        <source>
+          Add column to the right
+        </source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/lib/table/thead/th/th.component.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="85a4619b2c4bec0d68a5800f9e967112f2a990ed" datatype="html">
+        <source>
+          Hide this column
+        </source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/lib/table/thead/th/th.component.ts</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bd6528837c4bce3759184a7eb50c36293642963f" datatype="html">
+        <source>Subfields in the column</source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/lib/table/thead/th/th.component.ts</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="06d89d48cfdcd846399ef6f6b86d31d8d98aab0e" datatype="html">
+        <source>Type to search</source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/lib/table/thead/add-column/add-column.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a206783497e8d328ee5f2fb44de60dc9bbe35552" datatype="html">
+        <source>Add a column</source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/lib/table/thead/add-column/add-column.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3aa7d8514476e066802779f17c41dbe5a43890cb" datatype="html">
+        <source>No more columns to add</source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/lib/table/thead/add-column/add-column.component.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c0704c014ff2f211a01bb82dd8b327faa9c3d86a" datatype="html">
+        <source>No items</source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/lib/table/tbody/td/array-cell/array-cell.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6e998fc06a19659c22cca43efa1b35515761cbb2" datatype="html">
+        <source>hide</source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/lib/table/tbody/td/array-cell/array-cell.component.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7f32abe3fc638f65c0d3eb269d478ee49ad41ebe" datatype="html">
+        <source>more</source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/lib/table/tbody/td/array-cell/array-cell.component.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -4,7 +4,7 @@
       <iw-object-cell [object]="subrow" [column]="column"></iw-object-cell>
     </div>
   </ng-template>
-  <span *ngIf="hasNoSubrows">{{ 'table.noSubrows' | t }}</span>
+  <span i18n *ngIf="hasNoSubrows">No items</span>
 
   <ng-template [ngIf]="hasMultipleSubrows">
     <a
@@ -12,10 +12,10 @@
       [class.is-open]="showAll"
       (click)="toggle($event)">
       <span *ngIf="showAll">
-        &#x25B2; {{ 'table.hideSubrows' | t}}
+        &#x25B2; <ng-container i18n>hide</ng-container>
       </span>
       <span *ngIf="!showAll">
-        &#x25BC; {{subrows.length - 1}} {{ 'table.showSubrows' | t}}
+        &#x25BC; {{subrows.length - 1}} <ng-container i18n>more</ng-container>
       </span>
     </a>
   </ng-template>
