@@ -2,7 +2,7 @@ import { TableConfigService } from './../../table-config.service';
 import {ColumnConfig} from '../../types';
 import { AddColumnEvent, TableEvent, TableEventType } from './../../events';
 import {TableComponent} from './../../table.component';
-import { TheadComponent } from '../thead.component';
+import { HeaderRowComponent } from '../header-row.component';
 import { LeafItem, Category, SelectItemEvent } from './../../../dropdown-select/dropdown-select.component';
 import { TableReducerService } from './../../table-reducer.service';
 import { TableStateService } from './../../table-state.service';
@@ -40,10 +40,10 @@ export class AddColumnComponent implements OnChanges {
     tableStateService: TableStateService,
     public tableReducerService: TableReducerService,
     @Optional() tableComponent: TableComponent,
-    @Optional() theadComponent: TheadComponent,
+    @Optional() headerRowComponent: HeaderRowComponent,
     ) {
       this.tableStateService = (tableComponent && tableComponent.tableStateService) ||
-        (theadComponent  && theadComponent.tableStateService) || tableStateService;
+        (headerRowComponent  && headerRowComponent.tableStateService) || tableStateService;
   }
 
   get columnsConfig() {

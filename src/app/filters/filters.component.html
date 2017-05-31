@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col col-2">Filter on any column</div>
+  <div class="col col-3">
+    <input type="text" (input)="filterAnyFields($event.target.value)">
+  </div>
+</div>
+<p>
+  <a href="#" (click)="advancedFiltering = !advancedFiltering">
+    {{advancedFiltering ? 'Hide ' : 'Show'}} advanced filtering
+  </a>
+</p>
+
+<div [hidden]="!advancedFiltering">
+  <div class="row">
+    <!--Radio to select filtering operator-->
+    <div class="col col-2">Filtering operator</div>
+    <div class="col col-3">
+      <label>
+        <input type="radio" name="operator" value="and" checked (change)="changeOperator('and')">
+        <span title="The results must match all entered filter conditions">AND</span>
+      </label>
+      <label>
+        <input type="radio" name="operator" value="or" (change)="changeOperator('or')">
+        <span title="Display a row if it matches any of the specified conditions">OR</span>
+      </label>
+      <br>
+    </div>
+  </div>
+  <br>
+  <!--Generate filters for each field-->
+  <ng-template ngFor let-filter [ngForOf]="filters">
+    <label class="row">
+      <div class="col col-2">{{getLabel(filter)}}</div>
+      <iw-filter-input class="col col-3" *ngIf="isSimpleFilter(filter); else complex" [filter]="filter" (change)="onFilterChange()"></iw-filter-input>
+
+      <ng-template #complex  class="col col-10">
+        <ng-template let-nestedFilter ngFor [ngForOf]="filter.filters">
+          &nbsp;&nbsp;&nbsp;{{nestedFilter.key}}&nbsp;
+          <iw-filter-input [filter]="nestedFilter" (change)="onNestedFilterChange(filter, nestedFilter)" ></iw-filter-input>
+        </ng-template>
+      </ng-template>
+    </label>
+
+    <br *ngIf="onNewLine">
+  </ng-template>
+
+</div>

@@ -1,3 +1,6 @@
+import { FiltersComponent } from './filters/filters.component';
+import { FilterService } from './../lib/filter/filter.service';
+import { FilterInputComponent } from './filter-input/filter-input.component';
 import { PaginationModule } from './../lib/pagination/pagination.module';
 import { SortableModule } from './../lib/sortable/sortable.module';
 import { FilterModule } from './../lib/filter/filter.module';
@@ -28,8 +31,12 @@ import { DropdownModule } from 'ngx-dropdown';
   declarations: [
     AppComponent,
     StudiesCellComponent,
+    FiltersComponent,
+    FilterInputComponent
   ],
-  providers: [],
+  providers: [
+    FilterService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,11 @@
+ <ng-container [ngSwitch]="filter.type">
+  <input type="text" *ngSwitchCase="FilterType.String" (input)="applyFilter(filter, $event.target.value)">
+  <input type="number" *ngSwitchCase="FilterType.Number" (input)="applyFilter(filter, $event.target.value)">
+  <input type="date" *ngSwitchCase="FilterType.Date" (input)="applyFilter(filter, $event.target.value)">
+  <input type="checkbox" *ngSwitchCase="FilterType.Checkbox" ngModel (ngModelChange)="applyFilter(filter, $event)">
+
+  <select *ngSwitchCase="FilterType.Enum" (change)="applyFilter(filter, $event.target.value)">
+    <option></option>
+    <option *ngFor="let option of itemsForField(filter)" [value]="option">{{option}}</option>
+  </select>
+</ng-container>

@@ -10,7 +10,7 @@ import {
   TableEventType
 } from './../../events';
 import {ColumnConfig, SortDirection, SortingMode} from './../../types';
-import { TheadComponent } from '../thead.component';
+import { HeaderRowComponent } from '../header-row.component';
 import {ColumnState} from './../../column-state.class';
 import {TableComponent} from './../../table.component';
 import { TableReducerService } from './../../table-reducer.service';
@@ -87,10 +87,10 @@ export class ThComponent implements OnInit {
     public tableReducerService: TableReducerService,
     private changeDetectorRef: ChangeDetectorRef,
     @Optional() tableComponent: TableComponent,
-    @Optional() theadComponent: TheadComponent
+    @Optional() headerRowComponent: HeaderRowComponent
   ) {
     this.tableStateService = (tableComponent && tableComponent.tableStateService) ||
-      (theadComponent && theadComponent.tableStateService) || tableStateService;
+      (headerRowComponent && headerRowComponent.tableStateService) || tableStateService;
     this.removeColumn = this.tableStateService.removeColumn;
     this.sortColumn = this.tableStateService.sortColumn;
     this.toggleSubfield = this.tableStateService.toggleSubfield;

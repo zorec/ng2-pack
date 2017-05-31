@@ -39,12 +39,12 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: '[iw-thead]',
-  templateUrl: 'thead.component.html',
-  styleUrls: ['./thead.component.css'],
+  selector: '[iw-header-row]',
+  templateUrl: 'header-row.component.html',
+  styleUrls: ['./header-row.component.css'],
   changeDetection: TableConfigService.strategy,
 })
-export class TheadComponent implements OnChanges, OnInit {
+export class HeaderRowComponent implements OnChanges, OnInit {
   @Input() set rows(rows: Row[]) {
     this.tableStateService.rows = rows;
   }

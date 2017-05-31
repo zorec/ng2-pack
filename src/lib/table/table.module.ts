@@ -1,8 +1,8 @@
 import {TableComponent} from './table.component';
-import {TheadComponent} from './thead/thead.component';
+import {HeaderRowComponent} from './header-row/header-row.component';
 import {TbodyComponent} from './tbody/tbody.component';
-import {AddColumnComponent} from './thead/add-column/add-column.component';
-import {ThComponent} from './thead/th/th.component';
+import {AddColumnComponent} from './header-row/add-column/add-column.component';
+import {ThComponent} from './header-row/th/th.component';
 import {TdComponent} from './tbody/td/td.component';
 import { ArrayCellComponent } from './tbody/td/array-cell/array-cell.component';
 import { ObjectCellComponent } from './tbody/td/object-cell/object-cell.component';
@@ -35,7 +35,7 @@ import { DropdownModule} from 'ngx-dropdown';
   ],
   declarations: [
     TableComponent,
-    TheadComponent,
+    HeaderRowComponent,
     TbodyComponent,
     AddColumnComponent,
     TdComponent,
@@ -46,7 +46,7 @@ import { DropdownModule} from 'ngx-dropdown';
   ],
   exports: [
     TableComponent,
-    TheadComponent,
+    HeaderRowComponent,
     TbodyComponent,
     AddColumnComponent,
     TdComponent,

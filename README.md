@@ -13,8 +13,7 @@ There are several key characteristics of the library:
 1. **Convention over configuration** Despite many inputs and configuration options, you should be able to get running quickly because sensible defaults are preset or computed from the data. In some cases, even required inputs are automatically initialized for the subcomponents according to certain conventions. 
 
 <!--1. **Declarativness** - Similarly as the Angular framework itself, we try to be as declarative as possible. Whenever it makes sense. -->
-
-1. **Fallback** You can gradually migrate out of the library abstraction. It happens that library's abstractions are in the way. In that case, you can get full control by providing a custom template. The library accepts custom templates of different granularity. 
+3. **Fallback** You can gradually migrate out of the library abstraction. It happens that library's abstractions are in the way. In that case, you can get full control by providing a custom template. The library accepts custom templates of different granularity. 
 
 
 ## Installation
@@ -193,9 +192,9 @@ There are many other important characteristics (e.g. performance) that are not m
 
 
 #### Subcomponents
-- TheadComponent
+- HeaderRowComponent
   - ThComponent
-  - AddComponent
+  - AddColumnComponent
 - Tbodyomponent
   - TdComponent
 

@@ -14,7 +14,7 @@
           <x id="START_TAG_SPAN_1" ctype="x-span"/>A→Z<x id="CLOSE_TAG_SPAN" ctype="x-span"/>
         </target>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/lib/table/thead/th/th.component.ts</context>
+          <context context-type="sourcefile">src/lib/table/header-row/th/th.component.ts</context>
           <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
@@ -30,7 +30,7 @@
           <x id="START_TAG_SPAN_1" ctype="x-span"/>Z→A<x id="CLOSE_TAG_SPAN" ctype="x-span"/>
         </target>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/lib/table/thead/th/th.component.ts</context>
+          <context context-type="sourcefile">src/lib/table/header-row/th/th.component.ts</context>
           <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
@@ -42,7 +42,7 @@
           Spalte links hinzufügen
         </target>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/lib/table/thead/th/th.component.ts</context>
+          <context context-type="sourcefile">src/lib/table/header-row/th/th.component.ts</context>
           <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
@@ -54,14 +54,14 @@
           Spalte rechts hinzufügen
         </target>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/lib/table/thead/th/th.component.ts</context>
+          <context context-type="sourcefile">src/lib/table/header-row/th/th.component.ts</context>
           <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
       <trans-unit id="85a4619b2c4bec0d68a5800f9e967112f2a990ed" datatype="html">
         <target>Diese Spalte verstecken</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/lib/table/thead/th/th.component.ts</context>
+          <context context-type="sourcefile">src/lib/table/header-row/th/th.component.ts</context>
           <context context-type="linenumber">52</context>
         </context-group>
       </trans-unit>
@@ -69,7 +69,7 @@
         <source>Subfields in the column</source>
         <target>Felder in der Spalte</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/lib/table/thead/th/th.component.ts</context>
+          <context context-type="sourcefile">src/lib/table/header-row/th/th.component.ts</context>
           <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
@@ -77,7 +77,7 @@
         <source>Type to search</source>
         <target>Tippen zum Suchen</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/lib/table/thead/add-column/add-column.component.ts</context>
+          <context context-type="sourcefile">src/lib/table/header-row/add-column/add-column.component.ts</context>
           <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
@@ -85,7 +85,7 @@
         <source>Add a column</source>
         <target>Eine Spalte hinzufügen</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/lib/table/thead/add-column/add-column.component.ts</context>
+          <context context-type="sourcefile">src/lib/table/header-row/add-column/add-column.component.ts</context>
           <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
@@ -93,7 +93,7 @@
         <source>No more columns to add</source>
         <target>Keine Spalte zum Hinzufügen</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/lib/table/thead/add-column/add-column.component.ts</context>
+          <context context-type="sourcefile">src/lib/table/header-row/add-column/add-column.component.ts</context>
           <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>

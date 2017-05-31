@@ -1,0 +1,37 @@
+<!--NOTE: integration -->
+
+<!-- NOTE: example for sortable utility -->
+<!--<table class="table table-striped">
+  <tr *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 9]">
+    <td *ngFor="let j of [1, 2, 3, 4, 5, 6, 7, 9]" iwSortableItem [dropArea]="i">Cell {{i}}{{j}} </td>
+  </tr>
+</table>-->
+<!--
+  <table class="table rows-reordering">
+  <tr>
+    <th>Salutation</th>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>ID</th>
+  </tr>
+  <ng-template ngFor let-person [ngForOf]="rows" let-index="index">
+    <tr iwSortableItem dropArea="rows">
+      <td>{{index}}</td>
+      <td>{{person.salutation}}</td>
+      <td>{{person.firstName}}</td>
+      <td>{{person.lastName}}</td>
+      <td>{{person.id}}</td>
+    </tr>
+  </ng-template>
+</table>
+-->
+
+<!--
+<iw-table [rows]="rows" [tableTemplate]="tt">
+  <ng-template #tt>
+    <table class="iw-table table">
+      <thead iw-thead></thead>
+      <tbody iw-tbody></tbody>
+    </table>
+  </ng-template>
+</iw-table>-->
