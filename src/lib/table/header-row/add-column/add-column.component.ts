@@ -83,7 +83,9 @@ export class AddColumnComponent implements OnChanges {
       // no categories present
       return columns.map((column) => {
         return {
-          ...column,
+          id: column.id,
+          text: column.text,
+          disabled: false
         };
       });
     }
@@ -99,7 +101,9 @@ export class AddColumnComponent implements OnChanges {
           id: categoryId,
           text: (column.category && column.category.text) || categoryId,
           children: [{
-            ...column,
+            id: column.id,
+            text: column.text,
+            disabled: false
           }]
         };
         options.push(option);
